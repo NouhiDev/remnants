@@ -212,9 +212,17 @@ async function manage_sub_events(sub_event) {
 }
 
 // Enemy Encounter
-function enemy_encounter() {
+async function enemy_encounter() {
+    // Setup Enemy
     let enemy = enemies.sample();
-    game_text.textContent += `You encounter a ${enemy}.\r\n`;
+    let enemy_hp = randomIntFromInterval(10,30);
+
+    game_text.textContent += `[!] You encounter a ${enemy}. [!]\r\n`;
+
+
+    await sleep(1000);
+
+    game_text.textContent += `[!] ${capitalizeFirstLetter(enemy)} has ${enemy_hp} hp. [!]\r\n`;
     manage_allow_continue(true);
 }
 
@@ -267,7 +275,6 @@ async function open_loot_container(container, amount_of_items) {
             if (amount_of_items == 1) {
                 game_text.textContent += "The chest was empty.\r\n";
             }
-            game_text.textContent += "The chest was empty.\r\n";
             break;
         }
 
