@@ -56,13 +56,15 @@ enemies = ["spider", "wolf", "goblin", "gnome"]
 // Checks for region switches
 async function check_region_switch(distance) {
     if (distance == 0) {
-        game_text.innerHTML += `[!] You wake up in a forest. You see a clearing ahead. [!]\r\n`
+        game_text.innerHTML += `[!] You wake up in a dense forest, disoriented and confused. You realize that you have no memory of how you got here or what has happened to the world around you. You see a clearing ahead. [!]\r\n`
+        seperator();
     }
 
     if (distance == 10) {
-        game_text.textContent += `[!] You have reached the ${regions[0]}. [!]\r\n`
+        game_text.textContent += `[!] As you make your way through the forest, you come across an abandoned village: Lockwood Village. The buildings are in ruins, and there are no signs of life.  [!]\r\n`
         region = regions[0];
         places_table = lockwood_village_places_table;
+
     }
     else if (distance == 20) {
         game_text.textContent += `[!] You have reached the ${regions[1]}. [!]\r\n`
@@ -104,6 +106,12 @@ function seperator() {
     game_text.textContent += "-------------------------------------------------------------------------------------\r\n";
 }
 
+// Prints out a seperator
+function short_seperator() {
+    game_text.textContent += "---\r\n";
+}
+
+
 // Displays the players stats
 function display_stats() {
     stats_text.textContent = "";
@@ -127,6 +135,7 @@ function add_to_inventory_txt(item, index, array) {
 // Display Forwards
 function forwards() {
     game_text.textContent += "You walk forward.\r\n";
+    short_seperator();
 }
 
 // Clear game text
@@ -149,6 +158,8 @@ async function manage_events(places, events) {
     }
 
     game_text.textContent += `You come across ${article} ${place}.\r\n`;
+
+    short_seperator();
 
     await sleep(1000);
 
@@ -179,6 +190,8 @@ async function manage_events(places, events) {
         game_text.textContent += `You find ${article} ${event}.\r\n`;
         manage_allow_continue(true);
     }
+
+    short_seperator();
 }
 
 async function manage_sub_events(sub_event) {
@@ -358,7 +371,7 @@ async function enemy_encounter() {
         }
         // Fail --> Engange in Combat
         else {
-            let dmg = randomIntFromInterval(1,10);
+            let dmg = randomIntFromInterval(1,3);
             damage(dmg);
 
             await sleep(1000);
@@ -392,7 +405,7 @@ async function enemy_encounter() {
         }
         // Fail --> Engange in Combat
         else {
-            let dmg = randomIntFromInterval(1,10);
+            let dmg = randomIntFromInterval(1,3);
             damage(dmg);
 
             await sleep(1000);
@@ -657,6 +670,7 @@ function no_btn() {
 // Main Game Loop (MGL)
 async function main_loop() {
     clear_game_text();
+    check_region_switch(steps);
     
     // Check if player is alive
     if (!alive) {
@@ -667,8 +681,7 @@ async function main_loop() {
     display_stats();
 
     // Game Events
-    check_region_switch(steps);
-    await sleep(1000);
+    await sleep(2000);
     forwards();
     await sleep(1000);
     manage_events(places_table, events_table);
