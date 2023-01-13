@@ -334,7 +334,7 @@ async function enemy_encounter() {
 
         await sleep(1000);
 
-        combat_routine(enemy, enemy_hp);
+        combat_routine(enemy, enemy_hp, false);
         return;
     }
     // Tries to flee
@@ -364,7 +364,7 @@ async function enemy_encounter() {
 
             await sleep(1000);
 
-            combat_routine(enemy, enemy_hp)
+            combat_routine(enemy, enemy_hp, true)
 
             return;
         }
@@ -394,11 +394,11 @@ async function enemy_encounter() {
 
             await sleep(1000);
 
-            game_text.textContent += `[!] You took ${dmg} damage.[!]\r\n`;
+            game_text.textContent += `[!] You took ${dmg} damage. [!]\r\n`;
 
             await sleep(1000);
 
-            combat_routine(enemy, enemy_hp)
+            combat_routine(enemy, enemy_hp, true)
 
             return;
         }
@@ -408,10 +408,10 @@ async function enemy_encounter() {
 }
 
 // Combat Routine
-async function combat_routine(enemy, enemy_hp) {
+async function combat_routine(enemy, enemy_hp, failed_to_flee) {
     let d = Math.random();
     let in_combat = true;
-    let player_turn = false;
+    let player_turn = failed_to_flee;
     
     while(in_combat) {
         // Seperate
@@ -445,7 +445,7 @@ async function combat_routine(enemy, enemy_hp) {
             await sleep(1000);
 
             // If no weapons --> use fists
-            if (inventory.length >= 0) {
+            if (inventory.length <= 0) {
                 let fist_dmg = randomIntFromInterval(1,5);
                 enemy_hp -= fist_dmg;
 
@@ -458,6 +458,10 @@ async function combat_routine(enemy, enemy_hp) {
                 await sleep(1000);
 
                 game_text.textContent += `[!] ${capitalizeFirstLetter(enemy)} has ${enemy_hp} hp. [!]\r\n`;
+            }
+            // Player has weapons 
+            else {
+
             }
         }
         // Enemys Turn
