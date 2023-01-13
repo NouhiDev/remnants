@@ -536,6 +536,10 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
 
                     game_text.textContent += `[!] You deal ${weapon_dmg} damage. [!]\r\n`;
 
+                    await sleep(1000);
+
+                    game_text.textContent += `[!] ${capitalizeFirstLetter(enemy)} has ${enemy_hp} hp. [!]\r\n`;
+
                     // Randomly break weapon
                     let d = Math.random();
                     if (d <= 0.15) {
@@ -544,7 +548,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
 
                         await sleep(1000);
 
-                        game_text.textContent += `[!] ${weapon_to_use} broke. [!]\r\n`;
+                        game_text.textContent += `[!] ${capitalizeFirstLetter(weapon_to_use)} broke. [!]\r\n`;
                     }
                 }
                 
