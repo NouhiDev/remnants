@@ -521,6 +521,25 @@ async function open_loot_container(container, amount_of_items) {
             article = "a";
         }
 
+        // Healing Potion
+        if (item == "healing potion") {
+            let amt = randomIntFromInterval(10, max_hp);
+
+            hp += amt;
+            if (hp >= max_hp) {
+                hp = max_hp;
+            }
+
+            game_text.textContent += `You found a healing potion and drank it.\r\n`;
+
+            await sleep(1000);
+
+            game_text.textContent += `You healed ${amt} hp.\r\n`;
+
+            await sleep(1000);
+            break;
+        }
+
         // Gold
         if (item == "gold") {
             let amt = randomIntFromInterval(1, 250);
