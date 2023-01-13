@@ -215,6 +215,7 @@ async function manage_sub_events(sub_event) {
 function enemy_encounter() {
     let enemy = enemies.sample();
     game_text.textContent += `You encounter a ${enemy}.\r\n`;
+    manage_allow_continue(true);
 }
 
 // Manage Input
