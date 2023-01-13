@@ -51,15 +51,19 @@ async function check_region_switch(distance) {
 
     if (distance == 10) {
         game_text.textContent += `[!] You have reached the ${regions[0]}. [!]\r\n`
+        region = regions[0];
     }
     else if (distance == 20) {
         game_text.textContent += `[!] You have reached the ${regions[1]}. [!]\r\n`
+        region = regions[1];
     }
     else if (distance == 30) {
         game_text.textContent += `[!] You have reached the ${regions[2]}. [!]\r\n`
+        region = regions[2];
     }
     else if (distance == 40) {
         game_text.textContent += `[!] You have reached the ${regions[3]}. [!]\r\n`
+        region = regions[3];
     }
 }
 
@@ -95,6 +99,7 @@ function display_stats() {
 
 // Displays the players inventory
 function display_inventory() {
+    inventory_txt = "[Inventory: ";
     inventory.forEach(add_to_inventory_txt);
     inventory_txt = inventory_txt.substring(0,inventory_txt.length-2);
     game_text.textContent += inventory_txt + "]\r\n";
@@ -102,7 +107,7 @@ function display_inventory() {
 
 // Helper inventory display function
 function add_to_inventory_txt(item, index, array) {
-    inventory_txt += item + ", ";
+    inventory_txt += capitalizeFirstLetter(item) + ", ";
 }
 
 // Display Forwards
@@ -158,12 +163,12 @@ async function manage_events(places, events) {
     else {
         article = "";
         game_text.textContent += `You find ${article} ${event}.\r\n`;
+        manage_allow_continue(true);
     }
 }
 
 async function manage_sub_events(sub_event) {
     awaiting_response = true;
-    var input_content = document.getElementById("game-input");
 
     switch(sub_event) {
         // CHEST
@@ -187,13 +192,16 @@ async function manage_sub_events(sub_event) {
             // DOESNT OPEN CHEST
             else if (player_input == "n") {
                 game_text.textContent += "You do not open the chest and move on.\r\n";
+                manage_allow_continue(true);
             }
             // WRONG INPUT --> DOESNT OPEN CHEST
             else {
                 game_text.textContent += "You do not open the chest and move on.\r\n";
+                manage_allow_continue(true);
             }
             break;
     }
+
 }
 
 // Manage Input
@@ -235,6 +243,8 @@ async function open_loot_container(container, amount_of_items) {
             await sleep(1000);
 
             game_text.textContent += `You're currently holding ${gold} gold.\r\n`;
+
+            await sleep(1000);
             break;
         }
 
@@ -255,19 +265,21 @@ async function open_loot_container(container, amount_of_items) {
         // Add item to inventory
         inventory.push(item);
         game_text.textContent += `You found ${article} ${item}.\r\n`
-
-        await sleep(1000);
-
       }
+
+      await sleep(1000);
+      
       game_text.textContent += `You finished looting the chest.\r\n`
+      manage_allow_continue(true);
 }
 
-// Enter Button Function
+// Yes Button Function
 function yes_btn() {
     player_input = "y";
     awaiting_response = false;
 }
 
+// No Button Function
 function no_btn() {
     player_input = "n";
     awaiting_response = false;
@@ -295,11 +307,23 @@ async function main_loop() {
     forwards();
     await sleep(1000);
     manage_events(places_table, events_table);
-    //input("Enter to continue: ");
     steps++;
-    //main_loop();
+}
+
+function manage_allow_continue(x) {
+    if (x) {
+        allow_continue = true;
+        document.getElementById("cbtn").style.backgroundColor = "#aaffa6";
+    }
+    else {
+        allow_continue = false;
+        document.getElementById("cbtn").style.backgroundColor = "#8E8E8E";
+    }
 }
 
 function new_day() {
-    main_loop();
+    if (allow_continue) {
+        main_loop();
+        manage_allow_continue(false);
+    }
 }

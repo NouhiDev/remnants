@@ -215,7 +215,7 @@
     .btn-continue {
       max-width: 200px;
       font-size: 16px;
-      background-color: rgb(142, 142, 142);
+      background-color: #aaffa6;
       font-family: 'Oswald', sans-serif;
       text-transform: uppercase;
       color: #121317;
@@ -230,8 +230,8 @@
         cursor: pointer;
     }
 
-    .btn-contine:hover {
-      background-color: rgb(142, 142, 142);
+    .btn-continue:hover {
+      background-color: rgb(47, 138, 50);
       cursor: pointer;
     }
     
