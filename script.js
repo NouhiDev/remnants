@@ -613,7 +613,7 @@ function new_day() {
 function update_time() {
     let subtitle = document.getElementById("123");
     let current_date = new Date();
-    let time_str = `| [${current_date.getDay()}.${current_date.getMonth()+1}.${current_date.getFullYear()}] [${current_date.getHours()}:${current_date.getMinutes()}:${current_date.getSeconds()}]`;
+    let time_str = `-${current_date.getDay()}.${current_date.getMonth()+1}.${current_date.getFullYear()}-${current_date.getHours()}:${current_date.getMinutes()}:${current_date.getSeconds()}`;
     subtitle.textContent += time_str;
 }
 
