@@ -42,7 +42,7 @@ places_table = ["grass patch", "hut", "camp", "cave" ,"stone arch", "field of re
 events_table = ["nothing", "chest", "enemy", "wishing well"];
 
 // Loot Tables
-chest_loot_table = ["sword", "bow", "gold", "nothing"]
+chest_loot_table = ["dagger", "axe", "sword", "bow", "gold", "nothing"]
 
 // Enemies
 enemies = ["spider", "wolf", "goblin", "gnome"]
