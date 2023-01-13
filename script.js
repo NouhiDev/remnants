@@ -64,6 +64,7 @@ async function check_region_switch(distance) {
         game_text.textContent += `[!] As you make your way through the forest, you come across an abandoned village: Lockwood Village. The buildings are in ruins, and there are no signs of life.  [!]\r\n`
         region = regions[0];
         places_table = lockwood_village_places_table;
+        seperator();
 
     }
     else if (distance == 20) {
@@ -534,6 +535,17 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
                     await sleep(1000);
 
                     game_text.textContent += `[!] You deal ${weapon_dmg} damage. [!]\r\n`;
+
+                    // Randomly break weapon
+                    let d = Math.random();
+                    if (d <= 0.15) {
+                        indx = inventory.indexOf(weapon_to_use);
+                        inventory.splice(indx, 1);
+
+                        await sleep(1000);
+
+                        game_text.textContent += `[!] ${weapon_to_use} broke. [!]\r\n`;
+                    }
                 }
                 
             }
