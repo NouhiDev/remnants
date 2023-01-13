@@ -99,6 +99,7 @@ function seperator() {
 
 // Displays the players stats
 function display_stats() {
+    stats_text.textContent = "";
     stats_text.textContent += `[Health: ${hp}/${max_hp} | Distance traveled: ${steps * 100}m | Gold: ${gold} | Region: ${region}]\r\n`
 }
 
@@ -293,6 +294,7 @@ async function make_wish() {
 
 // Take Damage
 async function damage(amount) {
+    display_stats();
     hp -= amount;
     if (hp <= 0) {
         alive = false;
