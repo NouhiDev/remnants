@@ -26,6 +26,7 @@ var inventory_txt = "[Inventory: ";
 
 // Stats
 var alive = true;
+var max_hp = 100
 var hp = 100;
 var steps = 0;
 var gold = 0;
@@ -38,7 +39,7 @@ var regions = ["Grasslands", "Lockwood Village", "Easthaven", "Farlands"];
 places_table = ["grass patch", "hut", "camp", "cave" ,"stone arch", "field of red mushrooms", "grand tree", "shrine", "temple"];
 
 // Events
-events_table = ["nothing", "chest", "enemy"];
+events_table = ["nothing", "chest", "enemy", "wishing well"];
 
 // Loot Tables
 chest_loot_table = ["sword", "bow", "gold", "nothing"]
@@ -97,7 +98,7 @@ function seperator() {
 
 // Displays the players stats
 function display_stats() {
-    game_text.textContent += `[Health: ${hp}/100 | Distance traveled: ${steps * 100}m | Gold: ${gold} | Region: ${region}]\r\n`
+    game_text.textContent += `[Health: ${hp}/${max_hp} | Distance traveled: ${steps * 100}m | Gold: ${gold} | Region: ${region}]\r\n`
 }
 
 // Displays the players inventory
@@ -174,6 +175,34 @@ async function manage_sub_events(sub_event) {
     awaiting_response = true;
 
     switch(sub_event) {
+        case "wishing well":
+            game_text.textContent += `Make a wish?\r\n (y/n) \r\n`;
+
+            // Wait for user input
+            manage_input(true);
+
+            while(awaiting_response) {
+                await sleep(1);
+            }
+
+            manage_input(false);
+
+            // MAKES WISH
+            if (player_input == "y") {
+                game_text.textContent += "You make a wish.\r\n";
+                make_wish();
+            }
+            // DOESNT MAKE WISH
+            else if (player_input == "n") {
+                game_text.textContent += "You do not make a wish and move on.\r\n";
+                manage_allow_continue(true);
+            }
+            // WRONG INPUT --> DOESNT MAKE WISH
+            else {
+                game_text.textContent += "You do not make a wish and move on.\r\n";
+                manage_allow_continue(true);
+            }
+            break;
         // ENEMY
         case "enemy":
             enemy_encounter();
@@ -209,6 +238,45 @@ async function manage_sub_events(sub_event) {
             break;
     }
 
+}
+
+async function make_wish() {
+    await sleep(1000);
+    let d = Math.random();
+    // Success
+    if (d <= 0.1) {
+        max_hp += 10;
+        hp = max_hp;
+        game_text.textContent += "Your prayers have been heard.\r\n";
+
+        await sleep(1000);
+
+        game_text.textContent += "[!] Your max hp has increased by 10. [!]\r\n";
+
+        await sleep(1000);
+
+        game_text.textContent += `Your current max hp is ${max_hp}.\r\n`;
+    }
+
+    // Fail
+    else {
+        damage(20);
+        game_text.textContent += "Your prayers have been rejected.\r\n";
+
+        await sleep(1000);
+
+        game_text.textContent += "You take 20 damage.\r\n";
+    }
+    manage_allow_continue(true);
+}
+
+// Take Damage
+async function damage(amount) {
+    hp -= amount;
+    if (hp <= 0) {
+        alive = false;
+        game_text.textContent += "You died.";
+    }
 }
 
 // Enemy Encounter
@@ -274,8 +342,8 @@ async function open_loot_container(container, amount_of_items) {
         if (item == "nothing") {
             if (amount_of_items == 1) {
                 game_text.textContent += "The chest was empty.\r\n";
-                break;
             }
+            //game_text.textContent += "...\r\n";
             break;
         }
 
