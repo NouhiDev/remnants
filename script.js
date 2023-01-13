@@ -410,6 +410,8 @@ async function combat_routine(enemy, enemy_hp) {
             manage_allow_continue(true);
 
             in_combat = false;
+
+            break;
         }
 
         // Switch Turns
@@ -417,12 +419,33 @@ async function combat_routine(enemy, enemy_hp) {
         
         // Players Turn
         if (player_turn) {
+            game_text.textContent += `[!] Player's turn.[!]\r\n`;
 
+            await sleep(1000);
+
+            // If no weapons --> use fists
+            if (inventory.length >= 0) {
+                let fist_dmg = randomIntFromInterval(1,5);
+                enemy_hp -= fist_dmg;
+
+                game_text.textContent += `[!] You use your fists.[!]\r\n`;
+
+                await sleep(1000);
+
+                game_text.textContent += `[!] You deal ${fist_dmg} damage.[!]\r\n`;
+
+                await sleep(1000);
+
+                game_text.textContent += `[!] ${capitalizeFirstLetter(enemy)} has ${enemy_hp} hp.[!]\r\n`;
+            }
         }
         // Enemys Turn
         else {
-            let dmg = randomIntFromInterval(1,15);
+            game_text.textContent += `[!] ${capitalizeFirstLetter(enemy)}'s turn.[!]\r\n`;
 
+            let dmg = randomIntFromInterval(1,15);
+            
+            // if player will die break loop
             if (hp <= 0) {
                 in_combat = false;
                 break;
@@ -570,8 +593,14 @@ function new_day() {
 function update_time() {
     let subtitle = document.getElementById("123");
     let current_date = new Date();
-    let time_str = `| [${current_date.getHours()}:${current_date.getMinutes()}:${current_date.getSeconds()}]`;
+    let time_str = `| [${current_date.getDay()}.${current_date.getMonth()+1}.${current_date.getFullYear()}] [${current_date.getHours()}:${current_date.getMinutes()}:${current_date.getSeconds()}]`;
     subtitle.textContent += time_str;
 }
 
 update_time();
+
+// Regularly update to auto scroll to end of div
+window.setInterval(function() {
+    var elem = document.getElementById('game');
+    elem.scrollTop = elem.scrollHeight;
+  }, 10);
