@@ -467,14 +467,14 @@ async function combat_routine(enemy, enemy_hp) {
             game_text.textContent += `[!] ${capitalizeFirstLetter(enemy)}'s turn. [!]\r\n`;
 
             let dmg = randomIntFromInterval(1,15);
-            
+
+            damage(dmg);
+
             // if player will die break loop
             if (hp <= 0) {
                 in_combat = false;
                 break;
             }
-
-            damage(dmg);
 
             await sleep(1000);
 

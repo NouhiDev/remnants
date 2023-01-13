@@ -294,3 +294,33 @@
     letter-spacing: 2px;
     white-space: pre-line;
   }
+
+  
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+  background-color: #0b0c0e;
+  border-radius: 25px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #c8d3de;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Horizontal Rulers */
+hr {
+  background-color: #121317;
+  border: 1px dashed rgb(55, 64, 64);
+  max-width: 500px;
+}
