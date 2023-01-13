@@ -32,6 +32,8 @@ var hp = 100;
 var steps = 0;
 var gold = 0;
 var xp = 0;
+var max_xp = 100;
+var lvl = 0;
 var region = "Forest";
 
 // Regions
@@ -53,6 +55,7 @@ chest_loot_table = ["dagger", "axe", "sword", "bow", "healing potion", "gold", "
 // Enemies
 enemies = ["spider", "wolf", "goblin", "gnome"]
 
+// #region Helper Functions
 // Checks for region switches
 async function check_region_switch(distance) {
     if (distance == 0) {
@@ -112,11 +115,12 @@ function short_seperator() {
     game_text.textContent += "---\r\n";
 }
 
+// #endregion
 
 // Displays the players stats
 function display_stats() {
     stats_text.textContent = "";
-    stats_text.textContent += `[Health: ${hp}/${max_hp} | Distance traveled: ${steps * 100}m | Gold: ${gold} | Region: ${region} | XP: ${xp}]\r\n`
+    stats_text.textContent += `[Health: ${hp}/${max_hp} | Distance traveled: ${steps * 100}m | Gold: ${gold} | Region: ${region} | LVL: ${lvl} | XP: ${xp}/${max_xp}]\r\n`
     display_inventory();
 }
 
@@ -445,6 +449,8 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
             // Win fight
             game_text.textContent += `[!] You've slain the ${enemy}. [!]\r\n`;
 
+            manage_xp(randomIntFromInterval(5, 100));
+
             manage_allow_continue(true);
 
             in_combat = false;
@@ -682,6 +688,16 @@ function no_btn() {
     awaiting_response = false;
 }
 
+// XP Managing
+function manage_xp(amount) {
+    xp += amount;
+    if (xp >= max_xp) {
+        lvl++;
+        max_xp += lvl*10;
+        xp = Math.abs(max_xp-xp);
+    }
+    display_stats();
+}
 
 // Main Game Loop (MGL)
 async function main_loop() {
