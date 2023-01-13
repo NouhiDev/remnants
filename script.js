@@ -35,18 +35,21 @@ var region = "Forest";
 var regions = ["Grasslands", "Lockwood Village", "Easthaven", "Farlands"];
 
 // Places
-places_table = ["grass patch", "hut", "camp", "cave" ,"staircase"];
+places_table = ["grass patch", "hut", "camp", "cave" ,"stone arch", "field of red mushrooms", "grand tree", "shrine", "temple"];
 
 // Events
-events_table = ["nothing", "chest"];
+events_table = ["nothing", "chest", "enemy"];
 
 // Loot Tables
 chest_loot_table = ["sword", "bow", "gold", "nothing"]
 
+// Enemies
+enemies = ["spider", "wolf", "goblin", "gnome"]
+
 // Checks for region switches
 async function check_region_switch(distance) {
     if (distance == 0) {
-        game_text.textContent += "[!] You wake up in a forest. [!]\r\n"
+        game_text.innerHTML += `[!] You wake up in a forest. [!]\r\n`
     }
 
     if (distance == 10) {
@@ -146,7 +149,7 @@ async function manage_events(places, events) {
     // Event has been chosen
     if (event != "nothing") {
         // Determine correct article
-        if (vowels.includes(place[0])) {
+        if (vowels.includes(event[0])) {
             article = "an";
         }
         else {
@@ -171,6 +174,10 @@ async function manage_sub_events(sub_event) {
     awaiting_response = true;
 
     switch(sub_event) {
+        // ENEMY
+        case "enemy":
+            enemy_encounter();
+            break;
         // CHEST
         case "chest":
             game_text.textContent += `Open chest?\r\n (y/n) \r\n`;
@@ -202,6 +209,12 @@ async function manage_sub_events(sub_event) {
             break;
     }
 
+}
+
+// Enemy Encounter
+function enemy_encounter() {
+    let enemy = enemies.sample();
+    game_text.textContent += `You encounter a ${enemy}.\r\n`;
 }
 
 // Manage Input

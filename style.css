@@ -263,3 +263,7 @@
     letter-spacing: 2px;
     white-space: pre-line;
   }
+
+  .green {
+    color:rgb(78, 255, 84);
+  }
