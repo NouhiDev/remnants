@@ -223,7 +223,26 @@ async function manage_sub_events(sub_event) {
             // OPENS CHEST
             if (player_input == "y") {
                 game_text.textContent += "You open the chest.\r\n";
-                open_loot_container(chest_loot_table, randomIntFromInterval(1, 5))
+                let d = Math.random();
+                // Open Chest Successfully
+                if (d < 0.66) {
+                    open_loot_container(chest_loot_table, randomIntFromInterval(1, 5))
+                }
+                // Chest is trap
+                else {
+                    let dmg = randomIntFromInterval(5,25);
+                    damage(dmg);
+
+                    await sleep(1000);
+
+                    game_text.textContent += "[!] It was a trap. [!]\r\n";
+
+                    await sleep(1000);
+
+                    game_text.textContent += `[!] You took ${dmg} damage.[!]\r\n`;
+                    manage_allow_continue(true);
+                }
+                
             }
             // DOESNT OPEN CHEST
             else if (player_input == "n") {
@@ -291,6 +310,8 @@ async function enemy_encounter() {
     await sleep(1000);
 
     game_text.textContent += `[!] ${capitalizeFirstLetter(enemy)} has ${enemy_hp} hp. [!]\r\n`;
+
+
     manage_allow_continue(true);
 }
 
