@@ -449,7 +449,13 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
             // Win fight
             game_text.textContent += `[!] You've slain the ${enemy}. [!]\r\n`;
 
-            manage_xp(randomIntFromInterval(5, 100));
+            let enemy_xp = randomIntFromInterval(5, 100);
+
+            await sleep(1000);
+
+            game_text.textContent += `You've earned ${enemy_xp} xp.\r\n`;
+
+            manage_xp(enemy_xp);
 
             manage_allow_continue(true);
 
