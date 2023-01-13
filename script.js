@@ -417,6 +417,9 @@ async function combat_routine(enemy, enemy_hp) {
             break;
         }
 
+        // Update Stats
+        display_stats();
+
         // Switch Turns
         player_turn = !player_turn;
         
