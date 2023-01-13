@@ -274,3 +274,23 @@
     margin-right: auto;
     display: block;
   }
+
+  .stats-container {
+    overflow-y: scroll;
+    height: 100px;
+    width: 900px;
+    background-color: #0f1013;
+    border-radius: 25px;
+    margin: auto;
+    margin-bottom: 5px;
+    padding: auto;
+    text-align: center;
+  }
+
+  .stats-container p {
+    color: white;
+    font-family: 'Oswald', sans-serif;
+    font-size: 20px;
+    letter-spacing: 2px;
+    white-space: pre-line;
+  }

@@ -10,6 +10,7 @@ function delay(time) {
 
 // Game
 var game_text = document.getElementById("game-text");
+var stats_text = document.getElementById("stats-text")
 
 var allow_input = false;
 var allow_continue = true;
@@ -98,7 +99,7 @@ function seperator() {
 
 // Displays the players stats
 function display_stats() {
-    game_text.textContent += `[Health: ${hp}/${max_hp} | Distance traveled: ${steps * 100}m | Gold: ${gold} | Region: ${region}]\r\n`
+    stats_text.textContent += `[Health: ${hp}/${max_hp} | Distance traveled: ${steps * 100}m | Gold: ${gold} | Region: ${region}]\r\n`
 }
 
 // Displays the players inventory
@@ -106,7 +107,7 @@ function display_inventory() {
     inventory_txt = "[Inventory: ";
     inventory.forEach(add_to_inventory_txt);
     inventory_txt = inventory_txt.substring(0,inventory_txt.length-2);
-    game_text.textContent += inventory_txt + "]\r\n";
+    stats_text.textContent += inventory_txt + "]\r\n";
 }
 
 // Helper inventory display function
@@ -419,6 +420,8 @@ async function combat_routine(enemy, enemy_hp) {
         
         // Players Turn
         if (player_turn) {
+            await sleep(1000);
+
             game_text.textContent += `[!] Player's turn.[!]\r\n`;
 
             await sleep(1000);
@@ -441,6 +444,8 @@ async function combat_routine(enemy, enemy_hp) {
         }
         // Enemys Turn
         else {
+            await sleep(1000);
+
             game_text.textContent += `[!] ${capitalizeFirstLetter(enemy)}'s turn.[!]\r\n`;
 
             let dmg = randomIntFromInterval(1,15);
@@ -557,10 +562,8 @@ async function main_loop() {
     }
     
     // Stat Displays
-    seperator();
     display_stats();
     display_inventory();
-    seperator();
 
     // Game Events
     check_region_switch(steps);
