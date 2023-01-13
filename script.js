@@ -409,6 +409,7 @@ async function enemy_encounter() {
 
 // Combat Routine
 async function combat_routine(enemy, enemy_hp, failed_to_flee) {
+
     let d = Math.random();
     let in_combat = true;
     let player_turn = failed_to_flee;
@@ -438,6 +439,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
         
         // Players Turn
         if (player_turn) {
+            awaiting_response = true;
             await sleep(1000);
 
             game_text.textContent += `[!] Player's turn. [!]\r\n`;
@@ -461,7 +463,24 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
             }
             // Player has weapons 
             else {
+                let weapon_to_use = "";
+                for (let i = 0; i < inventory.length; i++) {
+                    const item = inventory[i];
+                    game_text.textContent += `Use ${item}?\r\n (y/n) \r\n`;
 
+                    // Wait for user input
+                    manage_input(true);
+                
+                    while(awaiting_response) {
+                        await sleep(1);
+                    }
+                
+                    manage_input(false);
+
+                    // if yes weapon_to_use = item
+                }
+
+                
             }
         }
         // Enemys Turn
@@ -614,6 +633,7 @@ async function main_loop() {
     steps++;
 }
 
+// Allow to continue to new day
 function manage_allow_continue(x) {
     if (x) {
         allow_continue = true;
@@ -625,6 +645,7 @@ function manage_allow_continue(x) {
     }
 }
 
+// Continues to next day
 function new_day() {
     if (allow_continue) {
         main_loop();
