@@ -90,7 +90,7 @@ function sleep(ms) {
 // Picks random array object
 Array.prototype.sample = function(){
     return this[Math.floor(Math.random()*this.length)];
-  }
+}
 
 // Prints out a seperator
 function seperator() {
@@ -101,6 +101,7 @@ function seperator() {
 function display_stats() {
     stats_text.textContent = "";
     stats_text.textContent += `[Health: ${hp}/${max_hp} | Distance traveled: ${steps * 100}m | Gold: ${gold} | Region: ${region}]\r\n`
+    display_inventory();
 }
 
 // Displays the players inventory
@@ -290,6 +291,7 @@ async function make_wish() {
         game_text.textContent += "You take 20 damage.\r\n";
     }
     manage_allow_continue(true);
+    display_stats();
 }
 
 // Take Damage
@@ -326,15 +328,16 @@ async function enemy_encounter() {
 
     manage_input(false);
 
+    // Engages
     if (player_input == "y") {
         game_text.textContent += "You engange in combat.\r\n";
 
         await sleep(1000);
 
         combat_routine(enemy, enemy_hp);
-        
+        return;
     }
-    // DOESNT OPEN CHEST
+    // Tries to flee
     else if (player_input == "n") {
         game_text.textContent += "You attempt to flee.\r\n";
         let d = Math.random();
@@ -362,6 +365,8 @@ async function enemy_encounter() {
             await sleep(1000);
 
             combat_routine(enemy, enemy_hp)
+
+            return;
         }
     }
     // WRONG INPUT --> DOESNT OPEN CHEST
@@ -375,6 +380,8 @@ async function enemy_encounter() {
             game_text.textContent += "You successfully flee.\r\n";
 
             manage_allow_continue(true);
+
+            return;
         }
         // Fail --> Engange in Combat
         else {
@@ -392,6 +399,8 @@ async function enemy_encounter() {
             await sleep(1000);
 
             combat_routine(enemy, enemy_hp)
+
+            return;
         }
     }
 
@@ -405,10 +414,14 @@ async function combat_routine(enemy, enemy_hp) {
     let player_turn = false;
     
     while(in_combat) {
+        // Seperate
+        await sleep(1000);
+        seperator();
+
         // Check for enemy hp
         if (enemy_hp <= 0) {
             // Win fight
-            game_text.textContent += `[!] You've slain the ${enemy}.[!]\r\n`;
+            game_text.textContent += `[!] You've slain the ${enemy}. [!]\r\n`;
 
             manage_allow_continue(true);
 
@@ -427,7 +440,7 @@ async function combat_routine(enemy, enemy_hp) {
         if (player_turn) {
             await sleep(1000);
 
-            game_text.textContent += `[!] Player's turn.[!]\r\n`;
+            game_text.textContent += `[!] Player's turn. [!]\r\n`;
 
             await sleep(1000);
 
@@ -436,22 +449,22 @@ async function combat_routine(enemy, enemy_hp) {
                 let fist_dmg = randomIntFromInterval(1,5);
                 enemy_hp -= fist_dmg;
 
-                game_text.textContent += `[!] You use your fists.[!]\r\n`;
+                game_text.textContent += `[!] You use your fists. [!]\r\n`;
 
                 await sleep(1000);
 
-                game_text.textContent += `[!] You deal ${fist_dmg} damage.[!]\r\n`;
+                game_text.textContent += `[!] You deal ${fist_dmg} damage. [!]\r\n`;
 
                 await sleep(1000);
 
-                game_text.textContent += `[!] ${capitalizeFirstLetter(enemy)} has ${enemy_hp} hp.[!]\r\n`;
+                game_text.textContent += `[!] ${capitalizeFirstLetter(enemy)} has ${enemy_hp} hp. [!]\r\n`;
             }
         }
         // Enemys Turn
         else {
             await sleep(1000);
 
-            game_text.textContent += `[!] ${capitalizeFirstLetter(enemy)}'s turn.[!]\r\n`;
+            game_text.textContent += `[!] ${capitalizeFirstLetter(enemy)}'s turn. [!]\r\n`;
 
             let dmg = randomIntFromInterval(1,15);
             
@@ -469,7 +482,7 @@ async function combat_routine(enemy, enemy_hp) {
 
             await sleep(1000);
 
-            game_text.textContent += `[!] You took ${dmg} damage.[!]\r\n`;
+            game_text.textContent += `[!] You took ${dmg} damage. [!]\r\n`;
         }
     }
 }
@@ -568,7 +581,6 @@ async function main_loop() {
     
     // Stat Displays
     display_stats();
-    display_inventory();
 
     // Game Events
     check_region_switch(steps);
