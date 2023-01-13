@@ -43,7 +43,7 @@ places_table = ["grass patch", "hut", "camp", "cave" ,"stone arch", "field of re
 events_table = ["nothing", "chest", "enemy", "wishing well"];
 
 // Loot Tables
-chest_loot_table = ["dagger", "axe", "sword", "bow", "gold", "nothing"]
+chest_loot_table = ["dagger", "axe", "sword", "bow", "healing potion", "gold", "nothing"]
 
 // Enemies
 enemies = ["spider", "wolf", "goblin", "gnome"]
@@ -356,7 +356,7 @@ async function enemy_encounter() {
 
             await sleep(1000);
 
-            game_text.textContent += "[!] You fail to flee and trip on branch. [!]\r\n";
+            game_text.textContent += "[!] You fail to flee and trip on a branch. [!]\r\n";
 
             await sleep(1000);
 
@@ -390,7 +390,7 @@ async function enemy_encounter() {
 
             await sleep(1000);
 
-            game_text.textContent += "[!] You fail to flee and trip on branch. [!]\r\n";
+            game_text.textContent += "[!] You fail to flee and trip on a branch. [!]\r\n";
 
             await sleep(1000);
 
