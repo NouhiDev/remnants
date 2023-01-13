@@ -439,3 +439,12 @@ function new_day() {
         manage_allow_continue(false);
     }
 }
+
+function update_time() {
+    let subtitle = document.getElementById("123");
+    let current_date = new Date();
+    let time_str = `| [${current_date.getHours()}:${current_date.getMinutes()}:${current_date.getSeconds()}]`;
+    subtitle.textContent += time_str;
+}
+
+update_time();
