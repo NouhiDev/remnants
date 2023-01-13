@@ -259,6 +259,7 @@ async function manage_sub_events(sub_event) {
 
 }
 
+// Make a wish function
 async function make_wish() {
     await sleep(1000);
     let d = Math.random();
@@ -311,8 +312,133 @@ async function enemy_encounter() {
 
     game_text.textContent += `[!] ${capitalizeFirstLetter(enemy)} has ${enemy_hp} hp. [!]\r\n`;
 
+    game_text.textContent += `Engage in combat?\r\n (y/n) \r\n`;
+
+    // Wait for user input
+    manage_input(true);
+
+    while(awaiting_response) {
+        await sleep(1);
+    }
+
+    manage_input(false);
+
+    if (player_input == "y") {
+        game_text.textContent += "You engange in combat.\r\n";
+
+        await sleep(1000);
+
+        combat_routine(enemy, enemy_hp);
+        
+    }
+    // DOESNT OPEN CHEST
+    else if (player_input == "n") {
+        game_text.textContent += "You attempt to flee.\r\n";
+        let d = Math.random();
+        // Flee Successfully
+        if (d < 0.33) {
+            await sleep(1000);
+
+            game_text.textContent += "You successfully flee.\r\n";
+
+            manage_allow_continue(true);
+        }
+        // Fail --> Engange in Combat
+        else {
+            let dmg = randomIntFromInterval(1,10);
+            damage(dmg);
+
+            await sleep(1000);
+
+            game_text.textContent += "[!] You fail to flee and trip on branch. [!]\r\n";
+
+            await sleep(1000);
+
+            game_text.textContent += `[!] You took ${dmg} damage.[!]\r\n`;
+
+            await sleep(1000);
+
+            combat_routine(enemy, enemy_hp)
+        }
+    }
+    // WRONG INPUT --> DOESNT OPEN CHEST
+    else {
+        game_text.textContent += "You attempt to flee.\r\n";
+        let d = Math.random();
+        // Flee Successfully
+        if (d < 0.33) {
+            await sleep(1000);
+
+            game_text.textContent += "You successfully flee.\r\n";
+
+            manage_allow_continue(true);
+        }
+        // Fail --> Engange in Combat
+        else {
+            let dmg = randomIntFromInterval(1,10);
+            damage(dmg);
+
+            await sleep(1000);
+
+            game_text.textContent += "[!] You fail to flee and trip on branch. [!]\r\n";
+
+            await sleep(1000);
+
+            game_text.textContent += `[!] You took ${dmg} damage.[!]\r\n`;
+
+            await sleep(1000);
+
+            combat_routine(enemy, enemy_hp)
+        }
+    }
 
     manage_allow_continue(true);
+}
+
+// Combat Routine
+async function combat_routine(enemy, enemy_hp) {
+    let d = Math.random();
+    let in_combat = true;
+    let player_turn = false;
+    
+    while(in_combat) {
+        // Check for enemy hp
+        if (enemy_hp <= 0) {
+            // Win fight
+            game_text.textContent += `[!] You've slain the ${enemy}.[!]\r\n`;
+
+            manage_allow_continue(true);
+
+            in_combat = false;
+        }
+
+        // Switch Turns
+        player_turn = !player_turn;
+        
+        // Players Turn
+        if (player_turn) {
+
+        }
+        // Enemys Turn
+        else {
+            let dmg = randomIntFromInterval(1,15);
+
+            if (hp <= 0) {
+                in_combat = false;
+                break;
+            }
+
+            damage(dmg);
+
+            await sleep(1000);
+
+            game_text.textContent += `[!] ${capitalizeFirstLetter(enemy)} attacks. [!]\r\n`;
+
+            await sleep(1000);
+
+            game_text.textContent += `[!] You took ${dmg} damage.[!]\r\n`;
+        }
+    }
 }
 
 // Manage Input
@@ -365,7 +491,7 @@ async function open_loot_container(container, amount_of_items) {
                 game_text.textContent += "The chest was empty.\r\n";
             }
             //game_text.textContent += "...\r\n";
-            break;
+            continue;
         }
 
         // Check if item is already in inventory
@@ -440,6 +566,7 @@ function new_day() {
     }
 }
 
+// Updates Time of Update
 function update_time() {
     let subtitle = document.getElementById("123");
     let current_date = new Date();
