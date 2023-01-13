@@ -31,16 +31,21 @@ var max_hp = 100
 var hp = 100;
 var steps = 0;
 var gold = 0;
+var xp = 0;
 var region = "Forest";
 
 // Regions
-var regions = ["Grasslands", "Lockwood Village", "Easthaven", "Farlands"];
+var regions = ["Lockwood Village", "Easthaven", "Ocean", "Rocky Shores"];
 
 // Places
 places_table = ["grass patch", "hut", "camp", "cave" ,"stone arch", "field of red mushrooms", "grand tree", "shrine", "temple"];
+lockwood_village_places_table = ["abandonend house", "abandonend church", "abandonend chapel", 
+"abandonend town hall", "abandonend tunnel", "abandonend barn", "abandonend stable", "abandonend manor"]
+easthaven_places_table = []
 
 // Events
 events_table = ["nothing", "chest", "enemy", "wishing well"];
+lockwood_village_events_table = ["nothing", "chest", "enemy", "merchant"]
 
 // Loot Tables
 chest_loot_table = ["dagger", "axe", "sword", "bow", "healing potion", "gold", "nothing"]
@@ -51,16 +56,18 @@ enemies = ["spider", "wolf", "goblin", "gnome"]
 // Checks for region switches
 async function check_region_switch(distance) {
     if (distance == 0) {
-        game_text.innerHTML += `[!] You wake up in a forest. [!]\r\n`
+        game_text.innerHTML += `[!] You wake up in a forest. You see a clearing ahead. [!]\r\n`
     }
 
     if (distance == 10) {
         game_text.textContent += `[!] You have reached the ${regions[0]}. [!]\r\n`
         region = regions[0];
+        places_table = lockwood_village_places_table;
     }
     else if (distance == 20) {
         game_text.textContent += `[!] You have reached the ${regions[1]}. [!]\r\n`
         region = regions[1];
+        places_table = easthaven_places_table;
     }
     else if (distance == 30) {
         game_text.textContent += `[!] You have reached the ${regions[2]}. [!]\r\n`
@@ -100,7 +107,7 @@ function seperator() {
 // Displays the players stats
 function display_stats() {
     stats_text.textContent = "";
-    stats_text.textContent += `[Health: ${hp}/${max_hp} | Distance traveled: ${steps * 100}m | Gold: ${gold} | Region: ${region}]\r\n`
+    stats_text.textContent += `[Health: ${hp}/${max_hp} | Distance traveled: ${steps * 100}m | Gold: ${gold} | Region: ${region} | XP: ${xp}]\r\n`
     display_inventory();
 }
 
