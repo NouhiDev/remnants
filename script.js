@@ -12,6 +12,7 @@ function delay(time) {
 var game_text = document.getElementById("game-text");
 
 var allow_input = false;
+var allow_continue = true;
 var player_input = "";
 
 var awaiting_response = true;
@@ -170,13 +171,13 @@ async function manage_sub_events(sub_event) {
             game_text.textContent += `Open chest?\r\n (y/n) \r\n`;
 
             // Wait for user input
-            allow_input = true;
+            manage_input(true);
 
             while(awaiting_response) {
-                await sleep(1000);
+                await sleep(1);
             }
 
-            allow_input = false;
+            manage_input(false);
             
             // OPENS CHEST
             if (player_input == "y") {
@@ -192,6 +193,20 @@ async function manage_sub_events(sub_event) {
                 game_text.textContent += "You do not open the chest and move on.\r\n";
             }
             break;
+    }
+}
+
+// Manage Input
+function manage_input(x) {
+    if (x) {
+        allow_input = true;
+        document.getElementById("yesbtn").style.backgroundColor = "#CFBFA0";
+        document.getElementById("nobtn").style.backgroundColor = "#CFBFA0";
+    }
+    else {
+        allow_input = false;
+        document.getElementById("yesbtn").style.backgroundColor = "#8E8E8E";
+        document.getElementById("nobtn").style.backgroundColor = "#8E8E8E";
     }
 }
 
@@ -243,8 +258,8 @@ async function open_loot_container(container, amount_of_items) {
 
         await sleep(1000);
 
-        game_text.textContent += `You finished looting the chest.\r\n`
       }
+      game_text.textContent += `You finished looting the chest.\r\n`
 }
 
 // Enter Button Function

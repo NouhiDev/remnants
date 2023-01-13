@@ -202,7 +202,7 @@
     .btn {
         max-width: 200px;
         font-size: 16px;
-        background-color: rgb(207, 191, 160);
+        background-color: rgb(142, 142, 142);
         font-family: 'Oswald', sans-serif;
         text-transform: uppercase;
         color: #121317;
@@ -226,9 +226,15 @@
   }
 
     .btn:hover {
-        background-color: rgb(151, 134, 100);
+        background-color: rgb(142, 142, 142);
         cursor: pointer;
     }
+
+    .btn-contine:hover {
+      background-color: rgb(142, 142, 142);
+      cursor: pointer;
+    }
+    
 
     .shift-forms {
         max-width: 100px;
