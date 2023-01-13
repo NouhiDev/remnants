@@ -439,7 +439,6 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
         
         // Players Turn
         if (player_turn) {
-            awaiting_response = true;
             await sleep(1000);
 
             game_text.textContent += `[!] Player's turn. [!]\r\n`;
@@ -465,6 +464,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
             else {
                 let weapon_to_use = "";
                 for (let i = 0; i < inventory.length; i++) {
+                    awaiting_response = true;
                     const item = inventory[i];
                     game_text.textContent += `Use ${item}?\r\n (y/n) \r\n`;
 
@@ -479,6 +479,10 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
 
                     if (player_input == "y") {
                         weapon_to_use = item;
+                        break;
+                    }
+                    else if (player_input == "n") {
+                        continue;
                     }
                 }
 
