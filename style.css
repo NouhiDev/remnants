@@ -206,9 +206,24 @@
         font-family: 'Oswald', sans-serif;
         text-transform: uppercase;
         color: #121317;
-        font-size: 30px;
+        font-size: 20px;
         font-weight: bold;
+        border-radius: 25px;
+        margin: 20px;
     }
+
+    .btn-continue {
+      max-width: 200px;
+      font-size: 16px;
+      background-color: rgb(142, 142, 142);
+      font-family: 'Oswald', sans-serif;
+      text-transform: uppercase;
+      color: #121317;
+      font-size: 20px;
+      font-weight: bold;
+      border-radius: 25px;
+      margin: 20px;
+  }
 
     .btn:hover {
         background-color: rgb(151, 134, 100);

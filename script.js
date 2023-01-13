@@ -12,6 +12,8 @@ function delay(time) {
 var game_text = document.getElementById("game-text");
 
 var allow_input = false;
+var player_input = "";
+
 var awaiting_response = true;
 
 // Vowels
@@ -177,12 +179,12 @@ async function manage_sub_events(sub_event) {
             allow_input = false;
             
             // OPENS CHEST
-            if (input_content.value == "y") {
+            if (player_input == "y") {
                 game_text.textContent += "You open the chest.\r\n";
                 open_loot_container(chest_loot_table, randomIntFromInterval(1, 5))
             }
             // DOESNT OPEN CHEST
-            else if (input_content.value == "n") {
+            else if (player_input == "n") {
                 game_text.textContent += "You do not open the chest and move on.\r\n";
             }
             // WRONG INPUT --> DOESNT OPEN CHEST
@@ -196,6 +198,8 @@ async function manage_sub_events(sub_event) {
 // Open Loot Container
 async function open_loot_container(container, amount_of_items) {
     for (let i = 0; i < amount_of_items; i++) {
+        await sleep(1000);
+
         // Choose random item from loot table
         item = chest_loot_table.sample();
 
@@ -216,7 +220,7 @@ async function open_loot_container(container, amount_of_items) {
             await sleep(1000);
 
             game_text.textContent += `You're currently holding ${gold} gold.\r\n`;
-            return;
+            break;
         }
 
         // Nothing
@@ -224,26 +228,34 @@ async function open_loot_container(container, amount_of_items) {
             if (amount_of_items == 0) {
                 game_text.textContent += "The chest was empty.\r\n";
             }
-            return;
+            break;
         }
 
         // Check if item is already in inventory
         if (inventory.includes(item)) {
-            game_text.textContent += `You found a  ${item} but you already have one.`
+            game_text.textContent += `You found ${article} ${item} but you already have one.\r\n`
+            break;
         }
+
+        // Add item to inventory
+        inventory.push(item);
+        game_text.textContent += `You found ${article} ${item}.\r\n`
+
+        await sleep(1000);
+
+        game_text.textContent += `You finished looting the chest.\r\n`
       }
 }
 
 // Enter Button Function
-function advance() {
-    var input_content = document.getElementById("game-input");
-    
-    if (input_content.value != "") {
-        awaiting_response = false;
-    }
-    else {
-        console.log("EMPTY INPUT!");
-    }
+function yes_btn() {
+    player_input = "y";
+    awaiting_response = false;
+}
+
+function no_btn() {
+    player_input = "n";
+    awaiting_response = false;
 }
 
 
@@ -270,8 +282,9 @@ async function main_loop() {
     manage_events(places_table, events_table);
     //input("Enter to continue: ");
     steps++;
-    //seperator();
     //main_loop();
 }
 
-main_loop();
+function new_day() {
+    main_loop();
+}
