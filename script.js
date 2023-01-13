@@ -274,6 +274,7 @@ async function open_loot_container(container, amount_of_items) {
         if (item == "nothing") {
             if (amount_of_items == 1) {
                 game_text.textContent += "The chest was empty.\r\n";
+                break;
             }
             break;
         }
