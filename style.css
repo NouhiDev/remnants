@@ -1,0 +1,244 @@
+:root {
+    font-family: 'Roboto', sans-serif;
+    padding: auto;
+    margin: auto;
+    background-color: #121317;
+    overflow: hidden;
+  }
+  
+  .title {
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    padding: auto;
+    margin: 15px;
+    text-align: center;
+    color: rgb(207, 191, 160);
+    font-size: 50px;
+  }
+  
+  .title-split {
+    color: rgb(255, 66, 66);
+  }
+  
+  .sub-title {
+    font-family: 'Roboto', sans-serif;
+    font-style: italic;
+    padding: auto;
+    margin: 15px;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 1;
+    color: #424855;
+    font-size: 22px;
+    letter-spacing: 0.1ch;
+  }
+  
+  .sub-sub-title {
+    font-family: 'Roboto', sans-serif;
+    padding: auto;
+    margin: 15px;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 1;
+    color: rgb(180, 180, 180);
+    font-size: 22px;
+    letter-spacing: 0.1ch;
+  }
+  
+  .dummy-snippet-1-l {
+    color: rgb(35, 38, 42);
+    font-family: 'Roboto', sans-serif;
+    text-transform: uppercase;
+    padding: 10px;
+    margin: 10px;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 20px;
+    font-style: italic;
+    text-align: left;
+  }
+  
+  .dummy-snippet-1-r {
+    color: rgb(35, 38, 42);
+    font-family: 'Roboto', sans-serif;
+    text-transform: uppercase;
+    padding: 10px;
+    margin: 10px;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 20px;
+    font-style: italic;
+    text-align: right;
+  }
+  
+  .dummy-snippet-2 {
+    color: rgb(35, 38, 42);
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    padding: auto;
+    margin: auto;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 15px;
+    font-style: italic;
+  }
+  
+  .dummy-snippet-3 {
+    color: rgb(35, 38, 42);
+    font-family: 'Roboto', sans-serif;
+    text-transform: uppercase;
+    padding: auto;
+    margin: auto;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 10px;
+    font-style: italic;
+  }
+  
+  ul {
+    padding-left: 0; 
+    text-align:center; 
+    list-style-type:none;
+  }
+  
+  li {
+    margin: auto;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #424855;
+    width: 20em;
+    text-align: center;
+  
+  }
+  
+  li:hover {
+    background-color: rgb(255, 66, 66);
+  }
+  
+  ul.featured-list-nav li a {
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    font-family: 'Roboto', sans-serif;
+    text-transform: uppercase;
+    padding: 5px;
+    margin: 5px;
+    padding-top: 10px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-style: italic;
+  }
+  
+  /* Loader */
+  .content {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    display: none;
+  }
+
+  .loader {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    background-color: #121317;
+    position: absolute;
+  }
+  
+  .loader>div {
+    height: 100px;
+    width: 100px;
+    border: 1px solid #424855;
+    border-top-color: rgb(255, 66, 66);
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: 50%;
+    animation: spin 1.5s infinite linear;
+  }
+  
+  @keyframes spin {
+    100%{
+      transform: rotate(360deg);
+    }
+  }
+
+    /* Forms */
+    input 
+    {
+        width: 100%;
+        max-width: 400px;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        text-align: center;
+        background-color: #0f1013;
+        color: white;
+        font-family: 'Roboto', sans-serif;
+        font-size: 22px;
+        letter-spacing: 0.1ch;
+        font-weight: 1;  
+        outline: none;
+        border: 1px;
+    }
+
+    .forms {
+        text-align: center;  
+    }
+
+    .encryption-multipliers-container {
+      display: inline-flex;
+    }
+
+    .btn {
+        max-width: 200px;
+        font-size: 16px;
+        background-color: rgb(207, 191, 160);
+        font-family: 'Oswald', sans-serif;
+        text-transform: uppercase;
+        color: #121317;
+        font-size: 30px;
+        font-weight: bold;
+    }
+
+    .btn:hover {
+        background-color: rgb(151, 134, 100);
+        cursor: pointer;
+    }
+
+    .shift-forms {
+        max-width: 100px;
+    }
+
+    input[type=number]::-webkit-inner-spin-button {
+        opacity: 1
+    }
+    
+  /* Game Related Styling */
+  .game-container {
+    overflow-y: scroll;
+    height: 500px;
+    width: 900px;
+    background-color: #0f1013;
+    border-radius: 25px;
+    margin: auto;
+    padding: auto;
+    text-align: center;
+  }
+
+  .game-container p {
+    color: white;
+    font-family: 'Oswald', sans-serif;
+    font-size: 20px;
+    letter-spacing: 2px;
+    white-space: pre-line;
+  }

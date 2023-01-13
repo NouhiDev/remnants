@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    
+    <title>Remnants - Text-based RPG - nouhidev</title>
+    <meta name="title" content="nouhidev">
+    <link rel="stylesheet" href="style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=0.5">
+    <meta charset="utf-8">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300&family=Roboto&display=swap" rel="stylesheet">
+    
+    <script src="https://kit.fontawesome.com/ca2577623e.js" crossorigin="anonymous"></script>
+  </head>
+
+  <body>
+    <!-- Pre Loader -->
+
+    <div class="loader">
+     <div></div>
+    </div>
+
+    <!-- Post Loader -->
+
+    <div class="content">
+      <!-- Title -->
+      <h1 class="title">REMNANTS</h1>
+      <h2 class="sub-title">Text-based RPG | alpha build 01</h2>
+      
+      <div class="game-container" id="game">
+        <p id="game-text"></p>
+      </div>
+      <div class="forms">
+        <form> 
+            <input type="text" id="game-input">
+        </form>
+        <form onsubmit="return false">
+            <input class="btn" type="submit" onclick="advance()" value="ENTER">
+        </form>
+    </div>
+      <ul class="featured-list-nav">
+        <!-- Back List Item -->
+        <li class="featured-list-item">
+          <a href="https://nouhidev.github.io" class="featured-list-link">back</a>
+        </li>
+      </ul>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+  </html>
