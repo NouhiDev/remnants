@@ -477,9 +477,40 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
                 
                     manage_input(false);
 
-                    // if yes weapon_to_use = item
+                    if (player_input == "y") {
+                        weapon_to_use = item;
+                    }
                 }
 
+                // No weapon was chosen
+                if (weapon_to_use == "") {
+                    let fist_dmg = randomIntFromInterval(1,5);
+                    enemy_hp -= fist_dmg;
+
+                    game_text.textContent += `[!] You use your fists. [!]\r\n`;
+
+                    await sleep(1000);
+
+                    game_text.textContent += `[!] You deal ${fist_dmg} damage. [!]\r\n`;
+
+                    await sleep(1000);
+
+                    game_text.textContent += `[!] ${capitalizeFirstLetter(enemy)} has ${enemy_hp} hp. [!]\r\n`;
+                }
+                
+                // Weapon has been chosen
+                else {
+                    await sleep(1000);
+
+                    game_text.textContent += `You chose to use ${weapon_to_use}.\r\n`;
+
+                    let weapon_dmg = randomIntFromInterval(5,15);
+                    enemy_hp -= weapon_dmg;
+
+                    await sleep(1000);
+
+                    game_text.textContent += `[!] You deal ${weapon_dmg} damage. [!]\r\n`;
+                }
                 
             }
         }
