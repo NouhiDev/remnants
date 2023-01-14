@@ -1190,7 +1190,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
         if (player_turn) {
             await sleep(1000);
 
-            game_text.innerHTML += `[i] Player's turn. [i]\r\n`;
+            game_text.innerHTML += `Player's turn.\r\n`;
 
             await sleep(1000);
 
@@ -1303,17 +1303,17 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
         else {
             await sleep(1000);
 
-            game_text.innerHTML += `[i] ${capitalizeFirstLetter(enemy)}'s turn. [i]\r\n`;
+            game_text.innerHTML += `${capitalizeFirstLetter(enemy)}'s turn.\r\n`;
 
             let dmg = randomIntFromInterval(det_enemy_dmg(enemy)[0], det_enemy_dmg(enemy)[1]);
 
             await sleep(1000);
 
-            game_text.innerHTML += `[!] ${capitalizeFirstLetter(enemy)} attacks. [!]\r\n`;
+            game_text.innerHTML += `${capitalizeFirstLetter(enemy)} attacks.\r\n`;
 
             await sleep(1000);
 
-            game_text.innerHTML += `<span class="red-bright">[!] You took ${dmg} damage. [!]</span>\r\n`;
+            game_text.innerHTML += `<span class="red-bright">You took ${dmg} damage.</span>\r\n`;
 
             damage(dmg);
             display_stats();
