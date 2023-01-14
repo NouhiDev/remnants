@@ -820,12 +820,12 @@ async function enemy_encounter() {
     let enemy = enemies.sample();
     let enemy_hp = randomIntFromInterval(det_enemy_hp(enemy)[0], det_enemy_hp(enemy)[1]);
 
-    game_text.innerHTML += `[!] You encounter a ${enemy}. [!]\r\n`;
+    game_text.innerHTML += `You encounter a ${enemy}.\r\n`;
 
 
     await sleep(1000);
 
-    game_text.innerHTML += `[!] ${capitalizeFirstLetter(enemy)} has ${enemy_hp} hp. [!]\r\n`;
+    game_text.innerHTML += `${capitalizeFirstLetter(enemy)} has ${enemy_hp} hp.\r\n`;
 
     game_text.innerHTML += `Engage in combat?\r\n (y/n) \r\n`;
 
