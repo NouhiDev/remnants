@@ -998,19 +998,19 @@ function det_enemy_xp(enemy) {
     switch(enemy) {
         // REGION 0: FOREST
         case "spider":
-            return [15, 25];
+            return [5, 15];
         case "werewolf":
-            return [25, 30];
+            return [15, 20];
         case "dryad":
-            return [15, 25];
+            return [5, 15];
         case "gnome":
-            return [10, 15];
+            return [5, 15];
         case "wendigo":
-            return [35, 40];
+            return [25, 35];
         case "ent":
-            return [25, 30];
-        case "harpy":
             return [15, 25];
+        case "harpy":
+            return [5, 15];
         // REGION 1: LOCKWOOD VILLAGE
         case "goblin":
             return [8, 9];
