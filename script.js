@@ -38,7 +38,7 @@ var lvl = 0;
 var region = "Forest";
 
 // Regions
-var regions = ["Lockwood Village", "Eastport", "Ocean", "Rocky Shores", "Last Supper", "Infinity"];
+var regions = ["Lockwood Village", "Eastport", "Ocean", "Rocky Shores"];
 
 // #region Places
 places_table = ["grass patch", "hut", "camp", "cave" ,"stone arch", "field of red mushrooms", "grand tree", "shrine", "temple"];
@@ -83,41 +83,157 @@ across_var = ["You come across", "You stumble upon", "You happen upon", "You run
 
 // Checks for region switches
 async function check_region_switch(distance) {
-    region_text.innerHTML = "";
-    if (distance >= 0) {
-        region_text.innerHTML += `<span class="red">[1]</span> You wake up in a dense <span class="green">forest</span>, disoriented and confused. You realize that you have no memory of how you got here or what has happened to the world around you. You see a <span class="light-green">clearing</span> ahead. <span class="red">[1]</span>\r\n`
+    if (distance == 0) {
+        awaiting_response = true;
+        // REGION SCREEN UPDATE
+        region_text.innerHTML = `<span class="red">[Act 1]</span> You wake up in a dense <span class="green">forest</span>, disoriented and confused. You realize that you have no memory of how you got here or what has happened to the world around you. You see a <span class="light-green">clearing</span> ahead.\r\n`
+        // STORY SCREEN UPDATE
+        game_text.innerHTML += `<span class="light-blue">ACT 1: AWAKENING</span>\r\n\r\n` +
+        `You wake up in a dense forest, with no memory of how you got there or what has happened to the world. As you stand up and take in your surroundings, you notice that the trees are withered and the air is thick with a putrid smell. The silence is broken only by the occasional sound of something moving in the bushes.\r\n`
+        + "\r\nYou start to explore the forest, looking for any clues about the state of the world.\r\n" + "\r\nContinue? (y/n) \r\n";
+        // Wait for user input
+        manage_input(true);
+
+        while(awaiting_response) {
+            await sleep(1);
+        }
+
+        manage_input(false);
+
+        if (player_input == "y") {
+            game_text.textContent += "You wake up.\r\n";
+            manage_allow_continue(true);
+            return;
+        }
+        else if (player_input == "n") {
+            game_text.textContent += "You can't change fate.\r\n";
+            manage_allow_continue(true);
+            return;
+        }
+        else {
+            game_text.textContent += "You can't change fate.\r\n";
+            manage_allow_continue(true);
+            return;
+        }
     }
 
-    if (distance >= 10) {
-        region_text.innerHTML += `<span class="red">[2]</span> As you make your way through the <span class="green">forest</span>, you come across an <span class="orange">abandonend village</span>: <span class="light-gold">Lockwood Village</span>. The buildings are in ruins, and there are no signs of life. <span class="red">[2]</span>\r\n`
+    if (distance == 10) {
+        // Update Places / Events / Enemies
         region = regions[0];
         places_table = lockwood_village_places_table;
         events_table = lockwood_village_events_table;
         enemies = lockwood_village_enemies;
+        // REGION SCREEN UPDATE
+        region_text.innerHTML = `<span class="red">[Act 2]</span> As you make your way through the <span class="green">forest</span>, you come across a <span class="orange">destroyed village</span>: <span class="light-gold">Lockwood Village</span>. The buildings are in ruins, some survivors remain.\r\n`
+        // STORY SCREEN
+        awaiting_response = true;
+        game_text.innerHTML = `<span class="light-blue">ACT 2: DISCOVERY</span>\r\n\r\n` +
+        `After hours of wandering, you come across a small village in the clearing. The villagers tell you that a great disaster has occurred, causing widespread destruction and the collapse of civilization. They also tell you that a powerful sorcerer has risen to power, using dark magic to control and manipulate the remaining survivors.\r\n`
+        + "\r\nThey inform you of a rumored island where a group of survivors has formed a community, and hopefully, a new chance for humanity to rebuild. You start to look for a port.\r\n" + "\r\nContinue? (y/n) \r\n";
+        // Wait for user input
+        manage_input(true);
 
+        while(awaiting_response) {
+            await sleep(1);
+        }
+
+        manage_input(false);
+
+        if (player_input == "y") {
+            game_text.textContent += "You proceed.\r\n";
+            manage_allow_continue(true);
+            return;
+        }
+        else if (player_input == "n") {
+            game_text.textContent += "You can't change fate.\r\n";
+            manage_allow_continue(true);
+            return;
+        }
+        else {
+            game_text.textContent += "You can't change fate.\r\n";
+            manage_allow_continue(true);
+            return;
+        }
     }
     
-    if (distance >= 20) {
-        region_text.innerHTML += `<span class="red">[3]</span> Heading out of the <span class="orange">abandonend village</span>, you make your way towards a <span class="purplebrown">port</span>, looking for a <span class="brown">ship</span> that may help you. However, as you approach, you realize the port is <span class="purple">'infected'</span>. <span class="red">[3]</span>\r\n`
+    if (distance == 20) {
+        // REGION SCREEN UPDATE
+        region_text.innerHTML = `<span class="red">[Act 3]</span> Heading out of the <span class="orange">damaged village</span>, you make your way towards a <span class="purplebrown">port</span>, looking for a <span class="brown">ship</span> that may help you. However, as you approach, you realize the port is <span class="purple">'infected'</span>.\r\n`
         region = regions[1];
         places_table = eastport_places_table;
         events_table = eastport_events_table;
         enemies = eastport_enemies;
+        // STORY SCREEN
+        awaiting_response = true;
+        game_text.innerHTML = `<span class="light-blue">ACT 3: SHIPWRECKED</span>\r\n\r\n` +
+        `As you leave the ruined village, you set out to find a ship that could be of aid, making your way towards the nearest port. However, as you approach, you realize the port is infected. The ships that were once docked there, now lay abandoned.\r\n`
+        + "\r\You start to look for a working ship.\r\n" + "\r\nContinue? (y/n) \r\n";
+        // Wait for user input
+        manage_input(true);
+
+        while(awaiting_response) {
+            await sleep(1);
+        }
+
+        manage_input(false);
+
+        if (player_input == "y") {
+            game_text.textContent += "You venture further.\r\n";
+            manage_allow_continue(true);
+            return;
+        }
+        else if (player_input == "n") {
+            game_text.textContent += "You can't change fate.\r\n";
+            manage_allow_continue(true);
+            return;
+        }
+        else {
+            game_text.textContent += "You can't change fate.\r\n";
+            manage_allow_continue(true);
+            return;
+        }
+
     }
     
-    if (distance >= 30) {
-        region_text.innerHTML += `<span class="red">[4]</span> After reaching the <span class="purplebrown">port</span>, you finally find a <span class="brown">ship</span> that seems seaworthy. However, as you set out to sea, you quickly realize that the <span class="blue">ocean</span> is just as dangerous as the land. <span class="red">[4]</span>\r\n`
+    if (distance == 30) {
+        region_text.innerHTML = `<span class="red">[Act 4]</span> After reaching the <span class="purplebrown">port</span>, you finally find a <span class="brown">ship</span> that seems seaworthy. However, as you set out to sea, you quickly realize that the <span class="blue">ocean</span> is just as dangerous as the land.\r\n`
         region = regions[2];
         places_table = ocean_places_table;
         events_table = ocean_events_table;
         enemies = ocean_enemies;
+        // STORY SCREEN
+        awaiting_response = true;
+        game_text.innerHTML = `<span class="light-blue">ACT 4: ADRIFT</span>\r\n\r\n` +
+        `After arriving at the port, you successfully find a ship that appears to be in good condition. However, as soon as you set sail, it becomes clear that the ocean is equally perilous as the land. The waters are filled with mutated creatures, and the storms are more violent than ever before.\r\n`
+        + "\r\nYou set out to sea.\r\n" + "\r\nContinue? (y/n) \r\n";
+        // Wait for user input
+        manage_input(true);
+
+        while(awaiting_response) {
+            await sleep(1);
+        }
+
+        manage_input(false);
+
+        if (player_input == "y") {
+            game_text.textContent += "You continue.\r\n";
+            manage_allow_continue(true);
+            return;
+        }
+        else if (player_input == "n") {
+            game_text.textContent += "You can't change fate.\r\n";
+            manage_allow_continue(true);
+            return;
+        }
+        else {
+            game_text.textContent += "You can't change fate.\r\n";
+            manage_allow_continue(true);
+            return;
+        }
     }
-    
-    if (distance >= 40) {
-        region_text.innerHTML += `[5] You have reached the ${regions[3]}. [5]\r\n`
-        region = regions[3];
-        // TODO
-    }
+
+    await sleep(2000);
+    forwards();
 }
 // #region Helper Functions
 
@@ -174,9 +290,11 @@ function add_to_inventory_txt(item, index, array) {
 }
 
 // Display Forwards
-function forwards() {
+async function forwards() {
     game_text.textContent += forwards_var.sample() + "\r\n";
     short_seperator();
+    await sleep(1000);
+    manage_events(places_table, events_table);
 }
 
 // Clear game text
@@ -433,6 +551,8 @@ async function damage(amount) {
         throw new Error();
     }
 }
+
+// #region COMBAT RELATED
 
 // Enemy Encounter
 async function enemy_encounter() {
@@ -853,6 +973,8 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
     }
 }
 
+// #endregion
+
 // Manage Input
 function manage_input(x) {
     if (x) {
@@ -979,12 +1101,6 @@ async function main_loop() {
     
     // Stat Displays
     display_stats();
-
-    // Game Events
-    await sleep(2000);
-    forwards();
-    await sleep(1000);
-    manage_events(places_table, events_table);
     steps++;
 }
 
@@ -1030,6 +1146,7 @@ function restart() {
 
 function zoom() {
     document.body.style.zoom = "80%" 
+    document.getElementById("stats-text").style.fontSize = "20px";
 }
 
 zoom();

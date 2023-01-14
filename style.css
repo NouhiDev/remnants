@@ -401,12 +401,15 @@ hr {
   color: #a38d60;
 }
 
-
 .blue {
   color:rgb(32, 59, 181);
 }
 
 .purplebrown {
   color:rgb(255, 91, 146);
+}
+
+.light-blue {
+  color:rgb(112, 229, 255);
 }
 
