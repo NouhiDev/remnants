@@ -62,11 +62,11 @@ ocean_places_table = ["small island", "island", "shipwreck", "coral reef", "aban
 // #endregion
 
 // #region Events
-events_table = ["nothing", "chest", "enemy", "wishing well"];
+events_table = [];
 
-forest_events_table = ["nothing", "chest", "enemy", "wishing well"];
+forest_events_table = ["nothing", "chest", "enemy", "wishing well", "traveler"];
 
-lockwood_village_events_table = ["nothing", "chest", "enemy", "merchant"] //NEW: MERCHANT
+lockwood_village_events_table = ["nothing", "chest", "enemy", "merchant", "traveler"] //NEW: MERCHANT
 
 eastport_events_table = ["cargo", "enemy", "nest", "nothing"] // NEW: CARGO, NEST
 
@@ -80,7 +80,7 @@ cargo_loot_table = ["halberd", "greataxe", "axe", "sword", "claymore", "healing 
 // #endregion
 
 // #region Enemies
-enemies = ["spider", "werewolf", "dryad", "gnome", "wendigo", "ent", "harpy"]
+enemies = []
 
 forest_enemies = ["spider", "werewolf", "dryad", "gnome", "wendigo", "ent", "harpy", 
 "basilisk", "lizard", "large rat", "giant leech", "giant mosquito"]
@@ -111,6 +111,14 @@ origins = ["Golden Wheel", "Silver Tongue", "Emerald City", "Spice Road", "Bazaa
 traveler_names = ["Jeffrey", "Wilhelm", "Reinhard", "Gottfried", "Gwyndolin", "Nito", "Seath", "Quelaag", "Priscilla", 
 "Sif", "Gwyn", "Manus", "Ornstein", "Smough", "Kalameet", "Artorias", "Najka", "Freja", "Mytha", "Velstadt", "Vendrick", "Magus", "Nashandra", "Aldia", 
 "Vordt", "Wolnir", "Sulyvahn", "Aldrich", "Oceiros", "Gundyr", "Lothric", "Godrick"]
+
+// Traveler Phrases
+traveler_phrases = ["I can't believe how different the world is now.", "I hope I find somewhere safe soon.", "I heard there's a community of survivors a few days from here.",
+"I can't believe how much of the world has been destroyed.", "I hope I can find some food and supplies.", "I heard there's a group of raiders in the area, we need to be careful.",
+"I never thought I would see the world like this.", "I never thought I'd have to live like this, scavenging for survival.", 
+"I can't believe the state of the world, it's like something out of a nightmare.", "I never thought I'd have to fight just to survive.",
+"I can't believe how much humanity has regressed in the wake of this disaster.", "I heard there's a community of traders a few days from here, we can exchange goods.",
+"I lost all of my family to this disaster. I don't know what to do."]
 
 // Merchants
  merchant_names = ["Jeffrey", "Wilhelm", "Reinhard", "Gottfried", "Gwyndolin", "Nito", "Seath", "Quelaag", "Priscilla", 
@@ -451,6 +459,16 @@ async function manage_sub_events(sub_event) {
     awaiting_response = true;
 
     switch(sub_event) {
+        case "traveler":
+            let phrase = traveler_phrases.sample();
+
+            game_text.innerHTML += `You encounter a traveler.\r\n`
+
+            await sleep(1000);
+
+            game_text.innerHTML += phrase + `\r\n`
+            manage_allow_continue(true);
+            break;
         case "merchant":
             game_text.innerHTML += `Talk to merchant?\r\n (y/n) \r\n`;
 
