@@ -984,7 +984,7 @@ function update_time() {
     subtitle.textContent += time_str;
 }
 
-update_time();
+// update_time();
 
 // Regularly update to auto scroll to end of div
 window.setInterval(function() {
