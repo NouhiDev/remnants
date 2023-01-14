@@ -49,7 +49,8 @@ forest_places_table = ["grass patch", "hut", "camp", "cave" ,"stone arch", "fiel
 "waterfall", "grove", "overgrown ruin", "small secluded meadow"];
 
 lockwood_village_places_table = ["abandonend house", "abandonend church", "abandonend chapel", 
-"abandonend town hall", "abandonend tunnel", "abandonend barn", "abandonend stable", "abandonend manor"]
+"abandonend town hall", "abandonend tunnel", "abandonend barn", "abandonend stable", "abandonend manor", "abandonend barrack", "park", "garden", 
+"abandonend watchtower", "abandonend cottage", "abandonend mansion", "abandonend stable", "abandonend taver", "abandonend inn", "abandonend bazaar"]
 
 eastport_places_table = ["abandonend ship", "broken ship", "abandonend warehouse", "abandonend dock", "open container"]
 
