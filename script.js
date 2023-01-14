@@ -78,7 +78,6 @@ ocean_enemies = ["sea monster", "mermaid", "siren", "leviathan", "sea serpent", 
 async function check_region_switch(distance) {
     if (distance == 0) {
         region_text.innerHTML += `<span class="red">[!]</span> You wake up in a dense <span class="green">forest</span>, disoriented and confused. You realize that you have no memory of how you got here or what has happened to the world around you. You see a <span class="light-green">clearing</span> ahead. <span class="red">[!]</span>\r\n`
-        seperator();
     }
 
     if (distance == 10) {
@@ -87,7 +86,6 @@ async function check_region_switch(distance) {
         places_table = lockwood_village_places_table;
         events_table = lockwood_village_events_table;
         enemies = lockwood_village_enemies;
-        seperator();
 
     }
     else if (distance == 20) {
@@ -96,7 +94,6 @@ async function check_region_switch(distance) {
         places_table = eastport_places_table;
         events_table = eastport_events_table;
         enemies = eastport_enemies;
-        seperator();
     }
     else if (distance == 30) {
         region_text.innerHTML += `<span class="red">[!]</span> After reaching the <span class="purplebrown">port</span>, you finally find a <span class="brown">ship</span> that seems seaworthy. However, as you set out to sea, you quickly realize that the <span class="blue">ocean</span> is just as dangerous as the land. <span class="red">[!]</span>\r\n`
@@ -104,7 +101,6 @@ async function check_region_switch(distance) {
         places_table = ocean_places_table;
         events_table = ocean_events_table;
         enemies = ocean_enemies;
-        seperator();
     }
     else if (distance == 40) {
         region_text.innerHTML += `[!] You have reached the ${regions[3]}. [!]\r\n`
@@ -802,14 +798,6 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
 
             let dmg = randomIntFromInterval(det_enemy_dmg(enemy)[0], det_enemy_dmg(enemy)[1]);
 
-            damage(dmg);
-
-            // if player will die break loop
-            if (hp <= 0) {
-                in_combat = false;
-                break;
-            }
-
             await sleep(1000);
 
             game_text.textContent += `[!] ${capitalizeFirstLetter(enemy)} attacks. [!]\r\n`;
@@ -817,6 +805,14 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
             await sleep(1000);
 
             game_text.textContent += `[!] You took ${dmg} damage. [!]\r\n`;
+
+            damage(dmg);
+
+            // if player will die break loop
+            if (hp <= 0) {
+                in_combat = false;
+                break;
+            }
         }
     }
 }
@@ -865,6 +861,7 @@ async function open_loot_container(container, amount_of_items) {
             await sleep(1000);
 
             game_text.textContent += `You healed ${amt} hp.\r\n`;
+            display_stats();
 
             await sleep(1000);
             break;
