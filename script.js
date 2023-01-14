@@ -52,9 +52,12 @@ lockwood_village_places_table = ["abandonend house", "abandonend church", "aband
 "abandonend town hall", "abandonend tunnel", "abandonend barn", "abandonend stable", "abandonend manor", "abandonend barrack", "park", "garden", 
 "abandonend watchtower", "abandonend cottage", "abandonend mansion", "abandonend stable", "abandonend taver", "abandonend inn", "abandonend bazaar"]
 
-eastport_places_table = ["abandonend ship", "broken ship", "abandonend warehouse", "abandonend dock", "open container"]
+eastport_places_table = ["abandonend ship", "broken ship", "abandonend warehouse", "abandonend dock", "open container", "beacon tower",
+"quay", "abandonend beacon tower", "abandonend facility", "abandonend crane", "dredging", "breakwater", "abandoned control tower", 
+"abandoned tugboat", "broken tugboat"]
 
-ocean_places_table = ["small island", "island", "shipwreck", "coral reef", "abandonend lighthouse", "ship graveyard"]
+ocean_places_table = ["small island", "island", "shipwreck", "coral reef", "abandonend lighthouse", "ship graveyard", "buoy", "kelp forest",
+"seaweed bed", "current", "mangrove forest", "sea stack", "sea arch", "maelstrom", "rock formation", "tide pool"]
 
 // #endregion
 
