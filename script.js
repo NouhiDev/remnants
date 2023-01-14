@@ -1266,6 +1266,12 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
 
             game_text.innerHTML += `<span class="green">You've earned ${enemy_xp} xp.</span>\r\n`;
 
+            if (xp >= max_xp) {
+                await sleep(1000);
+                game_text.innerHTML += `<span class="lvl">You leveled up!</span>\r\n`;
+                await sleep(1000);
+            }
+
             manage_xp(enemy_xp);
 
             manage_allow_continue(true);
