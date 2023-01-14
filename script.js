@@ -435,6 +435,7 @@ async function manage_events(places, events) {
     short_seperator();
 }
 
+// Manage Sub Events
 async function manage_sub_events(sub_event) {
     awaiting_response = true;
 
@@ -1094,7 +1095,7 @@ function det_enemy_hp(enemy) {
             return [19, 52];
         case "sea serpent":
             return [15, 39];
-        case "water elementals":
+        case "water elemental":
             return [16, 42];
         case "charybdis":
             return [19, 32];
