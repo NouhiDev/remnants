@@ -1146,7 +1146,7 @@ function restart() {
 
 function zoom() {
     document.body.style.zoom = "80%" 
-    document.getElementById("stats-text").style.fontSize = "20px";
+    document.getElementById("stats-text").style.fontSize = "19px";
 }
 
 zoom();
