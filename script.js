@@ -30,7 +30,7 @@ var inventory_txt = "[Inventory: ";
 var alive = true;
 var max_hp = 100
 var hp = 100;
-var steps = 30;
+var steps = 20;
 var gold = 0;
 var xp = 0;
 var max_xp = 100;
@@ -75,6 +75,9 @@ eastport_enemies = ["humanoid creature", "indiscernible entity", "ghoul"]
 
 ocean_enemies = ["sea monster", "mermaid", "siren", "leviathan", "sea serpent", "water elementals", "charybdis"]
 
+// Forward Variations
+
+forwards = ["You delve deeper.", "You walk forward.", "You continue onward."]
 
 // Checks for region switches
 async function check_region_switch(distance) {
