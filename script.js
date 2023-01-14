@@ -139,6 +139,7 @@ async function check_region_switch(distance) {
     if (distance == 0) {
         enemies = forest_enemies;
         places_table = forest_places_table;
+        events_table = forest_events_table;
         awaiting_response = true;
         // REGION SCREEN UPDATE
         region_text.innerHTML = `<span class="red">[Act 1]</span> You wake up in a dense <span class="green">forest</span>, disoriented and confused. You realize that you have no memory of how you got here or what has happened to the world around you. You see a <span class="light-green">clearing</span> ahead.\r\n`
