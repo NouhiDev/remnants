@@ -1124,10 +1124,10 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
 
             let enemy_xp = randomIntFromInterval(det_enemy_xp(enemy)[0],det_enemy_xp(enemy)[1]);
             enemy_xp += steps;
-            
+
             await sleep(1000);
 
-            game_text.innerHTML += `<span class="green">You've earned ${enemy_xp+steps} xp.</span>\r\n`;
+            game_text.innerHTML += `<span class="green">You've earned ${enemy_xp} xp.</span>\r\n`;
 
             manage_xp(enemy_xp);
 
