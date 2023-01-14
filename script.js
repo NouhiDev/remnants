@@ -823,8 +823,15 @@ async function enemy_encounter() {
     // Setup Enemy
     let enemy = enemies.sample();
     let enemy_hp = randomIntFromInterval(det_enemy_hp(enemy)[0], det_enemy_hp(enemy)[1]);
-
-    game_text.innerHTML += `You encounter a ${enemy}.\r\n`;
+    
+    let article = "";
+    if (vowels.includes(enemy[0])) {
+        article = "an";
+    }
+    else {
+        article = "a";
+    }
+    game_text.innerHTML += `You encounter ${article} ${enemy}.\r\n`;
 
 
     await sleep(1000);
