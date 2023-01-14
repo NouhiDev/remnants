@@ -38,7 +38,7 @@ var lvl = 0;
 var region = "Forest";
 
 // Regions
-var regions = ["Lockwood Village", "Eastport", "Ocean", "Rocky Shores"];
+var regions = ["Lockwood Village", "Eastport", "Ocean", "Rocky Shores", "Last Supper", "Infinity"];
 
 // #region Places
 places_table = ["grass patch", "hut", "camp", "cave" ,"stone arch", "field of red mushrooms", "grand tree", "shrine", "temple"];
