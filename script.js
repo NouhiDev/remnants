@@ -58,8 +58,8 @@ ocean_places_table = ["small island", "island", "shipwreck", "coral reef", "aban
 events_table = ["nothing", "chest", "enemy", "wishing well"];
 
 forest_events_table = ["nothing", "chest", "enemy", "wishing well"];
-
-lockwood_village_events_table = ["nothing", "chest", "enemy", "merchant"] //NEW: MERCHANT
+                                //"nothing", "chest", "enemy"
+lockwood_village_events_table = ["merchant"] //NEW: MERCHANT
 
 eastport_events_table = ["cargo", "enemy", "nest", "nothing"] // NEW: CARGO, NEST
 
@@ -90,7 +90,8 @@ across_var = ["You come across", "You stumble upon", "You happen upon", "You run
 // Merchant Names
 merchant_origin = ["Golden Wheel", "Silver Tongue", "Emerald City", "Spice Road", "Bazaar", "Bronze Coin", "Jade Caravan",
  "Sapphire Harbour", "Crimson Square", "Velvet Road", "Iron Market", "Diamond Exchange", "Silver Empire"]
-merchant_names = ["Jeffrey", ""]
+merchant_names = ["Jeffrey", "Wilhelm", "Reinhard", "Gottfried", "Gwyndolin", "Nito", "Seath", "Quelaag", "Priscilla", 
+"Sif", "Gwyn", "Manus", "Ornstein", "Smough", "Kalameet", "Artorias"]
 
 // Checks for region switches
 async function check_region_switch(distance) {
@@ -639,7 +640,16 @@ async function damage(amount) {
 async function merchant_routine() {
     await sleep(1000);
     game_text.innerHTML = "";
-    game_text.innerHTML = "Merchant ";
+    game_text.innerHTML += `Merchant "${merchant_names.sample()}" of the ${merchant_origin.sample()}\r\n`;
+    game_text.innerHTML += `Merchant "${merchant_names.sample()}" of the ${merchant_origin.sample()}\r\n`;
+    game_text.innerHTML += `Merchant "${merchant_names.sample()}" of the ${merchant_origin.sample()}\r\n`;
+    game_text.innerHTML += `Merchant "${merchant_names.sample()}" of the ${merchant_origin.sample()}\r\n`;
+    game_text.innerHTML += `Merchant "${merchant_names.sample()}" of the ${merchant_origin.sample()}\r\n`;
+    game_text.innerHTML += `Merchant "${merchant_names.sample()}" of the ${merchant_origin.sample()}\r\n`;
+    game_text.innerHTML += `Merchant "${merchant_names.sample()}" of the ${merchant_origin.sample()}\r\n`;
+    game_text.innerHTML += `Merchant "${merchant_names.sample()}" of the ${merchant_origin.sample()}\r\n`;
+    game_text.innerHTML += `Merchant "${merchant_names.sample()}" of the ${merchant_origin.sample()}\r\n`;
+    game_text.innerHTML += `Merchant "${merchant_names.sample()}" of the ${merchant_origin.sample()}\r\n`;
 }
 
 // #region COMBAT RELATED
