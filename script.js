@@ -236,16 +236,16 @@ async function check_region_switch(distance) {
     }
 
     if (distance == 40) {
-        region_text.innerHTML = `<span class="red">[Act 4]</span> After reaching the <span class="purplebrown">port</span>, you finally find a <span class="brown">ship</span> that seems seaworthy. However, as you set out to sea, you quickly realize that the <span class="blue">ocean</span> is just as dangerous as the land.\r\n`
+        region_text.innerHTML = `<span class="red">[End]</span> You've reached the end of your journey, traveler.\r\n`
         region = regions[2];
         places_table = ocean_places_table;
         events_table = ocean_events_table;
         enemies = ocean_enemies;
         // STORY SCREEN
         awaiting_response = true;
-        game_text.innerHTML = `<span class="light-blue">ACT 4: ADRIFT</span>\r\n\r\n` +
-        `After arriving at the port, you successfully find a ship that appears to be in good condition. However, as soon as you set sail, it becomes clear that the ocean is equally perilous as the land. The waters are filled with mutated creatures, and the storms are more violent than ever before.\r\n`
-        + "\r\nYou set out to sea.\r\n" + "\r\nContinue? (y/n) \r\n";
+        game_text.innerHTML = `<span class="light-blue">End: Abyss</span>\r\n\r\n` +
+        `.The path before you comes to an end, beyond this point lies nothing but oblivion. Nothing but the abyss.\r\n`
+        + "\r\nThis is it.\r\n" + "\r\nContinue? (y/n) \r\n";
         // Wait for user input
         manage_input(true);
 
@@ -275,6 +275,9 @@ async function check_region_switch(distance) {
     await sleep(2000);
     forwards();
 }
+
+// Abyss
+
 // #region Helper Functions
 
 // Random Between Two Constants
