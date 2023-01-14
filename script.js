@@ -643,7 +643,7 @@ function det_enemy_hp(enemy) {
         case "bandit":
             return [12, 18];
         // REGION 2: EASTPORT
-        case "humanoid creatures":
+        case "humanoid creature":
             return [24, 32];
         case "indiscernible entity":
             return [21, 28];
@@ -734,7 +734,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
                 for (let i = 0; i < inventory.length; i++) {
                     awaiting_response = true;
                     const item = inventory[i];
-                    game_text.textContent += `Use ${item}? ${weapon_damage(weapon_to_use)[0]}-${weapon_damage(weapon_to_use)[1]} dmg\r\n (y/n) \r\n`;
+                    game_text.textContent += `Use ${item}? ${weapon_damage(item)[0]}-${weapon_damage(item)[1]} dmg\r\n (y/n) \r\n`;
 
                     // Wait for user input
                     manage_input(true);
