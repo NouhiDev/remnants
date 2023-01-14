@@ -849,7 +849,7 @@ async function enemy_encounter() {
         game_text.innerHTML += "You attempt to flee.\r\n";
         let d = Math.random();
         // Flee Successfully
-        if (d < 0.33) {
+        if (d < 0.45) {
             await sleep(1000);
 
             game_text.innerHTML += "You successfully flee.\r\n";
@@ -942,6 +942,9 @@ function weapon_damage(weapon) {
 
 // Enemy Damage Determiner
 function det_enemy_dmg(enemy) {
+    if (!enemies.includes(enemy)) {
+        return [1, 1];
+    }
     switch(enemy) {
         // REGION 0: FOREST
         case "spider":
@@ -996,6 +999,9 @@ function det_enemy_dmg(enemy) {
 
 // Enemy XP
 function det_enemy_xp(enemy) {
+    if (!enemies.includes(enemy)) {
+        return [1, 1];
+    }
     switch(enemy) {
         // REGION 0: FOREST
         case "spider":
@@ -1050,6 +1056,9 @@ function det_enemy_xp(enemy) {
 
 // Enemy HP Determiner
 function det_enemy_hp(enemy) {
+    if (!enemies.includes(enemy)) {
+        return [1, 1];
+    }
     switch(enemy) {
         // REGION 0: FOREST
         case "spider":
