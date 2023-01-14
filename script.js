@@ -76,6 +76,7 @@ ocean_enemies = ["sea monster", "mermaid", "siren", "leviathan", "sea serpent", 
 
 // Checks for region switches
 async function check_region_switch(distance) {
+    region_text.innerHTML = "";
     if (distance == 0) {
         region_text.innerHTML += `<span class="red">[!]</span> You wake up in a dense <span class="green">forest</span>, disoriented and confused. You realize that you have no memory of how you got here or what has happened to the world around you. You see a <span class="light-green">clearing</span> ahead. <span class="red">[!]</span>\r\n`
     }
