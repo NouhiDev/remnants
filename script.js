@@ -29,7 +29,7 @@ var inventory_txt = "[Inventory: ";
 var alive = true;
 var max_hp = 100
 var hp = 100;
-var steps = 30;
+var steps = 00;
 var gold = 0;
 var xp = 0;
 var max_xp = 100;
@@ -108,6 +108,7 @@ async function check_region_switch(distance) {
     else if (distance == 40) {
         game_text.textContent += `[!] You have reached the ${regions[3]}. [!]\r\n`
         region = regions[3];
+        // TODO
     }
 }
 // #region Helper Functions
@@ -791,7 +792,7 @@ function manage_xp(amount) {
     if (xp >= max_xp) {
         lvl++;
         max_xp += lvl*10;
-        max_hp += lvl*10
+        max_hp += lvl*5;
         xp = Math.abs(max_xp-xp);
     }
     display_stats();
