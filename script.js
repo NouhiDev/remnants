@@ -811,7 +811,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
 
                         await sleep(1000);
 
-                        game_text.textContent += `[!] ${capitalizeFirstLetter(weapon_to_use)} broke. [!]\r\n`;
+                        game_text.innerHTML += `<span class="dark-red">[!] ${capitalizeFirstLetter(weapon_to_use)} broke. [!]</span>\r\n`;
                     }
                 }
 
@@ -835,7 +835,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
 
             await sleep(1000);
 
-            game_text.innerHTML += `<span class="red">[!] You took ${dmg} damage. [!]</span>\r\n`;
+            game_text.innerHTML += `<span class="dark-red">[!] You took ${dmg} damage. [!]</span>\r\n`;
 
             damage(dmg);
             display_stats();
