@@ -893,7 +893,7 @@ async function open_loot_container(container, amount_of_items) {
         // Nothing
         if (item == "nothing") {
             if (amount_of_items == 1) {
-                game_text.textContent += "The chest was empty.\r\n";
+                game_text.textContent += "It is empty.\r\n";
             }
             //game_text.textContent += "...\r\n";
             continue;
@@ -912,7 +912,7 @@ async function open_loot_container(container, amount_of_items) {
 
       await sleep(1000);
 
-      game_text.textContent += `You finished looting the chest.\r\n`
+      game_text.textContent += `You finished looting.\r\n`
       manage_allow_continue(true);
 }
 
