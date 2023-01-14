@@ -89,21 +89,24 @@ async function check_region_switch(distance) {
         enemies = lockwood_village_enemies;
 
     }
-    else if (distance >= 20) {
+    
+    if (distance >= 20) {
         region_text.innerHTML += `<span class="red">[!]</span> Heading out of the <span class="orange">abandonend village</span>, you make your way towards a <span class="purplebrown">port</span>, looking for a <span class="brown">ship</span> that may help you. However, as you approach, you realize the port is <span class="purple">'infected'</span>. <span class="red">[!]</span>\r\n`
         region = regions[1];
         places_table = eastport_places_table;
         events_table = eastport_events_table;
         enemies = eastport_enemies;
     }
-    else if (distance >= 30) {
+    
+    if (distance >= 30) {
         region_text.innerHTML += `<span class="red">[!]</span> After reaching the <span class="purplebrown">port</span>, you finally find a <span class="brown">ship</span> that seems seaworthy. However, as you set out to sea, you quickly realize that the <span class="blue">ocean</span> is just as dangerous as the land. <span class="red">[!]</span>\r\n`
         region = regions[2];
         places_table = ocean_places_table;
         events_table = ocean_events_table;
         enemies = ocean_enemies;
     }
-    else if (distance >= 40) {
+    
+    if (distance >= 40) {
         region_text.innerHTML += `[!] You have reached the ${regions[3]}. [!]\r\n`
         region = regions[3];
         // TODO
