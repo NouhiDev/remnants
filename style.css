@@ -224,6 +224,19 @@
       border-radius: 25px;
       margin: 20px;
   }
+  
+  .btn-restart {
+    max-width: 200px;
+    font-size: 16px;
+    background-color: #ff7f7f;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    color: #121317;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 25px;
+    margin: 20px;
+}
 
     .btn:hover {
         background-color: rgb(142, 142, 142);
@@ -234,6 +247,11 @@
       background-color: rgb(47, 138, 50);
       cursor: pointer;
     }
+
+    .btn-restart:hover {
+      background-color: rgb(116, 43, 43);
+      cursor: pointer;
+  }
     
 
     .shift-forms {
@@ -290,7 +308,7 @@
   .stats-container p {
     color: white;
     font-family: 'Oswald', sans-serif;
-    font-size: 20px;
+    font-size: 18px;
     letter-spacing: 2px;
     white-space: pre-line;
   }

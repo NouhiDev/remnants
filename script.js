@@ -81,7 +81,7 @@ async function check_region_switch(distance) {
     }
 
     if (distance == 10) {
-        game_text.textContent += `[!] As you make your way through the forest, you come across an abandoned village: Lockwood Village. The buildings are in ruins, and there are no signs of life.  [!]\r\n`
+        game_text.textContent += `[!] As you make your way through the forest, you come across an abandoned village: Lockwood Village. The buildings are in ruins, and there are no signs of life. [!]\r\n`
         region = regions[0];
         places_table = lockwood_village_places_table;
         events_table = lockwood_village_events_table;
@@ -98,7 +98,7 @@ async function check_region_switch(distance) {
         seperator();
     }
     else if (distance == 30) {
-        game_text.textContent += `[!] After reaching the port, you finally find a ship that seems seaworthy. However, as you set out to sea, you quickly realize that the ocean is just as dangerous as the land.[!]\r\n`
+        game_text.textContent += `[!] After reaching the port, you finally find a ship that seems seaworthy. However, as you set out to sea, you quickly realize that the ocean is just as dangerous as the land. [!]\r\n`
         region = regions[2];
         places_table = ocean_places_table;
         events_table = ocean_events_table;
@@ -853,3 +853,7 @@ window.setInterval(function() {
     var elem = document.getElementById('game');
     elem.scrollTop = elem.scrollHeight;
   }, 10);
+
+function restart() {
+    window.location.reload();
+}
