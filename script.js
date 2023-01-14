@@ -776,7 +776,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
 
                     await sleep(1000);
 
-                    game_text.textContent += `[!] You deal ${fist_dmg} damage. [!]\r\n`;
+                    game_text.innerHTML += `<span class="light-gold">[!] You deal ${fist_dmg} damage. [!]</span>\r\n`;
 
                     await sleep(2000);
 
@@ -838,6 +838,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
             game_text.innerHTML += `<span class="red">[!] You took ${dmg} damage. [!]</span>\r\n`;
 
             damage(dmg);
+            display_stats();
 
             // if player will die break loop
             if (hp <= 0) {
