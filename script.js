@@ -84,7 +84,8 @@ lockwood_village_enemies = ["goblin", "orc", "wraith", "giant spider", "bandit",
 eastport_enemies = ["centipide", "giant centipede", "ghoul", "rakshasa", "hag", "hollow", "infested ghoul", "banshee", 
 "vile maggot", "possessed"]
 
-ocean_enemies = ["sea monster", "mermaid", "siren", "leviathan", "sea serpent", "water elemental", "charybdis"]
+ocean_enemies = ["sea monster", "mermaid", "siren", "leviathan", "sea serpent", "water elemental", "charybdis", "kraken",
+"giant squid", "giant crab", "naga", "deep one"]
 // #endregion
 
 // #region Forward Variations
@@ -1026,6 +1027,16 @@ function det_enemy_dmg(enemy) {
             return [8, 21];
         case "charybdis":
             return [9, 16];
+        case "kraken":
+            return [9, 29];
+        case "giant squid":
+            return [7, 16];
+        case "giant crab":
+            return [8, 17];
+        case "naga":
+            return [9, 16];
+        case "deep one":
+            return [8, 14];
     }
 }
 
@@ -1111,6 +1122,16 @@ function det_enemy_xp(enemy) {
             return [16, 42];
         case "charybdis":
             return [18, 32];
+        case "kraken":
+            return [18, 58];
+        case "giant squid":
+            return [14, 32];
+        case "giant crab":
+            return [16, 34];
+        case "naga":
+            return [18, 32];
+        case "deep one":
+            return [16, 28];
     }
 }
 
@@ -1196,6 +1217,16 @@ function det_enemy_hp(enemy) {
             return [16, 42];
         case "charybdis":
             return [19, 32];
+        case "kraken":
+            return [21, 60];
+        case "giant squid":
+            return [15, 34];
+        case "giant crab":
+            return [15, 36];
+        case "naga":
+            return [16, 34];
+        case "deep one":
+            return [16, 24];
     }
 }
 
