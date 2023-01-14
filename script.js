@@ -79,6 +79,8 @@ ocean_enemies = ["sea monster", "mermaid", "siren", "leviathan", "sea serpent", 
 
 forwards_var = ["You delve deeper.", "You walk forward.", "You continue onward.", "You proceed ahead.", "You advance.", "You tread ahead."]
 
+across_var = ["You come across", "You stumble upon", "You happen upon", "You run into"]
+
 // Checks for region switches
 async function check_region_switch(distance) {
     region_text.innerHTML = "";
@@ -196,7 +198,7 @@ async function manage_events(places, events) {
         article = "a";
     }
 
-    game_text.textContent += `You come across ${article} ${place}.\r\n`;
+    game_text.textContent += `${across_var.sample()} ${article} ${place}.\r\n`;
 
     short_seperator();
 
@@ -732,7 +734,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
                 for (let i = 0; i < inventory.length; i++) {
                     awaiting_response = true;
                     const item = inventory[i];
-                    game_text.textContent += `Use ${item}?\r\n (y/n) \r\n`;
+                    game_text.textContent += `Use ${item}? ${weapon_damage(weapon_to_use)[0]}-${weapon_damage(weapon_to_use)[1]} dmg\r\n (y/n) \r\n`;
 
                     // Wait for user input
                     manage_input(true);
@@ -912,7 +914,7 @@ async function open_loot_container(container, amount_of_items) {
 
       await sleep(1000);
 
-      game_text.textContent += `You finished looting.\r\n`
+      game_text.textContent += `You finish looting.\r\n`
       manage_allow_continue(true);
 }
 
