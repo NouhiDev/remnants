@@ -589,7 +589,7 @@ function det_enemy_dmg(enemy) {
         case "bandit":
             return [6, 9];
         // REGION 2: EASTPORT
-        case "humanoid creatures":
+        case "humanoid creature":
             return [12, 16];
         case "indiscernible entity":
             return [11, 14];
