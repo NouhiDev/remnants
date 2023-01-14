@@ -22,7 +22,7 @@ var awaiting_response = true;
 var vowels = ["a", "e", "i", "o", "u"]
 
 // Inventory
-var inventory = [];
+var inventory = ["damaged sword", "claymore"];
 var inventory_txt = "[Inventory: ";
 
 // Stats
@@ -231,6 +231,10 @@ async function manage_sub_events(sub_event) {
     awaiting_response = true;
 
     switch(sub_event) {
+        case "merchant":
+            game_text.textContent += `Not implemented yet.\r\n`
+            manage_allow_continue(true);
+            break;
         case "storm":
             let storm_dmg = randomIntFromInterval(5,15);
             damage(storm_dmg);
@@ -426,7 +430,7 @@ async function damage(amount) {
 async function enemy_encounter() {
     // Setup Enemy
     let enemy = enemies.sample();
-    let enemy_hp = randomIntFromInterval(10,30);
+    let enemy_hp = randomIntFromInterval(enemy_hp(enemy)[0], enemy_hp(enemy)[1]);
 
     game_text.textContent += `[!] You encounter a ${enemy}. [!]\r\n`;
 
@@ -525,6 +529,84 @@ async function enemy_encounter() {
     manage_allow_continue(true);
 }
 
+// Weapon Damage Determiner
+function weapon_damage(weapon) {
+    switch(weapon) {
+        case "damaged sword":
+            return [3, 6];
+        case "dagger":
+            return [4, 8];
+        case "axe":
+            return [6, 12];
+        case "sword":
+            return [7, 12];
+        case "bow":
+            return [5, 9];
+        case "halberd":
+            return [8, 16];
+        case "great axe":
+            return [10, 20];
+        case "claymore":
+            return [11, 23];
+    }
+}
+
+// Enemy Damage Determiner
+
+// Enemy HP Determiner
+function enemy_hp(enemy) {
+    switch(enemy) {
+        // REGION 0: FOREST
+        case "spider":
+            return [5, 10];
+        case "werewolf":
+            return [8, 14];
+        case "dryad":
+            return [5, 10];
+        case "gnome":
+            return [4, 7];
+        case "wendigo":
+            return [10, 18];
+        case "ent":
+            return [7, 15];
+        case "harpy":
+            return [5, 10];
+        // REGION 1: LOCKWOOD VILLAGE
+        case "goblin":
+            return [16, 18];
+        case "orc":
+            return [16, 27];
+        case "wraith":
+            return [16, 19];
+        case "giant spider":
+            return [16, 21];
+        case "bandit":
+            return [12, 18];
+        // REGION 2: EASTPORT
+        case "humanoid creatures":
+            return [24, 32];
+        case "indiscernible entity":
+            return [21, 28];
+        case "ghoul":
+            return [16, 21];
+        // REGION 3: OCEAN
+        case "sea monster":
+            return [19, 32];
+        case "mermaid":
+            return [15, 28];
+        case "siren":
+            return [16, 21];
+        case "leviathan":
+            return [19, 52];
+        case "sea serpent":
+            return [15, 39];
+        case "water elementals":
+            return [16, 42];
+        case "charybdis":
+            return [19, 32];
+    }
+}
+
 // Combat Routine
 async function combat_routine(enemy, enemy_hp, failed_to_flee) {
 
@@ -573,7 +655,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
 
             // If no weapons --> use fists
             if (inventory.length <= 0) {
-                let fist_dmg = randomIntFromInterval(1,5);
+                let fist_dmg = randomIntFromInterval(1,3);
                 enemy_hp -= fist_dmg;
 
                 game_text.textContent += `[!] You use your fists. [!]\r\n`;
@@ -614,7 +696,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
 
                 // No weapon was chosen
                 if (weapon_to_use == "") {
-                    let fist_dmg = randomIntFromInterval(1,5);
+                    let fist_dmg = randomIntFromInterval(1,3);
                     enemy_hp -= fist_dmg;
 
                     game_text.textContent += `[!] You use your fists. [!]\r\n`;
@@ -634,7 +716,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
 
                     game_text.textContent += `You chose to use ${weapon_to_use}.\r\n`;
 
-                    let weapon_dmg = randomIntFromInterval(5,15);
+                    let weapon_dmg = randomIntFromInterval(weapon_damage(weapon_to_use)[0],weapon_damage(weapon_to_use)[1]);
                     enemy_hp -= weapon_dmg;
 
                     await sleep(1000);
