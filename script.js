@@ -418,6 +418,7 @@ async function damage(amount) {
     if (hp <= 0) {
         alive = false;
         game_text.textContent += "You died.";
+        throw new Error();
     }
 }
 
@@ -566,7 +567,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
         if (player_turn) {
             await sleep(1000);
 
-            game_text.textContent += `[!] Player's turn. [!]\r\n`;
+            game_text.textContent += `[i] Player's turn. [i]\r\n`;
 
             await sleep(1000);
 
@@ -662,7 +663,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
         else {
             await sleep(1000);
 
-            game_text.textContent += `[!] ${capitalizeFirstLetter(enemy)}'s turn. [!]\r\n`;
+            game_text.textContent += `[i] ${capitalizeFirstLetter(enemy)}'s turn. [i]\r\n`;
 
             let dmg = randomIntFromInterval(1,15);
 
