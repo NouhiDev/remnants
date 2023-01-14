@@ -87,11 +87,22 @@ forwards_var = ["You delve deeper.", "You walk forward.", "You continue onward."
 
 across_var = ["You come across", "You stumble upon", "You happen upon", "You run into"]
 
-// Merchant Names
-merchant_origin = ["Golden Wheel", "Silver Tongue", "Emerald City", "Spice Road", "Bazaar", "Bronze Coin", "Jade Caravan",
+// Travelers
+traveler_names = ["Jeffrey", "Wilhelm", "Reinhard", "Gottfried", "Gwyndolin", "Nito", "Seath", "Quelaag", "Priscilla", 
+"Sif", "Gwyn", "Manus", "Ornstein", "Smough", "Kalameet", "Artorias", "Najka", "Freja", "Mytha", "Velstadt", "Vendrick", "Magus", "Nashandra", "Aldia", 
+"Vordt", "Wolnir", "Sulyvahn", "Aldrich", "Oceiros", "Gundyr", "Lothric", "Godrick"]
+
+// Origins
+origins = ["Golden Wheel", "Silver Tongue", "Emerald City", "Spice Road", "Bazaar", "Bronze Coin", "Jade Caravan",
  "Sapphire Harbour", "Crimson Square", "Velvet Road", "Iron Market", "Diamond Exchange", "Silver Empire"]
-merchant_names = ["Jeffrey", "Wilhelm", "Reinhard", "Gottfried", "Gwyndolin", "Nito", "Seath", "Quelaag", "Priscilla", 
-"Sif", "Gwyn", "Manus", "Ornstein", "Smough", "Kalameet", "Artorias"]
+
+ // Merchants
+ merchant_names = ["Jeffrey", "Wilhelm", "Reinhard", "Gottfried", "Gwyndolin", "Nito", "Seath", "Quelaag", "Priscilla", 
+"Sif", "Gwyn", "Manus", "Ornstein", "Smough", "Kalameet", "Artorias", "Vaati"]
+
+// Blacksmith
+blacksmith_names = ["Najka", "Freja", "Mytha", "Velstadt", "Vendrick", "Magus", "Nashandra", "Aldia", 
+"Vordt", "Wolnir", "Sulyvahn", "Aldrich", "Oceiros", "Gundyr", "Lothric", "Godrick"]
 
 // Checks for region switches
 async function check_region_switch(distance) {
@@ -640,16 +651,10 @@ async function damage(amount) {
 async function merchant_routine() {
     await sleep(1000);
     game_text.innerHTML = "";
-    game_text.innerHTML += `Merchant "${merchant_names.sample()}" of the ${merchant_origin.sample()}\r\n`;
-    game_text.innerHTML += `Merchant "${merchant_names.sample()}" of the ${merchant_origin.sample()}\r\n`;
-    game_text.innerHTML += `Merchant "${merchant_names.sample()}" of the ${merchant_origin.sample()}\r\n`;
-    game_text.innerHTML += `Merchant "${merchant_names.sample()}" of the ${merchant_origin.sample()}\r\n`;
-    game_text.innerHTML += `Merchant "${merchant_names.sample()}" of the ${merchant_origin.sample()}\r\n`;
-    game_text.innerHTML += `Merchant "${merchant_names.sample()}" of the ${merchant_origin.sample()}\r\n`;
-    game_text.innerHTML += `Merchant "${merchant_names.sample()}" of the ${merchant_origin.sample()}\r\n`;
-    game_text.innerHTML += `Merchant "${merchant_names.sample()}" of the ${merchant_origin.sample()}\r\n`;
-    game_text.innerHTML += `Merchant "${merchant_names.sample()}" of the ${merchant_origin.sample()}\r\n`;
-    game_text.innerHTML += `Merchant "${merchant_names.sample()}" of the ${merchant_origin.sample()}\r\n`;
+    game_text.innerHTML += `Merchant "${merchant_names.sample()}" of the ${origins.sample()}\r\n`;
+    game_text.innerHTML += `Blacksmith "${blacksmith_names.sample()}" of the ${origins.sample()}\r\n`;
+    game_text.innerHTML += `Traveler "${traveler_names.sample()}" of the ${origins.sample()}\r\n`;
+
 }
 
 // #region COMBAT RELATED
