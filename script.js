@@ -77,11 +77,11 @@ ocean_enemies = ["sea monster", "mermaid", "siren", "leviathan", "sea serpent", 
 // Checks for region switches
 async function check_region_switch(distance) {
     region_text.innerHTML = "";
-    if (distance == 0) {
+    if (distance >= 0) {
         region_text.innerHTML += `<span class="red">[!]</span> You wake up in a dense <span class="green">forest</span>, disoriented and confused. You realize that you have no memory of how you got here or what has happened to the world around you. You see a <span class="light-green">clearing</span> ahead. <span class="red">[!]</span>\r\n`
     }
 
-    if (distance == 10) {
+    if (distance >= 10) {
         region_text.innerHTML += `<span class="red">[!]</span> As you make your way through the <span class="green">forest</span>, you come across an <span class="orange">abandonend village</span>: <span class="light-gold">Lockwood Village</span>. The buildings are in ruins, and there are no signs of life. <span class="red">[!]</span>\r\n`
         region = regions[0];
         places_table = lockwood_village_places_table;
@@ -89,21 +89,21 @@ async function check_region_switch(distance) {
         enemies = lockwood_village_enemies;
 
     }
-    else if (distance == 20) {
+    else if (distance >= 20) {
         region_text.innerHTML += `<span class="red">[!]</span> Heading out of the <span class="orange">abandonend village</span>, you make your way towards a <span class="purplebrown">port</span>, looking for a <span class="brown">ship</span> that may help you. However, as you approach, you realize the port is <span class="purple">'infected'</span>. <span class="red">[!]</span>\r\n`
         region = regions[1];
         places_table = eastport_places_table;
         events_table = eastport_events_table;
         enemies = eastport_enemies;
     }
-    else if (distance == 30) {
+    else if (distance >= 30) {
         region_text.innerHTML += `<span class="red">[!]</span> After reaching the <span class="purplebrown">port</span>, you finally find a <span class="brown">ship</span> that seems seaworthy. However, as you set out to sea, you quickly realize that the <span class="blue">ocean</span> is just as dangerous as the land. <span class="red">[!]</span>\r\n`
         region = regions[2];
         places_table = ocean_places_table;
         events_table = ocean_events_table;
         enemies = ocean_enemies;
     }
-    else if (distance == 40) {
+    else if (distance >= 40) {
         region_text.innerHTML += `[!] You have reached the ${regions[3]}. [!]\r\n`
         region = regions[3];
         // TODO
