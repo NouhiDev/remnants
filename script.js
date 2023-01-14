@@ -37,25 +37,31 @@ var lvl = 0;
 var region = "Forest";
 
 // Regions
-var regions = ["Lockwood Village", "Easthaven", "Ocean", "Rocky Shores"];
+var regions = ["Lockwood Village", "Eastport", "Ocean", "Rocky Shores"];
 
 // Places
 places_table = ["grass patch", "hut", "camp", "cave" ,"stone arch", "field of red mushrooms", "grand tree", "shrine", "temple"];
+
 lockwood_village_places_table = ["abandonend house", "abandonend church", "abandonend chapel", 
 "abandonend town hall", "abandonend tunnel", "abandonend barn", "abandonend stable", "abandonend manor"]
-easthaven_places_table = []
+
+eastport_places_table = ["abandonend ship", "broken ship", "abandonend warehouse", "abandonend dock", "open container"]
 
 // Events
 events_table = ["nothing", "chest", "enemy", "wishing well"];
-lockwood_village_events_table = ["nothing", "chest", "enemy", "merchant"]
+
+lockwood_village_events_table = ["nothing", "chest", "enemy", "merchant"] //NEW: MERCHANT
+
+eastport_places_events_table = ["cargo", "enemy", "nest", "nothing"] // NEW: CARGO, NEST
 
 // Loot Tables
 chest_loot_table = ["dagger", "axe", "sword", "bow", "healing potion", "gold", "nothing"]
+cargo_loot_table = ["halberd", "great axe", "axe", "sword", "claymore", "healing potion", "gold", "gold"]
 
 // Enemies
 enemies = ["spider", "wolf", "goblin", "gnome"]
 
-// #region Helper Functions
+
 // Checks for region switches
 async function check_region_switch(distance) {
     if (distance == 0) {
@@ -67,13 +73,16 @@ async function check_region_switch(distance) {
         game_text.textContent += `[!] As you make your way through the forest, you come across an abandoned village: Lockwood Village. The buildings are in ruins, and there are no signs of life.  [!]\r\n`
         region = regions[0];
         places_table = lockwood_village_places_table;
+        events_table = lockwood_village_events_table;
         seperator();
 
     }
     else if (distance == 20) {
-        game_text.textContent += `[!] You have reached the ${regions[1]}. [!]\r\n`
+        game_text.textContent += `[!] Heading out of the abandoned village, you make your way towards a port, looking for a ship that may help you. However, as you approach, you realize the port is 'infected'. [!]\r\n`
         region = regions[1];
-        places_table = easthaven_places_table;
+        places_table = eastport_places_table;
+        events_table = eastport_places_events_table;
+        seperator();
     }
     else if (distance == 30) {
         game_text.textContent += `[!] You have reached the ${regions[2]}. [!]\r\n`
@@ -84,6 +93,7 @@ async function check_region_switch(distance) {
         region = regions[3];
     }
 }
+// #region Helper Functions
 
 // Random Between Two Constants
 function randomIntFromInterval(min, max) { // min and max included 
@@ -235,7 +245,55 @@ async function manage_sub_events(sub_event) {
         case "enemy":
             enemy_encounter();
             break;
-        // CHEST
+        // CARGO
+        case "cargo":
+            game_text.textContent += `Loot cargo?\r\n (y/n) \r\n`;
+
+            // Wait for user input
+            manage_input(true);
+
+            while(awaiting_response) {
+                await sleep(1);
+            }
+
+            manage_input(false);
+            
+            // OPENS CARGO
+            if (player_input == "y") {
+                game_text.textContent += "You take a look at the cargo.\r\n";
+                let d = Math.random();
+                // Open Cargo Successfully
+                if (d < 0.8) {
+                    open_loot_container(cargo_loot_table, randomIntFromInterval(3, 10))
+                }
+                // Cargo is trap
+                else {
+                    let dmg = randomIntFromInterval(5,25);
+                    damage(dmg);
+
+                    await sleep(1000);
+
+                    game_text.textContent += "[!] It was a trap. [!]\r\n";
+
+                    await sleep(1000);
+
+                    game_text.textContent += `[!] You took ${dmg} damage.[!]\r\n`;
+                    manage_allow_continue(true);
+                }
+                
+            }
+            // DOESNT OPEN CARGO
+            else if (player_input == "n") {
+                game_text.textContent += "You do not open the cargo and move on.\r\n";
+                manage_allow_continue(true);
+            }
+            // WRONG INPUT --> DOESNT OPEN CHEST
+            else {
+                game_text.textContent += "You do not open the cargo and move on.\r\n";
+                manage_allow_continue(true);
+            }
+            break;
+            // CHEST
         case "chest":
             game_text.textContent += `Open chest?\r\n (y/n) \r\n`;
 
