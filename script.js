@@ -30,7 +30,7 @@ var inventory_txt = "[Inventory: ";
 var alive = true;
 var max_hp = 100
 var hp = 100;
-var steps = 40;
+var steps = 0;
 var gold = 0;
 var xp = 0;
 var max_xp = 100;
@@ -38,10 +38,12 @@ var lvl = 0;
 var region = "Forest";
 
 // Regions
-var regions = ["Lockwood Village", "Eastport", "Ocean", "Rocky Shores"];
+var regions = ["Lockwood Village", "Eastport", "Ocean", "Rocky Shores", "Abyss"];
 
 // #region Places
 places_table = ["grass patch", "hut", "camp", "cave" ,"stone arch", "field of red mushrooms", "grand tree", "shrine", "temple"];
+
+forest_places_table = ["grass patch", "hut", "camp", "cave" ,"stone arch", "field of red mushrooms", "grand tree", "shrine", "temple"];
 
 lockwood_village_places_table = ["abandonend house", "abandonend church", "abandonend chapel", 
 "abandonend town hall", "abandonend tunnel", "abandonend barn", "abandonend stable", "abandonend manor"]
@@ -54,6 +56,8 @@ ocean_places_table = ["small island", "island", "shipwreck", "coral reef", "aban
 
 // Events
 events_table = ["nothing", "chest", "enemy", "wishing well"];
+
+forest_events_table = ["nothing", "chest", "enemy", "wishing well"];
 
 lockwood_village_events_table = ["nothing", "chest", "enemy", "merchant"] //NEW: MERCHANT
 
@@ -69,11 +73,13 @@ cargo_loot_table = ["halberd", "great axe", "axe", "sword", "claymore", "healing
 // Enemies
 enemies = ["spider", "werewolf", "dryad", "gnome", "wendigo", "ent", "harpy"]
 
+forest_enemies = ["spider", "werewolf", "dryad", "gnome", "wendigo", "ent", "harpy"]
+
 lockwood_village_enemies = ["goblin", "orc", "wraith", "giant spider", "bandit"]
 
 eastport_enemies = ["humanoid creature", "indiscernible entity", "ghoul"]
 
-ocean_enemies = ["sea monster", "mermaid", "siren", "leviathan", "sea serpent", "water elementals", "charybdis"]
+ocean_enemies = ["sea monster", "mermaid", "siren", "leviathan", "sea serpent", "water elemental", "charybdis"]
 
 // Forward Variations
 
@@ -86,6 +92,7 @@ merchant_names = [""]
 
 // Checks for region switches
 async function check_region_switch(distance) {
+    // Forest
     if (distance == 0) {
         awaiting_response = true;
         // REGION SCREEN UPDATE
@@ -119,7 +126,7 @@ async function check_region_switch(distance) {
             return;
         }
     }
-
+    // Village
     if (distance == 10) {
         // Update Places / Events / Enemies
         region = regions[0];
@@ -158,7 +165,7 @@ async function check_region_switch(distance) {
             return;
         }
     }
-    
+    // Port
     if (distance == 20) {
         // REGION SCREEN UPDATE
         region_text.innerHTML = `<span class="red">[Act 3]</span> Heading out of the <span class="orange">damaged village</span>, you make your way towards a <span class="purplebrown">port</span>, looking for a <span class="brown">ship</span> that may help you. However, as you approach, you realize the port is <span class="purple">'infected'</span>.\r\n`
@@ -197,7 +204,7 @@ async function check_region_switch(distance) {
         }
 
     }
-    
+    // Ocean
     if (distance == 30) {
         region_text.innerHTML = `<span class="red">[Act 4]</span> After reaching the <span class="purplebrown">port</span>, you finally find a <span class="brown">ship</span> that seems seaworthy. However, as you set out to sea, you quickly realize that the <span class="blue">ocean</span> is just as dangerous as the land.\r\n`
         region = regions[2];
@@ -234,17 +241,15 @@ async function check_region_switch(distance) {
             return;
         }
     }
-
+    // Abyss
     if (distance == 40) {
         region_text.innerHTML = `<span class="red">[End]</span> You've reached the end of your journey, traveler.\r\n`
-        region = regions[2];
-        places_table = ocean_places_table;
-        events_table = ocean_events_table;
-        enemies = ocean_enemies;
+        region = regions.slice(-1);
+        abyss_combination();
         // STORY SCREEN
         awaiting_response = true;
         game_text.innerHTML = `<span class="light-blue">End: Abyss</span>\r\n\r\n` +
-        `.The path before you comes to an end, beyond this point lies nothing but oblivion. Nothing but the abyss.\r\n`
+        `.The path before you comes to an end, beyond this point lies nothing but oblivion. Nothing but the abyss. The laws of nature don't apply within these realms, for the rules of this realm are set by the chaos itself.\r\n`
         + "\r\nThis is it.\r\n" + "\r\nContinue? (y/n) \r\n";
         // Wait for user input
         manage_input(true);
@@ -277,6 +282,11 @@ async function check_region_switch(distance) {
 }
 
 // Abyss
+function abyss_combination() {
+    events_table = forest_events_table;
+    enemies = ocean_enemies;
+    places_table = forest_places_table;
+}
 
 // #region Helper Functions
 
