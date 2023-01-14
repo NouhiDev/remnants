@@ -788,6 +788,7 @@ async function merchant_routine() {
     manage_allow_continue(true);
 }
 
+// Item Price Return
 function item_price(item) {
     switch(item) {
         case "lesser healing potion":
@@ -992,6 +993,60 @@ function det_enemy_dmg(enemy) {
     }
 }
 
+// Enemy XP
+function det_enemy_xp(enemy) {
+    switch(enemy) {
+        // REGION 0: FOREST
+        case "spider":
+            return [15, 25];
+        case "werewolf":
+            return [25, 30];
+        case "dryad":
+            return [15, 25];
+        case "gnome":
+            return [10, 15];
+        case "wendigo":
+            return [35, 40];
+        case "ent":
+            return [25, 30];
+        case "harpy":
+            return [15, 25];
+        // REGION 1: LOCKWOOD VILLAGE
+        case "goblin":
+            return [8, 9];
+        case "orc":
+            return [8, 14];
+        case "wraith":
+            return [8, 10];
+        case "giant spider":
+            return [8, 11];
+        case "bandit":
+            return [6, 9];
+        // REGION 2: EASTPORT
+        case "humanoid creature":
+            return [12, 16];
+        case "indiscernible entity":
+            return [11, 14];
+        case "ghoul":
+            return [8, 11];
+        // REGION 3: OCEAN
+        case "sea monster":
+            return [10, 16];
+        case "mermaid":
+            return [8, 14];
+        case "siren":
+            return [8, 11];
+        case "leviathan":
+            return [8, 26];
+        case "sea serpent":
+            return [7, 20];
+        case "water elementals":
+            return [8, 21];
+        case "charybdis":
+            return [9, 16];
+    }
+}
+
 // Enemy HP Determiner
 function det_enemy_hp(enemy) {
     switch(enemy) {
@@ -1066,7 +1121,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
             // Win fight
             game_text.innerHTML += `[!] You've slain the ${enemy}. [!]\r\n`;
 
-            let enemy_xp = randomIntFromInterval(5, 100);
+            let enemy_xp = randomIntFromInterval(det_enemy_xp(enemy)[0],det_enemy_xp(enemy)[1]);
 
             await sleep(1000);
 
