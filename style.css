@@ -296,7 +296,6 @@
   }
 
   .stats-container {
-    overflow-y: scroll;
     height: 105px;
     width: 900px;
     background-color: #0f1013;
@@ -318,7 +317,6 @@
   }
 
   .region-container {
-    overflow-y: scroll;
     height: 105px;
     width: 900px;
     background-color: #0f1013;

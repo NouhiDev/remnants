@@ -686,7 +686,7 @@ async function merchant_routine() {
             event_text.innerHTML += ` | <span class="gold">Price: ${randomIntFromInterval(item_price(assortment[i])[0], item_price(assortment[i])[1])}G</span>, `;
         }
         else {
-            event_text.innerHTML += ` | <span class="gold">Price: ${randomIntFromInterval(item_price(assortment[i])[0], item_price(assortment[i])[1])}G</span>.`;
+            event_text.innerHTML += ` | <span class="gold">Price: ${randomIntFromInterval(item_price(assortment[i])[0], item_price(assortment[i])[1])}G</span>`;
         }
        
     }
