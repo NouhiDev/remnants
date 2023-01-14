@@ -673,7 +673,8 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
     let d = Math.random();
     let in_combat = true;
     let player_turn = failed_to_flee;
-    
+    let enemy_max_hp = enemy_hp;
+
     await sleep(1000);
     game_text.textContent = "";
 
@@ -728,7 +729,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
 
                 await sleep(1000);
 
-                game_text.textContent += `[!] ${capitalizeFirstLetter(enemy)} has ${enemy_hp} hp. [!]\r\n`;
+                game_text.textContent += `[!] ${capitalizeFirstLetter(enemy)} has ${enemy_hp}/${enemy_max_hp} hp. [!]\r\n`;
                 
                 await sleep(2000);
 
@@ -773,7 +774,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
 
                     await sleep(2000);
 
-                    game_text.textContent += `[!] ${capitalizeFirstLetter(enemy)} has ${enemy_hp} hp. [!]\r\n`;
+                    game_text.textContent += `[!] ${capitalizeFirstLetter(enemy)} has ${enemy_hp}/${enemy_max_hp} hp. [!]\r\n`;
                 }
                 
                 // Weapon has been chosen
@@ -791,7 +792,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
 
                     await sleep(1000);
 
-                    game_text.textContent += `[!] ${capitalizeFirstLetter(enemy)} has ${enemy_hp} hp. [!]\r\n`;
+                    game_text.textContent += `[!] ${capitalizeFirstLetter(enemy)} has ${enemy_hp}/${enemy_max_hp} hp. [!]\r\n`;
 
                     // Randomly break weapon
                     let d = Math.random();
