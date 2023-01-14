@@ -77,7 +77,7 @@ ocean_enemies = ["sea monster", "mermaid", "siren", "leviathan", "sea serpent", 
 
 // Forward Variations
 
-forwards = ["You delve deeper.", "You walk forward.", "You continue onward."]
+forwards_var = ["You delve deeper.", "You walk forward.", "You continue onward.", "You proceed ahead.", "You advance.", "You tread ahead."]
 
 // Checks for region switches
 async function check_region_switch(distance) {
@@ -173,7 +173,7 @@ function add_to_inventory_txt(item, index, array) {
 
 // Display Forwards
 function forwards() {
-    game_text.textContent += "You walk forward.\r\n";
+    game_text.textContent += forwards_var.sample() + "\r\n";
     short_seperator();
 }
 
