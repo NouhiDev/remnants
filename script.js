@@ -81,7 +81,8 @@ forest_enemies = ["spider", "werewolf", "dryad", "gnome", "wendigo", "ent", "har
 
 lockwood_village_enemies = ["goblin", "orc", "wraith", "giant spider", "bandit", "troll", "wight"]
 
-eastport_enemies = ["humanoid creature", "indiscernible entity", "ghoul"]
+eastport_enemies = ["centipide", "giant centipede", "ghoul", "rakshasa", "hag", "hollow", "infested ghoul", "banshee", 
+"vile maggot", "possessed"]
 
 ocean_enemies = ["sea monster", "mermaid", "siren", "leviathan", "sea serpent", "water elemental", "charybdis"]
 // #endregion
@@ -990,12 +991,26 @@ function det_enemy_dmg(enemy) {
         case "wight":
             return [9, 15];
         // REGION 2: EASTPORT
-        case "humanoid creature":
-            return [12, 16];
-        case "indiscernible entity":
-            return [11, 14];
+        case "centipede":
+            return [6, 8];
+        case "giant centipede":
+            return [9, 13];
         case "ghoul":
-            return [8, 11];
+            return [5, 7];
+        case "rakshasa":
+            return [7, 9];
+        case "hag":
+            return [5, 7];
+        case "hollow":
+            return [4, 6];
+        case "infested ghoul":
+            return [7, 9];
+        case "banshee":
+            return [8, 10];
+        case "vile maggot":
+            return [4, 7];
+        case "possessed":
+            return [6, 8];
         // REGION 3: OCEAN
         case "sea monster":
             return [10, 16];
@@ -1061,12 +1076,26 @@ function det_enemy_xp(enemy) {
         case "wight":
             return [16, 22];
         // REGION 2: EASTPORT + 20
-        case "humanoid creature":
-            return [24, 32];
-        case "indiscernible entity":
-            return [22, 28];
+        case "centipede":
+            return [16, 24];
+        case "giant centipede":
+            return [25, 37];
         case "ghoul":
-            return [16, 22];
+            return [14, 26];
+        case "rakshasa":
+            return [18, 27];
+        case "hag":
+            return [14, 21];
+        case "hollow":
+            return [15, 24];
+        case "infested ghoul":
+            return [18, 27];
+        case "banshee":
+            return [19, 27];
+        case "vile maggot":
+            return [10, 20];
+        case "possessed":
+            return [16, 25];
         // REGION 3: OCEAN + 30
         case "sea monster":
             return [20, 32];
@@ -1132,12 +1161,26 @@ function det_enemy_hp(enemy) {
         case "wight":
             return [12, 18];
         // REGION 2: EASTPORT
-        case "humanoid creature":
-            return [24, 32];
-        case "indiscernible entity":
-            return [21, 28];
+        case "centipede":
+            return [12, 16];
+        case "giant centipede":
+            return [18, 25];
         case "ghoul":
-            return [16, 21];
+            return [10, 14];
+        case "rakshasa":
+            return [14, 18];
+        case "hag":
+            return [11, 14];
+        case "hollow":
+            return [8, 11];
+        case "infested ghoul":
+            return [14, 18];
+        case "banshee":
+            return [15, 19];
+        case "vile maggot":
+            return [7, 11];
+        case "possessed":
+            return [12, 16];
         // REGION 3: OCEAN
         case "sea monster":
             return [19, 32];
