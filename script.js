@@ -30,7 +30,7 @@ var inventory_txt = "[Inventory: ";
 var alive = true;
 var max_hp = 100
 var hp = 100;
-var steps = 10;
+var steps = 0;
 var gold = 0;
 var xp = 0;
 var max_xp = 100;
@@ -58,8 +58,8 @@ ocean_places_table = ["small island", "island", "shipwreck", "coral reef", "aban
 events_table = ["nothing", "chest", "enemy", "wishing well"];
 
 forest_events_table = ["nothing", "chest", "enemy", "wishing well"];
-                                //"nothing", "chest", "enemy"
-lockwood_village_events_table = ["merchant"] //NEW: MERCHANT
+
+lockwood_village_events_table = ["nothing", "chest", "enemy", "merchant"] //NEW: MERCHANT
 
 eastport_events_table = ["cargo", "enemy", "nest", "nothing"] // NEW: CARGO, NEST
 
