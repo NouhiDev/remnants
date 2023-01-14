@@ -462,3 +462,12 @@ hr {
 .xp {
   color:rgb(78, 255, 84);
 }
+
+/* State Colors */
+.info {
+  color: rgb(218, 243, 255);
+}
+
+.heal {
+  color:#aaffa6;
+}

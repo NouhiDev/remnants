@@ -32,7 +32,7 @@ var alive = true;
 var max_hp = 100
 var hp = 100;
 var steps = 10;
-var gold = 1;
+var gold = 200;
 var xp = 0;
 var max_xp = 100;
 var lvl = 0;
@@ -108,7 +108,7 @@ traveler_names = ["Jeffrey", "Wilhelm", "Reinhard", "Gottfried", "Gwyndolin", "N
 "Sif", "Gwyn", "Manus", "Ornstein", "Smough", "Kalameet", "Artorias", "Vaati"]
 
 // Merchant Assortment + DEFAULT HEALING POTION
-merchant_assortment = ["greatsword", "greataxe", "great halberd", "claymore", "halberd"]
+merchant_assortment = ["greatsword", "greataxe", "great halberd", "claymore", "halberd", "health potion"]
 
 // Blacksmith
 blacksmith_names = ["Najka", "Freja", "Mytha", "Velstadt", "Vendrick", "Magus", "Nashandra", "Aldia", 
@@ -137,17 +137,17 @@ async function check_region_switch(distance) {
         manage_input(false);
 
         if (player_input == "y") {
-            game_text.textContent += "You wake up.\r\n";
+            game_text.innerHTML += "You wake up.\r\n";
             manage_allow_continue(true);
             return;
         }
         else if (player_input == "n") {
-            game_text.textContent += "You can't change fate.\r\n";
+            game_text.innerHTML += "You can't change fate.\r\n";
             manage_allow_continue(true);
             return;
         }
         else {
-            game_text.textContent += "You can't change fate.\r\n";
+            game_text.innerHTML += "You can't change fate.\r\n";
             manage_allow_continue(true);
             return;
         }
@@ -176,17 +176,17 @@ async function check_region_switch(distance) {
         manage_input(false);
 
         if (player_input == "y") {
-            game_text.textContent += "You proceed.\r\n";
+            game_text.innerHTML += "You proceed.\r\n";
             manage_allow_continue(true);
             return;
         }
         else if (player_input == "n") {
-            game_text.textContent += "You can't change fate.\r\n";
+            game_text.innerHTML += "You can't change fate.\r\n";
             manage_allow_continue(true);
             return;
         }
         else {
-            game_text.textContent += "You can't change fate.\r\n";
+            game_text.innerHTML += "You can't change fate.\r\n";
             manage_allow_continue(true);
             return;
         }
@@ -214,17 +214,17 @@ async function check_region_switch(distance) {
         manage_input(false);
 
         if (player_input == "y") {
-            game_text.textContent += "You venture further.\r\n";
+            game_text.innerHTML += "You venture further.\r\n";
             manage_allow_continue(true);
             return;
         }
         else if (player_input == "n") {
-            game_text.textContent += "You can't change fate.\r\n";
+            game_text.innerHTML += "You can't change fate.\r\n";
             manage_allow_continue(true);
             return;
         }
         else {
-            game_text.textContent += "You can't change fate.\r\n";
+            game_text.innerHTML += "You can't change fate.\r\n";
             manage_allow_continue(true);
             return;
         }
@@ -252,17 +252,17 @@ async function check_region_switch(distance) {
         manage_input(false);
 
         if (player_input == "y") {
-            game_text.textContent += "You continue.\r\n";
+            game_text.innerHTML += "You continue.\r\n";
             manage_allow_continue(true);
             return;
         }
         else if (player_input == "n") {
-            game_text.textContent += "You can't change fate.\r\n";
+            game_text.innerHTML += "You can't change fate.\r\n";
             manage_allow_continue(true);
             return;
         }
         else {
-            game_text.textContent += "You can't change fate.\r\n";
+            game_text.innerHTML += "You can't change fate.\r\n";
             manage_allow_continue(true);
             return;
         }
@@ -287,17 +287,17 @@ async function check_region_switch(distance) {
         manage_input(false);
 
         if (player_input == "y") {
-            game_text.textContent += "You continue.\r\n";
+            game_text.innerHTML += "You continue.\r\n";
             manage_allow_continue(true);
             return;
         }
         else if (player_input == "n") {
-            game_text.textContent += "You can't change fate.\r\n";
+            game_text.innerHTML += "You can't change fate.\r\n";
             manage_allow_continue(true);
             return;
         }
         else {
-            game_text.textContent += "You can't change fate.\r\n";
+            game_text.innerHTML += "You can't change fate.\r\n";
             manage_allow_continue(true);
             return;
         }
@@ -338,19 +338,19 @@ Array.prototype.sample = function(){
 
 // Prints out a seperator
 function seperator() {
-    game_text.textContent += "-------------------------------------------------------------------------------------\r\n";
+    game_text.innerHTML += "-------------------------------------------------------------------------------------\r\n";
 }
 
 // Prints out a seperator
 function short_seperator() {
-    game_text.textContent += "---\r\n";
+    game_text.innerHTML += "---\r\n";
 }
 
 // #endregion
 
 // Displays the players stats
 function display_stats() {
-    stats_text.textContent = "";
+    stats_text.innerHTML = "";
     stats_text.innerHTML += `[ <span class="health">Health: ${hp}/${max_hp}</span> | ` + 
     `<span class="distance">Distance traveled: ${steps * 100}m</span> | ` + 
     `<span class="gold">Gold: ${gold}</span> | <span class="region">Region: ${region}</span> | <span class="lvl">LVL: ${lvl}</span> | ` + 
@@ -373,7 +373,7 @@ function add_to_inventory_txt(item, index, array) {
 
 // Display Forwards
 async function forwards() {
-    game_text.textContent += forwards_var.sample() + "\r\n";
+    game_text.innerHTML += forwards_var.sample() + "\r\n";
     short_seperator();
     await sleep(1000);
     manage_events(places_table, events_table);
@@ -381,7 +381,7 @@ async function forwards() {
 
 // Clear game text
 function clear_game_text() {
-    game_text.textContent = "";
+    game_text.innerHTML = "";
 }
 
 // Manages Events
@@ -398,7 +398,7 @@ async function manage_events(places, events) {
         article = "a";
     }
 
-    game_text.textContent += `${across_var.sample()} ${article} ${place}.\r\n`;
+    game_text.innerHTML += `${across_var.sample()} ${article} ${place}.\r\n`;
 
     short_seperator();
 
@@ -419,7 +419,7 @@ async function manage_events(places, events) {
             article = "a";
         }
 
-        game_text.textContent += `You see ${article} ${event}.\r\n`;
+        game_text.innerHTML += `You see ${article} ${event}.\r\n`;
         
         await sleep(1000);
 
@@ -428,7 +428,7 @@ async function manage_events(places, events) {
     // No Event has been chosen
     else {
         article = "";
-        game_text.textContent += `You find ${article} ${event}.\r\n`;
+        game_text.innerHTML += `You find ${article} ${event}.\r\n`;
         manage_allow_continue(true);
     }
 
@@ -440,7 +440,7 @@ async function manage_sub_events(sub_event) {
 
     switch(sub_event) {
         case "merchant":
-            game_text.textContent += `Talk to merchant?\r\n (y/n) \r\n`;
+            game_text.innerHTML += `Talk to merchant?\r\n (y/n) \r\n`;
 
             // Wait for user input
             manage_input(true);
@@ -453,17 +453,17 @@ async function manage_sub_events(sub_event) {
 
             // TALK TO MERCHANT
             if (player_input == "y") {
-                game_text.textContent += "You head towards the merchant.\r\n";
+                game_text.innerHTML += "You head towards the merchant.\r\n";
                 merchant_routine();
             }
             // DOESNT TALK TO MERCHANT
             else if (player_input == "n") {
-                game_text.textContent += "You do not talk to the merchant and move on.\r\n";
+                game_text.innerHTML += "You do not talk to the merchant and move on.\r\n";
                 manage_allow_continue(true);
             }
             // WRONG INPUT --> DOESNT TALK TO MERCHANT
             else {
-                game_text.textContent += "You do not talk to the merchant and move on.\r\n";
+                game_text.innerHTML += "You do not talk to the merchant and move on.\r\n";
                 manage_allow_continue(true);
             }
             break;
@@ -472,16 +472,16 @@ async function manage_sub_events(sub_event) {
             let storm_dmg = randomIntFromInterval(5,15);
             damage(storm_dmg);
 
-            game_text.textContent += `A violent storm hits you.\r\n`
+            game_text.innerHTML += `A violent storm hits you.\r\n`
 
             await sleep(1000);
 
-            game_text.textContent += `You take ${storm_dmg} damage.\r\n`
+            game_text.innerHTML += `You take ${storm_dmg} damage.\r\n`
             manage_allow_continue(true);
             break;
         // WISHING WELL
         case "wishing well":
-            game_text.textContent += `Make a wish?\r\n (y/n) \r\n`;
+            game_text.innerHTML += `Make a wish?\r\n (y/n) \r\n`;
 
             // Wait for user input
             manage_input(true);
@@ -494,17 +494,17 @@ async function manage_sub_events(sub_event) {
 
             // MAKES WISH
             if (player_input == "y") {
-                game_text.textContent += "You make a wish.\r\n";
+                game_text.innerHTML += "You make a wish.\r\n";
                 make_wish();
             }
             // DOESNT MAKE WISH
             else if (player_input == "n") {
-                game_text.textContent += "You do not make a wish and move on.\r\n";
+                game_text.innerHTML += "You do not make a wish and move on.\r\n";
                 manage_allow_continue(true);
             }
             // WRONG INPUT --> DOESNT MAKE WISH
             else {
-                game_text.textContent += "You do not make a wish and move on.\r\n";
+                game_text.innerHTML += "You do not make a wish and move on.\r\n";
                 manage_allow_continue(true);
             }
             break;
@@ -518,7 +518,7 @@ async function manage_sub_events(sub_event) {
             break;
         // CARGO
         case "cargo":
-            game_text.textContent += `Loot cargo?\r\n (y/n) \r\n`;
+            game_text.innerHTML += `Loot cargo?\r\n (y/n) \r\n`;
 
             // Wait for user input
             manage_input(true);
@@ -531,7 +531,7 @@ async function manage_sub_events(sub_event) {
             
             // OPENS CARGO
             if (player_input == "y") {
-                game_text.textContent += "You take a look at the cargo.\r\n";
+                game_text.innerHTML += "You take a look at the cargo.\r\n";
                 let d = Math.random();
                 // Open Cargo Successfully
                 if (d < 0.8) {
@@ -544,29 +544,29 @@ async function manage_sub_events(sub_event) {
 
                     await sleep(1000);
 
-                    game_text.textContent += "It was a trap.\r\n";
+                    game_text.innerHTML += "It was a trap.\r\n";
 
                     await sleep(1000);
 
-                    game_text.textContent += `You took ${dmg} damage.\r\n`;
+                    game_text.innerHTML += `You took ${dmg} damage.\r\n`;
                     manage_allow_continue(true);
                 }
                 
             }
             // DOESNT OPEN CARGO
             else if (player_input == "n") {
-                game_text.textContent += "You do not open the cargo and move on.\r\n";
+                game_text.innerHTML += "You do not open the cargo and move on.\r\n";
                 manage_allow_continue(true);
             }
             // WRONG INPUT --> DOESNT OPEN CARGO
             else {
-                game_text.textContent += "You do not open the cargo and move on.\r\n";
+                game_text.innerHTML += "You do not open the cargo and move on.\r\n";
                 manage_allow_continue(true);
             }
             break;
         // CHEST
         case "chest":
-            game_text.textContent += `Open chest?\r\n (y/n) \r\n`;
+            game_text.innerHTML += `Open chest?\r\n (y/n) \r\n`;
 
             // Wait for user input
             manage_input(true);
@@ -579,7 +579,7 @@ async function manage_sub_events(sub_event) {
             
             // OPENS CHEST
             if (player_input == "y") {
-                game_text.textContent += "You open the chest.\r\n";
+                game_text.innerHTML += "You open the chest.\r\n";
                 let d = Math.random();
                 // Open Chest Successfully
                 if (d < 0.66) {
@@ -592,23 +592,23 @@ async function manage_sub_events(sub_event) {
 
                     await sleep(1000);
 
-                    game_text.textContent += "It was a trap.\r\n";
+                    game_text.innerHTML += "It was a trap.\r\n";
 
                     await sleep(1000);
 
-                    game_text.textContent += `You took ${dmg} damage.\r\n`;
+                    game_text.innerHTML += `You took ${dmg} damage.\r\n`;
                     manage_allow_continue(true);
                 }
                 
             }
             // DOESNT OPEN CHEST
             else if (player_input == "n") {
-                game_text.textContent += "You do not open the chest and move on.\r\n";
+                game_text.innerHTML += "You do not open the chest and move on.\r\n";
                 manage_allow_continue(true);
             }
             // WRONG INPUT --> DOESNT OPEN CHEST
             else {
-                game_text.textContent += "You do not open the chest and move on.\r\n";
+                game_text.innerHTML += "You do not open the chest and move on.\r\n";
                 manage_allow_continue(true);
             }
             break;
@@ -624,24 +624,24 @@ async function make_wish() {
     if (d <= 0.2) {
         max_hp += 10;
         hp = max_hp;
-        game_text.textContent += "Your prayers have been heard.\r\n";
+        game_text.innerHTML += "Your prayers have been heard.\r\n";
 
         await sleep(1000);
 
-        game_text.textContent += "Your max hp has increased by 10. \r\n";
+        game_text.innerHTML += "Your max hp has increased by 10. \r\n";
 
         await sleep(1000);
 
-        game_text.textContent += `Your current max hp is ${max_hp}.\r\n`;
+        game_text.innerHTML += `Your current max hp is ${max_hp}.\r\n`;
     }
 
     // Fail
     else {
-        game_text.textContent += "Your prayers have been rejected.\r\n";
+        game_text.innerHTML += "Your prayers have been rejected.\r\n";
 
         await sleep(1000);
 
-        game_text.textContent += "You take 20 damage.\r\n";
+        game_text.innerHTML += "You take 20 damage.\r\n";
         damage(20);
     }
     manage_allow_continue(true);
@@ -654,7 +654,7 @@ async function damage(amount) {
     hp -= amount;
     if (hp <= 0) {
         alive = false;
-        game_text.textContent += "You died.";
+        game_text.innerHTML += "You died.";
         throw new Error();
     }
 }
@@ -715,9 +715,9 @@ async function merchant_routine() {
     }
 
     await sleep(3000);
-    game_text.innerHTML = "";
 
     for (let i = 0; i < assortment.length; i++) {
+        game_text.innerHTML = "";
         const item = assortment[i];
         awaiting_response = true;
         price = randomIntFromInterval(item_price(item)[0], item_price(item)[1]);
@@ -742,14 +742,36 @@ async function merchant_routine() {
         if (player_input == "y") {
             // if player has enough money
             if (price+anger <= gold) {
+                await sleep(1000);
+                gold -= (price+anger);
+                game_text.innerHTML += "<span class='info'>\r\nYou bought it.</span>\r\n\r\n";
+                // add to inventory
+                if (item != "lesser healing potion" && item != "healing potion") {
+                    inventory.push(item);
+                    display_stats();
+                }
+                //heal
+                else {
+                    let amt = 30;
+                    hp += amt;
+                    
+                    if (hp >= max_hp) {
+                        hp = max_hp;
+                    }
 
+                    await sleep(1000);
+
+                    game_text.innerHTML += `<span class="heal">You healed ${amt} hp.</span>\r\n\r\n`;
+                    display_stats();
+                }
+                await sleep(3000);
             }
             else {
                 await sleep(1000);
                 game_text.innerHTML += "<span class='drastic'>\r\nYou don't have enough money.</span>\r\n";
                 await sleep(1000);
                 game_text.innerHTML += `<span class="drastic">You've angered the merchant.</span>\r\n\r\n`;
-                await sleep(1000);
+                await sleep(3000);
                 anger += 5;
             }
         }
@@ -758,6 +780,10 @@ async function merchant_routine() {
             continue;
         }
     }
+
+    await sleep(1000);
+
+    game_text.innerHTML += `The trade concludes.\r\n`
 
     manage_allow_continue(true);
 }
@@ -789,14 +815,14 @@ async function enemy_encounter() {
     let enemy = enemies.sample();
     let enemy_hp = randomIntFromInterval(det_enemy_hp(enemy)[0], det_enemy_hp(enemy)[1]);
 
-    game_text.textContent += `[!] You encounter a ${enemy}. [!]\r\n`;
+    game_text.innerHTML += `[!] You encounter a ${enemy}. [!]\r\n`;
 
 
     await sleep(1000);
 
-    game_text.textContent += `[!] ${capitalizeFirstLetter(enemy)} has ${enemy_hp} hp. [!]\r\n`;
+    game_text.innerHTML += `[!] ${capitalizeFirstLetter(enemy)} has ${enemy_hp} hp. [!]\r\n`;
 
-    game_text.textContent += `Engage in combat?\r\n (y/n) \r\n`;
+    game_text.innerHTML += `Engage in combat?\r\n (y/n) \r\n`;
 
     // Wait for user input
     manage_input(true);
@@ -809,7 +835,7 @@ async function enemy_encounter() {
 
     // Engages
     if (player_input == "y") {
-        game_text.textContent += "You engange in combat.\r\n";
+        game_text.innerHTML += "You engange in combat.\r\n";
 
         await sleep(1000);
 
@@ -818,13 +844,13 @@ async function enemy_encounter() {
     }
     // Tries to flee
     else if (player_input == "n") {
-        game_text.textContent += "You attempt to flee.\r\n";
+        game_text.innerHTML += "You attempt to flee.\r\n";
         let d = Math.random();
         // Flee Successfully
         if (d < 0.33) {
             await sleep(1000);
 
-            game_text.textContent += "You successfully flee.\r\n";
+            game_text.innerHTML += "You successfully flee.\r\n";
 
             manage_allow_continue(true);
         }
@@ -835,11 +861,11 @@ async function enemy_encounter() {
 
             await sleep(1000);
 
-            game_text.textContent += "[!] You fail to flee. [!]\r\n";
+            game_text.innerHTML += "[!] You fail to flee. [!]\r\n";
 
             await sleep(1000);
 
-            game_text.textContent += `[!] You took ${dmg} damage.[!]\r\n`;
+            game_text.innerHTML += `[!] You took ${dmg} damage.[!]\r\n`;
 
             await sleep(1000);
 
@@ -850,13 +876,13 @@ async function enemy_encounter() {
     }
     // WRONG INPUT --> DOESNT OPEN CHEST
     else {
-        game_text.textContent += "You attempt to flee.\r\n";
+        game_text.innerHTML += "You attempt to flee.\r\n";
         let d = Math.random();
         // Flee Successfully
         if (d < 0.33) {
             await sleep(1000);
 
-            game_text.textContent += "You successfully flee.\r\n";
+            game_text.innerHTML += "You successfully flee.\r\n";
 
             manage_allow_continue(true);
 
@@ -869,11 +895,11 @@ async function enemy_encounter() {
 
             await sleep(1000);
 
-            game_text.textContent += "[!] You fail to flee. [!]\r\n";
+            game_text.innerHTML += "[!] You fail to flee. [!]\r\n";
 
             await sleep(1000);
 
-            game_text.textContent += `[!] You took ${dmg} damage. [!]\r\n`;
+            game_text.innerHTML += `[!] You took ${dmg} damage. [!]\r\n`;
 
             await sleep(1000);
 
@@ -1029,7 +1055,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
     let enemy_max_hp = enemy_hp;
 
     await sleep(1000);
-    game_text.textContent = "";
+    game_text.innerHTML = "";
 
     while(in_combat) {
         // Seperate
@@ -1065,7 +1091,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
         if (player_turn) {
             await sleep(1000);
 
-            game_text.textContent += `[i] Player's turn. [i]\r\n`;
+            game_text.innerHTML += `[i] Player's turn. [i]\r\n`;
 
             await sleep(1000);
 
@@ -1077,7 +1103,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
                     enemy_hp = 0;
                 }
 
-                game_text.textContent += `[!] You use your fists. [!]\r\n`;
+                game_text.innerHTML += `[!] You use your fists. [!]\r\n`;
 
                 await sleep(1000);
 
@@ -1085,11 +1111,11 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
 
                 await sleep(1000);
 
-                game_text.textContent += `[!] ${capitalizeFirstLetter(enemy)} has ${enemy_hp}/${enemy_max_hp} hp. [!]\r\n`;
+                game_text.innerHTML += `[!] ${capitalizeFirstLetter(enemy)} has ${enemy_hp}/${enemy_max_hp} hp. [!]\r\n`;
                 
                 await sleep(2000);
 
-                game_text.textContent = "";
+                game_text.innerHTML = "";
             }
             // Player has weapons 
             else {
@@ -1097,7 +1123,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
                 for (let i = 0; i < inventory.length; i++) {
                     awaiting_response = true;
                     const item = inventory[i];
-                    game_text.textContent += `Use ${item}? (${weapon_damage(item)[0]}-${weapon_damage(item)[1]} dmg)\r\n (y/n) \r\n`;
+                    game_text.innerHTML += `Use ${item}? (${weapon_damage(item)[0]}-${weapon_damage(item)[1]} dmg)\r\n (y/n) \r\n`;
 
                     // Wait for user input
                     manage_input(true);
@@ -1125,7 +1151,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
                         enemy_hp = 0;
                     }
 
-                    game_text.textContent += `[!] You use your fists. [!]\r\n`;
+                    game_text.innerHTML += `[!] You use your fists. [!]\r\n`;
 
                     await sleep(1000);
 
@@ -1133,14 +1159,14 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
 
                     await sleep(2000);
 
-                    game_text.textContent += `[!] ${capitalizeFirstLetter(enemy)} has ${enemy_hp}/${enemy_max_hp} hp. [!]\r\n`;
+                    game_text.innerHTML += `[!] ${capitalizeFirstLetter(enemy)} has ${enemy_hp}/${enemy_max_hp} hp. [!]\r\n`;
                 }
                 
                 // Weapon has been chosen
                 else {
                     await sleep(1000);
 
-                    game_text.textContent += `You chose to use ${weapon_to_use}.\r\n`;
+                    game_text.innerHTML += `You chose to use ${weapon_to_use}.\r\n`;
 
                     let weapon_dmg = randomIntFromInterval(weapon_damage(weapon_to_use)[0],weapon_damage(weapon_to_use)[1]);
                     enemy_hp -= weapon_dmg;
@@ -1154,7 +1180,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
 
                     await sleep(1000);
 
-                    game_text.textContent += `[!] ${capitalizeFirstLetter(enemy)} has ${enemy_hp}/${enemy_max_hp} hp. [!]\r\n`;
+                    game_text.innerHTML += `[!] ${capitalizeFirstLetter(enemy)} has ${enemy_hp}/${enemy_max_hp} hp. [!]\r\n`;
 
                     // Randomly break weapon
                     let d = Math.random();
@@ -1170,7 +1196,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
 
                 await sleep(2000);
                 
-                game_text.textContent = "";
+                game_text.innerHTML = "";
                 
             }
         }
@@ -1178,13 +1204,13 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
         else {
             await sleep(1000);
 
-            game_text.textContent += `[i] ${capitalizeFirstLetter(enemy)}'s turn. [i]\r\n`;
+            game_text.innerHTML += `[i] ${capitalizeFirstLetter(enemy)}'s turn. [i]\r\n`;
 
             let dmg = randomIntFromInterval(det_enemy_dmg(enemy)[0], det_enemy_dmg(enemy)[1]);
 
             await sleep(1000);
 
-            game_text.textContent += `[!] ${capitalizeFirstLetter(enemy)} attacks. [!]\r\n`;
+            game_text.innerHTML += `[!] ${capitalizeFirstLetter(enemy)} attacks. [!]\r\n`;
 
             await sleep(1000);
 
@@ -1201,7 +1227,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
 
             await sleep(2000);
                 
-            game_text.textContent = "";
+            game_text.innerHTML = "";
         }
     }
 }
@@ -1247,11 +1273,11 @@ async function open_loot_container(container, amount_of_items) {
                 hp = max_hp;
             }
 
-            game_text.textContent += `You found a healing potion and drank it.\r\n`;
+            game_text.innerHTML += `You found a healing potion and drank it.\r\n`;
 
             await sleep(1000);
 
-            game_text.textContent += `You healed ${amt} hp.\r\n`;
+            game_text.innerHTML += `You healed ${amt} hp.\r\n`;
             display_stats();
 
             await sleep(1000);
@@ -1262,7 +1288,7 @@ async function open_loot_container(container, amount_of_items) {
         if (item == "gold") {
             let amt = randomIntFromInterval(1, 250);
             gold += amt;
-            game_text.textContent += `You found ${amt} gold.\r\n`;
+            game_text.innerHTML += `You found ${amt} gold.\r\n`;
 
             await sleep(1000);
             break;
@@ -1271,26 +1297,26 @@ async function open_loot_container(container, amount_of_items) {
         // Nothing
         if (item == "nothing") {
             if (amount_of_items == 1) {
-                game_text.textContent += "It is empty.\r\n";
+                game_text.innerHTML += "It is empty.\r\n";
             }
-            //game_text.textContent += "...\r\n";
+            //game_text.innerHTML += "...\r\n";
             continue;
         }
 
         // Check if item is already in inventory
         if (inventory.includes(item)) {
-            game_text.textContent += `You found ${article} ${item} but you already have one.\r\n`
+            game_text.innerHTML += `You found ${article} ${item} but you already have one.\r\n`
             break;
         }
 
         // Add item to inventory
         inventory.push(item);
-        game_text.textContent += `You found ${article} ${item}.\r\n`
+        game_text.innerHTML += `You found ${article} ${item}.\r\n`
       }
 
       await sleep(1000);
 
-      game_text.textContent += `You finish looting.\r\n`
+      game_text.innerHTML += `You finish looting.\r\n`
       manage_allow_continue(true);
 }
 
@@ -1358,7 +1384,7 @@ function update_time() {
     let subtitle = document.getElementById("123");
     let current_date = new Date();
     let time_str = `-${current_date.getDay()}.${current_date.getMonth()+1}.${current_date.getFullYear()}-${current_date.getHours()}-${current_date.getMinutes()}-${current_date.getSeconds()}`;
-    subtitle.textContent += time_str;
+    subtitle.innerHTML += time_str;
 }
 
 // update_time();
