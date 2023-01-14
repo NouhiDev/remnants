@@ -685,13 +685,13 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
         // Check for enemy hp
         if (enemy_hp <= 0) {
             // Win fight
-            game_text.textContent += `[!] You've slain the ${enemy}. [!]\r\n`;
+            game_text.innerHTML += `[!] You've slain the ${enemy}. [!]\r\n`;
 
             let enemy_xp = randomIntFromInterval(5, 100);
 
             await sleep(1000);
 
-            game_text.textContent += `You've earned ${enemy_xp} xp.\r\n`;
+            game_text.innerHTML += `<span class="green">You've earned ${enemy_xp} xp.</span>\r\n`;
 
             manage_xp(enemy_xp);
 
@@ -720,6 +720,9 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
             if (inventory.length <= 0) {
                 let fist_dmg = randomIntFromInterval(1,3);
                 enemy_hp -= fist_dmg;
+                if (enemy_hp <= 0) {
+                    enemy_hp = 0;
+                }
 
                 game_text.textContent += `[!] You use your fists. [!]\r\n`;
 
@@ -765,6 +768,9 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
                 if (weapon_to_use == "") {
                     let fist_dmg = randomIntFromInterval(1,3);
                     enemy_hp -= fist_dmg;
+                    if (enemy_hp <= 0) {
+                        enemy_hp = 0;
+                    }
 
                     game_text.textContent += `[!] You use your fists. [!]\r\n`;
 
@@ -785,6 +791,9 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
 
                     let weapon_dmg = randomIntFromInterval(weapon_damage(weapon_to_use)[0],weapon_damage(weapon_to_use)[1]);
                     enemy_hp -= weapon_dmg;
+                    if (enemy_hp <= 0) {
+                        enemy_hp = 0;
+                    }
 
                     await sleep(1000);
 
