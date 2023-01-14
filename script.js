@@ -987,7 +987,7 @@ function det_enemy_dmg(enemy) {
             return [8, 26];
         case "sea serpent":
             return [7, 20];
-        case "water elementals":
+        case "water elemental":
             return [8, 21];
         case "charybdis":
             return [9, 16];
@@ -999,52 +999,52 @@ function det_enemy_xp(enemy) {
     switch(enemy) {
         // REGION 0: FOREST
         case "spider":
-            return [5, 15];
+            return [10, 20];
         case "werewolf":
-            return [15, 20];
+            return [16, 28];
         case "dryad":
-            return [5, 15];
+            return [10, 20];
         case "gnome":
-            return [5, 15];
+            return [8, 14];
         case "wendigo":
-            return [25, 35];
+            return [20, 36];
         case "ent":
-            return [15, 25];
+            return [14, 30];
         case "harpy":
-            return [5, 15];
-        // REGION 1: LOCKWOOD VILLAGE
+            return [10, 20];
+        // REGION 1: LOCKWOOD VILLAGE + 10
         case "goblin":
-            return [8, 9];
+            return [16, 18];
         case "orc":
-            return [8, 14];
+            return [16, 28];
         case "wraith":
-            return [8, 10];
+            return [16, 20];
         case "giant spider":
-            return [8, 11];
+            return [16, 22];
         case "bandit":
-            return [6, 9];
-        // REGION 2: EASTPORT
+            return [12, 18];
+        // REGION 2: EASTPORT + 20
         case "humanoid creature":
-            return [12, 16];
+            return [24, 32];
         case "indiscernible entity":
-            return [11, 14];
+            return [22, 28];
         case "ghoul":
-            return [8, 11];
-        // REGION 3: OCEAN
+            return [16, 22];
+        // REGION 3: OCEAN + 30
         case "sea monster":
-            return [10, 16];
+            return [20, 32];
         case "mermaid":
-            return [8, 14];
+            return [16, 28];
         case "siren":
-            return [8, 11];
+            return [16, 22];
         case "leviathan":
-            return [8, 26];
+            return [16, 52];
         case "sea serpent":
-            return [7, 20];
-        case "water elementals":
-            return [8, 21];
+            return [14, 40];
+        case "water elemental":
+            return [16, 42];
         case "charybdis":
-            return [9, 16];
+            return [18, 32];
     }
 }
 
@@ -1123,10 +1123,11 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
             game_text.innerHTML += `[!] You've slain the ${enemy}. [!]\r\n`;
 
             let enemy_xp = randomIntFromInterval(det_enemy_xp(enemy)[0],det_enemy_xp(enemy)[1]);
-
+            enemy_xp += steps;
+            
             await sleep(1000);
 
-            game_text.innerHTML += `<span class="green">You've earned ${enemy_xp} xp.</span>\r\n`;
+            game_text.innerHTML += `<span class="green">You've earned ${enemy_xp+steps} xp.</span>\r\n`;
 
             manage_xp(enemy_xp);
 
