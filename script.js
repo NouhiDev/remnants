@@ -664,7 +664,7 @@ async function merchant_routine() {
     await sleep(1000);
     game_text.innerHTML = `<span class="lvl">Merchant "${merchant_names.sample()}" of the ${origins.sample()}</span>\r\n`;
     game_text.innerHTML += "\r\n";
-
+    let anger = 0;
     await sleep(1000);
 
     game_text.innerHTML += "They offer you: \r\n\r\n";
@@ -725,7 +725,7 @@ async function merchant_routine() {
             game_text.innerHTML += `Buy ${item}? (${weapon_damage(item)[0]}-${weapon_damage(item)[1]} dmg) for <span class="gold">${price}G</span>\r\n (y/n) \r\n`;
         }
         else {
-            game_text.innerHTML += `Buy ${item} for <span class="gold">${price}G</span>?\r\n (y/n) \r\n`;
+            game_text.innerHTML += `Buy ${item} for <span class="gold">${price+anger}G</span>?\r\n (y/n) \r\n`;
         }   
         
 
@@ -741,14 +741,16 @@ async function merchant_routine() {
         // wants to buy
         if (player_input == "y") {
             // if player has enough money
-            if (price <= gold) {
+            if (price+anger <= gold) {
 
             }
             else {
                 await sleep(1000);
-                game_text.innerHTML += "<span class='drastic'>You don't have enough money.</span>\r\n\r\n";
+                game_text.innerHTML += "<span class='drastic'>\r\nYou don't have enough money.</span>\r\n";
                 await sleep(1000);
                 game_text.innerHTML += `<span class="drastic">You've angered the merchant.</span>\r\n\r\n`;
+                await sleep(1000);
+                anger += 5;
             }
         }
         // doesnt want to buy
