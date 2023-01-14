@@ -835,7 +835,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
 
             await sleep(1000);
 
-            game_text.textContent += `[!] You took ${dmg} damage. [!]\r\n`;
+            game_text.innerHTML += `<span class="red">[!] You took ${dmg} damage. [!]</span>\r\n`;
 
             damage(dmg);
 
