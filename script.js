@@ -30,7 +30,7 @@ var inventory_txt = "[Inventory: ";
 var alive = true;
 var max_hp = 100
 var hp = 100;
-var steps = 0;
+var steps = 40;
 var gold = 0;
 var xp = 0;
 var max_xp = 100;
@@ -81,7 +81,8 @@ forwards_var = ["You delve deeper.", "You walk forward.", "You continue onward."
 
 across_var = ["You come across", "You stumble upon", "You happen upon", "You run into"]
 
-
+// Merchant Names
+merchant_names = [""]
 
 // Checks for region switches
 async function check_region_switch(distance) {
@@ -198,6 +199,43 @@ async function check_region_switch(distance) {
     }
     
     if (distance == 30) {
+        region_text.innerHTML = `<span class="red">[Act 4]</span> After reaching the <span class="purplebrown">port</span>, you finally find a <span class="brown">ship</span> that seems seaworthy. However, as you set out to sea, you quickly realize that the <span class="blue">ocean</span> is just as dangerous as the land.\r\n`
+        region = regions[2];
+        places_table = ocean_places_table;
+        events_table = ocean_events_table;
+        enemies = ocean_enemies;
+        // STORY SCREEN
+        awaiting_response = true;
+        game_text.innerHTML = `<span class="light-blue">ACT 4: ADRIFT</span>\r\n\r\n` +
+        `After arriving at the port, you successfully find a ship that appears to be in good condition. However, as soon as you set sail, it becomes clear that the ocean is equally perilous as the land. The waters are filled with mutated creatures, and the storms are more violent than ever before.\r\n`
+        + "\r\nYou set out to sea.\r\n" + "\r\nContinue? (y/n) \r\n";
+        // Wait for user input
+        manage_input(true);
+
+        while(awaiting_response) {
+            await sleep(1);
+        }
+
+        manage_input(false);
+
+        if (player_input == "y") {
+            game_text.textContent += "You continue.\r\n";
+            manage_allow_continue(true);
+            return;
+        }
+        else if (player_input == "n") {
+            game_text.textContent += "You can't change fate.\r\n";
+            manage_allow_continue(true);
+            return;
+        }
+        else {
+            game_text.textContent += "You can't change fate.\r\n";
+            manage_allow_continue(true);
+            return;
+        }
+    }
+
+    if (distance == 40) {
         region_text.innerHTML = `<span class="red">[Act 4]</span> After reaching the <span class="purplebrown">port</span>, you finally find a <span class="brown">ship</span> that seems seaworthy. However, as you set out to sea, you quickly realize that the <span class="blue">ocean</span> is just as dangerous as the land.\r\n`
         region = regions[2];
         places_table = ocean_places_table;
@@ -376,8 +414,8 @@ async function manage_sub_events(sub_event) {
 
             // TALK TO MERCHANT
             if (player_input == "y") {
-                game_text.textContent += "You make a wish.\r\n";
-                make_wish();
+                game_text.textContent += "You head towards the merchant.\r\n";
+                merchant_routine();
             }
             // DOESNT TALK TO MERCHANT
             else if (player_input == "n") {
@@ -580,6 +618,13 @@ async function damage(amount) {
         game_text.textContent += "You died.";
         throw new Error();
     }
+}
+
+// merchant
+async function merchant_routine() {
+    await sleep(1000);
+    game_text.innerHTML = "";
+    game_text.innerHTML = "Merchant ";
 }
 
 // #region COMBAT RELATED
@@ -1119,12 +1164,11 @@ function manage_xp(amount) {
 // Main Game Loop (MGL)
 async function main_loop() {
     clear_game_text();
-    check_region_switch(steps);
-    
     // Check if player is alive
     if (!alive) {
-      return;
+        return;
     }
+    check_region_switch(steps);
     
     // Stat Displays
     display_stats();
