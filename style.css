@@ -272,6 +272,8 @@
     margin: auto;
     padding: auto;
     text-align: center;
+    border:#1d1f25 2px;
+    border-style: solid;
   }
 
   .game-container p {
@@ -303,6 +305,8 @@
     margin-bottom: 5px;
     padding: auto;
     text-align: center;
+    border:#1d1f25 2px;
+    border-style: solid;
   }
 
   .stats-container p {
