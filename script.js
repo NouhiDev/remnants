@@ -79,7 +79,7 @@ enemies = ["spider", "werewolf", "dryad", "gnome", "wendigo", "ent", "harpy"]
 forest_enemies = ["spider", "werewolf", "dryad", "gnome", "wendigo", "ent", "harpy", 
 "basilisk", "lizard", "large rat", "giant leech", "giant mosquito"]
 
-lockwood_village_enemies = ["goblin", "orc", "wraith", "giant spider", "bandit"]
+lockwood_village_enemies = ["goblin", "orc", "wraith", "giant spider", "bandit", "troll", "wight"]
 
 eastport_enemies = ["humanoid creature", "indiscernible entity", "ghoul"]
 
@@ -985,6 +985,10 @@ function det_enemy_dmg(enemy) {
             return [8, 11];
         case "bandit":
             return [6, 9];
+        case "troll":
+            return [10, 16];
+        case "wight":
+            return [9, 15];
         // REGION 2: EASTPORT
         case "humanoid creature":
             return [12, 16];
@@ -1052,6 +1056,10 @@ function det_enemy_xp(enemy) {
             return [16, 22];
         case "bandit":
             return [12, 18];
+        case "troll":
+            return [18, 32];
+        case "wight":
+            return [16, 22];
         // REGION 2: EASTPORT + 20
         case "humanoid creature":
             return [24, 32];
@@ -1118,6 +1126,10 @@ function det_enemy_hp(enemy) {
         case "giant spider":
             return [16, 21];
         case "bandit":
+            return [12, 18];
+        case "troll":
+            return [18, 29];
+        case "wight":
             return [12, 18];
         // REGION 2: EASTPORT
         case "humanoid creature":
