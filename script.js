@@ -662,8 +662,7 @@ async function damage(amount) {
 // Merchant
 async function merchant_routine() {
     await sleep(1000);
-    event_text.innerHTML = "";
-    event_text.innerHTML += `<span class="lvl">Merchant "${merchant_names.sample()}" of the ${origins.sample()}</span>\r\n`;
+    event_text.innerHTML = `<span class="lvl">Merchant "${merchant_names.sample()}" of the ${origins.sample()}</span>\r\n`;
     
     let assortment = []
     let amt_of_items = randomIntFromInterval(2, 5);
@@ -682,7 +681,7 @@ async function merchant_routine() {
         if (assortment[i] != "healing potion" &&  assortment[i] != "lesser healing potion") {
             event_text.innerHTML += `(${weapon_damage(assortment[i])[0]}-${weapon_damage(assortment[i])[1]} dmg)`;
         }
-        if (!i == assortment.length - 1) {
+        if (i != assortment.length - 1) {
             event_text.innerHTML += ` | <span class="gold">Price: ${randomIntFromInterval(item_price(assortment[i])[0], item_price(assortment[i])[1])}G</span>, `;
         }
         else {
