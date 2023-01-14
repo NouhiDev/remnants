@@ -30,7 +30,7 @@ var inventory_txt = "[Inventory: ";
 var alive = true;
 var max_hp = 100
 var hp = 100;
-var steps = 0;
+var steps = 10;
 var gold = 0;
 var xp = 0;
 var max_xp = 100;
@@ -88,7 +88,9 @@ forwards_var = ["You delve deeper.", "You walk forward.", "You continue onward."
 across_var = ["You come across", "You stumble upon", "You happen upon", "You run into"]
 
 // Merchant Names
-merchant_names = [""]
+merchant_origin = ["Golden Wheel", "Silver Tongue", "Emerald City", "Spice Road", "Bazaar", "Bronze Coin", "Jade Caravan",
+ "Sapphire Harbour", "Crimson Square", "Velvet Road", "Iron Market", "Diamond Exchange", "Silver Empire"]
+merchant_names = ["Jeffrey", ""]
 
 // Checks for region switches
 async function check_region_switch(distance) {
@@ -283,9 +285,9 @@ async function check_region_switch(distance) {
 
 // Abyss
 function abyss_combination() {
-    events_table = forest_events_table;
-    enemies = ocean_enemies;
-    places_table = forest_places_table;
+    events_table = ["nothing"];
+    enemies = [];
+    places_table = ["void"];
 }
 
 // #region Helper Functions
