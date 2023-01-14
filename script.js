@@ -674,10 +674,12 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
     let in_combat = true;
     let player_turn = failed_to_flee;
     
+    await sleep(1000);
+    game_text.textContent = "";
+
     while(in_combat) {
         // Seperate
         await sleep(1000);
-        seperator();
 
         // Check for enemy hp
         if (enemy_hp <= 0) {
@@ -727,6 +729,10 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
                 await sleep(1000);
 
                 game_text.textContent += `[!] ${capitalizeFirstLetter(enemy)} has ${enemy_hp} hp. [!]\r\n`;
+                
+                await sleep(2000);
+
+                game_text.textContent = "";
             }
             // Player has weapons 
             else {
@@ -765,7 +771,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
 
                     game_text.textContent += `[!] You deal ${fist_dmg} damage. [!]\r\n`;
 
-                    await sleep(1000);
+                    await sleep(2000);
 
                     game_text.textContent += `[!] ${capitalizeFirstLetter(enemy)} has ${enemy_hp} hp. [!]\r\n`;
                 }
@@ -798,6 +804,10 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
                         game_text.textContent += `[!] ${capitalizeFirstLetter(weapon_to_use)} broke. [!]\r\n`;
                     }
                 }
+
+                await sleep(2000);
+                
+                game_text.textContent = "";
                 
             }
         }
@@ -824,6 +834,10 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
                 in_combat = false;
                 break;
             }
+
+            await sleep(2000);
+                
+            game_text.textContent = "";
         }
     }
 }
