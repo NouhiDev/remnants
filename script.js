@@ -60,6 +60,8 @@ cargo_loot_table = ["halberd", "great axe", "axe", "sword", "claymore", "healing
 
 // Enemies
 enemies = ["spider", "wolf", "goblin", "gnome"]
+lockwood_village_enemies = []
+eastport_enemies = ["humanoid creature", "indiscernible creature"]
 
 
 // Checks for region switches
@@ -241,7 +243,11 @@ async function manage_sub_events(sub_event) {
                 manage_allow_continue(true);
             }
             break;
-        // ENEMY
+        // NEST
+        case "nest":
+            enemy_encounter();
+            break;
+            // ENEMY
         case "enemy":
             enemy_encounter();
             break;
@@ -287,7 +293,7 @@ async function manage_sub_events(sub_event) {
                 game_text.textContent += "You do not open the cargo and move on.\r\n";
                 manage_allow_continue(true);
             }
-            // WRONG INPUT --> DOESNT OPEN CHEST
+            // WRONG INPUT --> DOESNT OPEN CARGO
             else {
                 game_text.textContent += "You do not open the cargo and move on.\r\n";
                 manage_allow_continue(true);
