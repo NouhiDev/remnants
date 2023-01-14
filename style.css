@@ -317,6 +317,28 @@
     white-space: pre-line;
   }
 
+  .region-container {
+    overflow-y: scroll;
+    height: 105px;
+    width: 900px;
+    background-color: #0f1013;
+    border-radius: 25px;
+    margin: auto;
+    margin-bottom: 5px;
+    padding: auto;
+    text-align: center;
+    border:#1d1f25 2px;
+    border-style: solid;
+  }
+
+  .region-container p {
+    color: white;
+    font-family: 'Oswald', sans-serif;
+    font-size: 20px;
+    letter-spacing: 2px;
+    white-space: pre-line;
+  }
+
   
 /* width */
 ::-webkit-scrollbar {
@@ -346,3 +368,4 @@ hr {
   border: 1px dashed rgb(55, 64, 64);
   max-width: 500px;
 }
+
