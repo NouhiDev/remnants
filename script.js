@@ -81,6 +81,8 @@ forwards_var = ["You delve deeper.", "You walk forward.", "You continue onward."
 
 across_var = ["You come across", "You stumble upon", "You happen upon", "You run into"]
 
+
+
 // Checks for region switches
 async function check_region_switch(distance) {
     if (distance == 0) {
@@ -361,8 +363,33 @@ async function manage_sub_events(sub_event) {
 
     switch(sub_event) {
         case "merchant":
-            game_text.textContent += `Not implemented yet.\r\n`
-            manage_allow_continue(true);
+            game_text.textContent += `Talk to merchant?\r\n (y/n) \r\n`;
+
+            // Wait for user input
+            manage_input(true);
+
+            while(awaiting_response) {
+                await sleep(1);
+            }
+
+            manage_input(false);
+
+            // TALK TO MERCHANT
+            if (player_input == "y") {
+                game_text.textContent += "You make a wish.\r\n";
+                make_wish();
+            }
+            // DOESNT TALK TO MERCHANT
+            else if (player_input == "n") {
+                game_text.textContent += "You do not talk to the merchant and move on.\r\n";
+                manage_allow_continue(true);
+            }
+            // WRONG INPUT --> DOESNT TALK TO MERCHANT
+            else {
+                game_text.textContent += "You do not talk to the merchant and move on.\r\n";
+                manage_allow_continue(true);
+            }
+            break;
             break;
         case "storm":
             let storm_dmg = randomIntFromInterval(5,15);
@@ -440,11 +467,11 @@ async function manage_sub_events(sub_event) {
 
                     await sleep(1000);
 
-                    game_text.textContent += "[!] It was a trap. [!]\r\n";
+                    game_text.textContent += "It was a trap.\r\n";
 
                     await sleep(1000);
 
-                    game_text.textContent += `[!] You took ${dmg} damage.[!]\r\n`;
+                    game_text.textContent += `You took ${dmg} damage.\r\n`;
                     manage_allow_continue(true);
                 }
                 
@@ -488,11 +515,11 @@ async function manage_sub_events(sub_event) {
 
                     await sleep(1000);
 
-                    game_text.textContent += "[!] It was a trap. [!]\r\n";
+                    game_text.textContent += "It was a trap.\r\n";
 
                     await sleep(1000);
 
-                    game_text.textContent += `[!] You took ${dmg} damage.[!]\r\n`;
+                    game_text.textContent += `You took ${dmg} damage.\r\n`;
                     manage_allow_continue(true);
                 }
                 
@@ -524,7 +551,7 @@ async function make_wish() {
 
         await sleep(1000);
 
-        game_text.textContent += "[!] Your max hp has increased by 10. [!]\r\n";
+        game_text.textContent += "Your max hp has increased by 10. \r\n";
 
         await sleep(1000);
 
@@ -668,7 +695,7 @@ function weapon_damage(weapon) {
         case "dagger":
             return [4, 8];
         case "axe":
-            return [6, 12];
+            return [6, 13];
         case "sword":
             return [7, 12];
         case "bow":
