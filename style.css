@@ -312,7 +312,7 @@
   .stats-container p {
     color: white;
     font-family: 'Oswald', sans-serif;
-    font-size: 20px;
+    font-size: 19px;
     letter-spacing: 2px;
     white-space: pre-line;
   }
@@ -371,5 +371,17 @@ hr {
 
 .red {
   color:#ff7f7f;
+}
+
+.light-green {
+  color:#aaffa6;
+}
+
+.orange {
+  color:coral;
+}
+
+.light-gold {
+  color:antiquewhite;
 }
 

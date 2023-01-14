@@ -30,7 +30,7 @@ var inventory_txt = "[Inventory: ";
 var alive = true;
 var max_hp = 100
 var hp = 100;
-var steps = 00;
+var steps = 10;
 var gold = 0;
 var xp = 0;
 var max_xp = 100;
@@ -77,12 +77,12 @@ ocean_enemies = ["sea monster", "mermaid", "siren", "leviathan", "sea serpent", 
 // Checks for region switches
 async function check_region_switch(distance) {
     if (distance == 0) {
-        region_text.innerHTML += `<span class="red">[!]</span> You wake up in a dense <span class="green">forest</span>, disoriented and confused. You realize that you have no memory of how you got here or what has happened to the world around you. You see a clearing ahead. <span class="red">[!]</span>\r\n`
+        region_text.innerHTML += `<span class="red">[!]</span> You wake up in a dense <span class="green">forest</span>, disoriented and confused. You realize that you have no memory of how you got here or what has happened to the world around you. You see a <span class="light-green">clearing</span> ahead. <span class="red">[!]</span>\r\n`
         seperator();
     }
 
     if (distance == 10) {
-        region_text.textContent += `[!] As you make your way through the forest, you come across an abandoned village: Lockwood Village. The buildings are in ruins, and there are no signs of life. [!]\r\n`
+        region_text.innerHTML += `<span class="red">[!]</span> As you make your way through the <span class="green">forest</span>, you come across an <span class="orange">abandonend village</span>: <span class="light-gold">Lockwood Village</span>. The buildings are in ruins, and there are no signs of life. <span class="red">[!]</span>\r\n`
         region = regions[0];
         places_table = lockwood_village_places_table;
         events_table = lockwood_village_events_table;
@@ -91,7 +91,7 @@ async function check_region_switch(distance) {
 
     }
     else if (distance == 20) {
-        region_text.textContent += `[!] Heading out of the abandoned village, you make your way towards a port, looking for a ship that may help you. However, as you approach, you realize the port is 'infected'. [!]\r\n`
+        region_text.textContent += `<span class="red">[!]</span> Heading out of the abandoned village, you make your way towards a port, looking for a ship that may help you. However, as you approach, you realize the port is 'infected'. <span class="red">[!]</span>\r\n`
         region = regions[1];
         places_table = eastport_places_table;
         events_table = eastport_events_table;
@@ -99,7 +99,7 @@ async function check_region_switch(distance) {
         seperator();
     }
     else if (distance == 30) {
-        region_text.textContent += `[!] After reaching the port, you finally find a ship that seems seaworthy. However, as you set out to sea, you quickly realize that the ocean is just as dangerous as the land. [!]\r\n`
+        region_text.textContent += `<span class="red">[!]</span> After reaching the port, you finally find a ship that seems seaworthy. However, as you set out to sea, you quickly realize that the ocean is just as dangerous as the land. <span class="red">[!]</span>\r\n`
         region = regions[2];
         places_table = ocean_places_table;
         events_table = ocean_events_table;
