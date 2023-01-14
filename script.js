@@ -32,7 +32,7 @@ var alive = true;
 var max_hp = 100
 var hp = 100;
 var steps = 10;
-var gold = 0;
+var gold = 1;
 var xp = 0;
 var max_xp = 100;
 var lvl = 0;
@@ -663,6 +663,11 @@ async function damage(amount) {
 async function merchant_routine() {
     await sleep(1000);
     game_text.innerHTML = `<span class="lvl">Merchant "${merchant_names.sample()}" of the ${origins.sample()}</span>\r\n`;
+    game_text.innerHTML += "\r\n";
+
+    await sleep(1000);
+
+    game_text.innerHTML += "They offer you: \r\n\r\n";
     
     let assortment = []
     let amt_of_items = randomIntFromInterval(2, 5);
@@ -677,18 +682,82 @@ async function merchant_routine() {
 
     // Display Assortment
     for (let i = 0; i < assortment.length; i++) {
+        await sleep(1000);
+        game_text.innerHTML += "- ";
         game_text.innerHTML += `${capitalizeFirstLetter(assortment[i])} `;
         if (assortment[i] != "healing potion" &&  assortment[i] != "lesser healing potion") {
             game_text.innerHTML += `(${weapon_damage(assortment[i])[0]}-${weapon_damage(assortment[i])[1]} dmg)`;
         }
-        if (i != assortment.length - 1) {
-            game_text.innerHTML += ` | <span class="gold">Price: ${randomIntFromInterval(item_price(assortment[i])[0], item_price(assortment[i])[1])}G</span>, `;
+        game_text.innerHTML += "\r\n";
+    }
+
+    // Player Input
+    // Player has money
+    await sleep(3000);
+    awaiting_response = true;
+
+    game_text.innerHTML += `\r\nReady to buy?\r\n (y/n) \r\n`;
+
+    // Wait for user input
+    manage_input(true);
+
+    while(awaiting_response) {
+        await sleep(1);
+    }
+
+    manage_input(false);
+
+    if (player_input == "y") {
+        game_text.innerHTML += `The merchant approaches you.`;
+    }
+    else if (player_input == "n") {
+        game_text.innerHTML += `The merchant doesn't have much time.`;
+    }
+
+    await sleep(3000);
+    game_text.innerHTML = "";
+
+    for (let i = 0; i < assortment.length; i++) {
+        const item = assortment[i];
+        awaiting_response = true;
+        price = randomIntFromInterval(item_price(item)[0], item_price(item)[1]);
+        if (item != "lesser healing potion" && item != "healing potion") {
+            game_text.innerHTML += `Buy ${item}? (${weapon_damage(item)[0]}-${weapon_damage(item)[1]} dmg) for <span class="gold">${price}G</span>\r\n (y/n) \r\n`;
         }
         else {
-            game_text.innerHTML += ` | <span class="gold">Price: ${randomIntFromInterval(item_price(assortment[i])[0], item_price(assortment[i])[1])}G</span>`;
+            game_text.innerHTML += `Buy ${item} for <span class="gold">${price}G</span>?\r\n (y/n) \r\n`;
+        }   
+        
+
+        // Wait for user input
+        manage_input(true);
+    
+        while(awaiting_response) {
+            await sleep(1);
         }
-       
+    
+        manage_input(false);
+
+        // wants to buy
+        if (player_input == "y") {
+            // if player has enough money
+            if (price <= gold) {
+
+            }
+            else {
+                await sleep(1000);
+                game_text.innerHTML += "<span class='drastic'>You don't have enough money.</span>\r\n\r\n";
+                await sleep(1000);
+                game_text.innerHTML += `<span class="drastic">You've angered the merchant.</span>\r\n\r\n`;
+            }
+        }
+        // doesnt want to buy
+        else if (player_input == "n") {
+            continue;
+        }
     }
+
+    manage_allow_continue(true);
 }
 
 function item_price(item) {
