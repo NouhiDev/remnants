@@ -10,8 +10,9 @@ function delay(time) {
 
 // Game
 var game_text = document.getElementById("game-text");
-var stats_text = document.getElementById("stats-text")
-var region_text = document.getElementById("region-text")
+var stats_text = document.getElementById("stats-text");
+var region_text = document.getElementById("region-text");
+var event_text = document.getElementById("event-text");
 
 var allow_input = false;
 var allow_continue = true;
@@ -30,7 +31,7 @@ var inventory_txt = "[Inventory: ";
 var alive = true;
 var max_hp = 100
 var hp = 100;
-var steps = 0;
+var steps = 10;
 var gold = 0;
 var xp = 0;
 var max_xp = 100;
@@ -54,23 +55,25 @@ ocean_places_table = ["small island", "island", "shipwreck", "coral reef", "aban
 
 // #endregion
 
-// Events
+// #region Events
 events_table = ["nothing", "chest", "enemy", "wishing well"];
 
 forest_events_table = ["nothing", "chest", "enemy", "wishing well"];
-
-lockwood_village_events_table = ["nothing", "chest", "enemy", "merchant"] //NEW: MERCHANT
+                                // "nothing", "chest", "enemy", 
+lockwood_village_events_table = ["merchant"] //NEW: MERCHANT
 
 eastport_events_table = ["cargo", "enemy", "nest", "nothing"] // NEW: CARGO, NEST
 
 ocean_events_table = ["enemy", "storm", "nothing"] // NEW: STORM
+// #endregion
 
-// Loot Tables
+// #region Loot Tables
 chest_loot_table = ["dagger", "axe", "sword", "bow", "healing potion", "gold", "nothing"]
 
-cargo_loot_table = ["halberd", "great axe", "axe", "sword", "claymore", "healing potion", "gold", "gold"]
+cargo_loot_table = ["halberd", "greataxe", "axe", "sword", "claymore", "healing potion", "gold", "gold"]
+// #endregion
 
-// Enemies
+// #region Enemies
 enemies = ["spider", "werewolf", "dryad", "gnome", "wendigo", "ent", "harpy"]
 
 forest_enemies = ["spider", "werewolf", "dryad", "gnome", "wendigo", "ent", "harpy"]
@@ -80,29 +83,38 @@ lockwood_village_enemies = ["goblin", "orc", "wraith", "giant spider", "bandit"]
 eastport_enemies = ["humanoid creature", "indiscernible entity", "ghoul"]
 
 ocean_enemies = ["sea monster", "mermaid", "siren", "leviathan", "sea serpent", "water elemental", "charybdis"]
+// #endregion
 
-// Forward Variations
+// #region Forward Variations
 
 forwards_var = ["You delve deeper.", "You walk forward.", "You continue onward.", "You proceed ahead.", "You advance.", "You tread ahead."]
 
 across_var = ["You come across", "You stumble upon", "You happen upon", "You run into"]
+// #endregion
+
+// #region NPCs
+
+// Origins
+origins = ["Golden Wheel", "Silver Tongue", "Emerald City", "Spice Road", "Bazaar", "Bronze Coin", "Jade Caravan",
+ "Sapphire Harbour", "Crimson Square", "Velvet Road", "Iron Market", "Diamond Exchange", "Silver Empire"]
 
 // Travelers
 traveler_names = ["Jeffrey", "Wilhelm", "Reinhard", "Gottfried", "Gwyndolin", "Nito", "Seath", "Quelaag", "Priscilla", 
 "Sif", "Gwyn", "Manus", "Ornstein", "Smough", "Kalameet", "Artorias", "Najka", "Freja", "Mytha", "Velstadt", "Vendrick", "Magus", "Nashandra", "Aldia", 
 "Vordt", "Wolnir", "Sulyvahn", "Aldrich", "Oceiros", "Gundyr", "Lothric", "Godrick"]
 
-// Origins
-origins = ["Golden Wheel", "Silver Tongue", "Emerald City", "Spice Road", "Bazaar", "Bronze Coin", "Jade Caravan",
- "Sapphire Harbour", "Crimson Square", "Velvet Road", "Iron Market", "Diamond Exchange", "Silver Empire"]
-
- // Merchants
+// Merchants
  merchant_names = ["Jeffrey", "Wilhelm", "Reinhard", "Gottfried", "Gwyndolin", "Nito", "Seath", "Quelaag", "Priscilla", 
 "Sif", "Gwyn", "Manus", "Ornstein", "Smough", "Kalameet", "Artorias", "Vaati"]
+
+// Merchant Assortment + DEFAULT HEALING POTION
+merchant_assortment = ["greatsword", "greataxe", "great halberd", "claymore", "halberd"]
 
 // Blacksmith
 blacksmith_names = ["Najka", "Freja", "Mytha", "Velstadt", "Vendrick", "Magus", "Nashandra", "Aldia", 
 "Vordt", "Wolnir", "Sulyvahn", "Aldrich", "Oceiros", "Gundyr", "Lothric", "Godrick"]
+
+// #endregion
 
 // Checks for region switches
 async function check_region_switch(distance) {
@@ -647,14 +659,50 @@ async function damage(amount) {
     }
 }
 
-// merchant
+// Merchant
 async function merchant_routine() {
     await sleep(1000);
     game_text.innerHTML = "";
-    game_text.innerHTML += `Merchant "${merchant_names.sample()}" of the ${origins.sample()}\r\n`;
-    game_text.innerHTML += `Blacksmith "${blacksmith_names.sample()}" of the ${origins.sample()}\r\n`;
-    game_text.innerHTML += `Traveler "${traveler_names.sample()}" of the ${origins.sample()}\r\n`;
+    game_text.innerHTML += `<span class="lvl">Merchant "${merchant_names.sample()}" of the ${origins.sample()}</span>\r\n\r\n`;
+    
+    let assortment = []
+    let amt_of_items = randomIntFromInterval(2, 5);
+    
+    // Populate Assortment
+    assortment.push("lesser healing potion");
+    for (let i = 0; i < amt_of_items; i++) {
+        if (!assortment.includes(merchant_assortment[i])) {
+            assortment.push(merchant_assortment[i]);
+        }
+    }
 
+    // Display Assortment
+    for (let i = 0; i < assortment.length; i++) {
+        game_text.innerHTML += `${capitalizeFirstLetter(assortment[i])} `;
+        if (assortment[i] != "healing potion" &&  assortment[i] != "lesser healing potion") {
+            game_text.innerHTML += `(${weapon_damage(assortment[i])[0]}-${weapon_damage(assortment[i])[1]} dmg)`;
+        }
+        game_text.innerHTML += ` | <span class="gold">Price: ${randomIntFromInterval(item_price(assortment[i])[0], item_price(assortment[i])[1])}G</span>\r\n`;
+    }
+}
+
+function item_price(item) {
+    switch(item) {
+        case "lesser healing potion":
+            return [10, 20];
+        case "healing potion":
+            return [20, 40];
+        case "greataxe":
+            return [40, 60];
+        case "greatsword":
+            return [60, 90];
+        case "claymore":
+            return [46, 76];
+        case "great halberd":
+            return [52, 84];
+        case "halberd":
+            return[20, 34];
+    }
 }
 
 // #region COMBAT RELATED
@@ -777,10 +825,14 @@ function weapon_damage(weapon) {
             return [5, 9];
         case "halberd":
             return [8, 16];
-        case "great axe":
+        case "greataxe":
             return [10, 20];
         case "claymore":
             return [11, 23];
+        case "great halberd":
+            return [15, 26];
+        case "greatsword":
+            return [17, 30];
     }
 }
 
