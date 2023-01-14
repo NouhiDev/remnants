@@ -378,10 +378,27 @@ hr {
 }
 
 .orange {
-  color:coral;
+  color:rgb(227, 206, 135);
 }
 
 .light-gold {
-  color:antiquewhite;
+  color:rgb(255, 167, 52);
+}
+
+.purple {
+  color:blueviolet;
+}
+
+.brown {
+  color: #a38d60;
+}
+
+
+.blue {
+  color:rgb(32, 59, 181);
+}
+
+.purplebrown {
+  color:rgb(255, 91, 146);
 }
 
