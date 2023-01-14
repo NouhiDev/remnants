@@ -22,7 +22,7 @@ var awaiting_response = true;
 var vowels = ["a", "e", "i", "o", "u"]
 
 // Inventory
-var inventory = ["sword", "sword", "sword", "sword"];
+var inventory = [];
 var inventory_txt = "[Inventory: ";
 
 // Stats
@@ -473,7 +473,7 @@ async function enemy_encounter() {
 
             await sleep(1000);
 
-            game_text.textContent += "[!] You fail to flee and trip on a branch. [!]\r\n";
+            game_text.textContent += "[!] You fail to flee. [!]\r\n";
 
             await sleep(1000);
 
@@ -507,7 +507,7 @@ async function enemy_encounter() {
 
             await sleep(1000);
 
-            game_text.textContent += "[!] You fail to flee and trip on a branch. [!]\r\n";
+            game_text.textContent += "[!] You fail to flee. [!]\r\n";
 
             await sleep(1000);
 
