@@ -277,7 +277,7 @@
 
   .stats-container {
     overflow-y: scroll;
-    height: 100px;
+    height: 105px;
     width: 900px;
     background-color: #0f1013;
     border-radius: 25px;

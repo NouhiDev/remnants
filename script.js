@@ -22,14 +22,14 @@ var awaiting_response = true;
 var vowels = ["a", "e", "i", "o", "u"]
 
 // Inventory
-var inventory = [];
+var inventory = ["sword", "sword", "sword", "sword"];
 var inventory_txt = "[Inventory: ";
 
 // Stats
 var alive = true;
 var max_hp = 100
 var hp = 100;
-var steps = 0;
+var steps = 30;
 var gold = 0;
 var xp = 0;
 var max_xp = 100;
@@ -100,6 +100,10 @@ async function check_region_switch(distance) {
     else if (distance == 30) {
         game_text.textContent += `[!] After reaching the port, you finally find a ship that seems seaworthy. However, as you set out to sea, you quickly realize that the ocean is just as dangerous as the land.[!]\r\n`
         region = regions[2];
+        places_table = ocean_places_table;
+        events_table = ocean_events_table;
+        enemies = ocean_enemies;
+        seperator();
     }
     else if (distance == 40) {
         game_text.textContent += `[!] You have reached the ${regions[3]}. [!]\r\n`
@@ -206,7 +210,7 @@ async function manage_events(places, events) {
             article = "a";
         }
 
-        game_text.textContent += `You find ${article} ${event}.\r\n`;
+        game_text.textContent += `You see ${article} ${event}.\r\n`;
         
         await sleep(1000);
 
@@ -226,6 +230,18 @@ async function manage_sub_events(sub_event) {
     awaiting_response = true;
 
     switch(sub_event) {
+        case "storm":
+            let storm_dmg = randomIntFromInterval(5,15);
+            damage(storm_dmg);
+
+            game_text.textContent += `A violent storm hits you.\r\n`
+
+            await sleep(1000);
+
+            game_text.textContent += `You take ${storm_dmg} damage.\r\n`
+            manage_allow_continue(true);
+            break;
+        // WISHING WELL
         case "wishing well":
             game_text.textContent += `Make a wish?\r\n (y/n) \r\n`;
 
@@ -258,7 +274,7 @@ async function manage_sub_events(sub_event) {
         case "nest":
             enemy_encounter();
             break;
-            // ENEMY
+        // ENEMY
         case "enemy":
             enemy_encounter();
             break;
@@ -310,7 +326,7 @@ async function manage_sub_events(sub_event) {
                 manage_allow_continue(true);
             }
             break;
-            // CHEST
+        // CHEST
         case "chest":
             game_text.textContent += `Open chest?\r\n (y/n) \r\n`;
 
@@ -775,6 +791,7 @@ function manage_xp(amount) {
     if (xp >= max_xp) {
         lvl++;
         max_xp += lvl*10;
+        max_hp += lvl*10
         xp = Math.abs(max_xp-xp);
     }
     display_stats();
