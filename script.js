@@ -278,7 +278,7 @@ async function check_region_switch(distance) {
         // STORY SCREEN
         awaiting_response = true;
         game_text.innerHTML = `<span class="light-blue">End: Abyss</span>\r\n\r\n` +
-        `.The path before you comes to an end, beyond this point lies nothing but oblivion. Nothing but the abyss. The laws of nature don't apply within these realms, for the rules of this realm are set by the chaos itself.\r\n`
+        `The path before you comes to an end, beyond this point lies nothing but oblivion. Nothing but the abyss. The laws of nature don't apply within these realms, for the rules of this realm are set by the chaos itself.\r\n`
         + "\r\nThis is it.\r\n" + "\r\nContinue? (y/n) \r\n";
         // Wait for user input
         manage_input(true);
@@ -866,11 +866,11 @@ async function enemy_encounter() {
 
             await sleep(1000);
 
-            game_text.innerHTML += "[!] You fail to flee. [!]\r\n";
+            game_text.innerHTML += "You fail to flee.\r\n";
 
             await sleep(1000);
 
-            game_text.innerHTML += `[!] You took ${dmg} damage.[!]\r\n`;
+            game_text.innerHTML += `You took ${dmg} damage.\r\n`;
 
             await sleep(1000);
 
@@ -900,11 +900,11 @@ async function enemy_encounter() {
 
             await sleep(1000);
 
-            game_text.innerHTML += "[!] You fail to flee. [!]\r\n";
+            game_text.innerHTML += "You fail to flee.\r\n";
 
             await sleep(1000);
 
-            game_text.innerHTML += `[!] You took ${dmg} damage. [!]\r\n`;
+            game_text.innerHTML += `You took ${dmg} damage.\r\n`;
 
             await sleep(1000);
 
@@ -1174,7 +1174,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
         // Check for enemy hp
         if (enemy_hp <= 0) {
             // Win fight
-            game_text.innerHTML += `[!] You've slain the ${enemy}. [!]\r\n`;
+            game_text.innerHTML += ` You've slain the ${enemy}. \r\n`;
 
             let enemy_xp = randomIntFromInterval(det_enemy_xp(enemy)[0],det_enemy_xp(enemy)[1]);
             enemy_xp += steps;
@@ -1214,15 +1214,15 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
                     enemy_hp = 0;
                 }
 
-                game_text.innerHTML += `[!] You use your fists. [!]\r\n`;
+                game_text.innerHTML += ` You use your fists. \r\n`;
 
                 await sleep(1000);
 
-                game_text.innerHTML += `<span class="light-gold">[!] You deal ${fist_dmg} damage. [!]</span>\r\n`;
+                game_text.innerHTML += `<span class="light-gold"> You deal ${fist_dmg} damage. </span>\r\n`;
 
                 await sleep(1000);
 
-                game_text.innerHTML += `[!] ${capitalizeFirstLetter(enemy)} has ${enemy_hp}/${enemy_max_hp} hp. [!]\r\n`;
+                game_text.innerHTML += ` ${capitalizeFirstLetter(enemy)} has ${enemy_hp}/${enemy_max_hp} hp. \r\n`;
                 
                 await sleep(2000);
 
@@ -1262,15 +1262,15 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
                         enemy_hp = 0;
                     }
 
-                    game_text.innerHTML += `[!] You use your fists. [!]\r\n`;
+                    game_text.innerHTML += ` You use your fists. \r\n`;
 
                     await sleep(1000);
 
-                    game_text.innerHTML += `<span class="light-gold">[!] You deal ${fist_dmg} damage. [!]</span>\r\n`;
+                    game_text.innerHTML += `<span class="light-gold"> You deal ${fist_dmg} damage. </span>\r\n`;
 
                     await sleep(2000);
 
-                    game_text.innerHTML += `[!] ${capitalizeFirstLetter(enemy)} has ${enemy_hp}/${enemy_max_hp} hp. [!]\r\n`;
+                    game_text.innerHTML += ` ${capitalizeFirstLetter(enemy)} has ${enemy_hp}/${enemy_max_hp} hp. \r\n`;
                 }
                 
                 // Weapon has been chosen
@@ -1287,11 +1287,11 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
 
                     await sleep(1000);
 
-                    game_text.innerHTML += `<span class="light-gold">[!] You deal ${weapon_dmg} damage. [!]</span>\r\n`;
+                    game_text.innerHTML += `<span class="light-gold"> You deal ${weapon_dmg} damage. </span>\r\n`;
 
                     await sleep(1000);
 
-                    game_text.innerHTML += `[!] ${capitalizeFirstLetter(enemy)} has ${enemy_hp}/${enemy_max_hp} hp. [!]\r\n`;
+                    game_text.innerHTML += ` ${capitalizeFirstLetter(enemy)} has ${enemy_hp}/${enemy_max_hp} hp. \r\n`;
 
                     // Randomly break weapon
                     let d = Math.random();
@@ -1301,7 +1301,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
 
                         await sleep(1000);
 
-                        game_text.innerHTML += `<span class="dark-red">[!] ${capitalizeFirstLetter(weapon_to_use)} broke. [!]</span>\r\n`;
+                        game_text.innerHTML += `<span class="dark-red"> ${capitalizeFirstLetter(weapon_to_use)} broke. </span>\r\n`;
                     }
                 }
 
