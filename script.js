@@ -662,8 +662,8 @@ async function damage(amount) {
 // Merchant
 async function merchant_routine() {
     await sleep(1000);
-    game_text.innerHTML = "";
-    game_text.innerHTML += `<span class="lvl">Merchant "${merchant_names.sample()}" of the ${origins.sample()}</span>\r\n\r\n`;
+    event_text.innerHTML = "";
+    event_text.innerHTML += `<span class="lvl">Merchant "${merchant_names.sample()}" of the ${origins.sample()}</span>\r\n`;
     
     let assortment = []
     let amt_of_items = randomIntFromInterval(2, 5);
@@ -678,11 +678,17 @@ async function merchant_routine() {
 
     // Display Assortment
     for (let i = 0; i < assortment.length; i++) {
-        game_text.innerHTML += `${capitalizeFirstLetter(assortment[i])} `;
+        event_text.innerHTML += `${capitalizeFirstLetter(assortment[i])} `;
         if (assortment[i] != "healing potion" &&  assortment[i] != "lesser healing potion") {
-            game_text.innerHTML += `(${weapon_damage(assortment[i])[0]}-${weapon_damage(assortment[i])[1]} dmg)`;
+            event_text.innerHTML += `(${weapon_damage(assortment[i])[0]}-${weapon_damage(assortment[i])[1]} dmg)`;
         }
-        game_text.innerHTML += ` | <span class="gold">Price: ${randomIntFromInterval(item_price(assortment[i])[0], item_price(assortment[i])[1])}G</span>\r\n`;
+        if (!i == assortment.length - 1) {
+            event_text.innerHTML += ` | <span class="gold">Price: ${randomIntFromInterval(item_price(assortment[i])[0], item_price(assortment[i])[1])}G</span>, `;
+        }
+        else {
+            event_text.innerHTML += ` | <span class="gold">Price: ${randomIntFromInterval(item_price(assortment[i])[0], item_price(assortment[i])[1])}G</span>.`;
+        }
+       
     }
 }
 
