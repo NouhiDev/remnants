@@ -385,7 +385,7 @@ async function make_wish() {
     await sleep(1000);
     let d = Math.random();
     // Success
-    if (d <= 0.1) {
+    if (d <= 0.15) {
         max_hp += 10;
         hp = max_hp;
         game_text.textContent += "Your prayers have been heard.\r\n";
@@ -401,12 +401,12 @@ async function make_wish() {
 
     // Fail
     else {
-        damage(20);
         game_text.textContent += "Your prayers have been rejected.\r\n";
 
         await sleep(1000);
 
         game_text.textContent += "You take 20 damage.\r\n";
+        damage(20);
     }
     manage_allow_continue(true);
     display_stats();
