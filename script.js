@@ -29,7 +29,7 @@ var inventory_txt = "[Inventory: ";
 var alive = true;
 var max_hp = 100
 var hp = 100;
-var steps = 19;
+var steps = 10;
 var gold = 0;
 var xp = 0;
 var max_xp = 100;
@@ -47,21 +47,30 @@ lockwood_village_places_table = ["abandonend house", "abandonend church", "aband
 
 eastport_places_table = ["abandonend ship", "broken ship", "abandonend warehouse", "abandonend dock", "open container"]
 
+ocean_places_table = ["small island", "island", "shipwreck", "coral reef", "abandonend lighthouse", "ship graveyard"]
+
 // Events
 events_table = ["nothing", "chest", "enemy", "wishing well"];
 
 lockwood_village_events_table = ["nothing", "chest", "enemy", "merchant"] //NEW: MERCHANT
 
-eastport_places_events_table = ["cargo", "enemy", "nest", "nothing"] // NEW: CARGO, NEST
+eastport_events_table = ["cargo", "enemy", "nest", "nothing"] // NEW: CARGO, NEST
+
+ocean_events_table = ["enemy", "storm", "nothing"] // NEW: STORM
 
 // Loot Tables
 chest_loot_table = ["dagger", "axe", "sword", "bow", "healing potion", "gold", "nothing"]
+
 cargo_loot_table = ["halberd", "great axe", "axe", "sword", "claymore", "healing potion", "gold", "gold"]
 
 // Enemies
 enemies = ["spider", "werewolf", "dryad", "gnome", "wendigo", "ent", "harpy"]
+
 lockwood_village_enemies = ["goblin", "orc", "wraith", "giant spider", "bandit"]
+
 eastport_enemies = ["humanoid creature", "indiscernible entity", "ghoul"]
+
+ocean_enemies = ["sea monster", "mermaid", "siren", "leviathan", "sea serpent", "water elementals", "charybdis"]
 
 
 // Checks for region switches
@@ -84,12 +93,12 @@ async function check_region_switch(distance) {
         game_text.textContent += `[!] Heading out of the abandoned village, you make your way towards a port, looking for a ship that may help you. However, as you approach, you realize the port is 'infected'. [!]\r\n`
         region = regions[1];
         places_table = eastport_places_table;
-        events_table = eastport_places_events_table;
+        events_table = eastport_events_table;
         enemies = eastport_enemies;
         seperator();
     }
     else if (distance == 30) {
-        game_text.textContent += `[!] You have reached the ${regions[2]}. [!]\r\n`
+        game_text.textContent += `[!] After reaching the port, you finally find a ship that seems seaworthy. However, as you set out to sea, you quickly realize that the ocean is just as dangerous as the land.[!]\r\n`
         region = regions[2];
     }
     else if (distance == 40) {
