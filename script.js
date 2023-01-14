@@ -29,7 +29,7 @@ var inventory_txt = "[Inventory: ";
 var alive = true;
 var max_hp = 100
 var hp = 100;
-var steps = 0;
+var steps = 19;
 var gold = 0;
 var xp = 0;
 var max_xp = 100;
@@ -59,9 +59,9 @@ chest_loot_table = ["dagger", "axe", "sword", "bow", "healing potion", "gold", "
 cargo_loot_table = ["halberd", "great axe", "axe", "sword", "claymore", "healing potion", "gold", "gold"]
 
 // Enemies
-enemies = ["spider", "wolf", "goblin", "gnome"]
-lockwood_village_enemies = []
-eastport_enemies = ["humanoid creature", "indiscernible creature"]
+enemies = ["spider", "werewolf", "dryad", "gnome", "wendigo", "ent", "harpy"]
+lockwood_village_enemies = ["goblin", "orc", "wraith", "giant spider", "bandit"]
+eastport_enemies = ["humanoid creature", "indiscernible entity", "ghoul"]
 
 
 // Checks for region switches
@@ -76,6 +76,7 @@ async function check_region_switch(distance) {
         region = regions[0];
         places_table = lockwood_village_places_table;
         events_table = lockwood_village_events_table;
+        enemies = lockwood_village_enemies;
         seperator();
 
     }
@@ -84,6 +85,7 @@ async function check_region_switch(distance) {
         region = regions[1];
         places_table = eastport_places_table;
         events_table = eastport_places_events_table;
+        enemies = eastport_enemies;
         seperator();
     }
     else if (distance == 30) {
