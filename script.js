@@ -22,7 +22,7 @@ var awaiting_response = true;
 var vowels = ["a", "e", "i", "o", "u"]
 
 // Inventory
-var inventory = ["damaged sword", "claymore"];
+var inventory = ["damaged sword"];
 var inventory_txt = "[Inventory: ";
 
 // Stats
@@ -552,6 +552,58 @@ function weapon_damage(weapon) {
 }
 
 // Enemy Damage Determiner
+function det_enemy_dmg(enemy) {
+    switch(enemy) {
+        // REGION 0: FOREST
+        case "spider":
+            return [2, 5];
+        case "werewolf":
+            return [4, 7];
+        case "dryad":
+            return [2, 5];
+        case "gnome":
+            return [2, 4];
+        case "wendigo":
+            return [5, 9];
+        case "ent":
+            return [4, 7];
+        case "harpy":
+            return [2, 5];
+        // REGION 1: LOCKWOOD VILLAGE
+        case "goblin":
+            return [8, 9];
+        case "orc":
+            return [8, 14];
+        case "wraith":
+            return [8, 10];
+        case "giant spider":
+            return [8, 11];
+        case "bandit":
+            return [6, 9];
+        // REGION 2: EASTPORT
+        case "humanoid creatures":
+            return [12, 16];
+        case "indiscernible entity":
+            return [11, 14];
+        case "ghoul":
+            return [8, 11];
+        // REGION 3: OCEAN
+        case "sea monster":
+            return [10, 16];
+        case "mermaid":
+            return [8, 14];
+        case "siren":
+            return [8, 11];
+        case "leviathan":
+            return [8, 26];
+        case "sea serpent":
+            return [7, 20];
+        case "water elementals":
+            return [8, 21];
+        case "charybdis":
+            return [9, 16];
+    }
+}
 
 // Enemy HP Determiner
 function det_enemy_hp(enemy) {
@@ -747,7 +799,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
 
             game_text.textContent += `[i] ${capitalizeFirstLetter(enemy)}'s turn. [i]\r\n`;
 
-            let dmg = randomIntFromInterval(1,15);
+            let dmg = randomIntFromInterval(det_enemy_dmg(enemy)[0], det_enemy_dmg(enemy)[1]);
 
             damage(dmg);
 
