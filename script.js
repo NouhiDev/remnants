@@ -430,7 +430,7 @@ async function damage(amount) {
 async function enemy_encounter() {
     // Setup Enemy
     let enemy = enemies.sample();
-    let enemy_hp = randomIntFromInterval(enemy_hp(enemy)[0], enemy_hp(enemy)[1]);
+    let enemy_hp = randomIntFromInterval(det_enemy_hp(enemy)[0], det_enemy_hp(enemy)[1]);
 
     game_text.textContent += `[!] You encounter a ${enemy}. [!]\r\n`;
 
@@ -554,7 +554,7 @@ function weapon_damage(weapon) {
 // Enemy Damage Determiner
 
 // Enemy HP Determiner
-function enemy_hp(enemy) {
+function det_enemy_hp(enemy) {
     switch(enemy) {
         // REGION 0: FOREST
         case "spider":
