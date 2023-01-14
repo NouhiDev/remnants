@@ -1088,6 +1088,7 @@ function manage_xp(amount) {
         max_xp += lvl*10;
         max_hp += lvl*5;
         xp = Math.abs(max_xp-xp);
+        hp = max_hp;
     }
     display_stats();
 }
