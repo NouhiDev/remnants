@@ -272,16 +272,19 @@ function short_seperator() {
 // Displays the players stats
 function display_stats() {
     stats_text.textContent = "";
-    stats_text.textContent += `[Health: ${hp}/${max_hp} | Distance traveled: ${steps * 100}m | Gold: ${gold} | Region: ${region} | LVL: ${lvl} | XP: ${xp}/${max_xp}]\r\n`
+    stats_text.innerHTML += `[ <span class="health">Health: ${hp}/${max_hp}</span> | ` + 
+    `<span class="distance">Distance traveled: ${steps * 100}m</span> | ` + 
+    `<span class="gold">Gold: ${gold}</span> | <span class="region">Region: ${region}</span> | <span class="lvl">LVL: ${lvl}</span> | ` + 
+    `<span class="xp">XP: ${xp}/${max_xp}</span> ]\r\n`
     display_inventory();
 }
 
 // Displays the players inventory
 function display_inventory() {
-    inventory_txt = "[Inventory: ";
+    inventory_txt = "[ Inventory: ";
     inventory.forEach(add_to_inventory_txt);
     inventory_txt = inventory_txt.substring(0,inventory_txt.length-2);
-    stats_text.textContent += inventory_txt + "]\r\n";
+    stats_text.innerHTML += inventory_txt + " ]\r\n";
 }
 
 // Helper inventory display function

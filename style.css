@@ -413,3 +413,28 @@ hr {
   color:rgb(112, 229, 255);
 }
 
+/* Stats Colors */
+
+.health {
+  color:#ff7f7f;
+}
+
+.gold {
+  color:rgb(221, 176, 29);
+}
+
+.distance {
+  color: #91a3a3;
+}
+
+.region {
+  color: #a38d60;
+}
+
+.lvl {
+  color:#aaffa6;
+}
+
+.xp {
+  color:rgb(78, 255, 84);
+}
