@@ -144,8 +144,8 @@
   }
 
   .loader {
-    height: 100vh;
-    width: 100vw;
+    height: 125vh;
+    width: 125vw;
     overflow: hidden;
     background-color: #121317;
     position: absolute;
@@ -155,7 +155,7 @@
     height: 100px;
     width: 100px;
     border: 1px solid #424855;
-    border-top-color: rgb(255, 66, 66);
+    border-top-color: rgb(255, 219, 146);
     position: absolute;
     margin: auto;
     top: 0;

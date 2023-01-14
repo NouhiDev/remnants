@@ -1,6 +1,6 @@
 $(window).on("load",function(){
     $(".loader").fadeOut(1000);
-    delay(1).then(() => $(".content").fadeIn(1000));
+    delay(1000).then(() => $(".content").fadeIn(1000));
 })
 
 // Adds delay
