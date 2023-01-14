@@ -462,12 +462,16 @@ async function manage_sub_events(sub_event) {
     switch(sub_event) {
         case "traveler":
             let phrase = traveler_phrases.sample();
+            let name = traveler_names.sample();
 
             game_text.innerHTML += `You encounter a traveler.\r\n`
 
-            await sleep(1000);
+            await sleep(3000);
 
-            game_text.innerHTML += phrase + `\r\n`
+            game_text.innerHTML = "";
+            game_text.innerHTML +=  `<span class="orange">Traveler "${name}"</span>` + `\r\n\r\n`;
+            game_text.innerHTML +=  `"${phrase}"` + `\r\n\r\n`;
+            game_text.innerHTML +=  `The traveler walks off.` + `\r\n\r\n`;
             manage_allow_continue(true);
             break;
         case "merchant":
