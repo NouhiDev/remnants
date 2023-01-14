@@ -265,14 +265,14 @@
   /* Game Related Styling */
   .game-container {
     overflow-y: scroll;
-    height: 430px;
+    height: 500px;
     width: 900px;
     background-color: #0f1013;
     border-radius: 25px;
     margin: auto;
     padding: auto;
     text-align: center;
-    border:#1d1f25 2px;
+    border:#494c57 2px;
     border-style: solid;
   }
 
