@@ -517,7 +517,7 @@ async function make_wish() {
     await sleep(1000);
     let d = Math.random();
     // Success
-    if (d <= 0.15) {
+    if (d <= 0.2) {
         max_hp += 10;
         hp = max_hp;
         game_text.textContent += "Your prayers have been heard.\r\n";
@@ -1033,10 +1033,6 @@ async function open_loot_container(container, amount_of_items) {
             let amt = randomIntFromInterval(1, 250);
             gold += amt;
             game_text.textContent += `You found ${amt} gold.\r\n`;
-
-            await sleep(1000);
-
-            game_text.textContent += `You're currently holding ${gold} gold.\r\n`;
 
             await sleep(1000);
             break;
