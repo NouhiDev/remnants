@@ -76,7 +76,8 @@ cargo_loot_table = ["halberd", "greataxe", "axe", "sword", "claymore", "healing 
 // #region Enemies
 enemies = ["spider", "werewolf", "dryad", "gnome", "wendigo", "ent", "harpy"]
 
-forest_enemies = ["spider", "werewolf", "dryad", "gnome", "wendigo", "ent", "harpy"]
+forest_enemies = ["spider", "werewolf", "dryad", "gnome", "wendigo", "ent", "harpy", 
+"basilisk", "lizard", "large rat", "giant leech", "giant mosquito"]
 
 lockwood_village_enemies = ["goblin", "orc", "wraith", "giant spider", "bandit"]
 
@@ -120,6 +121,8 @@ blacksmith_names = ["Najka", "Freja", "Mytha", "Velstadt", "Vendrick", "Magus", 
 async function check_region_switch(distance) {
     // Forest
     if (distance == 0) {
+        enemies = forest_enemies;
+        places_table = forest_places_table;
         awaiting_response = true;
         // REGION SCREEN UPDATE
         region_text.innerHTML = `<span class="red">[Act 1]</span> You wake up in a dense <span class="green">forest</span>, disoriented and confused. You realize that you have no memory of how you got here or what has happened to the world around you. You see a <span class="light-green">clearing</span> ahead.\r\n`
@@ -961,6 +964,16 @@ function det_enemy_dmg(enemy) {
             return [4, 7];
         case "harpy":
             return [2, 5];
+        case "basilisk":
+            return [3, 8];
+        case "lizard":
+            return [5, 8];
+        case "large rat":
+            return [3, 6];
+        case "giant leech":
+            return [3, 7];
+        case "giant mosquito":
+            return [3, 5];
         // REGION 1: LOCKWOOD VILLAGE
         case "goblin":
             return [8, 9];
@@ -1018,6 +1031,16 @@ function det_enemy_xp(enemy) {
             return [14, 30];
         case "harpy":
             return [10, 20];
+        case "basilisk":
+            return [10, 20];
+        case "lizard":
+            return [20, 36];
+        case "large rat":
+            return [14, 26];
+        case "giant leech":
+            return [16, 29];
+        case "giant mosquito":
+            return [10, 20];
         // REGION 1: LOCKWOOD VILLAGE + 10
         case "goblin":
             return [16, 18];
@@ -1074,6 +1097,16 @@ function det_enemy_hp(enemy) {
         case "ent":
             return [7, 15];
         case "harpy":
+            return [5, 10];
+        case "basilisk":
+            return [7, 17];
+        case "lizard":
+            return [10, 16];
+        case "large rat":
+            return [5, 12];
+        case "giant leech":
+            return [6, 14];
+        case "giant mosquito":
             return [5, 10];
         // REGION 1: LOCKWOOD VILLAGE
         case "goblin":
