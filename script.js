@@ -1090,7 +1090,7 @@ async function enemy_encounter() {
     }
     
     // Anounce enemy
-    game_text.innerHTML += `<span class="info">You encounter ${article} <span class="enemy">${enemy_descriptor} ${enemy}</span>.</span>\r\n\r\n`;
+    game_text.innerHTML += `<span class="info">You encounter ${article} ${enemy_descriptor} <span class="enemy">${enemy}</span>.</span>\r\n\r\n`;
 
 
     await sleep(1000);
