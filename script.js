@@ -1744,7 +1744,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee, enemy_combined) {
                 for (let i = 0; i < inventory.length; i++) {
                     awaiting_response = true;
                     const item = inventory[i];
-                    game_text.innerHTML += `<span class="choice">Use ${item}? (${item_determiner(item[0], "dmg")[0]}-${item_determiner(item[0], "dmg")[1]} dmg)</span>\r\n\r\n`;
+                    game_text.innerHTML += `<span class="choice">Use ${item}? (${item_determiner(item, "dmg")[0]}-${item_determiner(item, "dmg")[1]} dmg)</span>\r\n\r\n`;
 
                     // Wait for user input
                     manage_input(true);
@@ -1801,7 +1801,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee, enemy_combined) {
 
                     game_text.innerHTML += `You chose to use ${weapon_to_use}.\r\n\r\n`;
 
-                    let weapon_dmg = randomIntFromInterval(item_determiner(item[0], "dmg")[0], item_determiner(item[0], "dmg")[1]);
+                    let weapon_dmg = randomIntFromInterval(item_determiner(item, "dmg")[0], item_determiner(item, "dmg")[1]);
 
                     let hit_chance = Math.random();
                     // You miss / evade
