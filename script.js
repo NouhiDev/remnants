@@ -894,7 +894,7 @@ async function manage_sub_events(sub_event) {
             let storm_dmg = randomIntFromInterval(5,15);
             damage(storm_dmg);
 
-            game_text.innerHTML += `A violent storm hits you.\r\n`
+            game_text.innerHTML += `A violent storm hits you.\r\n\r\n`
 
             await sleep(1000);
 
