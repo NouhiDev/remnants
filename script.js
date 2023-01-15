@@ -734,7 +734,7 @@ async function traveler_routine() {
 
         await sleep(1000);
 
-        game_text.innerHTML +=  `Loot is yet to implemented.` + `\r\n\r\n`;
+        let loot_table = [];
 
         await sleep(1000);
 
@@ -1574,7 +1574,7 @@ async function open_loot_container(container, amount_of_items) {
         await sleep(1000);
 
         // Choose random item from loot table
-        item = chest_loot_table.sample();
+        item = container.sample();
 
         // Determine correct article
         if (vowels.includes(item[0])) {
