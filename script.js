@@ -785,7 +785,7 @@ async function manage_sub_events(sub_event) {
 
                     await sleep(1000);
 
-                    open_loot_container(object_burried_in_ground_loot_table, randomIntFromInterval(3, 5))
+                    open_loot_container(object_burried_in_ground_loot_table, randomIntFromInterval(1, 3))
                 }
                 // is trap
                 else {
