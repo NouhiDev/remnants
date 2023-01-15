@@ -1418,6 +1418,12 @@ async function small_dungeon() {
                 break;
         }
         await sleep(2000);
+
+        game_text.innerHTML =  `<span class="small-dungeon">SMALL DUNGEON</span>` + `\r\n(Exit)\r\n\r\n`;
+
+        await sleep(2000);
+
+        game_text.innerHTML +=  `You discover the exit and leave.\r\n\r\n`;
     }
 }
 
