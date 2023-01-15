@@ -443,7 +443,7 @@ async function check_region_switch(distance) {
         awaiting_response = true;
         game_text.innerHTML = `<span class="light-blue">ACT 5: ASHORE</span>\r\n\r\n` +
         `As your boat reaches the shore of the island, you can see the signs of the rebellion in the distance. The air is filled with the sounds of battle, and you know that this is where you will find the rebellion's stronghold and your safety.\r\n`
-        + "\r\nYou go and look for the rebellion.\r\n" + "\r\n<span class='choice'>Continue?</span>\r\n";
+        + "\r\nYou go and look for the rebellion.\r\n" + "\r\n<span class='choice'>Continue?</span>\r\n\r\n";
         // Wait for user input
         manage_input(true);
 
