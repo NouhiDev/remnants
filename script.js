@@ -726,16 +726,50 @@ async function pray() {
 async function make_wish() {
     game_text.innerHTML =  `<span class="wishing-well">WISHING WELL</span>` + `\r\n\r\n`;
     await sleep(1000);
-    game_text.innerHTML += `You throw <span class="gold">one gold</span> into the well.\r\n\r\n`;
-    gold -= 1;
-    display_stats();
-    await sleep(2000);
+
+    game_text.innerHTML += `Throw <span class="gold">one gold</span> into the well?\r\n (y/n) \r\n`;
+
+    // Wait for user input
+    manage_input(true);
+
+    while(awaiting_response) {
+        await sleep(1);
+    }
+
+    manage_input(false);
+
+    // Throw gold
+    if (player_input == "y") {
+        // If player has more than 1 gold
+        if (gold > 0) {
+            game_text.innerHTML += `You throw <span class="gold">one gold</span> into the well.\r\n\r\n`;
+            gold -= 1;
+            display_stats();
+            await sleep(2000);
+        }
+        // Player has no gold
+        else {
+            game_text.innerHTML += `You don't have <span class="gold">gold</span> to throw into the well.\r\n\r\n`;
+            await sleep(1000);
+            game_text.innerHTML += `You move on.\r\n\r\n`;
+            await sleep(1000);
+            manage_allow_continue(true);
+            return;
+        }
+    }
+    // Dont throw gold
+    else if (player_input == "n") {
+        game_text.innerHTML += "You don't throw <span class='gold'>one gold</span> into the well and move on.\r\n";
+        manage_allow_continue(true);
+        return;
+    }
+
     let d = Math.random();
     // Success with 30% Chance
     if (d <= 0.3) {
         max_hp += 10;
         hp = max_hp;
-        game_text.innerHTML += "<span class='blessing'>Your prayers have been heard.</span>\r\n\r\n";
+        game_text.innerHTML += "<span class='blessing'>Your wish has been fulfilled.</span>\r\n\r\n";
 
         await sleep(1000);
 
@@ -750,6 +784,7 @@ async function make_wish() {
     else {
         game_text.innerHTML += "<span class='info'>Nothing happened.</span>\r\n\r\n";
     }
+
     manage_allow_continue(true);
     display_stats();
 }
