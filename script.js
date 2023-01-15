@@ -2262,7 +2262,7 @@ async function open_loot_container(container, amount_of_items) {
 
         // Healing Potion
         if (item == "healing potion") {
-            let amt = randomIntFromInterval(10, max_hp);
+            let amt = randomIntFromInterval(10, Math.floor(max_hp/2));
 
             hp += amt;
             if (hp >= max_hp) {
