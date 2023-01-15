@@ -266,7 +266,7 @@
   .game-container {
     overflow-y: auto;
     height: 500px;
-    width: 900px;
+    width: 940px;
     background-color: #0f1013;
     border-radius: 25px;
     margin: auto;
@@ -297,7 +297,7 @@
 
   .stats-container {
     height: 105px;
-    width: 900px;
+    width: 940px;
     background-color: #0f1013;
     border-radius: 25px;
     margin: auto;
