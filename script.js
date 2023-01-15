@@ -408,7 +408,7 @@ async function check_region_switch(distance) {
     // Rocky Shores
     if (distance == 40) {
         current_region = regions[3];
-        region_text.innerHTML = `<span class="red">[Act 5]</span> After reaching the <span class="purplebrown">port</span>, you finally find a <span class="brown">ship</span> that seems seaworthy. However, as you set out to sea, you quickly realize that the <span class="blue">ocean</span> is just as dangerous as the land.\r\n`
+        region_text.innerHTML = `<span class="red">[Act 5] Your boat reaches the shore of the island, you can see the signs of the rebellion in the distance. You know that this is where you will find the rebellion's stronghold and your safety.</span> \r\n`
         region = regions[3];
         places_table = shore_places_table;
         events_table = shore_events_table;
