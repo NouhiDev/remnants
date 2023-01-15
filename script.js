@@ -618,7 +618,7 @@ async function manage_sub_events(sub_event) {
 
                     await sleep(1000);
 
-                    game_text.innerHTML += "It is a trap.\r\n";
+                    game_text.innerHTML += "<span class='drastic'>It is a trap.</span>\r\n\r\n";
 
                     await sleep(1000);
 
@@ -1026,7 +1026,7 @@ async function merchant_routine() {
             if (price+anger <= gold) {
                 await sleep(1000);
                 gold -= (price+anger);
-                game_text.innerHTML += "<span class='info'>\r\nYou bought it.</span>\r\n\r\n";
+                game_text.innerHTML += "<span class='info'>\r\nYou bought the item and added it to your inventory.</span>\r\n\r\n";
                 // add to inventory
                 if (item != "lesser healing potion" && item != "healing potion") {
                     inventory.push(item);
