@@ -1633,7 +1633,7 @@ function det_enemy_hp(enemy) {
             return [8, 11];
         case "banshee":
             return [15, 19];
-        case "vile maggot":
+        case "maggot":
             return [7, 11];
         case "possessed":
             return [12, 16];
