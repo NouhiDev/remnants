@@ -1703,6 +1703,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee, enemy_combined) {
             game_text.innerHTML += `<span class="turn">${capitalizeFirstLetter(enemy)}'s turn:</span>\r\n\r\n`;
 
             let dmg = randomIntFromInterval(det_enemy_dmg(enemy)[0], det_enemy_dmg(enemy)[1]);
+            dmg += Math.floor(steps/4);
 
             await sleep(1000);
 
