@@ -1207,17 +1207,33 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee, enemy_combined) {
 
             // If no weapons --> use fists
             if (inventory.length <= 0) {
-                let fist_dmg = randomIntFromInterval(1,3);
-                enemy_hp -= fist_dmg;
-                if (enemy_hp <= 0) {
-                    enemy_hp = 0;
+                let hit_chance = Math.random();
+                // You miss the attack
+                if (hit_chance < 0.15) {
+                    let miss_or_evade_chance = Math.random();
+                    // Miss the hit with 50%
+                    if (miss_or_evade_chance < 0.5) {
+                        game_text.innerHTML += `<span class="drastic">You miss and deal no damage</span>.\r\n\r\n`;
+                    }
+                    // Enemy evades with 50%
+                    else {
+                        game_text.innerHTML += `<span class="drastic">${enemy_combined} evaded the attack</span>.\r\n\r\n`;
+                    }
+                } 
+                // You hit the attack
+                else {
+                    let fist_dmg = randomIntFromInterval(1,3);
+                    enemy_hp -= fist_dmg;
+                    if (enemy_hp <= 0) {
+                        enemy_hp = 0;
+                    }
+    
+                    game_text.innerHTML += `You use your fists.\r\n\r\n`;
+    
+                    await sleep(1000);
+    
+                    game_text.innerHTML += `<span class="deal-dmg"> You deal ${fist_dmg} damage. </span>\r\n`;
                 }
-
-                game_text.innerHTML += `You use your fists.\r\n\r\n`;
-
-                await sleep(1000);
-
-                game_text.innerHTML += `<span class="deal-dmg"> You deal ${fist_dmg} damage. </span>\r\n`;
                 
                 await sleep(2000);
 
@@ -1308,17 +1324,38 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee, enemy_combined) {
 
             game_text.innerHTML += `${capitalizeFirstLetter(enemy)} attacks.\r\n\r\n`;
 
-            await sleep(1000);
+            let miss_chance = Math.random();
+            // Enemy misses with 15% Chance
+            if (miss_chance < 0.15) {
+                let miss_or_evade_chance = Math.random();
+                // Miss with 50% Chance
+                if (miss_or_evade_chance < 0.5) {
+                    await sleep(1000);
 
-            game_text.innerHTML += `<span class="dmg">You take ${dmg} damage.</span>\r\n\r\n`;
+                    game_text.innerHTML += `<span class="blessing">${enemy_combined} misses and deals no damage.</span>\r\n\r\n`; 
+                }
+                // Player evades with 50%
+                else {
+                    await sleep(1000);
 
-            damage(dmg);
-            display_stats();
+                    game_text.innerHTML += `<span class="blessing">You evade the attack.</span>\r\n\r\n`; 
+                }
+                
+            }
+            // Enemy hits
+            {
+                await sleep(1000);
 
-            // if player will die break loop
-            if (hp <= 0) {
-                in_combat = false;
-                break;
+                game_text.innerHTML += `<span class="dmg">You take ${dmg} damage.</span>\r\n\r\n`;
+
+                damage(dmg);
+                display_stats();
+
+                // if player will die break loop
+                if (hp <= 0) {
+                    in_combat = false;
+                    break;
+                }
             }
 
             await sleep(2000);
