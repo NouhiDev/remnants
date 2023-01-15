@@ -871,7 +871,7 @@ async function traveler_routine() {
 
                 gold += amt;
 
-                game_text.innerHTML += `${name} gives you ${amt} gold.\r\n`;
+                game_text.innerHTML += `${name} gives you <span class="gold">${amt} gold</span>.\r\n`;
                 display_stats();
     
                 await sleep(1000);
@@ -1710,21 +1710,21 @@ async function open_loot_container(container, amount_of_items) {
 
             await sleep(1000);
 
-            game_text.innerHTML += `<span class="heal">You healed ${amt} hp.</span>\r\n`;
+            game_text.innerHTML += `<span class="heal">You healed ${amt} hp.</span>\r\n\r\n`;
             display_stats();
 
             await sleep(1000);
-            break;
+            continue;
         }
 
         // Gold
         if (item == "gold") {
             let amt = randomIntFromInterval(1, 250);
             gold += amt;
-            game_text.innerHTML += `You found ${amt} gold.\r\n`;
+            game_text.innerHTML += `You found <span class="gold">${amt} gold</span>.\r\n`;
 
             await sleep(1000);
-            break;
+            continue;
         }
 
         // Nothing
@@ -1732,25 +1732,25 @@ async function open_loot_container(container, amount_of_items) {
             if (amount_of_items == 1) {
                 game_text.innerHTML += "It is empty.\r\n";
             }
-            //game_text.innerHTML += "...\r\n";
+            // game_text.innerHTML += "...\r\n";
             continue;
         }
 
         // Check if item is already in inventory
         if (inventory.includes(item)) {
             game_text.innerHTML += `You found ${article} ${item} but you already have one.\r\n`
-            break;
+            continue;
         }
 
         // Add item to inventory
         inventory.push(item);
         game_text.innerHTML += `You found ${article} ${item}.\r\n`
-      }
+    }
 
-      await sleep(1000);
+    await sleep(1000);
 
-      game_text.innerHTML += `You finish looting.\r\n`
-      manage_allow_continue(true);
+    game_text.innerHTML += `\r\nYou finish looting.\r\n`
+    manage_allow_continue(true);
 }
 
 // Yes Button Function
