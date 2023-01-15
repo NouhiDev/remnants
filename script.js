@@ -517,7 +517,7 @@ async function check_region_switch(distance) {
         enemies = ocean_enemies;
         // STORY SCREEN
         awaiting_response = true;
-        game_text.innerHTML = `<span class="light-blue">ACT 7: REBELLION</span>\r\n\r\n` +
+        game_text.innerHTML = `<span class="light-blue">ACT 7: WASTELAND</span>\r\n\r\n` +
         `After arriving at the port, you successfully find a ship that appears to be in good condition. However, as soon as you set sail, it becomes clear that the ocean is equally perilous as the land. The waters are filled with mutated creatures, and the storms are more violent than ever before.\r\n`
         + "\r\nYou set out to sea.\r\n" + "\r\n<span class='choice'>Continue?</span>\r\n";
         // Wait for user input
@@ -555,7 +555,7 @@ async function check_region_switch(distance) {
         enemies = ocean_enemies;
         // STORY SCREEN
         awaiting_response = true;
-        game_text.innerHTML = `<span class="light-blue">ACT 8: REBELLION</span>\r\n\r\n` +
+        game_text.innerHTML = `<span class="light-blue">ACT 8: LOST TEMPLE</span>\r\n\r\n` +
         `After arriving at the port, you successfully find a ship that appears to be in good condition. However, as soon as you set sail, it becomes clear that the ocean is equally perilous as the land. The waters are filled with mutated creatures, and the storms are more violent than ever before.\r\n`
         + "\r\nYou set out to sea.\r\n" + "\r\n<span class='choice'>Continue?</span>\r\n";
         // Wait for user input
@@ -593,7 +593,7 @@ async function check_region_switch(distance) {
         enemies = ocean_enemies;
         // STORY SCREEN
         awaiting_response = true;
-        game_text.innerHTML = `<span class="light-blue">ACT 9: REBELLION</span>\r\n\r\n` +
+        game_text.innerHTML = `<span class="light-blue">ACT 9: SWAMP</span>\r\n\r\n` +
         `After arriving at the port, you successfully find a ship that appears to be in good condition. However, as soon as you set sail, it becomes clear that the ocean is equally perilous as the land. The waters are filled with mutated creatures, and the storms are more violent than ever before.\r\n`
         + "\r\nYou set out to sea.\r\n" + "\r\n<span class='choice'>Continue?</span>\r\n";
         // Wait for user input
