@@ -21,11 +21,13 @@ function delay(time) {
 // I don't recommend taking a look at the source code.
 // ---------------------------------------
 
-// Game
+// Stores the different text containers
 var game_text = document.getElementById("game-text");
 var stats_text = document.getElementById("stats-text");
 var region_text = document.getElementById("region-text");
-var event_text = document.getElementById("event-text");
+
+// Deprecated
+// var event_text = document.getElementById("event-text");
 
 // Determines whether the "YES" / "NO" buttons can be pressed
 var allow_input = false;
