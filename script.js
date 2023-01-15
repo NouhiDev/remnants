@@ -84,6 +84,9 @@ traveler_loot_table = ["healing potion", "gold", "sword", "axe", "dagger", "halb
 // #region Enemies
 enemies = []
 
+enemy_desciptors = ["great", "grand", "aggrevated", "feral", "hostile", "vicious", "malevolent", "bloodthirsty", "ferocious",
+"brutal", "ruthless", "predatory", "merciless", "wicked", "sinister", "tainted"]
+
 forest_enemies = ["spider", "werewolf", "dryad", "gnome", "wendigo", "ent", "harpy", 
 "basilisk", "lizard", "large rat", "giant leech", "giant mosquito"]
 
@@ -462,6 +465,7 @@ async function manage_sub_events(sub_event) {
     awaiting_response = true;
 
     switch(sub_event) {
+        // SHRINE
         case "shrine":
             game_text.innerHTML += `Pray at the shrine?\r\n (y/n) \r\n`;
 
@@ -486,6 +490,7 @@ async function manage_sub_events(sub_event) {
             }
 
             break;
+        // TRAVELER
         case "traveler":
             game_text.innerHTML += `Approach them?\r\n (y/n) \r\n`;
 
@@ -510,6 +515,7 @@ async function manage_sub_events(sub_event) {
             }
 
             break;
+        // MERCHANT
         case "merchant":
             game_text.innerHTML += `Talk to merchant?\r\n (y/n) \r\n`;
 
@@ -539,6 +545,7 @@ async function manage_sub_events(sub_event) {
             }
             break;
             break;
+        // STORM
         case "storm":
             let storm_dmg = randomIntFromInterval(5,15);
             damage(storm_dmg);
@@ -1067,28 +1074,36 @@ async function merchant_routine() {
 }
 
 // #region COMBAT RELATED
-
+enemy_encounter();
 // Enemy Encounter
 async function enemy_encounter() {
+    enemies = forest_enemies;
     // Setup Enemy
     let enemy = enemies.sample();
+    let enemy_descriptor = enemy_desciptors.sample();
+    let enemy_combined_name = `${enemy_descriptor} ${enemy}`;
     let enemy_hp = randomIntFromInterval(det_enemy_hp(enemy)[0], det_enemy_hp(enemy)[1]);
     
+    // Determine correct article to use
     let article = "";
-    if (vowels.includes(enemy[0])) {
+    if (vowels.includes(enemy_combined_name[0])) {
         article = "an";
     }
     else {
         article = "a";
     }
-    game_text.innerHTML += `You encounter ${article} ${enemy}.\r\n`;
+    
+    // Anounce enemy
+    game_text.innerHTML += `<span class="info">You encounter ${article} <span class="enemy">${enemy_combined_name}</span>.</span>\r\n\r\n`;
 
 
     await sleep(1000);
 
-    game_text.innerHTML += `${capitalizeFirstLetter(enemy)} has ${enemy_hp} hp.\r\n`;
+    // Anounce enemy hp
+    game_text.innerHTML += `<span class="enemy">${capitalizeFirstLetter(enemy_combined_name)}</span> has ${enemy_hp} hp.\r\n\r\n`;
 
-    game_text.innerHTML += `Engage in combat?\r\n (y/n) \r\n`;
+    // Prompt for combat
+    game_text.innerHTML += `Engage in combat? \r\n\r\n`;
 
     // Wait for user input
     manage_input(true);
@@ -1101,75 +1116,41 @@ async function enemy_encounter() {
 
     // Engages
     if (player_input == "y") {
-        game_text.innerHTML += "You engange in combat.\r\n";
+        game_text.innerHTML += "You engange in combat.\r\n\r\n";
 
         await sleep(1000);
 
-        combat_routine(enemy, enemy_hp, false);
+        combat_routine(enemy, enemy_hp, false, enemy_combined_name);
         return;
     }
     // Tries to flee
     else if (player_input == "n") {
-        game_text.innerHTML += "You attempt to flee.\r\n";
+        game_text.innerHTML += "You attempt to flee.\r\n\r\n";
         let d = Math.random();
-        // Flee Successfully
+        // Flee Successfully with 45% Chance
         if (d < 0.45) {
             await sleep(1000);
 
-            game_text.innerHTML += "You successfully flee.\r\n";
+            game_text.innerHTML += "<span class='blessing'>You successfully flee.</span>\r\n";
 
             manage_allow_continue(true);
         }
-        // Fail --> Engange in Combat
+        // Fail with 55% Chance --> Engange in Combat
         else {
             let dmg = randomIntFromInterval(1,3);
             damage(dmg);
 
             await sleep(1000);
 
-            game_text.innerHTML += "You fail to flee.\r\n";
+            game_text.innerHTML += "<span class='drastic'>You fail to flee.</span>\r\n\r\n";
 
             await sleep(1000);
 
-            game_text.innerHTML += `<span class="dmg">You take ${dmg} damage.</span>\r\n`;
+            game_text.innerHTML += `<span class="dmg">You take ${dmg} damage.</span>\r\n\r\n`;
 
             await sleep(1000);
 
-            combat_routine(enemy, enemy_hp, true)
-
-            return;
-        }
-    }
-    // WRONG INPUT --> DOESNT OPEN CHEST
-    else {
-        game_text.innerHTML += "You attempt to flee.\r\n";
-        let d = Math.random();
-        // Flee Successfully
-        if (d < 0.33) {
-            await sleep(1000);
-
-            game_text.innerHTML += "You successfully flee.\r\n";
-
-            manage_allow_continue(true);
-
-            return;
-        }
-        // Fail --> Engange in Combat
-        else {
-            let dmg = randomIntFromInterval(1,3);
-            damage(dmg);
-
-            await sleep(1000);
-
-            game_text.innerHTML += "You fail to flee.\r\n";
-
-            await sleep(1000);
-
-            game_text.innerHTML += `<span class="dmg">You take ${dmg} damage.</span>\r\n`;
-
-            await sleep(1000);
-
-            combat_routine(enemy, enemy_hp, true)
+            combat_routine(enemy, enemy_hp, true, enemy_combined_name)
 
             return;
         }
@@ -1179,15 +1160,16 @@ async function enemy_encounter() {
 }
 
 // Combat Routine
-async function combat_routine(enemy, enemy_hp, failed_to_flee) {
+async function combat_routine(enemy, enemy_hp, failed_to_flee, enemy_combined) {
 
     let d = Math.random();
     let in_combat = true;
     let player_turn = failed_to_flee;
     let enemy_max_hp = enemy_hp;
 
+
     await sleep(1000);
-    game_text.innerHTML = "";
+    game_text.innerHTML = "<span class='combat'>COMBAT</span>\r\n" + `[ <span class='enemy'>You vs ${capitalizeFirstLetter(enemy_combined)} (${enemy_hp}/${enemy_max_hp} hp)</span> ]\r\n\r\n`;;
 
     while(in_combat) {
         // Seperate
@@ -1196,7 +1178,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
         // Check for enemy hp
         if (enemy_hp <= 0) {
             // Win fight
-            game_text.innerHTML += `You've slain the ${enemy}.\r\n`;
+            game_text.innerHTML += `<span class="blessing">You've slain the ${enemy}.</span>\r\n\r\n`;
 
             let enemy_xp = randomIntFromInterval(det_enemy_xp(enemy)[0],det_enemy_xp(enemy)[1]);
             enemy_xp += steps;
@@ -1204,12 +1186,6 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
             await sleep(1000);
 
             game_text.innerHTML += `<span class="green">You've earned ${enemy_xp} xp.</span>\r\n`;
-
-            if (xp >= max_xp) {
-                await sleep(1000);
-                game_text.innerHTML += `<span class="lvl">You leveled up!</span>\r\n`;
-                await sleep(1000);
-            }
 
             manage_xp(enemy_xp);
 
@@ -1228,9 +1204,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
         
         // Players Turn
         if (player_turn) {
-            await sleep(1000);
-
-            game_text.innerHTML += `Your turn.\r\n`;
+            game_text.innerHTML += `<span class="turn">Your turn:</span>\r\n\r\n`;
 
             await sleep(1000);
 
@@ -1242,15 +1216,11 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
                     enemy_hp = 0;
                 }
 
-                game_text.innerHTML += ` You use your fists. \r\n`;
+                game_text.innerHTML += `You use your fists.\r\n\r\n`;
 
                 await sleep(1000);
 
                 game_text.innerHTML += `<span class="deal-dmg"> You deal ${fist_dmg} damage. </span>\r\n`;
-
-                await sleep(1000);
-
-                game_text.innerHTML += ` ${capitalizeFirstLetter(enemy)} has ${enemy_hp}/${enemy_max_hp} hp. \r\n`;
                 
                 await sleep(2000);
 
@@ -1262,7 +1232,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
                 for (let i = 0; i < inventory.length; i++) {
                     awaiting_response = true;
                     const item = inventory[i];
-                    game_text.innerHTML += `Use ${item}? (${weapon_damage(item)[0]}-${weapon_damage(item)[1]} dmg)\r\n (y/n) \r\n`;
+                    game_text.innerHTML += `<span class="choice">Use ${item}? (${weapon_damage(item)[0]}-${weapon_damage(item)[1]} dmg)</span>\r\n\r\n`;
 
                     // Wait for user input
                     manage_input(true);
@@ -1290,22 +1260,18 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
                         enemy_hp = 0;
                     }
 
-                    game_text.innerHTML += ` You use your fists. \r\n`;
+                    game_text.innerHTML += ` You use your fists. \r\n\r\n`;
 
                     await sleep(1000);
 
                     game_text.innerHTML += `<span class="deal-dmg"> You deal ${fist_dmg} damage. </span>\r\n`;
-
-                    await sleep(2000);
-
-                    game_text.innerHTML += ` ${capitalizeFirstLetter(enemy)} has ${enemy_hp}/${enemy_max_hp} hp. \r\n`;
                 }
                 
                 // Weapon has been chosen
                 else {
                     await sleep(1000);
 
-                    game_text.innerHTML += `You chose to use ${weapon_to_use}.\r\n`;
+                    game_text.innerHTML += `You chose to use ${weapon_to_use}.\r\n\r\n`;
 
                     let weapon_dmg = randomIntFromInterval(weapon_damage(weapon_to_use)[0],weapon_damage(weapon_to_use)[1]);
                     enemy_hp -= weapon_dmg;
@@ -1315,11 +1281,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
 
                     await sleep(1000);
 
-                    game_text.innerHTML += `<span class="deal-dmg"> You deal ${weapon_dmg} damage. </span>\r\n`;
-
-                    await sleep(1000);
-
-                    game_text.innerHTML += ` ${capitalizeFirstLetter(enemy)} has ${enemy_hp}/${enemy_max_hp} hp. \r\n`;
+                    game_text.innerHTML += `<span class="deal-dmg"> You deal ${weapon_dmg} damage. </span>\r\n\r\n`;
 
                     // Randomly break weapon
                     let d = Math.random();
@@ -1335,25 +1297,23 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
 
                 await sleep(2000);
                 
-                game_text.innerHTML = "";
+                game_text.innerHTML = "<span class='combat'>COMBAT</span>\r\n" + `[ <span class='enemy'>You vs ${capitalizeFirstLetter(enemy_combined)} (${enemy_hp}/${enemy_max_hp} hp)</span> ]\r\n\r\n`;;
                 
             }
         }
         // Enemys Turn
         else {
-            await sleep(1000);
-
-            game_text.innerHTML += `${capitalizeFirstLetter(enemy)}'s turn.\r\n`;
+            game_text.innerHTML += `<span class="turn">${capitalizeFirstLetter(enemy)}'s turn.</span>\r\n\r\n`;
 
             let dmg = randomIntFromInterval(det_enemy_dmg(enemy)[0], det_enemy_dmg(enemy)[1]);
 
             await sleep(1000);
 
-            game_text.innerHTML += `${capitalizeFirstLetter(enemy)} attacks.\r\n`;
+            game_text.innerHTML += `${capitalizeFirstLetter(enemy)} attacks.\r\n\r\n`;
 
             await sleep(1000);
 
-            game_text.innerHTML += `<span class="dmg">You take ${dmg} damage.</span>\r\n`;
+            game_text.innerHTML += `<span class="dmg">You take ${dmg} damage.</span>\r\n\r\n`;
 
             damage(dmg);
             display_stats();
@@ -1366,7 +1326,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
 
             await sleep(2000);
                 
-            game_text.innerHTML = "";
+            game_text.innerHTML = "<span class='combat'>COMBAT</span>\r\n" + `[ <span class='enemy'>You vs ${capitalizeFirstLetter(enemy_combined)} (${enemy_hp}/${enemy_max_hp} hp)</span> ]\r\n\r\n`;;
         }
     }
 }
@@ -1815,14 +1775,18 @@ function no_btn() {
 }
 
 // XP Managing
-function manage_xp(amount) {
+async function manage_xp(amount) {
     xp += amount;
     if (xp >= max_xp) {
+        await sleep(1000);
+        game_text.innerHTML += `<span class="lvl">You leveled up!</span>\r\n\r\n`;
+        await sleep(1000);
         lvl++;
         max_xp += lvl*10;
         max_hp += lvl*5;
         xp = Math.abs(max_xp-xp);
         hp = max_hp;
+
     }
     display_stats();
 }

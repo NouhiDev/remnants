@@ -501,3 +501,21 @@ hr {
   color: rgb(153, 255, 112);
   font-size: 25px;
 }
+
+.combat {
+  color: rgb(255, 49, 49);
+  font-size: 25px;
+}
+
+.enemy {
+  color: rgb(255, 183, 183);
+}
+
+.choice {
+  color: rgb(227, 206, 135);
+}
+
+.turn {
+  color: rgb(218, 243, 255);
+  text-decoration: underline;
+}
