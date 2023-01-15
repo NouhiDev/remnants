@@ -1717,7 +1717,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee, enemy_combined) {
                 if (miss_or_evade_chance < 0.5) {
                     await sleep(1000);
 
-                    game_text.innerHTML += `<span class="blessing">${enemy_combined} misses and deals no damage.</span>\r\n\r\n`; 
+                    game_text.innerHTML += `<span class="blessing">${capitalizeFirstLetter(enemy_combined)} misses and deals no damage.</span>\r\n\r\n`; 
                 }
                 // Player evades with 50%
                 else {
