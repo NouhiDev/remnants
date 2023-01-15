@@ -2306,11 +2306,23 @@ async function manage_xp(amount) {
     xp += amount;
     if (xp >= max_xp) {
         await sleep(1000);
+
         game_text.innerHTML += `\r\n<span class="lvl">You leveled up!</span>\r\n\r\n`;
+
         await sleep(1000);
+
+        // Increase LVL
         lvl++;
+        
+        // Increase Max XP
         max_xp += lvl*20;
+
+        // Increase Max HP
         max_hp += lvl*5;
+
+        // Increase Max Mana
+        max_mana += lvl*5;
+
         xp = Math.abs(max_xp-xp);
         hp = max_hp;
 
