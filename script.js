@@ -1381,6 +1381,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee, enemy_combined) {
                 
             }
             // Enemy hits
+            else
             {
                 await sleep(1000);
 
