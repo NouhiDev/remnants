@@ -795,6 +795,7 @@ async function traveler_routine() {
             // Add item to inventory
             inventory.push(item);
             game_text.innerHTML += `${name} gives you ${article} ${item}.\r\n`
+            display_stats();
         }
 
         await sleep(1000);
