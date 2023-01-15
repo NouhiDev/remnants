@@ -44,9 +44,9 @@ var regions = ["Lockwood Village", "Eastport", "Ocean", "Rocky Shores", "Abyss"]
 // #region Places
 places_table = [];
 
-forest_places_table = ["grass patch", "hut", "camp", "cave" ,"stone arch", "field of red mushrooms", "grand tree",
-"clearing with a small pond", "dense thicket of thorns and brambles", "tall tree with a hollow trunk", "cabin", "lodge",
-"waterfall", "grove", "overgrown ruin", "small secluded meadow"];
+forest_places_table = ["lush grass patch", "small hut", "secluded camp", "damp cave" ,"stone arch", "field of red mushrooms", "grand tree",
+"clearing with a small pond", "dense thicket of thorns and brambles", "tall tree with a hollow trunk", "wooden cabin", "lodge",
+"waterfall", "leafy grove", "overgrown ruin", "small secluded meadow", "river", "verdant grass patch", "rustic hut", "rugged camp", "crystal-clear river"];
 
 lockwood_village_places_table = ["abandonend house", "abandonend church", "abandonend chapel", 
 "abandonend town hall", "abandonend tunnel", "abandonend barn", "abandonend stable", "abandonend manor", "abandonend barrack", "park", "garden", 
