@@ -1226,14 +1226,14 @@ async function manage_sub_events(sub_event) {
     }
 
 }
-bandit();
+
 // Bandit
 async function bandit() {
     game_text.innerHTML =  `<span class="bandit">BANDIT</span>` + `\r\n\r\n`;
 
     await sleep(1000);
 
-    game_text.innerHTML += `<span class="dmg">The bandit ambushes you.</span>\r\n\r\n`;
+    game_text.innerHTML += `The bandit ambushes you.\r\n\r\n`;
 
     await sleep(2000);
 
@@ -1245,7 +1245,15 @@ async function bandit() {
         if (steal_item_chance < 0.5) {
             // HAS ITEMS
             if (inventory.length != 0) {
+                let weapon_to_steal = inventory.sample();
+                inventory.pop(weapon_to_steal);
+                display_stats();
+                game_text.innerHTML += `The bandit steals ${weapon_to_steal}.\r\n\r\n`;
 
+                await sleep(1000);
+
+                game_text.innerHTML += `The bandit flees.\r\n\r\n`;
+                manage_allow_continue(true);
             }
             else {
                 game_text.innerHTML += `The bandit tries to steal your weapons but notices you don't have any.\r\n\r\n`;
@@ -1262,6 +1270,7 @@ async function bandit() {
                 let amt_gold_steal = randomIntFromInterval(1, gold);
                 gold -= amt_gold_steal;
                 game_text.innerHTML += `The bandit steals <span class="gold">${amt_gold_steal} gold</span>.\r\n\r\n`;
+                display_stats();
 
                 await sleep(1000);
 
@@ -1281,7 +1290,18 @@ async function bandit() {
     }
     // DAMAGE
     else {
+        game_text.innerHTML += "The bandit attacks you.\r\n\r\n";
 
+        await sleep(1000);
+
+        game_text.innerHTML += `<span class="dmg">You take 20 damage.</span>\r\n\r\n`;
+        damage(20);
+        display_stats();
+
+        await sleep(1000);
+
+        game_text.innerHTML += `The bandit flees.\r\n\r\n`;
+        manage_allow_continue(true);
     }
 }
 
@@ -1315,6 +1335,7 @@ async function pray() {
 
         game_text.innerHTML += `<span class="dmg">You take 20 damage.</span>\r\n`;
         damage(20);
+        display_stats();
     }
     manage_allow_continue(true);
     display_stats();
