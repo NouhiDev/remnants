@@ -835,6 +835,31 @@ async function manage_sub_events(sub_event) {
     awaiting_response = true;
 
     switch(sub_event) {
+        // SMALL DUNGEON
+        case "small dungeon":
+            game_text.innerHTML += `<span class="choice">Enter the small dungeon?\r\n\r\n`;
+
+            // Wait for user input
+            manage_input(true);
+
+            while(awaiting_response) {
+                await sleep(1);
+            }
+
+            manage_input(false);
+
+            // APPROACH TRAVELER
+            if (player_input == "y") {
+                game_text.innerHTML += "You head towards the small dungeon.\r\n";
+                small_dungeon();
+            }
+            // PASS BY TRAVELER
+            else if (player_input == "n") {
+                game_text.innerHTML += "You move on.\r\n";
+                manage_allow_continue(true);
+            }
+
+            break;
         // BANDIT
         case "bandit":
             game_text.innerHTML += `<span class="choice">Try to flee?\r\n\r\n`;
@@ -1227,6 +1252,11 @@ async function manage_sub_events(sub_event) {
 
 }
 
+// Small Dungeon
+async function small_dungeon() {
+
+}
+
 // Bandit
 async function bandit() {
     game_text.innerHTML =  `<span class="bandit">BANDIT</span>` + `\r\n\r\n`;
@@ -1261,6 +1291,7 @@ async function bandit() {
                 await sleep(1000);
 
                 game_text.innerHTML += `The bandit feels sorry for you and flees.\r\n\r\n`;
+                manage_allow_continue(true);
             }
         }
         // STEAL GOLD
