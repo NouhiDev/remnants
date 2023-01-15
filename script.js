@@ -77,6 +77,8 @@ ocean_events_table = ["enemy", "storm", "nothing"] // NEW: STORM
 chest_loot_table = ["dagger", "axe", "sword", "bow", "healing potion", "gold", "nothing"]
 
 cargo_loot_table = ["halberd", "greataxe", "axe", "sword", "claymore", "healing potion", "gold", "gold"]
+
+traveler_loot_table = ["healing potion", "gold", "sword", "axe", "dagger", "halberd"]
 // #endregion
 
 // #region Enemies
@@ -734,7 +736,66 @@ async function traveler_routine() {
 
         await sleep(1000);
 
-        let loot_table = [];
+        let loot_table = traveler_loot_table;
+        let amount_of_items = randomIntFromInterval(1, 3);
+
+        for (let i = 0; i < amount_of_items; i++) {
+            await sleep(1000);
+    
+            // Choose random item from loot table
+            item = loot_table.sample();
+    
+            // Determine correct article
+            if (vowels.includes(item[0])) {
+                article = "an";
+            }
+            else {
+                article = "a";
+            }
+    
+            // Healing Potion
+            if (item == "healing potion") {
+                let amt = randomIntFromInterval(10, max_hp);
+    
+                hp += amt;
+                if (hp >= max_hp) {
+                    hp = max_hp;
+                }
+    
+                game_text.innerHTML += `${name} gives you a potion and you drink it.\r\n`;
+    
+                await sleep(1000);
+    
+                game_text.innerHTML += `<span class="heal">You healed ${amt} hp.</span>\r\n`;
+                display_stats();
+    
+                await sleep(1000);
+                break;
+            }
+    
+            // Gold
+            if (item == "gold") {
+                let amt = randomIntFromInterval(det_gold("traveler")[0], det_gold("traveler")[1]);
+
+                gold += amt;
+
+                game_text.innerHTML += `${name} gives you ${amt} gold.\r\n`;
+                display_stats();
+    
+                await sleep(1000);
+                break;
+            }
+    
+            // Check if item is already in inventory
+            if (inventory.includes(item)) {
+                game_text.innerHTML += `${name} gives you ${article} ${item} but you already have one.\r\n`
+                break;
+            }
+    
+            // Add item to inventory
+            inventory.push(item);
+            game_text.innerHTML += `${name} gives you ${article} ${item}.\r\n`
+        }
 
         await sleep(1000);
 
@@ -1169,7 +1230,7 @@ function det_enemy_dmg(enemy) {
     }
 }
 
-// Enemy XP
+// Enemy XP Determiner
 function det_enemy_xp(enemy) {
     if (!enemies.includes(enemy)) {
         return [1, 1];
@@ -1261,6 +1322,14 @@ function det_enemy_xp(enemy) {
             return [18, 32];
         case "deep one":
             return [16, 28];
+    }
+}
+
+// Gold Determiner
+function det_gold(entity) {
+    switch(entity) {
+        case "traveler":
+            return [5, 105];
     }
 }
 
