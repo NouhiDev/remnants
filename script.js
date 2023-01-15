@@ -35,6 +35,8 @@ var steps = 0;
 var gold = 0;
 var xp = 0;
 var max_xp = 100;
+var mana = 20;
+var max_mana = 20;
 var lvl = 0;
 var region = "Forest";
 
@@ -261,7 +263,7 @@ async function check_region_switch(distance) {
     }
     // Ocean
     if (distance == 30) {
-        current_region = regions[3];
+        current_region = regions[2];
         region_text.innerHTML = `<span class="red">[Act 4]</span> After reaching the <span class="purplebrown">port</span>, you finally find a <span class="brown">ship</span> that seems seaworthy. However, as you set out to sea, you quickly realize that the <span class="blue">ocean</span> is just as dangerous as the land.\r\n`
         region = regions[2];
         places_table = ocean_places_table;
@@ -299,7 +301,7 @@ async function check_region_switch(distance) {
     }
     // Abyss
     if (distance == 40) {
-        current_region = regions[4];
+        current_region = regions[3];
         region_text.innerHTML = `<span class="red">[End]</span> You've reached the end of your journey, traveler.\r\n`
         region = regions.slice(-1);
         abyss_combination();
@@ -380,7 +382,7 @@ function display_stats() {
     stats_text.innerHTML += `[ <span class="health">Health: ${hp}/${max_hp}</span> | ` + 
     `<span class="distance">Distance traveled: ${steps * 100}m</span> | ` + 
     `<span class="gold">Gold: ${gold}</span> | <span class="region">Region: ${region}</span> | <span class="lvl">LVL: ${lvl}</span> | ` + 
-    `<span class="xp">XP: ${xp}/${max_xp}</span> ]\r\n`
+    `<span class="xp">XP: ${xp}/${max_xp}</span> | <span class="mana">Mana: ${mana}/${max_mana}</span>]\r\n`
     display_inventory();
 }
 
