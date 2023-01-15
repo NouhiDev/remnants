@@ -1254,7 +1254,7 @@ async function manage_sub_events(sub_event) {
     }
 
 }
-small_dungeon();
+
 // Small Dungeon
 async function small_dungeon() {
     let rooms = ["trapped chest"]
