@@ -91,7 +91,7 @@ enemy_desciptors = ["great", "grand", "aggrevated", "feral", "hostile", "vicious
 forest_enemies = ["spider", "werewolf", "dryad", "gnome", "wendigo", "ent", "harpy", 
 "basilisk", "lizard", "rat", "leech", "mosquito"]
 
-lockwood_village_enemies = ["goblin", "orc", "wraith", "giant spider", "bandit", "troll", "wight"]
+lockwood_village_enemies = ["goblin", "orc", "wraith", "megaspider", "bandit", "troll", "wight"]
 
 eastport_enemies = ["centipede", "megacentipede", "ghoul", "rakshasa", "hag", "hollow", "banshee", 
 "maggot", "possessed"]
@@ -1403,11 +1403,11 @@ function det_enemy_dmg(enemy) {
             return [3, 8];
         case "lizard":
             return [5, 8];
-        case "large rat":
+        case "rat":
             return [3, 6];
-        case "giant leech":
+        case "leech":
             return [3, 7];
-        case "giant mosquito":
+        case "mosquito":
             return [3, 5];
         // REGION 1: LOCKWOOD VILLAGE
         case "goblin":
@@ -1416,7 +1416,7 @@ function det_enemy_dmg(enemy) {
             return [8, 14];
         case "wraith":
             return [8, 10];
-        case "giant spider":
+        case "megaspider":
             return [8, 11];
         case "bandit":
             return [6, 9];
@@ -1427,7 +1427,7 @@ function det_enemy_dmg(enemy) {
         // REGION 2: EASTPORT
         case "centipede":
             return [6, 8];
-        case "giant centipede":
+        case "megacentipede":
             return [9, 13];
         case "ghoul":
             return [5, 7];
@@ -1437,11 +1437,9 @@ function det_enemy_dmg(enemy) {
             return [5, 7];
         case "hollow":
             return [4, 6];
-        case "infested ghoul":
-            return [7, 9];
         case "banshee":
             return [8, 10];
-        case "vile maggot":
+        case "maggot":
             return [4, 7];
         case "possessed":
             return [6, 8];
@@ -1462,9 +1460,9 @@ function det_enemy_dmg(enemy) {
             return [9, 16];
         case "kraken":
             return [9, 29];
-        case "giant squid":
+        case "megasquid":
             return [7, 16];
-        case "giant crab":
+        case "megacrab":
             return [8, 17];
         case "naga":
             return [9, 16];
@@ -1498,11 +1496,11 @@ function det_enemy_xp(enemy) {
             return [10, 20];
         case "lizard":
             return [20, 36];
-        case "large rat":
+        case "rat":
             return [14, 26];
-        case "giant leech":
+        case "leech":
             return [16, 29];
-        case "giant mosquito":
+        case "mosquito":
             return [10, 20];
         // REGION 1: LOCKWOOD VILLAGE + 10
         case "goblin":
@@ -1511,7 +1509,7 @@ function det_enemy_xp(enemy) {
             return [16, 28];
         case "wraith":
             return [16, 20];
-        case "giant spider":
+        case "megaspider":
             return [16, 22];
         case "bandit":
             return [12, 18];
@@ -1522,7 +1520,7 @@ function det_enemy_xp(enemy) {
         // REGION 2: EASTPORT + 20
         case "centipede":
             return [16, 24];
-        case "giant centipede":
+        case "megacentipede":
             return [25, 37];
         case "ghoul":
             return [14, 26];
@@ -1532,11 +1530,9 @@ function det_enemy_xp(enemy) {
             return [14, 21];
         case "hollow":
             return [15, 24];
-        case "infested ghoul":
-            return [18, 27];
         case "banshee":
             return [19, 27];
-        case "vile maggot":
+        case "maggot":
             return [10, 20];
         case "possessed":
             return [16, 25];
@@ -1557,9 +1553,9 @@ function det_enemy_xp(enemy) {
             return [18, 32];
         case "kraken":
             return [18, 58];
-        case "giant squid":
+        case "megasquid":
             return [14, 32];
-        case "giant crab":
+        case "megacrab":
             return [16, 34];
         case "naga":
             return [18, 32];
@@ -1601,11 +1597,11 @@ function det_enemy_hp(enemy) {
             return [7, 17];
         case "lizard":
             return [10, 16];
-        case "large rat":
+        case "rat":
             return [5, 12];
-        case "giant leech":
+        case "leech":
             return [6, 14];
-        case "giant mosquito":
+        case "mosquito":
             return [5, 10];
         // REGION 1: LOCKWOOD VILLAGE
         case "goblin":
@@ -1614,7 +1610,7 @@ function det_enemy_hp(enemy) {
             return [16, 27];
         case "wraith":
             return [16, 19];
-        case "giant spider":
+        case "megaspider":
             return [16, 21];
         case "bandit":
             return [12, 18];
@@ -1625,7 +1621,7 @@ function det_enemy_hp(enemy) {
         // REGION 2: EASTPORT
         case "centipede":
             return [12, 16];
-        case "giant centipede":
+        case "megacentipede":
             return [18, 25];
         case "ghoul":
             return [10, 14];
@@ -1635,8 +1631,6 @@ function det_enemy_hp(enemy) {
             return [11, 14];
         case "hollow":
             return [8, 11];
-        case "infested ghoul":
-            return [14, 18];
         case "banshee":
             return [15, 19];
         case "vile maggot":
@@ -1660,9 +1654,9 @@ function det_enemy_hp(enemy) {
             return [19, 32];
         case "kraken":
             return [21, 60];
-        case "giant squid":
+        case "megasquid":
             return [15, 34];
-        case "giant crab":
+        case "megacrab":
             return [15, 36];
         case "naga":
             return [16, 34];
