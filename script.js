@@ -1353,6 +1353,7 @@ async function merchant_routine() {
         const item = assortment[i];
         awaiting_response = true;
         price = randomIntFromInterval(item_price(item)[0], item_price(item)[1]);
+        price += steps;
         if (item != "lesser healing potion" && item != "healing potion") {
             game_text.innerHTML += `<span class="choice">Buy ${item}? (${weapon_damage(item)[0]}-${weapon_damage(item)[1]} dmg) for <span class="gold">${price}G</span>?</span>\r\n\r\n`;
         }
