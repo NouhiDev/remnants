@@ -1529,7 +1529,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee, enemy_combined) {
             game_text.innerHTML += `<span class="blessing">You've slain the ${enemy_combined}.</span>\r\n\r\n`;
 
             let enemy_xp = randomIntFromInterval(det_enemy_xp(enemy)[0],det_enemy_xp(enemy)[1]);
-            enemy_xp += steps*2;
+            enemy_xp += Math.floor(steps*1.25);
 
             await sleep(1000);
 
