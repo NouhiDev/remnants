@@ -85,18 +85,18 @@ traveler_loot_table = ["healing potion", "gold", "sword", "axe", "dagger", "halb
 enemies = []
 
 enemy_desciptors = ["great", "grand", "aggrevated", "feral", "hostile", "vicious", "malevolent", "bloodthirsty", "ferocious",
-"brutal", "ruthless", "predatory", "merciless", "wicked", "sinister", "tainted"]
+"brutal", "ruthless", "predatory", "merciless", "wicked", "sinister", "tainted", "vile"]
 
 forest_enemies = ["spider", "werewolf", "dryad", "gnome", "wendigo", "ent", "harpy", 
-"basilisk", "lizard", "large rat", "giant leech", "giant mosquito"]
+"basilisk", "lizard", "rat", "leech", "mosquito"]
 
 lockwood_village_enemies = ["goblin", "orc", "wraith", "giant spider", "bandit", "troll", "wight"]
 
-eastport_enemies = ["centipide", "giant centipede", "ghoul", "rakshasa", "hag", "hollow", "infested ghoul", "banshee", 
-"vile maggot", "possessed"]
+eastport_enemies = ["centipede", "megacentipede", "ghoul", "rakshasa", "hag", "hollow", "banshee", 
+"maggot", "possessed"]
 
 ocean_enemies = ["sea monster", "mermaid", "siren", "leviathan", "sea serpent", "water elemental", "charybdis", "kraken",
-"giant squid", "giant crab", "naga", "deep one"]
+"megasquid", "megacrab", "naga", "deep one"]
 // #endregion
 
 // #region Forward Variations
@@ -1074,14 +1074,14 @@ async function merchant_routine() {
 }
 
 // #region COMBAT RELATED
-enemy_encounter();
+
 // Enemy Encounter
 async function enemy_encounter() {
     enemies = forest_enemies;
     // Setup Enemy
     let enemy = enemies.sample();
     let enemy_descriptor = enemy_desciptors.sample();
-    let enemy_combined_name = `${enemy_descriptor} ${enemy}`;
+    let enemy_combined_name = `${enemy_descriptor} ${capitalizeFirstLetter(enemy)}`;
     let enemy_hp = randomIntFromInterval(det_enemy_hp(enemy)[0], det_enemy_hp(enemy)[1]);
     
     // Determine correct article to use
