@@ -1801,7 +1801,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee, enemy_combined) {
 
                     game_text.innerHTML += `You chose to use ${weapon_to_use}.\r\n\r\n`;
 
-                    let weapon_dmg = randomIntFromInterval(item_determiner(item, "dmg")[0], item_determiner(item, "dmg")[1]);
+                    let weapon_dmg = randomIntFromInterval(item_determiner(weapon_to_use, "dmg")[0], item_determiner(weapon_to_use, "dmg")[1]);
 
                     let hit_chance = Math.random();
                     // You miss / evade
