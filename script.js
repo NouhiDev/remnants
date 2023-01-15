@@ -1172,7 +1172,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee, enemy_combined) {
         // Seperate
         await sleep(1000);
 
-        // Check for enemy hp
+        // Check for Enemy Death
         if (enemy_hp <= 0) {
             // Win fight
             game_text.innerHTML += `<span class="blessing">You've slain the ${enemy_combined}.</span>\r\n\r\n`;
@@ -1267,17 +1267,33 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee, enemy_combined) {
 
                 // No weapon was chosen
                 if (weapon_to_use == "") {
-                    let fist_dmg = randomIntFromInterval(1,3);
-                    enemy_hp -= fist_dmg;
-                    if (enemy_hp <= 0) {
-                        enemy_hp = 0;
+                    let hit_chance = Math.random();
+                    // You miss the attack
+                    if (hit_chance < 0.15) {
+                        let miss_or_evade_chance = Math.random();
+                        // Miss the hit with 50%
+                        if (miss_or_evade_chance < 0.5) {
+                            game_text.innerHTML += `<span class="drastic">You miss and deal no damage</span>.\r\n\r\n`;
+                        }
+                        // Enemy evades with 50%
+                        else {
+                            game_text.innerHTML += `<span class="drastic">${enemy_combined} evaded the attack</span>.\r\n\r\n`;
+                        }
+                    } 
+                    // You hit the attack
+                    else {
+                        let fist_dmg = randomIntFromInterval(1,3);
+                        enemy_hp -= fist_dmg;
+                        if (enemy_hp <= 0) {
+                            enemy_hp = 0;
+                        }
+        
+                        game_text.innerHTML += `You use your fists.\r\n\r\n`;
+        
+                        await sleep(1000);
+        
+                        game_text.innerHTML += `<span class="deal-dmg"> You deal ${fist_dmg} damage. </span>\r\n`;
                     }
-
-                    game_text.innerHTML += ` You use your fists. \r\n\r\n`;
-
-                    await sleep(1000);
-
-                    game_text.innerHTML += `<span class="deal-dmg"> You deal ${fist_dmg} damage. </span>\r\n`;
                 }
                 
                 // Weapon has been chosen
@@ -1287,25 +1303,43 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee, enemy_combined) {
                     game_text.innerHTML += `You chose to use ${weapon_to_use}.\r\n\r\n`;
 
                     let weapon_dmg = randomIntFromInterval(weapon_damage(weapon_to_use)[0],weapon_damage(weapon_to_use)[1]);
-                    enemy_hp -= weapon_dmg;
-                    if (enemy_hp <= 0) {
-                        enemy_hp = 0;
+
+                    let hit_chance = Math.random();
+                    // You miss / evade
+                    if (hit_chance < 0.15) {
+                        let miss_or_evade_chance = Math.random();
+                        // Miss the hit with 50%
+                        if (miss_or_evade_chance < 0.5) {
+                            game_text.innerHTML += `<span class="drastic">You miss and deal no damage</span>.\r\n\r\n`;
+                        }
+                        // Enemy evades with 50%
+                        else {
+                            game_text.innerHTML += `<span class="drastic">${enemy_combined} evaded the attack</span>.\r\n\r\n`;
+                        }
                     }
-
-                    await sleep(1000);
-
-                    game_text.innerHTML += `<span class="deal-dmg"> You deal ${weapon_dmg} damage. </span>\r\n\r\n`;
-
-                    // Randomly break weapon
-                    let d = Math.random();
-                    if (d <= 0.15) {
-                        indx = inventory.indexOf(weapon_to_use);
-                        inventory.splice(indx, 1);
+                    // You hit
+                    else {
+                        enemy_hp -= weapon_dmg;
+                        if (enemy_hp <= 0) {
+                            enemy_hp = 0;
+                        }
 
                         await sleep(1000);
 
-                        game_text.innerHTML += `<span class="dark-red"> ${capitalizeFirstLetter(weapon_to_use)} broke. </span>\r\n`;
+                        game_text.innerHTML += `<span class="deal-dmg"> You deal ${weapon_dmg} damage. </span>\r\n\r\n`;
+
+                        // Randomly break weapon
+                        let d = Math.random();
+                        if (d <= 0.15) {
+                            indx = inventory.indexOf(weapon_to_use);
+                            inventory.splice(indx, 1);
+
+                            await sleep(1000);
+
+                            game_text.innerHTML += `<span class="dark-red"> ${capitalizeFirstLetter(weapon_to_use)} broke. </span>\r\n`;
+                        }
                     }
+
                 }
 
                 await sleep(2000);
