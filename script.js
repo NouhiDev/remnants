@@ -67,13 +67,22 @@ var max_mana = 20;
 var region = "Forest";
 
 // Intervals used for enemy XP, enemy DMG, enemy HP, etc.
-weak = [0, 0];
-below_avg = [0, 0];
-common = [0, 0];
-above_avg = [0, 0];
-strong = [0, 0];
-monster = [0, 0];
-abomination = [0, 0];
+var weak = [0, 0];
+var below_avg = [0, 0];
+var common = [0, 0];
+var above_avg = [0, 0];
+var strong = [0, 0];
+var monster = [0, 0];
+var abomination = [0, 0];
+
+// Intervals used for weapon DMG, weapon Price, etc.
+var w_weak = [0, 0];
+var w_common = [0, 0];
+var w_uncommon = [0, 0];
+var w_above_avg = [0, 0];
+var w_strong = [0, 0];
+var w_mythical = [0, 0];
+var w_legendary = [0, 0];
 
 // #region Regions
 // CHAPTER 1: The Beginning
@@ -229,7 +238,7 @@ object_burried_in_ground_loot_table = ["halberd", "greataxe", "axe", "sword", "c
 
 blurry_object = ["rusted chest", "bandit's cache", "treasure trove", "stockpile", "rusty safe", "stash", "large jar"]
 blurry_object_loot_table = ["healing potion", "gold", "gold", "dagger", "mace", "hammer", "flail", "spear", "scythe", "scimitar", "nothing", 
-"nothing", "broadsword", "shortsword", "longsword", "flamberge", "falchion", "rapier", "estoc", "club", "wooden staff"]
+"nothing", "bastard sword", "shortsword", "longsword", "flamberge", "falchion", "rapier", "estoc", "club", "wooden staff"]
 // #endregion
 
 // #region Enemies
@@ -718,7 +727,7 @@ function clear_game_text() {
     game_text.innerHTML = "";
 }
 
-function change_determinator_class(det_class) {
+function change_enemy_determinator_class(det_class) {
     switch(det_class) {
         case "xp":
             weak = [5, 15];
@@ -750,6 +759,28 @@ function change_determinator_class(det_class) {
     }
 }
 
+function change_item_determinator_class(det_class) {
+    switch(det_class) {
+        case "dmg":
+            w_weak = [5, 10];
+            w_common = [10, 15];
+            w_uncommon = [15, 10];
+            w_above_avg = [20, 35];
+            w_strong = [25, 45];
+            w_mythical = [30, 55];
+            w_legendary = [35, 65];
+            break;
+        case "price":
+            w_weak = [10, 25];
+            w_common = [35, 55];
+            w_uncommon = [55, 70];
+            w_above_avg = [75, 90];
+            w_strong = [90, 120];
+            w_mythical = [155, 265];
+            w_legendary = [275, 400];
+            break;
+    }
+}
 // #endregion
 
 // Manages Events
@@ -1435,7 +1466,7 @@ async function merchant_routine() {
         game_text.innerHTML += "- ";
         game_text.innerHTML += `${capitalizeFirstLetter(assortment[i])} `;
         if (assortment[i] != "healing potion" &&  assortment[i] != "lesser healing potion") {
-            game_text.innerHTML += `(${weapon_damage(assortment[i])[0]}-${weapon_damage(assortment[i])[1]} dmg)`;
+            game_text.innerHTML += `(${item_determiner(assortment[0], "dmg")[0]}-${item_determiner(assortment[0], "dmg")[1]} dmg)`;
         }
         game_text.innerHTML += "\r\n";
     }
@@ -1469,10 +1500,10 @@ async function merchant_routine() {
         game_text.innerHTML = "";
         const item = assortment[i];
         awaiting_response = true;
-        price = randomIntFromInterval(item_price(item)[0], item_price(item)[1]);
+        price = randomIntFromInterval(item_determiner(item, "price")[0],(item, "price")[1]);
         price += steps;
         if (item != "lesser healing potion" && item != "healing potion") {
-            game_text.innerHTML += `<span class="choice">Buy ${item}? (${weapon_damage(item)[0]}-${weapon_damage(item)[1]} dmg) for <span class="gold">${price}G</span>?</span>\r\n\r\n`;
+            game_text.innerHTML += `<span class="choice">Buy ${item}? (${item_determiner(item[0], "dmg")[0]}-${item_determiner(item[1], "dmg")[0]} dmg) for <span class="gold">${price}G</span>?</span>\r\n\r\n`;
         }
         else {
             game_text.innerHTML += `<span class="choice">Buy ${item} for <span class="gold">${price+anger}G</span>?</span>\r\n\r\n`;
@@ -1713,7 +1744,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee, enemy_combined) {
                 for (let i = 0; i < inventory.length; i++) {
                     awaiting_response = true;
                     const item = inventory[i];
-                    game_text.innerHTML += `<span class="choice">Use ${item}? (${weapon_damage(item)[0]}-${weapon_damage(item)[1]} dmg)</span>\r\n\r\n`;
+                    game_text.innerHTML += `<span class="choice">Use ${item}? (${item_determiner(item[0], "dmg")[0]}-${item_determiner(item[0], "dmg")[1]} dmg)</span>\r\n\r\n`;
 
                     // Wait for user input
                     manage_input(true);
@@ -1770,7 +1801,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee, enemy_combined) {
 
                     game_text.innerHTML += `You chose to use ${weapon_to_use}.\r\n\r\n`;
 
-                    let weapon_dmg = randomIntFromInterval(weapon_damage(weapon_to_use)[0],weapon_damage(weapon_to_use)[1]);
+                    let weapon_dmg = randomIntFromInterval(item_determiner(item[0], "dmg")[0], item_determiner(item[0], "dmg")[1]);
 
                     let hit_chance = Math.random();
                     // You miss / evade
@@ -1873,83 +1904,9 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee, enemy_combined) {
 
 // #region Determiners
 
-// Item Price Determiner
-function item_price(item) {
-    switch(item) {
-        case "lesser healing potion":
-            return [10, 20];
-        case "healing potion":
-            return [20, 40];
-        case "greataxe":
-            return [40, 60];
-        case "greatsword":
-            return [60, 90];
-        case "claymore":
-            return [46, 76];
-        case "great halberd":
-            return [52, 84];
-        case "halberd":
-            return[20, 34];
-        case "mace":
-            return [30, 60];
-        case "hammer":
-            return [20, 50];
-        case "flail":
-            return [50, 100];
-        case "spear":
-            return [37, 54];
-        case "crossbow":
-            return [42, 87];
-        case "scythe":
-            return [52, 84];
-        case "scimitar":
-            return[56, 106];
-    }
-}
-
-// Weapon Damage Determiner
-function weapon_damage(weapon) {
-    switch(weapon) {
-        case "damaged sword":
-            return [3, 6];
-        case "dagger":
-            return [4, 8];
-        case "axe":
-            return [6, 13];
-        case "sword":
-            return [7, 12];
-        case "bow":
-            return [5, 9];
-        case "halberd":
-            return [8, 16];
-        case "greataxe":
-            return [10, 20];
-        case "claymore":
-            return [11, 23];
-        case "great halberd":
-            return [15, 26];
-        case "greatsword":
-            return [17, 30];
-        case "mace":
-            return [11, 20];
-        case "hammer":
-            return [9, 17];
-        case "flail":
-            return [19, 40];
-        case "spear":
-            return [10, 17];
-        case "crossbow":
-            return [13, 22];
-        case "scythe":
-            return [17, 26];
-        case "scimitar":
-            return[21, 45];
-    }
-}
-
-// Enemy Class Determiner
+// Enemy Determiner
 function enemy_determiner(enemy, determiner) {
-    change_determinator_class(determiner);
+    change_enemy_determinator_class(determiner);
     switch(enemy) {
         // REGION 0: FOREST
         case "spider":
@@ -2085,6 +2042,65 @@ function enemy_determiner(enemy, determiner) {
             return weak;
         case "snake":
             return weak;
+    }
+}
+
+// Item Determiner
+function item_determiner(item, determiner) {
+    change_item_determinator_class(determiner);
+    switch(item) {
+        case "damaged sword":
+            return w_weak;
+        case "dagger":
+            return w_common;
+        case "axe":
+            return w_common;
+        case "sword":
+            return w_common;
+        case "bow":
+            return w_common;
+        case "halberd":
+            return w_uncommon;
+        case "greataxe":
+            return w_above_avg;
+        case "claymore":
+            return w_above_avg;
+        case "great halberd":
+            return w_strong;
+        case "greatsword":
+            return w_strong;
+        case "mace":
+            return w_above_avg;
+        case "hammer":
+            return w_uncommon;
+        case "flail":
+            return w_strong;
+        case "spear":
+            return w_above_avg;
+        case "crossbow":
+            return w_uncommon;
+        case "scythe":
+            return w_above_avg;
+        case "scimitar":
+            return w_strong;
+        case "bastard sword":
+            return w_uncommon;
+        case "shortsword":
+            return w_common;
+        case "longsword":
+            return w_above_avg;
+        case "flamberge":
+            return w_strong;
+        case "falchion":
+            return w_uncommon;
+        case "rapier":
+            return w_uncommon;
+        case "estoc":
+            return w_above_avg;
+        case "club":
+            return w_uncommon;
+        case "wooden staff":
+            return w_strong;
     }
 }
 
