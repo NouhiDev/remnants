@@ -1226,14 +1226,14 @@ async function manage_sub_events(sub_event) {
     }
 
 }
-
+bandit();
 // Bandit
 async function bandit() {
-    game_text.innerHTML =  `<span class="shrine">BANDIT</span>` + `\r\n\r\n`;
+    game_text.innerHTML =  `<span class="bandit">BANDIT</span>` + `\r\n\r\n`;
 
     await sleep(1000);
 
-    game_text.innerHTML += `<span class="drastic">The bandit ambushes you.</span>\r\n\r\n`;
+    game_text.innerHTML += `<span class="dmg">The bandit ambushes you.</span>\r\n\r\n`;
 
     await sleep(2000);
 
@@ -1243,7 +1243,17 @@ async function bandit() {
         let steal_item_chance = Math.random();
         // STEAL ITEM
         if (steal_item_chance < 0.5) {
+            // HAS ITEMS
+            if (inventory.length != 0) {
 
+            }
+            else {
+                game_text.innerHTML += `The bandit tries to steal your weapons but notices you don't have any.\r\n\r\n`;
+
+                await sleep(1000);
+
+                game_text.innerHTML += `The bandit feels sorry for you and flees.\r\n\r\n`;
+            }
         }
         // STEAL GOLD
         else {
@@ -1256,6 +1266,7 @@ async function bandit() {
                 await sleep(1000);
 
                 game_text.innerHTML += `The bandit flees.\r\n\r\n`;
+                manage_allow_continue(true);
             }
             // NO MONEY --> BANDIT FEELS SORRY
             else {
@@ -1264,6 +1275,7 @@ async function bandit() {
                 await sleep(1000);
 
                 game_text.innerHTML += `The bandit feels sorry for you and flees.\r\n\r\n`;
+                manage_allow_continue(true);
             }
         }
     }

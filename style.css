@@ -529,3 +529,8 @@ hr {
   color: rgb(218, 243, 255);
   text-decoration: underline;
 }
+
+.bandit {
+  color: rgb(255, 137, 58);
+  font-size: 25px;
+}
