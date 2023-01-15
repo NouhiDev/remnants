@@ -821,7 +821,7 @@ async function manage_sub_events(sub_event) {
             if (player_input == "y") {
                 game_text.innerHTML += "You approach.\r\n\r\n";
 
-                let obj = object_burried_in_ground_names.sample();
+                let obj = blurry_object.sample();
 
                 let article = "";
                 // Determine correct article
@@ -835,22 +835,22 @@ async function manage_sub_events(sub_event) {
                 await sleep(1000);
 
                 let d = Math.random();
-                // Successfully
-                if (d < 0.8) {
+                // Successfully 60%
+                if (d < 0.6) {
                     game_text.innerHTML += `It is ${article} ${obj}.\r\n\r\n`;
 
                     await sleep(1000);
 
-                    open_loot_container(object_burried_in_ground_loot_table, randomIntFromInterval(1, 3))
+                    open_loot_container(blurry_object_loot_table, randomIntFromInterval(1, 4))
                 }
-                // is trap
+                // is trap 40%
                 else {
                     let dmg = randomIntFromInterval(5,25);
                     damage(dmg);
 
                     await sleep(1000);
 
-                    game_text.innerHTML += "<span class='drastic'>It is a pipe bomb.</span>\r\n\r\n";
+                    game_text.innerHTML += "<span class='drastic'>It is a trap.</span>\r\n\r\n";
 
                     await sleep(1000);
 
@@ -861,7 +861,7 @@ async function manage_sub_events(sub_event) {
             }
             // DOESNT OPEN CARGO
             else if (player_input == "n") {
-                game_text.innerHTML += "You do not dig up the object and move on.\r\n";
+                game_text.innerHTML += "You do not approach the blurry object and proceed.\r\n";
                 manage_allow_continue(true);
             }
             break;
