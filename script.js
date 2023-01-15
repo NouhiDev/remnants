@@ -957,7 +957,7 @@ async function manage_sub_events(sub_event) {
                 let d = Math.random();
                 // Open Cargo Successfully
                 if (d < 0.8) {
-                    open_loot_container(cargo_loot_table, randomIntFromInterval(3, 10))
+                    open_loot_container(cargo_loot_table, randomIntFromInterval(3, 6))
                 }
                 // Cargo is trap
                 else {
