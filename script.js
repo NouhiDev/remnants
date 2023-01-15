@@ -1,3 +1,4 @@
+// #region Loader
 $(window).on("load",function(){
     $(".loader").fadeOut(1000);
     delay(1000).then(() => $(".content").fadeIn(1000));
@@ -6,7 +7,19 @@ $(window).on("load",function(){
 // Adds delay
 function delay(time) {
     return new Promise(resolve => setTimeout(resolve, time));
-  }
+}
+// #endregion
+
+// REMNANTS - A text-based RPG by nouhidev
+// ---------------------------------------
+// Here, the players are presented with prompts 
+// and must choose between "yes" or "no" to progress the story. 
+// Players must navigate through a variety of challenges to reach the end of the game.
+// ---------------------------------------
+// Development started on the 13th January 2023
+// It was initially developed in Python and as I am not proficient at all in JavaScript 
+// I don't recommend taking a look at the source code.
+// ---------------------------------------
 
 // Game
 var game_text = document.getElementById("game-text");
@@ -14,13 +27,17 @@ var stats_text = document.getElementById("stats-text");
 var region_text = document.getElementById("region-text");
 var event_text = document.getElementById("event-text");
 
+// Determines whether the "YES" / "NO" buttons can be pressed
 var allow_input = false;
+// Determines whether the green "PROCEED" button can be pressed
 var allow_continue = true;
+// Stores either "y" or "n"
 var player_input = "";
 
+// While this bool is set to true, the game is stuck in an infinite loop waiting for a response (y/n)
 var awaiting_response = true;
 
-// Vowels
+// Vowels - used for article determination
 var vowels = ["a", "e", "i", "o", "u"]
 
 // Inventory
@@ -28,16 +45,23 @@ var inventory = ["damaged sword"];
 var inventory_txt = "[Inventory: ";
 
 // Stats
+// MGL keeps running if this variable is set to true
 var alive = true;
+// Health Related
 var max_hp = 100
 var hp = 100;
+// Distance Related
 var steps = 0;
+// Money Related
 var gold = 0;
+// XP Related
 var xp = 0;
 var max_xp = 100;
+var lvl = 0;
+// Mana Related
 var mana = 20;
 var max_mana = 20;
-var lvl = 0;
+
 var region = "Forest";
 
 // #region Regions
