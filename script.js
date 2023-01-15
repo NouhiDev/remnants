@@ -887,7 +887,7 @@ async function manage_sub_events(sub_event) {
                 // Fail with 80% Chance
                 else {
                     await sleep(1000);
-                    
+
                     game_text.innerHTML += "<span class='drastic'>You fail to flee.</span>\r\n";
 
                     await sleep(2000);
@@ -1426,6 +1426,7 @@ async function small_dungeon() {
     await sleep(2000);
 
     game_text.innerHTML +=  `You discover the exit and leave.\r\n\r\n`;
+    manage_allow_continue(true);
 }
 
 // Bandit
