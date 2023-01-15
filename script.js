@@ -689,7 +689,7 @@ async function manage_sub_events(sub_event) {
 
 // Pray
 async function pray() {
-    game_text.innerHTML =  `<span class="wishing-well">SHRINE</span>` + `\r\n\r\n`;
+    game_text.innerHTML =  `<span class="shrine">SHRINE</span>` + `\r\n\r\n`;
     await sleep(1000);
     game_text.innerHTML += `You pray to the gods.\r\n\r\n`;
     await sleep(2000);
