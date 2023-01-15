@@ -1077,7 +1077,6 @@ async function merchant_routine() {
 
 // Enemy Encounter
 async function enemy_encounter() {
-    enemies = forest_enemies;
     // Setup Enemy
     let enemy = enemies.sample();
     let enemy_descriptor = enemy_desciptors.sample();
