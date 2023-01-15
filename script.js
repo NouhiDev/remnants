@@ -31,7 +31,7 @@ var inventory_txt = "[Inventory: ";
 var alive = true;
 var max_hp = 100
 var hp = 100;
-var steps = 0;
+var steps = 40;
 var gold = 0;
 var xp = 0;
 var max_xp = 100;
@@ -40,9 +40,100 @@ var max_mana = 20;
 var lvl = 0;
 var region = "Forest";
 
-// Regions
-var regions = ["Lockwood Village", "Eastport", "Ocean", "Rocky Shores", "Abyss"];
+// #region Regions
+// CHAPTER 1: The Beginning
+// ACT 1: FOREST: -
+// ACT 2: LOCKWOOD VILLAGE: -
+var regions = ["Lockwood Village", 
+
+// ACT 3: EASTPORT: -
+"Eastport", 
+
+// ACT 4: OCEAN: -
+"Ocean", 
+
+// ACT 5: ROCKY SHORES: -
+"Rocky Shores", 
+
+// ACT 6: REBELLION: Finally, you reach the rebellion's stronghold. The leader of the rebellion, an experienced knight, 
+// tells you that the sorcerer's power comes from an ancient artifact that he has acquired and using it to control people. 
+// The rebellion needs your help to find this artifact and destroy it.
+"Rebellion", 
+
+// CHAPTER 2: After reaching the Rebellion
+// ACT 7: WASTELAND: -
+"Wasteland", 
+
+// ACT 8: LOST TEMPLE: -
+"Lost Temple", 
+
+// ACT 9: SWAMP: -
+"Swamp",
+
+// ACT 10: WASTELAND: -
+"Wasteland", 
+
+// ACT 11: LOST TEMPLE: -
+"Lost Temple", 
+
+// ACT 12: SWAMP: -
+"Swamp",
+
+// CHAPTER 3: Inside the Sorcerers Stronghold
+
+// CATACOMBS: Network of underground tunnels and tombs beneath the sorcerer's stronghold. 
+// The catacombs are filled with traps and puzzles, as well as undead creatures 
+// that the sorcerer has raised to guard his treasures.
+// ACT 13: CATACOMBS: -
+"Catacombs", 
+
+// LABYRINTH: A massive, twisting maze located deep in the sorcerer's stronghold. 
+// The labyrinth is filled with all sorts of monsters and challenges, as well as a powerful boss at the center who guards the 
+// the entrance to the stronghold.
+// ACT 14: LABYRINTH
+"Labyrinth",
+
+// MAIN HALL: Once you've made it inside, you find yourself in a grand hall. The walls are adorned with tapestries 
+// and the floors are made of marble. But don't let the opulence fool you - this is the heart of the sorcerer's power, 
+// and you can sense the dark magic that permeates the air. You'll need to find a way to navigate through this hall and 
+// reach the higher levels of the stronghold.
+// ACT 15: MAIN HALL
+"Main Hall",
+
+// ILLUSIONARY GARDEN: A beautiful garden filled with illusory flowers and plants, 
+// which can become deadly traps or illusions of the sorcerer's enemies and allies.
+// ACT 16: ILLUSIONARY GARDEN
+"Illusionary Garden",
+
+// LIBRARY: You find a stairway that leads up to the stronghold's library. Here you find rows upon rows of books, 
+// some ancient, some enchanted and some cursed. The librarian is an undead creature that the sorcerer has reanimated, 
+// who will attack anyone who tries to take or damage the books.
+// ACT 17: LIBRARY
+"Library",
+
+// CLOCKTOWER: A tall and winding tower filled with gears and clockwork mechanisms. 
+// The clocktower is home to clockwork golems that the sorcerer has imbued with magic, and it's said that the sorcerer 
+// uses the clocktower to manipulate time itself.
+// ACT 18: CLOCKTOWER
+"Clocktower",
+
+// TOWER OF TRIALS: A tall and imposing tower located in the stronghold, where the sorcerer tests his apprentices and visitors 
+// with deadly magical trials. The tower is filled with illusions, mind-bending puzzles, and deadly traps that only the most 
+// skilled and clever adventurers can overcome.
+// ACT 19: TOWER OF TRIALS
+"Tower of Trials",
+
+// INNER SANCTUM: You've reached the heart of the stronghold, the inner sanctum where the sorcerer awaits. 
+// The room is grand and imposing, with the sorcerer's throne at the far end. You'll need to be prepared 
+// for a final battle with the sorcerer, as he unleashes all of his power to defeat you and protect his stronghold.
+// ACT 20: INNER SANCTUM
+"Inner Sanctum",
+
+// ???
+"Last Supper"];
 current_region = "";
+
+// #endregion
 
 // #region Places
 places_table = [];
@@ -51,29 +142,35 @@ forest_places_table = ["lush grass patch", "small hut", "secluded camp", "damp c
 "clearing with a small pond", "dense thicket of thorns and brambles", "tall tree with a hollow trunk", "wooden cabin", "lodge",
 "waterfall", "leafy grove", "overgrown ruin", "small secluded meadow", "river", "verdant grass patch", "rustic hut", "rugged camp", "crystal-clear river"];
 
-lockwood_village_places_table = ["abandonend house", "abandonend church", "abandonend chapel", 
-"abandonend town hall", "abandonend tunnel", "abandonend barn", "abandonend stable", "abandonend manor", "abandonend barrack", "park", "garden", 
-"abandonend watchtower", "abandonend cottage", "abandonend mansion", "abandonend stable", "abandonend tavern", "abandonend inn", "abandonend bazaar"]
+lockwood_village_places_table = ["abandoned house", "abandoned church", "abandoned chapel", 
+"abandoned town hall", "abandoned tunnel", "abandoned barn", "abandoned stable", "abandoned manor", "abandoned barrack", "park", "garden", 
+"abandoned watchtower", "abandoned cottage", "abandoned mansion", "abandoned stable", "abandoned tavern", "abandoned inn", "abandoned bazaar"]
 
-eastport_places_table = ["abandonend ship", "broken ship", "abandonend warehouse", "abandonend dock", "open container", "beacon tower",
-"quay", "abandonend beacon tower", "abandonend facility", "abandonend crane", "dredging", "breakwater", "abandoned control tower", 
+eastport_places_table = ["abandoned ship", "broken ship", "abandoned warehouse", "abandoned dock", "open container", "beacon tower",
+"quay", "abandoned beacon tower", "abandoned facility", "abandoned crane", "dredging", "breakwater", "abandoned control tower", 
 "abandoned tugboat", "broken tugboat"]
 
-ocean_places_table = ["small island", "island", "shipwreck", "coral reef", "abandonend lighthouse", "ship graveyard", "buoy", "kelp forest",
+ocean_places_table = ["small island", "island", "shipwreck", "coral reef", "abandoned lighthouse", "ship graveyard", "buoy", "kelp forest",
 "seaweed bed", "current", "mangrove forest", "sea stack", "sea arch", "maelstrom", "rock formation", "tide pool"]
+
+shore_places_table = ["rocky cliffside", "cliffside", "lighthouse", "abandoned lighthouse", "wharf", "cove", "secluded cave", "ancient pier overrun by seaweed and barnacles", 
+"shipwreck", "abandoned seaside tavern", "tidal pool", "rocky shoreline", "beachside ruin of an old temple dedicated to a sea god", 
+"reef", "hidden cove", "freshwater spring", "sandy dune", "oasis", "abandoned, hidden smuggler's den", "secluded bay", "ancient ruin"]
 
 // #endregion
 
 // #region Events
 events_table = [];
 
-forest_events_table = ["nothing", "chest", "enemy", "wishing well", "traveler", "shrine"];
+forest_events_table = ["chest", "enemy", "wishing well", "traveler", "shrine"];
 
-lockwood_village_events_table = ["nothing", "chest", "enemy", "merchant", "traveler"] //NEW: MERCHANT
+lockwood_village_events_table = ["chest", "enemy", "merchant", "traveler"] //NEW: MERCHANT
 
 eastport_events_table = ["cargo", "enemy", "nest", "nothing"] // NEW: CARGO, NEST
 
 ocean_events_table = ["enemy", "storm", "nothing"] // NEW: STORM
+
+shore_events_table = ["enemy", "traveler", "shrine", "object burried in the ground"] // NEW: OBJECT BURRIED IN THE GROUND
 // #endregion
 
 // #region Loot Tables
@@ -81,7 +178,12 @@ chest_loot_table = ["dagger", "axe", "sword", "bow", "healing potion", "gold", "
 
 cargo_loot_table = ["halberd", "greataxe", "axe", "sword", "claymore", "healing potion", "gold", "gold"]
 
-traveler_loot_table = ["healing potion", "gold", "sword", "axe", "dagger", "halberd"]
+traveler_loot_table = ["healing potion", "gold", "sword", "axe", "dagger", "halberd", "mace", "hammer", "flail"]
+
+object_burried_in_ground_names = ["rusty treasure chest", "old chest", "rusty container", "metal chest", "metal safe", "ceramic jar",
+"ceramic canister"]
+object_burried_in_ground_loot_table = ["halberd", "greataxe", "axe", "sword", "claymore", "healing potion", "gold", "gold", "bow",
+"dagger", "mace", "hammer", "flail", "spear", "crossbow", "scythe", "scimitar"]
 // #endregion
 
 // #region Enemies
@@ -99,7 +201,10 @@ eastport_enemies = ["centipede", "megacentipede", "ghoul", "rakshasa", "hag", "h
 "maggot", "possessed"]
 
 ocean_enemies = ["sea monster", "mermaid", "siren", "leviathan", "sea serpent", "water elemental", "charybdis", "kraken",
-"megasquid", "megacrab", "naga", "deep one"]
+"megasquid", "naga", "deep one", "manta ray", "jellyfish", "octopus"]
+
+shore_enemies = ["vulture", "werewolf", "spirit", "octopus", "bat", "dweller", "lobster", "scorpion", "jellyfish", 
+"sandworm", "worm", "seagull", "turtle", "manta ray", "megacrab"]
 // #endregion
 
 // #region Forward Variations
@@ -133,7 +238,8 @@ traveler_phrases = ["I can't believe how different the world is now.", "I hope I
 "Sif", "Gwyn", "Manus", "Ornstein", "Smough", "Kalameet", "Artorias", "Vaati"]
 
 // Merchant Assortment + DEFAULT HEALING POTION
-merchant_assortment = ["greatsword", "greataxe", "great halberd", "claymore", "halberd", "health potion"]
+merchant_assortment = ["greatsword", "greataxe", "great halberd", "claymore", "halberd", "healing potion",
+"mace", "hammer", "flail", "spear", "crossbow", "scythe", "scimitar"]
 
 // Blacksmith
 blacksmith_names = ["Najka", "Freja", "Mytha", "Velstadt", "Vendrick", "Magus", "Nashandra", "Aldia", 
@@ -299,17 +405,171 @@ async function check_region_switch(distance) {
             return;
         }
     }
-    // Abyss
+    // Rocky Shores
     if (distance == 40) {
         current_region = regions[3];
-        region_text.innerHTML = `<span class="red">[End]</span> You've reached the end of your journey, traveler.\r\n`
-        region = regions.slice(-1);
-        abyss_combination();
+        region_text.innerHTML = `<span class="red">[Act 5]</span> After reaching the <span class="purplebrown">port</span>, you finally find a <span class="brown">ship</span> that seems seaworthy. However, as you set out to sea, you quickly realize that the <span class="blue">ocean</span> is just as dangerous as the land.\r\n`
+        region = regions[3];
+        places_table = shore_places_table;
+        events_table = shore_events_table;
+        enemies = shore_enemies;
         // STORY SCREEN
         awaiting_response = true;
-        game_text.innerHTML = `<span class="light-blue">End: Abyss</span>\r\n\r\n` +
-        `The path before you comes to an end, beyond this point lies nothing but oblivion. Nothing but the abyss. The laws of nature don't apply within these realms, for the rules of this realm are set by the chaos itself.\r\n`
-        + "\r\nThis is it.\r\n" + "\r\n<span class='choice'>Continue?</span>\r\n\r\n";
+        game_text.innerHTML = `<span class="light-blue">ACT 5: ASHORE</span>\r\n\r\n` +
+        `As your boat reaches the shore of the island, you can see the signs of the rebellion in the distance. The air is filled with the sounds of battle, and you know that this is where you will find the rebellion's stronghold and your safety.\r\n`
+        + "\r\nYou go and look for the rebellion.\r\n" + "\r\n<span class='choice'>Continue?</span>\r\n";
+        // Wait for user input
+        manage_input(true);
+
+        while(awaiting_response) {
+            await sleep(1);
+        }
+
+        manage_input(false);
+
+        if (player_input == "y") {
+            game_text.innerHTML += "You continue.\r\n";
+            manage_allow_continue(true);
+            return;
+        }
+        else if (player_input == "n") {
+            game_text.innerHTML += "You can't change fate.\r\n";
+            manage_allow_continue(true);
+            return;
+        }
+        else {
+            game_text.innerHTML += "You can't change fate.\r\n";
+            manage_allow_continue(true);
+            return;
+        }
+    }
+    // Rebellion
+    if (distance == 50) {
+        current_region = regions[4];
+        region_text.innerHTML = `<span class="red">[Act 6]</span> Upon arriving at the rebellion, they explain to you that the sorcerer's immense power is derived from an ancient artifact in his possession. The rebellion seeks your aid in defeating the sorcerer.\r\n`
+        region = regions[4];
+        places_table = ocean_places_table;
+        events_table = ocean_events_table;
+        enemies = ocean_enemies;
+        // STORY SCREEN
+        awaiting_response = true;
+        game_text.innerHTML = `<span class="light-blue">ACT 6: REBELLION</span>\r\n\r\n` +
+        `Finally, you reach the rebellion's stronghold. The leader of the rebellion, an experienced knight, tells you that the sorcerer's power comes from an ancient artifact that he has acquired and using it to control people. The rebellion needs your help to find this artifact and destroy it.\r\n`
+        + "\r\nYou join the rebellion and set out on a journey.\r\n" + "\r\n<span class='choice'>Continue?</span>\r\n";
+        // Wait for user input
+        manage_input(true);
+
+        while(awaiting_response) {
+            await sleep(1);
+        }
+
+        manage_input(false);
+
+        if (player_input == "y") {
+            game_text.innerHTML += "You continue.\r\n";
+            manage_allow_continue(true);
+            return;
+        }
+        else if (player_input == "n") {
+            game_text.innerHTML += "You can't change fate.\r\n";
+            manage_allow_continue(true);
+            return;
+        }
+        else {
+            game_text.innerHTML += "You can't change fate.\r\n";
+            manage_allow_continue(true);
+            return;
+        }
+    }
+    // Wasteland
+    if (distance == 60) {
+        current_region = regions[5];
+        region_text.innerHTML = `<span class="red">[Act 7]</span> After reaching the <span class="purplebrown">port</span>, you finally find a <span class="brown">ship</span> that seems seaworthy. However, as you set out to sea, you quickly realize that the <span class="blue">ocean</span> is just as dangerous as the land.\r\n`
+        region = regions[5];
+        places_table = ocean_places_table;
+        events_table = ocean_events_table;
+        enemies = ocean_enemies;
+        // STORY SCREEN
+        awaiting_response = true;
+        game_text.innerHTML = `<span class="light-blue">ACT 7: REBELLION</span>\r\n\r\n` +
+        `After arriving at the port, you successfully find a ship that appears to be in good condition. However, as soon as you set sail, it becomes clear that the ocean is equally perilous as the land. The waters are filled with mutated creatures, and the storms are more violent than ever before.\r\n`
+        + "\r\nYou set out to sea.\r\n" + "\r\n<span class='choice'>Continue?</span>\r\n";
+        // Wait for user input
+        manage_input(true);
+
+        while(awaiting_response) {
+            await sleep(1);
+        }
+
+        manage_input(false);
+
+        if (player_input == "y") {
+            game_text.innerHTML += "You continue.\r\n";
+            manage_allow_continue(true);
+            return;
+        }
+        else if (player_input == "n") {
+            game_text.innerHTML += "You can't change fate.\r\n";
+            manage_allow_continue(true);
+            return;
+        }
+        else {
+            game_text.innerHTML += "You can't change fate.\r\n";
+            manage_allow_continue(true);
+            return;
+        }
+    }
+    // Lost Temple
+    if (distance == 70) {
+        current_region = regions[6];
+        region_text.innerHTML = `<span class="red">[Act 8]</span> After reaching the <span class="purplebrown">port</span>, you finally find a <span class="brown">ship</span> that seems seaworthy. However, as you set out to sea, you quickly realize that the <span class="blue">ocean</span> is just as dangerous as the land.\r\n`
+        region = regions[6];
+        places_table = ocean_places_table;
+        events_table = ocean_events_table;
+        enemies = ocean_enemies;
+        // STORY SCREEN
+        awaiting_response = true;
+        game_text.innerHTML = `<span class="light-blue">ACT 8: REBELLION</span>\r\n\r\n` +
+        `After arriving at the port, you successfully find a ship that appears to be in good condition. However, as soon as you set sail, it becomes clear that the ocean is equally perilous as the land. The waters are filled with mutated creatures, and the storms are more violent than ever before.\r\n`
+        + "\r\nYou set out to sea.\r\n" + "\r\n<span class='choice'>Continue?</span>\r\n";
+        // Wait for user input
+        manage_input(true);
+
+        while(awaiting_response) {
+            await sleep(1);
+        }
+
+        manage_input(false);
+
+        if (player_input == "y") {
+            game_text.innerHTML += "You continue.\r\n";
+            manage_allow_continue(true);
+            return;
+        }
+        else if (player_input == "n") {
+            game_text.innerHTML += "You can't change fate.\r\n";
+            manage_allow_continue(true);
+            return;
+        }
+        else {
+            game_text.innerHTML += "You can't change fate.\r\n";
+            manage_allow_continue(true);
+            return;
+        }
+    }
+    // Swamp
+    if (distance == 80) {
+        current_region = regions[7];
+        region_text.innerHTML = `<span class="red">[Act 9]</span> After reaching the <span class="purplebrown">port</span>, you finally find a <span class="brown">ship</span> that seems seaworthy. However, as you set out to sea, you quickly realize that the <span class="blue">ocean</span> is just as dangerous as the land.\r\n`
+        region = regions[7];
+        places_table = ocean_places_table;
+        events_table = ocean_events_table;
+        enemies = ocean_enemies;
+        // STORY SCREEN
+        awaiting_response = true;
+        game_text.innerHTML = `<span class="light-blue">ACT 9: REBELLION</span>\r\n\r\n` +
+        `After arriving at the port, you successfully find a ship that appears to be in good condition. However, as soon as you set sail, it becomes clear that the ocean is equally perilous as the land. The waters are filled with mutated creatures, and the storms are more violent than ever before.\r\n`
+        + "\r\nYou set out to sea.\r\n" + "\r\n<span class='choice'>Continue?</span>\r\n";
         // Wait for user input
         manage_input(true);
 
@@ -374,8 +634,6 @@ function seperator() {
     game_text.innerHTML += "-------------------------------------------------------------------------------------\r\n";
 }
 
-// #endregion
-
 // Displays the players stats
 function display_stats() {
     stats_text.innerHTML = "";
@@ -410,6 +668,7 @@ async function forwards() {
 function clear_game_text() {
     game_text.innerHTML = "";
 }
+// #endregion
 
 // Manages Events
 async function manage_events(places, events) {
@@ -463,6 +722,67 @@ async function manage_sub_events(sub_event) {
     awaiting_response = true;
 
     switch(sub_event) {
+        // OBJECT BURRIED IN THE GROUND
+        case "object burried in the ground":
+            game_text.innerHTML += `<span class='choice'>Dig it up?</span>\r\n\r\n`;
+
+            // Wait for user input
+            manage_input(true);
+
+            while(awaiting_response) {
+                await sleep(1);
+            }
+
+            manage_input(false);
+            
+            // DIGS UP OBJECT
+            if (player_input == "y") {
+                game_text.innerHTML += "You dig up the object.\r\n\r\n";
+
+                let obj = object_burried_in_ground_names.sample();
+
+                let article = "";
+                // Determine correct article
+                if (vowels.includes(obj[0])) {
+                    article = "an";
+                }
+                else {
+                    article = "a";
+                }
+
+                await sleep(1000);
+
+                let d = Math.random();
+                // Successfully
+                if (d < 0.8) {
+                    game_text.innerHTML += `It is ${article} ${obj}.\r\n\r\n`;
+
+                    await sleep(1000);
+
+                    open_loot_container(object_burried_in_ground_loot_table, randomIntFromInterval(3, 5))
+                }
+                // is trap
+                else {
+                    let dmg = randomIntFromInterval(5,25);
+                    damage(dmg);
+
+                    await sleep(1000);
+
+                    game_text.innerHTML += "<span class='drastic'>It is a pipe bomb.</span>\r\n\r\n";
+
+                    await sleep(1000);
+
+                    game_text.innerHTML += `<span class="dmg">You take ${dmg} damage.</span>\r\n`;
+                    manage_allow_continue(true);
+                }
+                
+            }
+            // DOESNT OPEN CARGO
+            else if (player_input == "n") {
+                game_text.innerHTML += "You do not dig up the object and move on.\r\n";
+                manage_allow_continue(true);
+            }
+            break;
         // SHRINE
         case "shrine":
             game_text.innerHTML += `<span class="choice">Pray at the shrine?\r\n\r\n`;
@@ -1425,6 +1745,20 @@ function item_price(item) {
             return [52, 84];
         case "halberd":
             return[20, 34];
+        case "mace":
+            return [30, 60];
+        case "hammer":
+            return [20, 50];
+        case "flail":
+            return [50, 100];
+        case "spear":
+            return [37, 54];
+        case "crossbow":
+            return [42, 87];
+        case "scythe":
+            return [52, 84];
+        case "scimitar":
+            return[56, 106];
     }
 }
 
@@ -1451,192 +1785,411 @@ function weapon_damage(weapon) {
             return [15, 26];
         case "greatsword":
             return [17, 30];
+        case "mace":
+            return [11, 20];
+        case "hammer":
+            return [9, 17];
+        case "flail":
+            return [19, 40];
+        case "spear":
+            return [10, 17];
+        case "crossbow":
+            return [13, 22];
+        case "scythe":
+            return [17, 26];
+        case "scimitar":
+            return[21, 45];
     }
 }
 
 // Enemy Damage Determiner
 function det_enemy_dmg(enemy) {
+    // ENEMY DAMAGE CLASSES
+    let weak = [2, 7];
+    let below_avg = [4, 8];
+    let common = [6, 11];
+    let above_avg = [8, 14];
+    let strong = [10, 17];
+    let monster = [12, 19];
+    let abomination = [14, 23];
     if (!enemies.includes(enemy)) {
         return [1, 1];
     }
     switch(enemy) {
         // REGION 0: FOREST
         case "spider":
-            return [2, 5];
+            return weak;
         case "werewolf":
-            return [4, 7];
+            return below_avg;
         case "dryad":
-            return [2, 5];
+            return below_avg;
         case "gnome":
-            return [2, 4];
+            return weak;
         case "wendigo":
-            return [5, 9];
+            return common;
         case "ent":
-            return [4, 7];
+            return common;
         case "harpy":
-            return [2, 5];
+            return below_avg;
         case "basilisk":
-            return [3, 8];
+            return common;
         case "lizard":
-            return [5, 8];
+            return common;
         case "rat":
-            return [3, 6];
+            return weak;
         case "leech":
-            return [3, 7];
+            return weak;
         case "mosquito":
-            return [3, 5];
-        // REGION 1: LOCKWOOD VILLAGE
+            return weak;
+        // REGION 1: LOCKWOOD VILLAGE + 10-19
         case "goblin":
-            return [8, 9];
+            return below_avg;
         case "orc":
-            return [8, 14];
+            return above_avg;
         case "wraith":
-            return [8, 10];
+            return above_avg;
         case "megaspider":
-            return [8, 11];
+            return common;
         case "bandit":
-            return [6, 9];
+            return below_avg;
         case "troll":
-            return [10, 16];
+            return strong;
         case "wight":
-            return [9, 15];
-        // REGION 2: EASTPORT
+            return common;
+        // REGION 2: EASTPORT + 20-29
         case "centipede":
-            return [6, 8];
+            return weak;
         case "megacentipede":
-            return [9, 13];
+            return above_avg;
         case "ghoul":
-            return [5, 7];
+            return common;
         case "rakshasa":
-            return [7, 9];
+            return common;
         case "hag":
-            return [5, 7];
+            return weak;
         case "hollow":
-            return [4, 6];
+            return weak;
         case "banshee":
-            return [8, 10];
+            return common;
         case "maggot":
-            return [4, 7];
+            return weak;
         case "possessed":
-            return [6, 8];
-        // REGION 3: OCEAN
+            return below_avg;
+        // REGION 3: OCEAN + 30-39
         case "sea monster":
-            return [10, 16];
+            return above_avg;
         case "mermaid":
-            return [8, 14];
+            return weak;
         case "siren":
-            return [8, 11];
+            return below_avg;
         case "leviathan":
-            return [8, 26];
+            return abomination;
         case "sea serpent":
-            return [7, 20];
+            return strong;
         case "water elemental":
-            return [8, 21];
+            return above_avg;
         case "charybdis":
-            return [9, 16];
+            return monster;
         case "kraken":
-            return [9, 29];
+            return abomination;
         case "megasquid":
-            return [7, 16];
+            return strong;
         case "megacrab":
-            return [8, 17];
+            return above_avg;
         case "naga":
-            return [9, 16];
+            return above_avg;
         case "deep one":
-            return [8, 14];
+            return common;
+        case "manta ray":
+            return weak;
+        case "jellyfish":
+            return weak;
+        case "octopus":
+            return below_avg;
+        // REGION 4: SHORE
+        case "vulture":
+            return weak;
+        case "werewolf":
+            return below_avg;
+        case "spirit":
+            return below_avg;
+        case "bat":
+            return weak;
+        case "dweller":
+            return below_avg;
+        case "lobster":
+            return weak;
+        case "scorpion":
+            return weak;
+        case "sandworm":
+            return strong;
+        case "worm":
+            return weak;
+        case "seagull":
+            return weak;
+        case "turtle":
+            return weak;
     }
 }
 
 // Enemy XP Determiner
 function det_enemy_xp(enemy) {
+    // ENEMY XP CLASSES
+    let weak = [5, 15];
+    let below_avg = [15, 25];
+    let common = [25, 35];
+    let above_avg = [35, 45];
+    let strong = [45, 55];
+    let monster = [55, 65];
+    let abomination = [65, 75];
     if (!enemies.includes(enemy)) {
         return [1, 1];
     }
     switch(enemy) {
         // REGION 0: FOREST
         case "spider":
-            return [10, 20];
+            return weak;
         case "werewolf":
-            return [16, 28];
+            return below_avg;
         case "dryad":
-            return [10, 20];
+            return below_avg;
         case "gnome":
-            return [8, 14];
+            return weak;
         case "wendigo":
-            return [20, 36];
+            return common;
         case "ent":
-            return [14, 30];
+            return common;
         case "harpy":
-            return [10, 20];
+            return below_avg;
         case "basilisk":
-            return [10, 20];
+            return common;
         case "lizard":
-            return [20, 36];
+            return common;
         case "rat":
-            return [14, 26];
+            return weak;
         case "leech":
-            return [16, 29];
+            return weak;
         case "mosquito":
-            return [10, 20];
-        // REGION 1: LOCKWOOD VILLAGE + 10
+            return weak;
+        // REGION 1: LOCKWOOD VILLAGE + 10-19
         case "goblin":
-            return [16, 18];
+            return below_avg;
         case "orc":
-            return [16, 28];
+            return above_avg;
         case "wraith":
-            return [16, 20];
+            return above_avg;
         case "megaspider":
-            return [16, 22];
+            return common;
         case "bandit":
-            return [12, 18];
+            return below_avg;
         case "troll":
-            return [18, 32];
+            return strong;
         case "wight":
-            return [16, 22];
-        // REGION 2: EASTPORT + 20
+            return common;
+        // REGION 2: EASTPORT + 20-29
         case "centipede":
-            return [16, 24];
+            return weak;
         case "megacentipede":
-            return [25, 37];
+            return above_avg;
         case "ghoul":
-            return [14, 26];
+            return common;
         case "rakshasa":
-            return [18, 27];
+            return common;
         case "hag":
-            return [14, 21];
+            return weak;
         case "hollow":
-            return [15, 24];
+            return weak;
         case "banshee":
-            return [19, 27];
+            return common;
         case "maggot":
-            return [10, 20];
+            return weak;
         case "possessed":
-            return [16, 25];
-        // REGION 3: OCEAN + 30
+            return below_avg;
+        // REGION 3: OCEAN + 30-39
         case "sea monster":
-            return [20, 32];
+            return above_avg;
         case "mermaid":
-            return [16, 28];
+            return weak;
         case "siren":
-            return [16, 22];
+            return below_avg;
         case "leviathan":
-            return [16, 52];
+            return abomination;
         case "sea serpent":
-            return [14, 40];
+            return strong;
         case "water elemental":
-            return [16, 42];
+            return above_avg;
         case "charybdis":
-            return [18, 32];
+            return monster;
         case "kraken":
-            return [18, 58];
+            return abomination;
         case "megasquid":
-            return [14, 32];
+            return strong;
         case "megacrab":
-            return [16, 34];
+            return above_avg;
         case "naga":
-            return [18, 32];
+            return above_avg;
         case "deep one":
-            return [16, 28];
+            return common;
+        case "manta ray":
+            return weak;
+        case "jellyfish":
+            return weak;
+        case "octopus":
+            return below_avg;
+        // REGION 4: SHORE
+        case "vulture":
+            return weak;
+        case "werewolf":
+            return below_avg;
+        case "spirit":
+            return below_avg;
+        case "bat":
+            return weak;
+        case "dweller":
+            return below_avg;
+        case "lobster":
+            return weak;
+        case "scorpion":
+            return weak;
+        case "sandworm":
+            return strong;
+        case "worm":
+            return weak;
+        case "seagull":
+            return weak;
+        case "turtle":
+            return weak;
+    }
+}
+
+// Enemy HP Determiner
+function det_enemy_hp(enemy) {
+    // ENEMY HP CLASSES
+    let weak = [5, 10];
+    let below_avg = [8, 14];
+    let common = [11, 19];
+    let above_avg = [14, 25];
+    let strong = [17, 30];
+    let monster = [20, 34];
+    let abomination = [23, 39];
+
+    if (!enemies.includes(enemy)) {
+        return [1, 1];
+    }
+    switch(enemy) {
+        // REGION 0: FOREST
+        case "spider":
+            return weak;
+        case "werewolf":
+            return below_avg;
+        case "dryad":
+            return below_avg;
+        case "gnome":
+            return weak;
+        case "wendigo":
+            return common;
+        case "ent":
+            return common;
+        case "harpy":
+            return below_avg;
+        case "basilisk":
+            return common;
+        case "lizard":
+            return common;
+        case "rat":
+            return weak;
+        case "leech":
+            return weak;
+        case "mosquito":
+            return weak;
+        // REGION 1: LOCKWOOD VILLAGE + 10-19
+        case "goblin":
+            return below_avg;
+        case "orc":
+            return above_avg;
+        case "wraith":
+            return above_avg;
+        case "megaspider":
+            return common;
+        case "bandit":
+            return below_avg;
+        case "troll":
+            return strong;
+        case "wight":
+            return common;
+        // REGION 2: EASTPORT + 20-29
+        case "centipede":
+            return weak;
+        case "megacentipede":
+            return above_avg;
+        case "ghoul":
+            return common;
+        case "rakshasa":
+            return common;
+        case "hag":
+            return weak;
+        case "hollow":
+            return weak;
+        case "banshee":
+            return common;
+        case "maggot":
+            return weak;
+        case "possessed":
+            return below_avg;
+        // REGION 3: OCEAN + 30-39
+        case "sea monster":
+            return above_avg;
+        case "mermaid":
+            return weak;
+        case "siren":
+            return below_avg;
+        case "leviathan":
+            return abomination;
+        case "sea serpent":
+            return strong;
+        case "water elemental":
+            return above_avg;
+        case "charybdis":
+            return monster;
+        case "kraken":
+            return abomination;
+        case "megasquid":
+            return strong;
+        case "megacrab":
+            return above_avg;
+        case "naga":
+            return above_avg;
+        case "deep one":
+            return common;
+        case "manta ray":
+            return weak;
+        case "jellyfish":
+            return weak;
+        case "octopus":
+            return below_avg;
+        // REGION 4: SHORE
+        case "vulture":
+            return weak;
+        case "werewolf":
+            return below_avg;
+        case "spirit":
+            return below_avg;
+        case "bat":
+            return weak;
+        case "dweller":
+            return below_avg;
+        case "lobster":
+            return weak;
+        case "scorpion":
+            return weak;
+        case "sandworm":
+            return strong;
+        case "worm":
+            return weak;
+        case "seagull":
+            return weak;
+        case "turtle":
+            return weak;
     }
 }
 
@@ -1645,99 +2198,6 @@ function det_gold(entity) {
     switch(entity) {
         case "traveler":
             return [5, 105];
-    }
-}
-
-// Enemy HP Determiner
-function det_enemy_hp(enemy) {
-    if (!enemies.includes(enemy)) {
-        return [1, 1];
-    }
-    switch(enemy) {
-        // REGION 0: FOREST
-        case "spider":
-            return [5, 10];
-        case "werewolf":
-            return [8, 14];
-        case "dryad":
-            return [5, 10];
-        case "gnome":
-            return [4, 7];
-        case "wendigo":
-            return [10, 18];
-        case "ent":
-            return [7, 15];
-        case "harpy":
-            return [5, 10];
-        case "basilisk":
-            return [7, 17];
-        case "lizard":
-            return [10, 16];
-        case "rat":
-            return [5, 12];
-        case "leech":
-            return [6, 14];
-        case "mosquito":
-            return [5, 10];
-        // REGION 1: LOCKWOOD VILLAGE
-        case "goblin":
-            return [16, 18];
-        case "orc":
-            return [16, 27];
-        case "wraith":
-            return [16, 19];
-        case "megaspider":
-            return [16, 21];
-        case "bandit":
-            return [12, 18];
-        case "troll":
-            return [18, 29];
-        case "wight":
-            return [12, 18];
-        // REGION 2: EASTPORT
-        case "centipede":
-            return [12, 16];
-        case "megacentipede":
-            return [18, 25];
-        case "ghoul":
-            return [10, 14];
-        case "rakshasa":
-            return [14, 18];
-        case "hag":
-            return [11, 14];
-        case "hollow":
-            return [8, 11];
-        case "banshee":
-            return [15, 19];
-        case "maggot":
-            return [7, 11];
-        case "possessed":
-            return [12, 16];
-        // REGION 3: OCEAN
-        case "sea monster":
-            return [19, 32];
-        case "mermaid":
-            return [15, 28];
-        case "siren":
-            return [16, 21];
-        case "leviathan":
-            return [19, 52];
-        case "sea serpent":
-            return [15, 39];
-        case "water elemental":
-            return [16, 42];
-        case "charybdis":
-            return [19, 32];
-        case "kraken":
-            return [21, 60];
-        case "megasquid":
-            return [15, 34];
-        case "megacrab":
-            return [15, 36];
-        case "naga":
-            return [16, 34];
-        case "deep one":
-            return [16, 24];
     }
 }
 
@@ -1849,7 +2309,7 @@ async function manage_xp(amount) {
         game_text.innerHTML += `\r\n<span class="lvl">You leveled up!</span>\r\n\r\n`;
         await sleep(1000);
         lvl++;
-        max_xp += lvl*10;
+        max_xp += lvl*20;
         max_hp += lvl*5;
         xp = Math.abs(max_xp-xp);
         hp = max_hp;
