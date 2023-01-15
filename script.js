@@ -953,7 +953,7 @@ async function manage_sub_events(sub_event) {
             
             // OPENS CARGO
             if (player_input == "y") {
-                game_text.innerHTML += "You take a look at the cargo.\r\n";
+                game_text.innerHTML += "You take a look at the cargo.\r\n\r\n";
                 let d = Math.random();
                 // Open Cargo Successfully
                 if (d < 0.8) {
