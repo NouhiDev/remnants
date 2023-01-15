@@ -2348,6 +2348,7 @@ async function manage_xp(amount) {
 
         // Increase Max Mana
         max_mana += lvl*5;
+        mana = max_mana;
 
         xp = Math.abs(max_xp-xp);
         hp = max_hp;
