@@ -153,7 +153,7 @@ async function check_region_switch(distance) {
         // STORY SCREEN UPDATE
         game_text.innerHTML = `<span class="light-blue">ACT 1: AWAKENING</span>\r\n\r\n` +
         `You wake up in a dense forest, with no memory of how you got there or what has happened to the world. As you stand up and take in your surroundings, you notice that the trees are withered and the air is thick with a putrid smell. The silence is broken only by the occasional sound of something moving in the bushes.\r\n`
-        + "\r\nYou start to explore the forest, looking for any clues about the state of the world.\r\n" + "\r\nContinue?\r\n\r\n";
+        + "\r\nYou start to explore the forest, looking for any clues about the state of the world.\r\n" + "\r\n<span class='choice'>Continue?</span>\r\n\r\n";
         // Wait for user input
         manage_input(true);
 
@@ -193,7 +193,7 @@ async function check_region_switch(distance) {
         awaiting_response = true;
         game_text.innerHTML = `<span class="light-blue">ACT 2: DISCOVERY</span>\r\n\r\n` +
         `After hours of wandering, you come across a small village in the clearing. The villagers tell you that a great disaster has occurred, causing widespread destruction and the collapse of civilization. They also tell you that a powerful sorcerer has risen to power, using dark magic to control and manipulate the remaining survivors.\r\n`
-        + "\r\nThey inform you of a rumored island where a group of survivors has formed a community, and hopefully, a new chance for humanity to rebuild. You start to look for a port.\r\n" + "\r\nContinue?\r\n\r\n";
+        + "\r\nThey inform you of a rumored island where a group of survivors has formed a community, and hopefully, a new chance for humanity to rebuild. You start to look for a port.\r\n" + "\r\n<span class='choice'>Continue?</span>\r\n\r\n";
         // Wait for user input
         manage_input(true);
 
@@ -232,7 +232,7 @@ async function check_region_switch(distance) {
         awaiting_response = true;
         game_text.innerHTML = `<span class="light-blue">ACT 3: SHIPWRECKED</span>\r\n\r\n` +
         `As you leave the ruined village, you set out to find a ship that could be of aid, making your way towards the nearest port. However, as you approach, you realize the port is infected. The ships that were once docked there, now lay abandoned.\r\n`
-        + "\r\You start to look for a working ship.\r\n" + "\r\nContinue?\r\n\r\n";
+        + "\r\You start to look for a working ship.\r\n" + "\r\n<span class='choice'>Continue?</span>\r\n\r\n";
         // Wait for user input
         manage_input(true);
 
@@ -271,7 +271,7 @@ async function check_region_switch(distance) {
         awaiting_response = true;
         game_text.innerHTML = `<span class="light-blue">ACT 4: ADRIFT</span>\r\n\r\n` +
         `After arriving at the port, you successfully find a ship that appears to be in good condition. However, as soon as you set sail, it becomes clear that the ocean is equally perilous as the land. The waters are filled with mutated creatures, and the storms are more violent than ever before.\r\n`
-        + "\r\nYou set out to sea.\r\n" + "\r\nContinue?\r\n";
+        + "\r\nYou set out to sea.\r\n" + "\r\n<span class='choice'>Continue?</span>\r\n";
         // Wait for user input
         manage_input(true);
 
@@ -307,7 +307,7 @@ async function check_region_switch(distance) {
         awaiting_response = true;
         game_text.innerHTML = `<span class="light-blue">End: Abyss</span>\r\n\r\n` +
         `The path before you comes to an end, beyond this point lies nothing but oblivion. Nothing but the abyss. The laws of nature don't apply within these realms, for the rules of this realm are set by the chaos itself.\r\n`
-        + "\r\nThis is it.\r\n" + "\r\nContinue?\r\n\r\n";
+        + "\r\nThis is it.\r\n" + "\r\n<span class='choice'>Continue?</span>\r\n\r\n";
         // Wait for user input
         manage_input(true);
 
@@ -463,7 +463,7 @@ async function manage_sub_events(sub_event) {
     switch(sub_event) {
         // SHRINE
         case "shrine":
-            game_text.innerHTML += `Pray at the shrine?\r\n\r\n`;
+            game_text.innerHTML += `<span class="choice">Pray at the shrine?\r\n\r\n`;
 
             // Wait for user input
             manage_input(true);
@@ -488,7 +488,7 @@ async function manage_sub_events(sub_event) {
             break;
         // TRAVELER
         case "traveler":
-            game_text.innerHTML += `Approach them?\r\n\r\n`;
+            game_text.innerHTML += `<span class='choice'>Approach them?</span>\r\n\r\n`;
 
             // Wait for user input
             manage_input(true);
@@ -513,7 +513,7 @@ async function manage_sub_events(sub_event) {
             break;
         // MERCHANT
         case "merchant":
-            game_text.innerHTML += `Talk to merchant?\r\n\r\n`;
+            game_text.innerHTML += `<span class='choice'>Talk to merchant?</span>\r\n\r\n`;
 
             // Wait for user input
             manage_input(true);
@@ -555,7 +555,7 @@ async function manage_sub_events(sub_event) {
             break;
         // WISHING WELL
         case "wishing well":
-            game_text.innerHTML += `Make a wish?\r\n\r\n`;
+            game_text.innerHTML += `<span class='choice'>Make a wish?</span>\r\n\r\n`;
 
             // Wait for user input
             manage_input(true);
@@ -592,7 +592,7 @@ async function manage_sub_events(sub_event) {
             break;
         // CARGO
         case "cargo":
-            game_text.innerHTML += `Loot cargo?\r\n\r\n`;
+            game_text.innerHTML += `<span class='choice'>Loot cargo?</span>\r\n\r\n`;
 
             // Wait for user input
             manage_input(true);
@@ -640,7 +640,7 @@ async function manage_sub_events(sub_event) {
             break;
         // CHEST
         case "chest":
-            game_text.innerHTML += `Open chest?\r\n\r\n`;
+            game_text.innerHTML += `<span class='choice'>Open chest?</span>\r\n\r\n`;
 
             // Wait for user input
             manage_input(true);
@@ -730,7 +730,7 @@ async function make_wish() {
     game_text.innerHTML =  `<span class="wishing-well">WISHING WELL</span>` + `\r\n\r\n`;
     await sleep(1000);
 
-    game_text.innerHTML += `Throw <span class="gold">one gold</span> into the well?\r\n\r\n`;
+    game_text.innerHTML += `<span class="choice">Throw <span class="gold">one gold</span> into the well?</span>\r\n\r\n`;
 
     awaiting_response = true;
 
@@ -980,7 +980,7 @@ async function merchant_routine() {
     await sleep(3000);
     awaiting_response = true;
 
-    game_text.innerHTML += `\r\nReady to buy?\r\n\r\n`;
+    game_text.innerHTML += `\r\n<span class="choice">Ready to buy?</span>\r\n\r\n`;
 
     // Wait for user input
     manage_input(true);
@@ -1006,10 +1006,10 @@ async function merchant_routine() {
         awaiting_response = true;
         price = randomIntFromInterval(item_price(item)[0], item_price(item)[1]);
         if (item != "lesser healing potion" && item != "healing potion") {
-            game_text.innerHTML += `Buy ${item}? (${weapon_damage(item)[0]}-${weapon_damage(item)[1]} dmg) for <span class="gold">${price}G</span>\r\n\r\n`;
+            game_text.innerHTML += `<span class="choice">Buy ${item}? (${weapon_damage(item)[0]}-${weapon_damage(item)[1]} dmg) for <span class="gold">${price}G</span>?</span>\r\n\r\n`;
         }
         else {
-            game_text.innerHTML += `Buy ${item} for <span class="gold">${price+anger}G</span>?\r\n\r\n`;
+            game_text.innerHTML += `<span class="choice">Buy ${item} for <span class="gold">${price+anger}G</span>?</span>\r\n\r\n`;
         }   
         
 
@@ -1101,7 +1101,7 @@ async function enemy_encounter() {
     game_text.innerHTML += `<span class="enemy">${capitalizeFirstLetter(enemy_combined_name)}</span> has ${enemy_hp} hp.\r\n\r\n`;
 
     // Prompt for combat
-    game_text.innerHTML += `Engage in combat? \r\n\r\n`;
+    game_text.innerHTML += `<span class="choice">Engage in combat?</span>\r\n\r\n`;
 
     // Wait for user input
     manage_input(true);
