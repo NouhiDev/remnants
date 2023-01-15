@@ -239,6 +239,9 @@ object_burried_in_ground_loot_table = ["halberd", "greataxe", "axe", "sword", "c
 blurry_object = ["rusted chest", "bandit's cache", "treasure trove", "stockpile", "rusty safe", "stash", "large jar"]
 blurry_object_loot_table = ["healing potion", "gold", "gold", "dagger", "mace", "hammer", "flail", "spear", "scythe", "scimitar", "nothing", 
 "nothing", "bastard sword", "shortsword", "longsword", "flamberge", "falchion", "rapier", "estoc", "club", "wooden staff"]
+
+small_dungeon_trapped_chest_loot_table = ["healing potion", "gold", "gold", "dagger", "mace", "hammer", "flail", "spear", "scythe", "scimitar", 
+"bastard sword", "shortsword", "longsword", "flamberge", "falchion", "rapier", "estoc", "club", "wooden staff", "gold", "gold", "gold", "gold"]
 // #endregion
 
 // #region Enemies
@@ -1251,10 +1254,171 @@ async function manage_sub_events(sub_event) {
     }
 
 }
-
+small_dungeon();
 // Small Dungeon
 async function small_dungeon() {
+    let rooms = ["trapped chest"]
 
+    game_text.innerHTML =  `<span class="small-dungeon">SMALL DUNGEON</span>` + `\r\n(Entrance)\r\n\r\n`;
+    
+    await sleep(1000);
+
+    game_text.innerHTML += "You push open the heavy wooden door and step into the dungeon.\r\n\r\n"
+
+    await sleep(2000);
+
+    game_text.innerHTML += "The cool air sends shivers down your spine as you scan the dimly lit chamber for signs of danger.\r\n\r\n"
+
+    await sleep(2500);
+
+    game_text.innerHTML += "<span class='info'>You pick up a torch from the wall.</span>\r\n\r\n"
+
+    await sleep(1000);
+
+    game_text.innerHTML += "The flickering torch in your hand casts dancing shadows on the rough-hewn walls as you make your way deeper into the dungeon.\r\n\r\n";
+
+    await sleep(2000);
+
+    for (let i = 0; i < 3; i++) {
+        game_text.innerHTML += `\r\n<span class="choice">Proceed?\r\n\r\n`;
+
+        awaiting_response = true;
+
+        manage_input(true);
+
+        while(awaiting_response) {
+            await sleep(1);
+        }
+
+        manage_input(false);
+
+        // APPROACH TRAVELER
+        if (player_input == "y") {
+            game_text.innerHTML += "You enter the next room.\r\n";
+        }
+        // PASS BY TRAVELER
+        else if (player_input == "n") {
+            game_text.innerHTML += "The doors closed behind you. You can't turn back now.\r\n";
+        }
+
+        await sleep(2000);
+
+        game_text.innerHTML =  `<span class="small-dungeon">SMALL DUNGEON</span>` + `\r\n(Room ${i+1})\r\n\r\n`;
+
+        let room_type = rooms.sample();
+
+        await sleep(1000);
+
+        switch(room_type) {
+            case "trapped chest":
+                game_text.innerHTML += "You see a trapped chest.\r\n\r\n";
+
+                await sleep(1000);
+
+                game_text.innerHTML += `<span class="choice">Attempt to disarm the trap?\r\n\r\n`;
+
+                awaiting_response = true;
+
+                manage_input(true);
+
+                while(awaiting_response) {
+                    await sleep(1);
+                }
+
+                manage_input(false);
+
+                // APPROACH TRAVELER
+                if (player_input == "y") {
+                    let disarm_chance = Math.random();
+                    // SUCCEED DISARM
+                    if (disarm_chance < 0.5) {
+                        await sleep(1000);
+
+                        game_text.innerHTML += "<span class='blessing'>You successfully disarm the trap and open the chest.</span>\r\n\r\n";
+                    
+                        let loot_table = small_dungeon_trapped_chest_loot_table;
+                        let amount_of_items = randomIntFromInterval(2, 6);
+
+                        for (let i = 0; i < amount_of_items; i++) {
+                            await sleep(1000);
+                    
+                            // Choose random item from loot table
+                            item = loot_table.sample();
+                    
+                            // Determine correct article
+                            if (vowels.includes(item[0])) {
+                                article = "an";
+                            }
+                            else {
+                                article = "a";
+                            }
+                    
+                            // Healing Potion
+                            if (item == "healing potion") {
+                                let amt = randomIntFromInterval(10, max_hp);
+                    
+                                hp += amt;
+                                if (hp >= max_hp) {
+                                    hp = max_hp;
+                                }
+                    
+                                game_text.innerHTML += `You find a healing potion and drink it.\r\n`;
+                    
+                                await sleep(1000);
+                    
+                                game_text.innerHTML += `<span class="heal">You healed ${amt} hp.</span>\r\n\r\n`;
+                                display_stats();
+                    
+                                await sleep(1000);
+                                continue;
+                            }
+                    
+                            // Gold
+                            if (item == "gold") {
+                                let amt = randomIntFromInterval(det_gold("trappedchest")[0], det_gold("trappedchest")[1]);
+
+                                gold += amt;
+
+                                game_text.innerHTML += `You find <span class="gold">${amt} gold</span>.\r\n`;
+                                display_stats();
+                    
+                                await sleep(1000);
+                                continue;
+                            }
+                    
+                            // Check if item is already in inventory
+                            if (inventory.includes(item)) {
+                                game_text.innerHTML += `You find ${article} ${item} but you already have one.\r\n`
+                                continue;
+                            }
+                    
+                            // Add item to inventory
+                            inventory.push(item);
+                            game_text.innerHTML += `You find ${article} ${item}.\r\n`
+                            display_stats();
+                        }
+                    }
+                    // FAIL DISARM
+                    else {
+                        await sleep(1000);
+
+                        game_text.innerHTML += "<span class='drastic'>You fail to disarm the chest.</span>\r\n\r\n";
+
+                        await sleep(1000);
+
+                        game_text.innerHTML += `<span class="dmg">You take 20 damage.</span>\r\n\r\n`;
+                        damage(20);
+                        display_stats();
+                    }
+                }
+                // PASS BY TRAVELER
+                else if (player_input == "n") {
+                    game_text.innerHTML += "You choose to ignore the chest and the treasures it could have contained and move on.\r\n\r\n";
+                }
+                break;
+        }
+        await sleep(2000);
+    }
 }
 
 // Bandit
@@ -1511,7 +1675,7 @@ async function traveler_routine() {
                 display_stats();
     
                 await sleep(1000);
-                break;
+                continue;
             }
     
             // Gold
@@ -1524,13 +1688,13 @@ async function traveler_routine() {
                 display_stats();
     
                 await sleep(1000);
-                break;
+                continue;
             }
     
             // Check if item is already in inventory
             if (inventory.includes(item)) {
                 game_text.innerHTML += `${name} gives you ${article} ${item} but you already have one.\r\n`
-                break;
+                continue;
             }
     
             // Add item to inventory
@@ -2260,6 +2424,8 @@ function det_gold(entity) {
     switch(entity) {
         case "traveler":
             return [5, 105];
+        case "trappedchest":
+            return [30, 300];
     }
 }
 
