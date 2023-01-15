@@ -44,7 +44,7 @@ var regions = ["Lockwood Village", "Eastport", "Ocean", "Rocky Shores", "Abyss"]
 // #region Places
 places_table = [];
 
-forest_places_table = ["grass patch", "hut", "camp", "cave" ,"stone arch", "field of red mushrooms", "grand tree", "shrine", "temple",
+forest_places_table = ["grass patch", "hut", "camp", "cave" ,"stone arch", "field of red mushrooms", "grand tree",
 "clearing with a small pond", "dense thicket of thorns and brambles", "tall tree with a hollow trunk", "cabin", "lodge",
 "waterfall", "grove", "overgrown ruin", "small secluded meadow"];
 
@@ -64,7 +64,7 @@ ocean_places_table = ["small island", "island", "shipwreck", "coral reef", "aban
 // #region Events
 events_table = [];
 
-forest_events_table = ["nothing", "chest", "enemy", "wishing well", "traveler"];
+forest_events_table = ["nothing", "chest", "enemy", "wishing well", "traveler", "shrine"];
 
 lockwood_village_events_table = ["nothing", "chest", "enemy", "merchant", "traveler"] //NEW: MERCHANT
 
@@ -148,7 +148,7 @@ async function check_region_switch(distance) {
         // STORY SCREEN UPDATE
         game_text.innerHTML += `<span class="light-blue">ACT 1: AWAKENING</span>\r\n\r\n` +
         `You wake up in a dense forest, with no memory of how you got there or what has happened to the world. As you stand up and take in your surroundings, you notice that the trees are withered and the air is thick with a putrid smell. The silence is broken only by the occasional sound of something moving in the bushes.\r\n`
-        + "\r\nYou start to explore the forest, looking for any clues about the state of the world.\r\n" + "\r\nContinue? (y/n) \r\n";
+        + "\r\nYou start to explore the forest, looking for any clues about the state of the world.\r\n" + "\r\nContinue? (y/n) \r\n\r\n";
         // Wait for user input
         manage_input(true);
 
@@ -187,7 +187,7 @@ async function check_region_switch(distance) {
         awaiting_response = true;
         game_text.innerHTML = `<span class="light-blue">ACT 2: DISCOVERY</span>\r\n\r\n` +
         `After hours of wandering, you come across a small village in the clearing. The villagers tell you that a great disaster has occurred, causing widespread destruction and the collapse of civilization. They also tell you that a powerful sorcerer has risen to power, using dark magic to control and manipulate the remaining survivors.\r\n`
-        + "\r\nThey inform you of a rumored island where a group of survivors has formed a community, and hopefully, a new chance for humanity to rebuild. You start to look for a port.\r\n" + "\r\nContinue? (y/n) \r\n";
+        + "\r\nThey inform you of a rumored island where a group of survivors has formed a community, and hopefully, a new chance for humanity to rebuild. You start to look for a port.\r\n" + "\r\nContinue? (y/n) \r\n\r\n";
         // Wait for user input
         manage_input(true);
 
@@ -225,7 +225,7 @@ async function check_region_switch(distance) {
         awaiting_response = true;
         game_text.innerHTML = `<span class="light-blue">ACT 3: SHIPWRECKED</span>\r\n\r\n` +
         `As you leave the ruined village, you set out to find a ship that could be of aid, making your way towards the nearest port. However, as you approach, you realize the port is infected. The ships that were once docked there, now lay abandoned.\r\n`
-        + "\r\You start to look for a working ship.\r\n" + "\r\nContinue? (y/n) \r\n";
+        + "\r\You start to look for a working ship.\r\n" + "\r\nContinue? (y/n) \r\n\r\n";
         // Wait for user input
         manage_input(true);
 
@@ -298,7 +298,7 @@ async function check_region_switch(distance) {
         awaiting_response = true;
         game_text.innerHTML = `<span class="light-blue">End: Abyss</span>\r\n\r\n` +
         `The path before you comes to an end, beyond this point lies nothing but oblivion. Nothing but the abyss. The laws of nature don't apply within these realms, for the rules of this realm are set by the chaos itself.\r\n`
-        + "\r\nThis is it.\r\n" + "\r\nContinue? (y/n) \r\n";
+        + "\r\nThis is it.\r\n" + "\r\nContinue? (y/n) \r\n\r\n";
         // Wait for user input
         manage_input(true);
 
@@ -462,13 +462,31 @@ async function manage_sub_events(sub_event) {
     awaiting_response = true;
 
     switch(sub_event) {
+        case "shrine":
+            game_text.innerHTML += `Pray at the shrine?\r\n (y/n) \r\n`;
+
+            // Wait for user input
+            manage_input(true);
+
+            while(awaiting_response) {
+                await sleep(1);
+            }
+
+            manage_input(false);
+
+            // APPROACH TRAVELER
+            if (player_input == "y") {
+                game_text.innerHTML += "You head towards the shrine.\r\n";
+                pray();
+            }
+            // PASS BY TRAVELER
+            else if (player_input == "n") {
+                game_text.innerHTML += "You do not pray at the shrine and move on.\r\n";
+                manage_allow_continue(true);
+            }
+
+            break;
         case "traveler":
-
-
-            game_text.innerHTML += `You encounter a traveler.\r\n`
-
-            await sleep(1000);
-
             game_text.innerHTML += `Approach them?\r\n (y/n) \r\n`;
 
             // Wait for user input
