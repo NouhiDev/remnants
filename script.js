@@ -835,6 +835,47 @@ async function manage_sub_events(sub_event) {
     awaiting_response = true;
 
     switch(sub_event) {
+        // BANDIT
+        case "bandit":
+            game_text.innerHTML += `<span class="choice">Try to flee?\r\n\r\n`;
+
+            // Wait for user input
+            manage_input(true);
+
+            while(awaiting_response) {
+                await sleep(1);
+            }
+
+            manage_input(false);
+
+            // TRIES TO FLEE
+            if (player_input == "y") {
+                let flee_chance = Math.random();
+                // Flee with 20% Chance
+                if (flee_chance < 0.2) { 
+                    game_text.innerHTML += "<span class='blessing'>You successfully flee from the bandit.</span>\r\n";
+                    manage_allow_continue(true);
+                }
+                // Fail with 80% Chance
+                else {
+                    game_text.innerHTML += "<span class='drastic'>You fail to flee.</span>\r\n";
+
+                    await sleep(2000);
+
+                    bandit();
+                }
+                
+            }
+            // TRIES TO NOT FLEE
+            else if (player_input == "n") {
+                game_text.innerHTML += "You choose to approach the bandit.\r\n";
+
+                await sleep(2000);
+
+                bandit();
+            }
+
+            break;
         // BLURRY OBJECT
         case "blurry object":
             game_text.innerHTML += `<span class='choice'>Come closer?</span>\r\n\r\n`;
@@ -1184,6 +1225,52 @@ async function manage_sub_events(sub_event) {
             break;
     }
 
+}
+
+// Bandit
+async function bandit() {
+    game_text.innerHTML =  `<span class="shrine">BANDIT</span>` + `\r\n\r\n`;
+
+    await sleep(1000);
+
+    game_text.innerHTML += `<span class="drastic">The bandit ambushes you.</span>\r\n\r\n`;
+
+    await sleep(2000);
+
+    let steal_chance = Math.random();
+    // STEAL
+    if (steal_chance < 0.45) {
+        let steal_item_chance = Math.random();
+        // STEAL ITEM
+        if (steal_item_chance < 0.5) {
+
+        }
+        // STEAL GOLD
+        else {
+            // HAS MONEY
+            if (gold != 0) {
+                let amt_gold_steal = randomIntFromInterval(1, gold);
+                gold -= amt_gold_steal;
+                game_text.innerHTML += `The bandit steals <span class="gold">${amt_gold_steal} gold</span>.\r\n\r\n`;
+
+                await sleep(1000);
+
+                game_text.innerHTML += `The bandit flees.\r\n\r\n`;
+            }
+            // NO MONEY --> BANDIT FEELS SORRY
+            else {
+                game_text.innerHTML += `The bandit tries to steal your gold but notices you don't have any.\r\n\r\n`;
+
+                await sleep(1000);
+
+                game_text.innerHTML += `The bandit feels sorry for you and flees.\r\n\r\n`;
+            }
+        }
+    }
+    // DAMAGE
+    else {
+
+    }
 }
 
 // Pray
