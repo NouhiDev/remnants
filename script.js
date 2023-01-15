@@ -732,6 +732,8 @@ async function make_wish() {
 
     game_text.innerHTML += `Throw <span class="gold">one gold</span> into the well?\r\n\r\n`;
 
+    awaiting_response = true;
+
     // Wait for user input
     manage_input(true);
 
