@@ -527,7 +527,7 @@ async function manage_sub_events(sub_event) {
 
             await sleep(1000);
 
-            game_text.innerHTML += `You take ${storm_dmg} damage.\r\n`
+            game_text.innerHTML += `<span class="dmg">You take ${storm_dmg} damage.</span>\r\n`
             manage_allow_continue(true);
             break;
         // WISHING WELL
@@ -595,11 +595,11 @@ async function manage_sub_events(sub_event) {
 
                     await sleep(1000);
 
-                    game_text.innerHTML += "It was a trap.\r\n";
+                    game_text.innerHTML += "It is a trap.\r\n";
 
                     await sleep(1000);
 
-                    game_text.innerHTML += `You took ${dmg} damage.\r\n`;
+                    game_text.innerHTML += `<span class="dmg">You take ${dmg} damage.</span>\r\n`;
                     manage_allow_continue(true);
                 }
                 
@@ -643,11 +643,11 @@ async function manage_sub_events(sub_event) {
 
                     await sleep(1000);
 
-                    game_text.innerHTML += "It was a trap.\r\n";
+                    game_text.innerHTML += "It is a trap.\r\n";
 
                     await sleep(1000);
 
-                    game_text.innerHTML += `You took ${dmg} damage.\r\n`;
+                    game_text.innerHTML += `<span class="dmg">You take ${dmg} damage.</span>\r\n`;
                     manage_allow_continue(true);
                 }
                 
@@ -692,7 +692,7 @@ async function make_wish() {
 
         await sleep(1000);
 
-        game_text.innerHTML += "You take 20 damage.\r\n";
+        game_text.innerHTML += `<span class="dmg">You take 20 damage.</span>\r\n`;
         damage(20);
     }
     manage_allow_continue(true);
@@ -1001,7 +1001,7 @@ async function enemy_encounter() {
 
             await sleep(1000);
 
-            game_text.innerHTML += `You took ${dmg} damage.\r\n`;
+            game_text.innerHTML += `<span class="dmg">You take ${dmg} damage.</span>\r\n`;
 
             await sleep(1000);
 
@@ -1035,7 +1035,7 @@ async function enemy_encounter() {
 
             await sleep(1000);
 
-            game_text.innerHTML += `You took ${dmg} damage.\r\n`;
+            game_text.innerHTML += `<span class="dmg">You take ${dmg} damage.</span>\r\n`;
 
             await sleep(1000);
 
@@ -1427,7 +1427,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
 
                 await sleep(1000);
 
-                game_text.innerHTML += `<span class="light-gold"> You deal ${fist_dmg} damage. </span>\r\n`;
+                game_text.innerHTML += `<span class="deal-dmg"> You deal ${fist_dmg} damage. </span>\r\n`;
 
                 await sleep(1000);
 
@@ -1475,7 +1475,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
 
                     await sleep(1000);
 
-                    game_text.innerHTML += `<span class="light-gold"> You deal ${fist_dmg} damage. </span>\r\n`;
+                    game_text.innerHTML += `<span class="deal-dmg"> You deal ${fist_dmg} damage. </span>\r\n`;
 
                     await sleep(2000);
 
@@ -1496,7 +1496,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
 
                     await sleep(1000);
 
-                    game_text.innerHTML += `<span class="light-gold"> You deal ${weapon_dmg} damage. </span>\r\n`;
+                    game_text.innerHTML += `<span class="deal-dmg"> You deal ${weapon_dmg} damage. </span>\r\n`;
 
                     await sleep(1000);
 
@@ -1534,7 +1534,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
 
             await sleep(1000);
 
-            game_text.innerHTML += `<span class="red-bright">You took ${dmg} damage.</span>\r\n`;
+            game_text.innerHTML += `<span class="dmg">You take ${dmg} damage.</span>\r\n`;
 
             damage(dmg);
             display_stats();
@@ -1597,7 +1597,7 @@ async function open_loot_container(container, amount_of_items) {
 
             await sleep(1000);
 
-            game_text.innerHTML += `You healed ${amt} hp.\r\n`;
+            game_text.innerHTML += `<span class="heal">You healed ${amt} hp.</span>\r\n`;
             display_stats();
 
             await sleep(1000);

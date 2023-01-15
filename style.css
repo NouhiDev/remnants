@@ -476,6 +476,10 @@ hr {
   color:#ff0000;
 }
 
+.deal-dmg {
+  color: rgb(255, 167, 52);
+}
+
 .traveler-name {
   color: rgb(227, 206, 135);
   font-size: 25px;
