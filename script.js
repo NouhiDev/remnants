@@ -739,6 +739,8 @@ async function traveler_routine() {
         await sleep(1000);
 
         game_text.innerHTML +=  `${name} walks off.` + `\r\n\r\n`;
+
+        manage_allow_continue(true);
     }
     // Attack Player with 25% Chance
     else {
