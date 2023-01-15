@@ -1567,7 +1567,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee, enemy_combined) {
                     }
                     // Enemy evades with 50%
                     else {
-                        game_text.innerHTML += `<span class="drastic">${enemy_combined} evaded the attack</span>.\r\n\r\n`;
+                        game_text.innerHTML += `<span class="drastic">${capitalizeFirstLetter(enemy_combined)} evaded the attack</span>.\r\n\r\n`;
                     }
                 } 
                 // You hit the attack
