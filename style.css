@@ -264,7 +264,7 @@
     
   /* Game Related Styling */
   .game-container {
-    overflow-y: scroll;
+    overflow-y: auto;
     height: 500px;
     width: 900px;
     background-color: #0f1013;
@@ -474,13 +474,25 @@ hr {
 
 .dmg {
   color:#ff0000;
+  font-weight: 1px;
 }
 
 .deal-dmg {
   color: rgb(255, 167, 52);
 }
 
+.blessing {
+  color: rgb(242, 255, 126);
+  font-weight: 1px;
+}
+
+/* Titles */
 .traveler-name {
   color: rgb(227, 206, 135);
+  font-size: 25px;
+}
+
+.wishing-well {
+  color: rgb(140, 180, 180);
   font-size: 25px;
 }

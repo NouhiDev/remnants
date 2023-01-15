@@ -669,33 +669,68 @@ async function manage_sub_events(sub_event) {
 
 }
 
-// Make a wish function
-async function make_wish() {
+// Pray
+async function pray() {
+    game_text.innerHTML =  `<span class="wishing-well">SHRINE</span>` + `\r\n\r\n`;
     await sleep(1000);
+    game_text.innerHTML += `You pray to the gods.\r\n\r\n`;
+    await sleep(2000);
     let d = Math.random();
-    // Success
+    // Success with 20% Chance
     if (d <= 0.2) {
         max_hp += 10;
         hp = max_hp;
-        game_text.innerHTML += "Your prayers have been heard.\r\n";
+        game_text.innerHTML += "<span class='blessing'>Your prayers have been heard.</span>\r\n\r\n";
 
         await sleep(1000);
 
-        game_text.innerHTML += "Your max hp has increased by 10. \r\n";
+        game_text.innerHTML += "<span class='heal'>Your max hp has increased by 10.</span>\r\n\r\n";
 
         await sleep(1000);
 
-        game_text.innerHTML += `Your current max hp is ${max_hp}.\r\n`;
+        game_text.innerHTML += `<span class="info">Your current max hp is ${max_hp}.</span>\r\n`;
     }
 
-    // Fail
+    // Fail with 80% Chance
     else {
-        game_text.innerHTML += "Your prayers have been rejected.\r\n";
+        game_text.innerHTML += "<span class='drastic'>Your prayers have been rejected.</span>\r\n\r\n";
 
         await sleep(1000);
 
         game_text.innerHTML += `<span class="dmg">You take 20 damage.</span>\r\n`;
         damage(20);
+    }
+    manage_allow_continue(true);
+    display_stats();
+}
+
+// Make a wish function
+async function make_wish() {
+    game_text.innerHTML =  `<span class="wishing-well">WISHING WELL</span>` + `\r\n\r\n`;
+    await sleep(1000);
+    game_text.innerHTML += `You throw <span class="gold">one gold</span> into the well.\r\n\r\n`;
+    gold -= 1;
+    display_stats();
+    await sleep(2000);
+    let d = Math.random();
+    // Success with 30% Chance
+    if (d <= 0.3) {
+        max_hp += 10;
+        hp = max_hp;
+        game_text.innerHTML += "<span class='blessing'>Your prayers have been heard.</span>\r\n\r\n";
+
+        await sleep(1000);
+
+        game_text.innerHTML += "<span class='heal'>Your max hp has increased by 10.</span>\r\n\r\n";
+
+        await sleep(1000);
+
+        game_text.innerHTML += `<span class="info">Your current max hp is ${max_hp}.</span>\r\n`;
+    }
+
+    // Fail with 70% Chance
+    else {
+        game_text.innerHTML += "<span class='info'>Nothing happened.</span>\r\n\r\n";
     }
     manage_allow_continue(true);
     display_stats();
@@ -712,7 +747,7 @@ async function damage(amount) {
     }
 }
 
-// Travler 
+// Traveler 
 async function traveler_routine() {
     let phrase = traveler_phrases.sample();
     let name = traveler_names.sample();
@@ -958,7 +993,7 @@ async function merchant_routine() {
             }
             else {
                 await sleep(1000);
-                game_text.innerHTML += "<span class='drastic'>\r\nYou don't have enough money.</span>\r\n";
+                game_text.innerHTML += "<span class='info'>\r\nYou don't have enough money.</span>\r\n";
                 await sleep(1000);
                 game_text.innerHTML += `<span class="drastic">You've angered the merchant.</span>\r\n\r\n`;
                 await sleep(3000);
@@ -976,26 +1011,6 @@ async function merchant_routine() {
     game_text.innerHTML += `The trade concludes.\r\n`
 
     manage_allow_continue(true);
-}
-
-// Item Price Return
-function item_price(item) {
-    switch(item) {
-        case "lesser healing potion":
-            return [10, 20];
-        case "healing potion":
-            return [20, 40];
-        case "greataxe":
-            return [40, 60];
-        case "greatsword":
-            return [60, 90];
-        case "claymore":
-            return [46, 76];
-        case "great halberd":
-            return [52, 84];
-        case "halberd":
-            return[20, 34];
-    }
 }
 
 // #region COMBAT RELATED
@@ -1108,6 +1123,223 @@ async function enemy_encounter() {
     }
 
     manage_allow_continue(true);
+}
+
+// Combat Routine
+async function combat_routine(enemy, enemy_hp, failed_to_flee) {
+
+    let d = Math.random();
+    let in_combat = true;
+    let player_turn = failed_to_flee;
+    let enemy_max_hp = enemy_hp;
+
+    await sleep(1000);
+    game_text.innerHTML = "";
+
+    while(in_combat) {
+        // Seperate
+        await sleep(1000);
+
+        // Check for enemy hp
+        if (enemy_hp <= 0) {
+            // Win fight
+            game_text.innerHTML += `You've slain the ${enemy}.\r\n`;
+
+            let enemy_xp = randomIntFromInterval(det_enemy_xp(enemy)[0],det_enemy_xp(enemy)[1]);
+            enemy_xp += steps;
+
+            await sleep(1000);
+
+            game_text.innerHTML += `<span class="green">You've earned ${enemy_xp} xp.</span>\r\n`;
+
+            if (xp >= max_xp) {
+                await sleep(1000);
+                game_text.innerHTML += `<span class="lvl">You leveled up!</span>\r\n`;
+                await sleep(1000);
+            }
+
+            manage_xp(enemy_xp);
+
+            manage_allow_continue(true);
+
+            in_combat = false;
+
+            break;
+        }
+
+        // Update Stats
+        display_stats();
+
+        // Switch Turns
+        player_turn = !player_turn;
+        
+        // Players Turn
+        if (player_turn) {
+            await sleep(1000);
+
+            game_text.innerHTML += `Your turn.\r\n`;
+
+            await sleep(1000);
+
+            // If no weapons --> use fists
+            if (inventory.length <= 0) {
+                let fist_dmg = randomIntFromInterval(1,3);
+                enemy_hp -= fist_dmg;
+                if (enemy_hp <= 0) {
+                    enemy_hp = 0;
+                }
+
+                game_text.innerHTML += ` You use your fists. \r\n`;
+
+                await sleep(1000);
+
+                game_text.innerHTML += `<span class="deal-dmg"> You deal ${fist_dmg} damage. </span>\r\n`;
+
+                await sleep(1000);
+
+                game_text.innerHTML += ` ${capitalizeFirstLetter(enemy)} has ${enemy_hp}/${enemy_max_hp} hp. \r\n`;
+                
+                await sleep(2000);
+
+                game_text.innerHTML = "";
+            }
+            // Player has weapons 
+            else {
+                let weapon_to_use = "";
+                for (let i = 0; i < inventory.length; i++) {
+                    awaiting_response = true;
+                    const item = inventory[i];
+                    game_text.innerHTML += `Use ${item}? (${weapon_damage(item)[0]}-${weapon_damage(item)[1]} dmg)\r\n (y/n) \r\n`;
+
+                    // Wait for user input
+                    manage_input(true);
+                
+                    while(awaiting_response) {
+                        await sleep(1);
+                    }
+                
+                    manage_input(false);
+
+                    if (player_input == "y") {
+                        weapon_to_use = item;
+                        break;
+                    }
+                    else if (player_input == "n") {
+                        continue;
+                    }
+                }
+
+                // No weapon was chosen
+                if (weapon_to_use == "") {
+                    let fist_dmg = randomIntFromInterval(1,3);
+                    enemy_hp -= fist_dmg;
+                    if (enemy_hp <= 0) {
+                        enemy_hp = 0;
+                    }
+
+                    game_text.innerHTML += ` You use your fists. \r\n`;
+
+                    await sleep(1000);
+
+                    game_text.innerHTML += `<span class="deal-dmg"> You deal ${fist_dmg} damage. </span>\r\n`;
+
+                    await sleep(2000);
+
+                    game_text.innerHTML += ` ${capitalizeFirstLetter(enemy)} has ${enemy_hp}/${enemy_max_hp} hp. \r\n`;
+                }
+                
+                // Weapon has been chosen
+                else {
+                    await sleep(1000);
+
+                    game_text.innerHTML += `You chose to use ${weapon_to_use}.\r\n`;
+
+                    let weapon_dmg = randomIntFromInterval(weapon_damage(weapon_to_use)[0],weapon_damage(weapon_to_use)[1]);
+                    enemy_hp -= weapon_dmg;
+                    if (enemy_hp <= 0) {
+                        enemy_hp = 0;
+                    }
+
+                    await sleep(1000);
+
+                    game_text.innerHTML += `<span class="deal-dmg"> You deal ${weapon_dmg} damage. </span>\r\n`;
+
+                    await sleep(1000);
+
+                    game_text.innerHTML += ` ${capitalizeFirstLetter(enemy)} has ${enemy_hp}/${enemy_max_hp} hp. \r\n`;
+
+                    // Randomly break weapon
+                    let d = Math.random();
+                    if (d <= 0.15) {
+                        indx = inventory.indexOf(weapon_to_use);
+                        inventory.splice(indx, 1);
+
+                        await sleep(1000);
+
+                        game_text.innerHTML += `<span class="dark-red"> ${capitalizeFirstLetter(weapon_to_use)} broke. </span>\r\n`;
+                    }
+                }
+
+                await sleep(2000);
+                
+                game_text.innerHTML = "";
+                
+            }
+        }
+        // Enemys Turn
+        else {
+            await sleep(1000);
+
+            game_text.innerHTML += `${capitalizeFirstLetter(enemy)}'s turn.\r\n`;
+
+            let dmg = randomIntFromInterval(det_enemy_dmg(enemy)[0], det_enemy_dmg(enemy)[1]);
+
+            await sleep(1000);
+
+            game_text.innerHTML += `${capitalizeFirstLetter(enemy)} attacks.\r\n`;
+
+            await sleep(1000);
+
+            game_text.innerHTML += `<span class="dmg">You take ${dmg} damage.</span>\r\n`;
+
+            damage(dmg);
+            display_stats();
+
+            // if player will die break loop
+            if (hp <= 0) {
+                in_combat = false;
+                break;
+            }
+
+            await sleep(2000);
+                
+            game_text.innerHTML = "";
+        }
+    }
+}
+
+// #endregion
+
+// #region Determiners
+
+// Item Price Determiner
+function item_price(item) {
+    switch(item) {
+        case "lesser healing potion":
+            return [10, 20];
+        case "healing potion":
+            return [20, 40];
+        case "greataxe":
+            return [40, 60];
+        case "greatsword":
+            return [60, 90];
+        case "claymore":
+            return [46, 76];
+        case "great halberd":
+            return [52, 84];
+        case "halberd":
+            return[20, 34];
+    }
 }
 
 // Weapon Damage Determiner
@@ -1429,199 +1661,6 @@ function det_enemy_hp(enemy) {
     }
 }
 
-// Combat Routine
-async function combat_routine(enemy, enemy_hp, failed_to_flee) {
-
-    let d = Math.random();
-    let in_combat = true;
-    let player_turn = failed_to_flee;
-    let enemy_max_hp = enemy_hp;
-
-    await sleep(1000);
-    game_text.innerHTML = "";
-
-    while(in_combat) {
-        // Seperate
-        await sleep(1000);
-
-        // Check for enemy hp
-        if (enemy_hp <= 0) {
-            // Win fight
-            game_text.innerHTML += `You've slain the ${enemy}.\r\n`;
-
-            let enemy_xp = randomIntFromInterval(det_enemy_xp(enemy)[0],det_enemy_xp(enemy)[1]);
-            enemy_xp += steps;
-
-            await sleep(1000);
-
-            game_text.innerHTML += `<span class="green">You've earned ${enemy_xp} xp.</span>\r\n`;
-
-            if (xp >= max_xp) {
-                await sleep(1000);
-                game_text.innerHTML += `<span class="lvl">You leveled up!</span>\r\n`;
-                await sleep(1000);
-            }
-
-            manage_xp(enemy_xp);
-
-            manage_allow_continue(true);
-
-            in_combat = false;
-
-            break;
-        }
-
-        // Update Stats
-        display_stats();
-
-        // Switch Turns
-        player_turn = !player_turn;
-        
-        // Players Turn
-        if (player_turn) {
-            await sleep(1000);
-
-            game_text.innerHTML += `Your turn.\r\n`;
-
-            await sleep(1000);
-
-            // If no weapons --> use fists
-            if (inventory.length <= 0) {
-                let fist_dmg = randomIntFromInterval(1,3);
-                enemy_hp -= fist_dmg;
-                if (enemy_hp <= 0) {
-                    enemy_hp = 0;
-                }
-
-                game_text.innerHTML += ` You use your fists. \r\n`;
-
-                await sleep(1000);
-
-                game_text.innerHTML += `<span class="deal-dmg"> You deal ${fist_dmg} damage. </span>\r\n`;
-
-                await sleep(1000);
-
-                game_text.innerHTML += ` ${capitalizeFirstLetter(enemy)} has ${enemy_hp}/${enemy_max_hp} hp. \r\n`;
-                
-                await sleep(2000);
-
-                game_text.innerHTML = "";
-            }
-            // Player has weapons 
-            else {
-                let weapon_to_use = "";
-                for (let i = 0; i < inventory.length; i++) {
-                    awaiting_response = true;
-                    const item = inventory[i];
-                    game_text.innerHTML += `Use ${item}? (${weapon_damage(item)[0]}-${weapon_damage(item)[1]} dmg)\r\n (y/n) \r\n`;
-
-                    // Wait for user input
-                    manage_input(true);
-                
-                    while(awaiting_response) {
-                        await sleep(1);
-                    }
-                
-                    manage_input(false);
-
-                    if (player_input == "y") {
-                        weapon_to_use = item;
-                        break;
-                    }
-                    else if (player_input == "n") {
-                        continue;
-                    }
-                }
-
-                // No weapon was chosen
-                if (weapon_to_use == "") {
-                    let fist_dmg = randomIntFromInterval(1,3);
-                    enemy_hp -= fist_dmg;
-                    if (enemy_hp <= 0) {
-                        enemy_hp = 0;
-                    }
-
-                    game_text.innerHTML += ` You use your fists. \r\n`;
-
-                    await sleep(1000);
-
-                    game_text.innerHTML += `<span class="deal-dmg"> You deal ${fist_dmg} damage. </span>\r\n`;
-
-                    await sleep(2000);
-
-                    game_text.innerHTML += ` ${capitalizeFirstLetter(enemy)} has ${enemy_hp}/${enemy_max_hp} hp. \r\n`;
-                }
-                
-                // Weapon has been chosen
-                else {
-                    await sleep(1000);
-
-                    game_text.innerHTML += `You chose to use ${weapon_to_use}.\r\n`;
-
-                    let weapon_dmg = randomIntFromInterval(weapon_damage(weapon_to_use)[0],weapon_damage(weapon_to_use)[1]);
-                    enemy_hp -= weapon_dmg;
-                    if (enemy_hp <= 0) {
-                        enemy_hp = 0;
-                    }
-
-                    await sleep(1000);
-
-                    game_text.innerHTML += `<span class="deal-dmg"> You deal ${weapon_dmg} damage. </span>\r\n`;
-
-                    await sleep(1000);
-
-                    game_text.innerHTML += ` ${capitalizeFirstLetter(enemy)} has ${enemy_hp}/${enemy_max_hp} hp. \r\n`;
-
-                    // Randomly break weapon
-                    let d = Math.random();
-                    if (d <= 0.15) {
-                        indx = inventory.indexOf(weapon_to_use);
-                        inventory.splice(indx, 1);
-
-                        await sleep(1000);
-
-                        game_text.innerHTML += `<span class="dark-red"> ${capitalizeFirstLetter(weapon_to_use)} broke. </span>\r\n`;
-                    }
-                }
-
-                await sleep(2000);
-                
-                game_text.innerHTML = "";
-                
-            }
-        }
-        // Enemys Turn
-        else {
-            await sleep(1000);
-
-            game_text.innerHTML += `${capitalizeFirstLetter(enemy)}'s turn.\r\n`;
-
-            let dmg = randomIntFromInterval(det_enemy_dmg(enemy)[0], det_enemy_dmg(enemy)[1]);
-
-            await sleep(1000);
-
-            game_text.innerHTML += `${capitalizeFirstLetter(enemy)} attacks.\r\n`;
-
-            await sleep(1000);
-
-            game_text.innerHTML += `<span class="dmg">You take ${dmg} damage.</span>\r\n`;
-
-            damage(dmg);
-            display_stats();
-
-            // if player will die break loop
-            if (hp <= 0) {
-                in_combat = false;
-                break;
-            }
-
-            await sleep(2000);
-                
-            game_text.innerHTML = "";
-        }
-    }
-}
-
 // #endregion
 
 // Manage Input
@@ -1769,15 +1808,6 @@ function new_day() {
     }
 }
 
-// Updates Time of Update
-function update_time() {
-    let subtitle = document.getElementById("123");
-    let current_date = new Date();
-    let time_str = `-${current_date.getDay()}.${current_date.getMonth()+1}.${current_date.getFullYear()}-${current_date.getHours()}-${current_date.getMinutes()}-${current_date.getSeconds()}`;
-    subtitle.innerHTML += time_str;
-}
-
-// update_time();
 
 // Regularly update to auto scroll to end of div
 window.setInterval(function() {
