@@ -306,6 +306,7 @@
     text-align: center;
     border:#494c57 2px;
     border-style: solid;
+    overflow-y: auto;
   }
 
   .stats-container p {
