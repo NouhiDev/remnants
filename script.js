@@ -858,7 +858,7 @@ async function traveler_routine() {
     
                 await sleep(1000);
     
-                game_text.innerHTML += `<span class="heal">You healed ${amt} hp.</span>\r\n`;
+                game_text.innerHTML += `<span class="heal">You healed ${amt} hp.</span>\r\n\r\n`;
                 display_stats();
     
                 await sleep(1000);
@@ -892,7 +892,7 @@ async function traveler_routine() {
 
         await sleep(1000);
 
-        game_text.innerHTML +=  `${name} walks off.` + `\r\n\r\n`;
+        game_text.innerHTML +=  `\r\n${name} walks off.` + `\r\n\r\n`;
 
         manage_allow_continue(true);
     }
@@ -1046,11 +1046,11 @@ async function merchant_routine() {
                     game_text.innerHTML += `<span class="heal">You healed ${amt} hp.</span>\r\n\r\n`;
                     display_stats();
                 }
-                await sleep(3000);
+                await sleep(2000);
             }
             else {
                 await sleep(1000);
-                game_text.innerHTML += "<span class='info'>\r\nYou don't have enough money.</span>\r\n";
+                game_text.innerHTML += "<span class='info'>\r\nYou don't have enough gold.</span>\r\n";
                 await sleep(1000);
                 game_text.innerHTML += `<span class="drastic">You've angered the merchant.</span>\r\n\r\n`;
                 await sleep(3000);
@@ -1178,7 +1178,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee, enemy_combined) {
             game_text.innerHTML += `<span class="blessing">You've slain the ${enemy_combined}.</span>\r\n\r\n`;
 
             let enemy_xp = randomIntFromInterval(det_enemy_xp(enemy)[0],det_enemy_xp(enemy)[1]);
-            enemy_xp += steps;
+            enemy_xp += steps*2;
 
             await sleep(1000);
 
