@@ -1770,7 +1770,7 @@ async function manage_xp(amount) {
     xp += amount;
     if (xp >= max_xp) {
         await sleep(1000);
-        game_text.innerHTML += `<span class="lvl">You leveled up!</span>\r\n\r\n`;
+        game_text.innerHTML += `\r\n<span class="lvl">You leveled up!</span>\r\n\r\n`;
         await sleep(1000);
         lvl++;
         max_xp += lvl*10;
