@@ -471,3 +471,12 @@ hr {
 .heal {
   color:#aaffa6;
 }
+
+.dmg {
+  color:#ff0000;
+}
+
+.traveler-name {
+  color: rgb(227, 206, 135);
+  font-size: 25px;
+}

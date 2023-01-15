@@ -393,7 +393,7 @@ function add_to_inventory_txt(item, index, array) {
 
 // Display Forwards
 async function forwards() {
-    game_text.innerHTML += forwards_var.sample() + "\r\n";
+    game_text.innerHTML += `${forwards_var.sample()}` + "\r\n";
     short_seperator();
     await sleep(1000);
     manage_events(places_table, events_table);
@@ -461,18 +461,34 @@ async function manage_sub_events(sub_event) {
 
     switch(sub_event) {
         case "traveler":
-            let phrase = traveler_phrases.sample();
-            let name = traveler_names.sample();
+
 
             game_text.innerHTML += `You encounter a traveler.\r\n`
 
-            await sleep(3000);
+            await sleep(1000);
 
-            game_text.innerHTML = "";
-            game_text.innerHTML +=  `<span class="orange">Traveler "${name}"</span>` + `\r\n\r\n`;
-            game_text.innerHTML +=  `"${phrase}"` + `\r\n\r\n`;
-            game_text.innerHTML +=  `The traveler walks off.` + `\r\n\r\n`;
-            manage_allow_continue(true);
+            game_text.innerHTML += `Approach them?\r\n (y/n) \r\n`;
+
+            // Wait for user input
+            manage_input(true);
+
+            while(awaiting_response) {
+                await sleep(1);
+            }
+
+            manage_input(false);
+
+            // APPROACH TRAVELER
+            if (player_input == "y") {
+                game_text.innerHTML += "You head towards the traveler.\r\n";
+                traveler_routine();
+            }
+            // PASS BY TRAVELER
+            else if (player_input == "n") {
+                game_text.innerHTML += "You do not approach the traveler and move on.\r\n";
+                manage_allow_continue(true);
+            }
+
             break;
         case "merchant":
             game_text.innerHTML += `Talk to merchant?\r\n (y/n) \r\n`;
@@ -692,6 +708,81 @@ async function damage(amount) {
         game_text.innerHTML += "You died.";
         throw new Error();
     }
+}
+
+// Travler 
+async function traveler_routine() {
+    let phrase = traveler_phrases.sample();
+    let name = traveler_names.sample();
+
+    game_text.innerHTML =  `<span class="traveler-name">Traveler ${name}</span>` + `\r\n\r\n`;
+    
+    await sleep(1000);
+
+    game_text.innerHTML +=  `You hear ${name} say: "${phrase}"` + `\r\n\r\n`;
+
+    await sleep(2000);
+
+    game_text.innerHTML +=  `${name} notices you.` + `\r\n\r\n`;
+
+    await sleep(2000);
+
+    let d = Math.random();
+    // Give Item with 75% Chance
+    if (d <= 0.75) {
+        game_text.innerHTML +=  `${name} decides to give you some of their spoils.` + `\r\n\r\n`;
+
+        await sleep(1000);
+
+        game_text.innerHTML +=  `Loot is yet to implemented.` + `\r\n\r\n`;
+
+        await sleep(1000);
+
+        game_text.innerHTML +=  `${name} walks off.` + `\r\n\r\n`;
+    }
+    // Attack Player with 25% Chance
+    else {
+        game_text.innerHTML +=  `${name} believes you are hostile and attacks you.` + `\r\n\r\n`;
+    
+        await sleep(1000);
+
+        let miss_chance = Math.random();
+        // Miss with 15% Chance
+        if (miss_chance <= 0.15) {
+            game_text.innerHTML +=  `${name} misses their attack and runs off.` + `\r\n\r\n`;
+            manage_allow_continue(true);
+        }
+        // Attack with 85% Chance
+        else {
+            let dmg = randomIntFromInterval(5, 25);
+            game_text.innerHTML +=  `<span class="dmg">${name} hits you and deals ${dmg} damage.</span>` + `\r\n\r\n`;
+            
+            await sleep(1000);
+
+            let attack_chance = Math.random();
+            // Attack them back and get loot with 25% Chance
+            if (attack_chance <= 0.25) {
+                game_text.innerHTML +=  `${name} runs off but you catch up and strike them.` + `\r\n\r\n`;
+            
+                await sleep(1000);
+
+                game_text.innerHTML +=  `You loot ${name}'s body.` + `\r\n\r\n`;
+
+                await sleep(1000);
+
+                game_text.innerHTML +=  `Loot is yet to implemented.` + `\r\n\r\n`;
+
+                manage_allow_continue(true);
+            }
+            // Let them get away with 75% Chance
+            else {
+                game_text.innerHTML +=  `You are too slow to respond and ${name} runs off.` + `\r\n\r\n`;
+                manage_allow_continue(true);
+            }
+        }
+    }
+    
+    
 }
 
 // Merchant
@@ -1284,7 +1375,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
         // Check for enemy hp
         if (enemy_hp <= 0) {
             // Win fight
-            game_text.innerHTML += ` You've slain the ${enemy}. \r\n`;
+            game_text.innerHTML += `You've slain the ${enemy}.\r\n`;
 
             let enemy_xp = randomIntFromInterval(det_enemy_xp(enemy)[0],det_enemy_xp(enemy)[1]);
             enemy_xp += steps;
@@ -1318,7 +1409,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee) {
         if (player_turn) {
             await sleep(1000);
 
-            game_text.innerHTML += `Player's turn.\r\n`;
+            game_text.innerHTML += `Your turn.\r\n`;
 
             await sleep(1000);
 
