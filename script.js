@@ -40,6 +40,7 @@ var region = "Forest";
 
 // Regions
 var regions = ["Lockwood Village", "Eastport", "Ocean", "Rocky Shores", "Abyss"];
+current_region = "";
 
 // #region Places
 places_table = [];
@@ -142,6 +143,7 @@ blacksmith_names = ["Najka", "Freja", "Mytha", "Velstadt", "Vendrick", "Magus", 
 async function check_region_switch(distance) {
     // Forest
     if (distance == 0) {
+        current_region = "Forest";
         enemies = forest_enemies;
         places_table = forest_places_table;
         events_table = forest_events_table;
@@ -179,6 +181,7 @@ async function check_region_switch(distance) {
     }
     // Village
     if (distance == 10) {
+        current_region = regions[0];
         // Update Places / Events / Enemies
         region = regions[0];
         places_table = lockwood_village_places_table;
@@ -218,6 +221,7 @@ async function check_region_switch(distance) {
     }
     // Port
     if (distance == 20) {
+        current_region = regions[1];
         // REGION SCREEN UPDATE
         region_text.innerHTML = `<span class="red">[Act 3]</span> Heading out of the <span class="orange">damaged village</span>, you make your way towards a <span class="purplebrown">port</span>, looking for a <span class="brown">ship</span> that may help you. However, as you approach, you realize the port is <span class="purple">'infected'</span>.\r\n`
         region = regions[1];
@@ -257,6 +261,7 @@ async function check_region_switch(distance) {
     }
     // Ocean
     if (distance == 30) {
+        current_region = regions[3];
         region_text.innerHTML = `<span class="red">[Act 4]</span> After reaching the <span class="purplebrown">port</span>, you finally find a <span class="brown">ship</span> that seems seaworthy. However, as you set out to sea, you quickly realize that the <span class="blue">ocean</span> is just as dangerous as the land.\r\n`
         region = regions[2];
         places_table = ocean_places_table;
@@ -294,6 +299,7 @@ async function check_region_switch(distance) {
     }
     // Abyss
     if (distance == 40) {
+        current_region = regions[4];
         region_text.innerHTML = `<span class="red">[End]</span> You've reached the end of your journey, traveler.\r\n`
         region = regions.slice(-1);
         abyss_combination();
@@ -366,11 +372,6 @@ function seperator() {
     game_text.innerHTML += "-------------------------------------------------------------------------------------\r\n";
 }
 
-// Prints out a seperator
-function short_seperator() {
-    game_text.innerHTML += "---\r\n";
-}
-
 // #endregion
 
 // Displays the players stats
@@ -398,8 +399,7 @@ function add_to_inventory_txt(item, index, array) {
 
 // Display Forwards
 async function forwards() {
-    game_text.innerHTML += `${forwards_var.sample()}` + "\r\n";
-    short_seperator();
+    game_text.innerHTML += `${forwards_var.sample()}` + "\r\n\r\n";
     await sleep(1000);
     manage_events(places_table, events_table);
 }
@@ -423,9 +423,7 @@ async function manage_events(places, events) {
         article = "a";
     }
 
-    game_text.innerHTML += `${across_var.sample()} ${article} ${place}.\r\n`;
-
-    short_seperator();
+    game_text.innerHTML += `${across_var.sample()} ${article} ${place}.\r\n\r\n`;
 
     await sleep(1000);
 
@@ -444,7 +442,7 @@ async function manage_events(places, events) {
             article = "a";
         }
 
-        game_text.innerHTML += `You see ${article} ${event}.\r\n`;
+        game_text.innerHTML += `You see ${article} ${event}.\r\n\r\n`;
         
         await sleep(1000);
 
@@ -453,11 +451,9 @@ async function manage_events(places, events) {
     // No Event has been chosen
     else {
         article = "";
-        game_text.innerHTML += `You find ${article} ${event}.\r\n`;
+        game_text.innerHTML += `You find ${article} ${event}.\r\n\r\n`;
         manage_allow_continue(true);
     }
-
-    short_seperator();
 }
 
 // Manage Sub Events
@@ -1792,7 +1788,7 @@ async function manage_xp(amount) {
 
 // Main Game Loop (MGL)
 async function main_loop() {
-    clear_game_text();
+    game_text.innerHTML = `<span class="forest">${current_region.toUpperCase()}</span>\r\n\r\n`;
     // Check if player is alive
     if (!alive) {
         return;
