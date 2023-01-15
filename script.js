@@ -727,7 +727,7 @@ async function make_wish() {
     game_text.innerHTML =  `<span class="wishing-well">WISHING WELL</span>` + `\r\n\r\n`;
     await sleep(1000);
 
-    game_text.innerHTML += `Throw <span class="gold">one gold</span> into the well?\r\n (y/n) \r\n`;
+    game_text.innerHTML += `Throw <span class="gold">one gold</span> into the well?\r\n (y/n) \r\n\r\n`;
 
     // Wait for user input
     manage_input(true);
@@ -765,8 +765,8 @@ async function make_wish() {
     }
 
     let d = Math.random();
-    // Success with 30% Chance
-    if (d <= 0.3) {
+    // Success with 10% Chance
+    if (d <= 0.1) {
         max_hp += 10;
         hp = max_hp;
         game_text.innerHTML += "<span class='blessing'>Your wish has been fulfilled.</span>\r\n\r\n";
@@ -780,7 +780,7 @@ async function make_wish() {
         game_text.innerHTML += `<span class="info">Your current max hp is ${max_hp}.</span>\r\n`;
     }
 
-    // Fail with 70% Chance
+    // Fail with 90% Chance
     else {
         game_text.innerHTML += "<span class='info'>Nothing happened.</span>\r\n\r\n";
     }
