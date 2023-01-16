@@ -1783,8 +1783,9 @@ async function merchant_routine() {
     // Populate Assortment
     assortment.push("lesser healing potion");
     for (let i = 0; i < amt_of_items; i++) {
-        if (!assortment.includes(merchant_assortment[i])) {
-            assortment.push(merchant_assortment[i]);
+        let random_item = merchant_assortment.sample();
+        if (!assortment.includes(random_item)) {
+            assortment.push(random_item);
         }
     }
 
