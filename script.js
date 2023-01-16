@@ -513,9 +513,9 @@ async function check_region_switch(distance) {
         current_region = regions[4];
         region_text.innerHTML = `<span class="red">[Act 6]</span> Upon arriving at the rebellion, they explain to you that the sorcerer's immense power is derived from an ancient artifact in his possession. The rebellion seeks your aid in defeating the sorcerer.\r\n`
         region = regions[4];
-        places_table = ocean_places_table;
-        events_table = ocean_events_table;
-        enemies = ocean_enemies;
+        places_table = rebellion_places_table;
+        events_table = rebellion_events_table;
+        enemies = []
         // STORY SCREEN
         awaiting_response = true;
         game_text.innerHTML = `<span class="light-blue">ACT 6: REBELLION</span>\r\n\r\n` +
