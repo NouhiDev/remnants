@@ -53,7 +53,7 @@ var alive = true;
 var max_hp = 100
 var hp = 100;
 // Distance Related
-var steps = 0;
+var steps = 40;
 // Money Related
 var gold = 0;
 // XP Related
@@ -247,7 +247,8 @@ blurry_object_loot_table = ["healing potion", "gold", "gold", "dagger", "mace", 
 small_dungeon_trapped_chest_loot_table = ["healing potion", "gold", "gold", "dagger", "mace", "hammer", "flail", "spear", "scythe", "scimitar", 
 "bastard sword", "shortsword", "longsword", "flamberge", "falchion", "rapier", "estoc", "club", "wooden staff", "gold", "gold", "gold", "gold"]
 // #endregion
-
+inventory = ["dagger", "mace", "hammer", "flail", "spear", "scythe", "scimitar", 
+"bastard sword", "shortsword", "longsword", "flamberge", "falchion", "rapier", "estoc", "club"]
 // #region Enemies
 enemies = []
 
@@ -2043,7 +2044,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee, enemy_combined) {
                     }
                     // Enemy evades with 50%
                     else {
-                        game_text.innerHTML += `<span class="drastic">${capitalizeFirstLetter(enemy_combined)} evaded the attack</span>.\r\n\r\n`;
+                        game_text.innerHTML += `<span class="drastic">${capitalizeFirstLetter(enemy_combined)} evaded the attack.</span>\r\n\r\n`;
                     }
                 } 
                 // You hit the attack
@@ -2103,7 +2104,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee, enemy_combined) {
                         }
                         // Enemy evades with 50%
                         else {
-                            game_text.innerHTML += `<span class="drastic">${enemy_combined} evaded the attack</span>.\r\n\r\n`;
+                            game_text.innerHTML += `<span class="drastic">${capitalizeFirstLetter(enemy_combined)} evaded the attack.</span>\r\n\r\n\r\n\r\n`;
                         }
                     } 
                     // You hit the attack
@@ -2140,7 +2141,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee, enemy_combined) {
                         }
                         // Enemy evades with 50%
                         else {
-                            game_text.innerHTML += `<span class="drastic">${enemy_combined} evaded the attack</span>.\r\n\r\n`;
+                            game_text.innerHTML += `<span class="drastic">${capitalizeFirstLetter(enemy_combined)} evaded the attack.</span>\r\n\r\n\r\n\r\n`;
                         }
                     }
                     // You hit
