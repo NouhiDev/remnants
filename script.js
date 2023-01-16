@@ -53,7 +53,7 @@ var alive = true;
 var max_hp = 100
 var hp = 100;
 // Distance Related
-var steps = 0;
+var steps = 50;
 // Money Related
 var gold = 0;
 // XP Related
@@ -223,7 +223,7 @@ ocean_events_table = ["enemy", "storm", "nothing"] // NEW: STORM
 
 shore_events_table = ["enemy", "traveler", "shrine", "object burried in the ground"] // NEW: OBJECT BURRIED IN THE GROUND
 
-rebellion_events_table = ["friendly traveler", "merchant", "monk"]
+rebellion_events_table = ["friendly traveler", "merchant", "pair of monks"]
 
 wasteland_events_table = ["enemy", "blurry object", "traveler", "small dungeon", "bandit"] // NEW: BLURRY OBJECT, BANDIT, SMALL DUNGEON
 // #endregion
@@ -309,6 +309,10 @@ merchant_assortment = ["greatsword", "greataxe", "great halberd", "claymore", "h
 // Blacksmith
 blacksmith_names = ["Najka", "Freja", "Mytha", "Velstadt", "Vendrick", "Magus", "Nashandra", "Aldia", 
 "Vordt", "Wolnir", "Sulyvahn", "Aldrich", "Oceiros", "Gundyr", "Lothric", "Godrick", "Jacob"]
+
+// Monks
+monk_names = ["Daniel", "Philipp", "Paul", "Phalanx", "Allant", "Amygdala", "Paarl", "Ebrietas", "Gasgoigne", "Gehrman", "Logarius",
+"Logan", "Mergo", "Migolash", "Yharnam", "Amelia", "Hemwick"]
 
 // #endregion
 
@@ -867,9 +871,30 @@ async function manage_sub_events(sub_event) {
             }
 
             break;
-        case "monk":
-            game_text.innerHTML += "Not implemented yet.\r\n";
-            manage_allow_continue(true);
+        // PAIR OF MONKS
+            case "pair of monks":
+            game_text.innerHTML += `<span class='choice'>Approach them?</span>\r\n\r\n`;
+
+            // Wait for user input
+            manage_input(true);
+
+            while(awaiting_response) {
+                await sleep(1);
+            }
+
+            manage_input(false);
+
+            // APPROACH TRAVELER
+            if (player_input == "y") {
+                game_text.innerHTML += "You approach the monk.\r\n";
+                monk_routine();
+            }
+            // PASS BY TRAVELER
+            else if (player_input == "n") {
+                game_text.innerHTML += "You do not approach the monk and move on.\r\n";
+                manage_allow_continue(true);
+            }
+
             break;
         // SMALL DUNGEON
         case "small dungeon":
@@ -1151,7 +1176,10 @@ async function manage_sub_events(sub_event) {
             await sleep(1000);
 
             game_text.innerHTML += `<span class="dmg">You take ${storm_dmg} damage.</span>\r\n`
-            manage_allow_continue(true);
+            
+            if (alive) {
+                manage_allow_continue(true);
+            }
             break;
         // WISHING WELL
         case "wishing well":
@@ -1890,6 +1918,94 @@ async function friendly_traveler_routine() {
     // Ignore player
     else {
         game_text.innerHTML +=  `<span class="drastic">${name} ignores you.</span>` + `\r\n\r\n`;
+    
+        await sleep(1000);
+
+        manage_allow_continue(true);
+    }
+}
+monk_routine()
+// Monk
+async function monk_routine() {
+    let name_1 = monk_names.sample();
+    let name_2 = monk_names.sample();
+
+    game_text.innerHTML =  `<span class="traveler-name">Monks ${name_1} and ${name_2}</span>` + `\r\n\r\n`;
+
+    await sleep(2000);
+
+    game_text.innerHTML +=  `${name_1} and ${name_2} notice you.` + `\r\n\r\n`;
+
+    await sleep(2000);
+
+    let d = Math.random();
+    // Heal with 80%
+    if (d <= 0.8) {
+        game_text.innerHTML +=  `<span class="blessing">They decide to tend to your wounds.</span>` + `\r\n\r\n`;
+
+        await sleep(1000);
+
+        let loot_table = ["healing potion"];
+        let amount_of_items = randomIntFromInterval(1, 3);
+
+        for (let i = 0; i < amount_of_items; i++) {
+            await sleep(1000);
+    
+            // Choose random item from loot table
+            item = loot_table.sample();
+    
+            // Determine correct article
+            if (vowels.includes(item[0])) {
+                article = "an";
+            }
+            else {
+                article = "a";
+            }
+    
+            // Healing Potion
+            if (item == "healing potion") {
+                let amt = randomIntFromInterval(10, max_hp);
+    
+                hp += amt;
+                if (hp >= max_hp) {
+                    hp = max_hp;
+                }
+    
+                game_text.innerHTML += `They give you a potion and you drink it.\r\n`;
+    
+                await sleep(1000);
+    
+                game_text.innerHTML += `<span class="heal">You healed ${amt} hp.</span>\r\n\r\n`;
+                display_stats();
+    
+                await sleep(1000);
+                continue;
+            }
+        }
+
+        await sleep(1000);
+
+        game_text.innerHTML += `You thank the monks.\r\n`;
+
+        await sleep(1000);
+
+        game_text.innerHTML += `<span class="green">You've earned 25 xp.</span>\r\n\r\n`;
+
+        manage_xp(25);
+
+        await sleep(1000);
+
+        game_text.innerHTML +=  `\r\n${name_1} and ${name_2} walk off.` + `\r\n\r\n`;
+
+        manage_allow_continue(true);
+    }
+    // Ignore player 20%
+    else {
+        game_text.innerHTML +=  `<span class="drastic">They look away.</span>` + `\r\n\r\n`;
+    
+        await sleep(1000);
+
+        game_text.innerHTML +=  `Daniel and Philipp walk away.` + `\r\n\r\n`;
     
         await sleep(1000);
 
