@@ -223,7 +223,7 @@ ocean_events_table = ["enemy", "storm", "nothing"] // NEW: STORM
 
 shore_events_table = ["enemy", "traveler", "shrine", "object burried in the ground"] // NEW: OBJECT BURRIED IN THE GROUND
 
-rebellion_events_table = ["friendly_traveler", "merchant", "monk"]
+rebellion_events_table = ["friendly traveler", "merchant", "monk"]
 
 wasteland_events_table = ["enemy", "blurry object", "traveler", "small dungeon", "bandit"] // NEW: BLURRY OBJECT, BANDIT, SMALL DUNGEON
 // #endregion
@@ -247,8 +247,7 @@ blurry_object_loot_table = ["healing potion", "gold", "gold", "dagger", "mace", 
 small_dungeon_trapped_chest_loot_table = ["healing potion", "gold", "gold", "dagger", "mace", "hammer", "flail", "spear", "scythe", "scimitar", 
 "bastard sword", "shortsword", "longsword", "flamberge", "falchion", "rapier", "estoc", "club", "wooden staff", "gold", "gold", "gold", "gold"]
 // #endregion
-inventory = ["dagger", "mace", "hammer", "flail", "spear", "scythe", "scimitar", 
-"bastard sword", "shortsword", "longsword", "flamberge", "falchion", "rapier", "estoc", "club"]
+
 // #region Enemies
 enemies = []
 
@@ -844,9 +843,30 @@ async function manage_sub_events(sub_event) {
 
     switch(sub_event) {
         // MONK
-        case "friendly_traveler":
-            game_text.innerHTML += "Not implemented yet.\r\n";
-            manage_allow_continue(true);
+        case "friendly traveler":
+            game_text.innerHTML += `<span class='choice'>Approach them?</span>\r\n\r\n`;
+
+            // Wait for user input
+            manage_input(true);
+
+            while(awaiting_response) {
+                await sleep(1);
+            }
+
+            manage_input(false);
+
+            // APPROACH TRAVELER
+            if (player_input == "y") {
+                game_text.innerHTML += "You head towards the traveler.\r\n";
+                traveler_routine();
+            }
+            // PASS BY TRAVELER
+            else if (player_input == "n") {
+                game_text.innerHTML += "You do not approach the traveler and move on.\r\n";
+                manage_allow_continue(true);
+            }
+
+            break;
             break;
         case "monk":
             game_text.innerHTML += "Not implemented yet.\r\n";
@@ -1775,6 +1795,109 @@ async function traveler_routine() {
     
     
 }
+
+// Friendly Traveler 
+async function friendly_traveler_routine() {
+    let phrase = traveler_phrases.sample();
+    let name = traveler_names.sample();
+
+    game_text.innerHTML =  `<span class="traveler-name">Traveler ${name}</span>` + `\r\n\r\n`;
+    
+    await sleep(1000);
+
+    game_text.innerHTML +=  `You hear ${name} say: "${phrase}"` + `\r\n\r\n`;
+
+    await sleep(2000);
+
+    game_text.innerHTML +=  `${name} notices you.` + `\r\n\r\n`;
+
+    await sleep(2000);
+
+    let d = Math.random();
+    // Give Item with 75% Chance
+    if (d <= 0.75) {
+        game_text.innerHTML +=  `<span class="blessing">${name} decides to give you some of their spoils.</span>` + `\r\n\r\n`;
+
+        await sleep(1000);
+
+        let loot_table = traveler_loot_table;
+        let amount_of_items = randomIntFromInterval(1, 3);
+
+        for (let i = 0; i < amount_of_items; i++) {
+            await sleep(1000);
+    
+            // Choose random item from loot table
+            item = loot_table.sample();
+    
+            // Determine correct article
+            if (vowels.includes(item[0])) {
+                article = "an";
+            }
+            else {
+                article = "a";
+            }
+    
+            // Healing Potion
+            if (item == "healing potion") {
+                let amt = randomIntFromInterval(10, max_hp);
+    
+                hp += amt;
+                if (hp >= max_hp) {
+                    hp = max_hp;
+                }
+    
+                game_text.innerHTML += `${name} gives you a potion and you drink it.\r\n`;
+    
+                await sleep(1000);
+    
+                game_text.innerHTML += `<span class="heal">You healed ${amt} hp.</span>\r\n\r\n`;
+                display_stats();
+    
+                await sleep(1000);
+                continue;
+            }
+    
+            // Gold
+            if (item == "gold") {
+                let amt = randomIntFromInterval(det_gold("traveler")[0], det_gold("traveler")[1]);
+
+                gold += amt;
+
+                game_text.innerHTML += `${name} gives you <span class="gold">${amt} gold</span>.\r\n`;
+                display_stats();
+    
+                await sleep(1000);
+                continue;
+            }
+    
+            // Check if item is already in inventory
+            if (inventory.includes(item)) {
+                game_text.innerHTML += `${name} gives you ${article} ${item} but you already have one.\r\n`
+                continue;
+            }
+    
+            // Add item to inventory
+            inventory.push(item);
+            game_text.innerHTML += `${name} gives you ${article} ${item}.\r\n`
+            display_stats();
+        }
+
+        await sleep(1000);
+
+        game_text.innerHTML +=  `\r\n${name} walks off.` + `\r\n\r\n`;
+
+        manage_allow_continue(true);
+    }
+    // Ignore player
+    else {
+        game_text.innerHTML +=  `<span class="drastic">${name} ignores you.</span>` + `\r\n\r\n`;
+    
+        await sleep(1000);
+
+        manage_allow_continue(true);
+    }
+}
+
 
 // Merchant
 async function merchant_routine() {
