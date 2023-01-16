@@ -114,14 +114,14 @@ var regions = ["Lockwood Village",
 // ACT 9: SWAMP: -
 "Swamp",
 
-// ACT 10: WASTELAND: -
-"Wasteland", 
+// ACT 10: MOUNTAINS: -
+"Mountains", 
 
-// ACT 11: LOST TEMPLE: -
-"Lost Temple", 
+// ACT 11: ICY PEAK: -
+"Icy Peak", 
 
-// ACT 12: SWAMP: -
-"Swamp",
+// ACT 12: ???: -
+"???",
 
 // CHAPTER 3: Inside the Sorcerers Stronghold
 
