@@ -53,7 +53,7 @@ var alive = true;
 var max_hp = 100
 var hp = 100;
 // Distance Related
-var steps = 40;
+var steps = 50;
 // Money Related
 var gold = 0;
 // XP Related
@@ -1828,7 +1828,7 @@ async function merchant_routine() {
         game_text.innerHTML = "";
         const item = assortment[i];
         awaiting_response = true;
-        price = randomIntFromInterval(item_determiner(item, "price")[0],(item, "price")[1]);
+        price = randomIntFromInterval(item_determiner(item, "price")[0],item_determiner(item, "price")[1]);
         price += steps;
         if (item != "lesser healing potion" && item != "healing potion") {
             game_text.innerHTML += `<span class="choice">Buy ${item}? (${item_determiner(item, "dmg")[0]}-${item_determiner(item[0], "dmg")[1]} dmg) for <span class="gold">${price}G</span>?</span>\r\n\r\n`;
