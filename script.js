@@ -842,7 +842,7 @@ async function manage_sub_events(sub_event) {
     awaiting_response = true;
 
     switch(sub_event) {
-        // MONK
+        // FRIENLDY TRAVELER
         case "friendly traveler":
             game_text.innerHTML += `<span class='choice'>Approach them?</span>\r\n\r\n`;
 
@@ -858,7 +858,7 @@ async function manage_sub_events(sub_event) {
             // APPROACH TRAVELER
             if (player_input == "y") {
                 game_text.innerHTML += "You head towards the traveler.\r\n";
-                traveler_routine();
+                friendly_traveler_routine();
             }
             // PASS BY TRAVELER
             else if (player_input == "n") {
@@ -866,7 +866,6 @@ async function manage_sub_events(sub_event) {
                 manage_allow_continue(true);
             }
 
-            break;
             break;
         case "monk":
             game_text.innerHTML += "Not implemented yet.\r\n";
@@ -1992,7 +1991,7 @@ async function merchant_routine() {
             if (price+anger <= gold) {
                 await sleep(1000);
                 gold -= (price+anger);
-                game_text.innerHTML += "<span class='info'>\r\nYou bought the item and added it to your inventory.</span>\r\n\r\n";
+                game_text.innerHTML += "<span class='info'>\r\nYou bought the item.</span>\r\n\r\n";
                 // add to inventory
                 if (item != "lesser healing potion" && item != "healing potion") {
                     inventory.push(item);
