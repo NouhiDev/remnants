@@ -53,7 +53,7 @@ var alive = true;
 var max_hp = 100
 var hp = 100;
 // Distance Related
-var steps = 0;
+var steps = 50;
 // Money Related
 var gold = 0;
 // XP Related
