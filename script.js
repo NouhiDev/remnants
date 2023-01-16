@@ -53,7 +53,7 @@ var alive = true;
 var max_hp = 100
 var hp = 100;
 // Distance Related
-var steps = 50;
+var steps = 0;
 // Money Related
 var gold = 0;
 // XP Related
@@ -1924,7 +1924,7 @@ async function friendly_traveler_routine() {
         manage_allow_continue(true);
     }
 }
-monk_routine()
+
 // Monk
 async function monk_routine() {
     let name_1 = monk_names.sample();
