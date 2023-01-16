@@ -1828,7 +1828,7 @@ async function merchant_routine() {
         game_text.innerHTML = "";
         const item = assortment[i];
         awaiting_response = true;
-        price = randomIntFromInterval(item_determiner(item, "price")[0],item_determiner(item, "price")[1]);
+        price = randomIntFromInterval(item_determiner(assortment[i], "price")[0], item_determiner(assortment[i], "price")[1]);
         price += steps;
         if (item != "lesser healing potion" && item != "healing potion") {
             game_text.innerHTML += `<span class="choice">Buy ${item}? (${item_determiner(item, "dmg")[0]}-${item_determiner(item[0], "dmg")[1]} dmg) for <span class="gold">${price}G</span>?</span>\r\n\r\n`;
@@ -2377,6 +2377,10 @@ function enemy_determiner(enemy, determiner) {
 function item_determiner(item, determiner) {
     change_item_determinator_class(determiner);
     switch(item) {
+        case "lesser healing potion":
+            return w_weak;
+        case "healing potion":
+            return w_common;
         case "damaged sword":
             return w_weak;
         case "dagger":
