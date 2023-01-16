@@ -1906,13 +1906,15 @@ async function traveler_routine() {
         else {
             let dmg = randomIntFromInterval(5, 25);
             game_text.innerHTML +=  `<span class="dmg">${name} hits you and deals ${dmg} damage.</span>` + `\r\n\r\n`;
-            
+            damage(dmg);
+            display_stats();
+
             await sleep(1000);
 
             let attack_chance = Math.random();
             // Attack them back and get loot with 25% Chance
             if (attack_chance <= 0.25) {
-                game_text.innerHTML +=  `${name} runs off but you catch up and strike them.` + `\r\n\r\n`;
+                game_text.innerHTML +=  `<span class="blessing">${name} runs off but you catch up and strike them.</span>` + `\r\n\r\n`;
             
                 await sleep(1000);
 
@@ -1920,7 +1922,71 @@ async function traveler_routine() {
 
                 await sleep(1000);
 
-                game_text.innerHTML +=  `Loot is yet to implemented.` + `\r\n\r\n`;
+                let loot_table = traveler_loot_table;
+                let amount_of_items = randomIntFromInterval(1, 3);
+
+                for (let i = 0; i < amount_of_items; i++) {
+                    await sleep(1000);
+            
+                    // Choose random item from loot table
+                    item = loot_table.sample();
+            
+                    // Determine correct article
+                    if (vowels.includes(item[0])) {
+                        article = "an";
+                    }
+                    else {
+                        article = "a";
+                    }
+            
+                    // Healing Potion
+                    if (item == "healing potion") {
+                        let amt = randomIntFromInterval(10, max_hp);
+            
+                        hp += amt;
+                        if (hp >= max_hp) {
+                            hp = max_hp;
+                        }
+            
+                        game_text.innerHTML += `${name} had a potion and you drink it.\r\n`;
+            
+                        await sleep(1000);
+            
+                        game_text.innerHTML += `<span class="heal">You healed ${amt} hp.</span>\r\n\r\n`;
+                        display_stats();
+            
+                        await sleep(1000);
+                        continue;
+                    }
+            
+                    // Gold
+                    if (item == "gold") {
+                        let amt = randomIntFromInterval(det_gold("traveler")[0], det_gold("traveler")[1]);
+
+                        gold += amt;
+
+                        game_text.innerHTML += `${name} had <span class="gold">${amt} gold</span>.\r\n`;
+                        display_stats();
+            
+                        await sleep(1000);
+                        continue;
+                    }
+            
+                    // Check if item is already in inventory
+                    if (inventory.includes(item)) {
+                        game_text.innerHTML += `${name} had ${article} ${item} but you already have one.\r\n`
+                        continue;
+                    }
+            
+                    // Add item to inventory
+                    inventory.push(item);
+                    game_text.innerHTML += `${name} had ${article} ${item}.\r\n`
+                    display_stats();
+                }
+
+                await sleep(1000);
+
+                game_text.innerHTML +=  `You finish looting their body and go away.` + `\r\n\r\n`;
 
                 manage_allow_continue(true);
             }
