@@ -1650,7 +1650,7 @@ async function traveler_routine() {
     let d = Math.random();
     // Give Item with 75% Chance
     if (d <= 0.75) {
-        game_text.innerHTML +=  `${name} decides to give you some of their spoils.` + `\r\n\r\n`;
+        game_text.innerHTML +=  `<span class="blessing">${name} decides to give you some of their spoils.</span>` + `\r\n\r\n`;
 
         await sleep(1000);
 
@@ -1724,7 +1724,7 @@ async function traveler_routine() {
     }
     // Attack Player with 25% Chance
     else {
-        game_text.innerHTML +=  `${name} believes you are hostile and attacks you.` + `\r\n\r\n`;
+        game_text.innerHTML +=  `<span class="drastic">${name} believes you are hostile and attacks you.</span>` + `\r\n\r\n`;
     
         await sleep(1000);
 
