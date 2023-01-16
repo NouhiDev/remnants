@@ -1826,7 +1826,7 @@ async function merchant_routine() {
         price = randomIntFromInterval(item_determiner(item, "price")[0],(item, "price")[1]);
         price += steps;
         if (item != "lesser healing potion" && item != "healing potion") {
-            game_text.innerHTML += `<span class="choice">Buy ${item}? (${item_determiner(item[0], "dmg")[0]}-${item_determiner(item[1], "dmg")[0]} dmg) for <span class="gold">${price}G</span>?</span>\r\n\r\n`;
+            game_text.innerHTML += `<span class="choice">Buy ${item}? (${item_determiner(item, "dmg")[0]}-${item_determiner(item[0], "dmg")[1]} dmg) for <span class="gold">${price}G</span>?</span>\r\n\r\n`;
         }
         else {
             game_text.innerHTML += `<span class="choice">Buy ${item} for <span class="gold">${price+anger}G</span>?</span>\r\n\r\n`;
