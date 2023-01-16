@@ -43,30 +43,57 @@ var awaiting_response = true;
 var vowels = ["a", "e", "i", "o", "u"]
 
 // Inventory
+// Holds all the weapons of the player
+// Weapons added here are to be seen as default equipment
 var inventory = ["damaged sword"];
+
+// Helper string used for displaying the inventory on the stats container
 var inventory_txt = "[Inventory: ";
 
 // Stats
 // MGL keeps running if this variable is set to true
 var alive = true;
-// Health Related
+
+// Maximal HP
+// Increases as game progresses through leveling up or wishing wells / prayers
 var max_hp = 100
+
+// Current HP
+// Changes through encounters such as combat situations or traps
 var hp = 100;
-// Distance Related
+
+// Counts the amount of "days" passed 
+// (Amount of times the "PROCEED" button is pressed)
 var steps = 0;
-// Money Related
+
+// Keeps track of how much gold the player holds
 var gold = 0;
-// XP Related
-var xp = 0;
+
+// Maximal XP 
+// Amount of XP needed to level up 
+// Increases with increasing player level
 var max_xp = 100;
+
+// Current XP
+// Increases by defeating enemies or thanking friendly encounters
+var xp = 0;
+
+// Current Level
+// Increases when XP reaches or surpasses Max XP - increases Max HP when leveled up
 var lvl = 0;
-// Mana Related
-var mana = 20;
+
+// Maximal Mana
+// Increases as game progresses through leveling up or encounters with wizards
 var max_mana = 20;
+// Current Mana
+// Regenerates every step you take
+// Can be used with wands/staff
+var mana = 20;
+
 
 var region = "Forest";
 
-// Intervals used for enemy XP, enemy DMG, enemy HP, etc.
+// Intervals (Classes) used for enemy XP, enemy DMG, enemy HP, etc.
 var weak = [0, 0];
 var below_avg = [0, 0];
 var common = [0, 0];
@@ -75,7 +102,7 @@ var strong = [0, 0];
 var monster = [0, 0];
 var abomination = [0, 0];
 
-// Intervals used for weapon DMG, weapon Price, etc.
+// Intervals (Classes) used for weapon DMG, weapon Price, etc.
 var w_weak = [0, 0];
 var w_common = [0, 0];
 var w_uncommon = [0, 0];
@@ -194,11 +221,10 @@ eastport_places_table = ["abandoned ship", "broken ship", "abandoned warehouse",
 "quay", "abandoned beacon tower", "abandoned facility", "abandoned crane", "dredging", "breakwater", "abandoned control tower", 
 "abandoned tugboat", "broken tugboat"]
 
-ocean_places_table = ["small island", "island", "shipwreck", "coral reef", "abandoned lighthouse", "ship graveyard", "buoy", "kelp forest",
+ocean_places_table = ["small island", "island", "coral reef", "abandoned lighthouse", "ship graveyard", "buoy", "kelp forest",
 "seaweed bed", "current", "mangrove forest", "sea stack", "sea arch", "maelstrom", "rock formation", "tide pool"]
 
-shore_places_table = ["rocky cliffside", "cliffside", "lighthouse", "abandoned lighthouse", "wharf", "cove", "secluded cave", "ancient pier overrun by seaweed and barnacles", 
-"shipwreck", "abandoned seaside tavern", "tidal pool", "rocky shoreline", "beachside ruin of an old temple dedicated to a sea god", 
+shore_places_table = ["rocky cliffside", "cliffside", "lighthouse", "abandoned lighthouse", "wharf", "cove", "secluded cave", "ancient pier overrun by seaweed and barnacles", "abandoned seaside tavern", "tidal pool", "rocky shoreline", "beachside ruin of an old temple dedicated to a sea god", 
 "reef", "hidden cove", "freshwater spring", "sandy dune", "oasis", "abandoned, hidden smuggler's den", "secluded bay", "ancient ruin"]
 
 rebellion_places_table = ["sparsely crowded room", "moderately crowded room", "crowded room", "overcrowded room"]
@@ -219,7 +245,7 @@ lockwood_village_events_table = ["chest", "enemy", "merchant", "traveler"] //NEW
 
 eastport_events_table = ["cargo", "enemy", "nest", "nothing"] // NEW: CARGO, NEST
 
-ocean_events_table = ["enemy", "storm", "nothing"] // NEW: STORM
+ocean_events_table = ["enemy", "storm", "nothing", "shipwreck"] // NEW: STORM
 
 shore_events_table = ["enemy", "traveler", "shrine", "object burried in the ground"] // NEW: OBJECT BURRIED IN THE GROUND
 
@@ -233,7 +259,7 @@ chest_loot_table = ["dagger", "axe", "sword", "bow", "healing potion", "gold", "
 
 cargo_loot_table = ["halberd", "greataxe", "axe", "sword", "claymore", "healing potion", "gold", "gold"]
 
-traveler_loot_table = ["healing potion", "gold", "sword", "axe", "dagger", "halberd", "mace", "hammer", "flail"]
+traveler_loot_table = ["healing potion", "gold", "sword", "axe", "dagger", "halberd", "mace", "hammer"]
 
 object_burried_in_ground_names = ["rusty treasure chest", "old chest", "rusty container", "metal chest", "metal safe", "ceramic jar",
 "ceramic canister"]
@@ -246,6 +272,9 @@ blurry_object_loot_table = ["healing potion", "gold", "gold", "dagger", "mace", 
 
 small_dungeon_trapped_chest_loot_table = ["healing potion", "gold", "gold", "dagger", "mace", "hammer", "flail", "spear", "scythe", "scimitar", 
 "bastard sword", "shortsword", "longsword", "flamberge", "falchion", "rapier", "estoc", "club", "wooden staff", "gold", "gold", "gold", "gold"]
+
+shipwreck_loot_table = ["halberd", "claymore", "healing potion", "gold", "gold", "healing potion",
+"dagger", "sword", "spear", "crossbow"]
 // #endregion
 
 // #region Enemies
@@ -669,13 +698,6 @@ async function check_region_switch(distance) {
     forwards();
 }
 
-// Abyss
-function abyss_combination() {
-    events_table = ["nothing"];
-    enemies = [];
-    places_table = ["void"];
-}
-
 // #region Helper Functions
 
 // Random Between Two Constants
@@ -846,6 +868,68 @@ async function manage_sub_events(sub_event) {
     awaiting_response = true;
 
     switch(sub_event) {
+        // SHIPWRECK
+        case "shipwreck":
+            game_text.innerHTML += `<span class='choice'>Take a look at the shipwreck?</span>\r\n\r\n`;
+
+            // Wait for user input
+            manage_input(true);
+
+            while(awaiting_response) {
+                await sleep(1);
+            }
+
+            manage_input(false);
+            
+            // APPROACHES SHIPWRECK
+            if (player_input == "y") {
+                game_text.innerHTML += "You sail to the shipwreck.\r\n\r\n";
+                let d = Math.random();
+                // Open Cargo Successfully
+                if (d < 0.8) {
+                    open_loot_container(shipwreck_loot_table, randomIntFromInterval(3, 5))
+                }
+                // Cargo is trap
+                else {
+                    let e = Math.random();
+                    // Shark
+                    if (e < 0.5) {
+                        let dmg = randomIntFromInterval(5,10);
+                        damage(dmg);
+
+                        await sleep(1000);
+
+                        game_text.innerHTML += "<span class='drastic'>A shark attacks you.</span>\r\n\r\n";
+
+                        await sleep(1000);
+
+                        game_text.innerHTML += `<span class="dmg">You take ${dmg} damage.</span>\r\n`;
+                        manage_allow_continue(true);
+                    }
+                    // Collapse
+                    else {
+                        let dmg = randomIntFromInterval(5,10);
+                        damage(dmg);
+
+                        await sleep(1000);
+
+                        game_text.innerHTML += "<span class='drastic'>The shipwreck collapses.</span>\r\n\r\n";
+
+                        await sleep(1000);
+
+                        game_text.innerHTML += `<span class="dmg">You take ${dmg} damage.</span>\r\n`;
+                        manage_allow_continue(true);
+                    }   
+                    
+                }
+                
+            }
+            // DOESNT OPEN CARGO
+            else if (player_input == "n") {
+                game_text.innerHTML += "You ignore the shipwreck and move on.\r\n";
+                manage_allow_continue(true);
+            }
+            break;
         // FRIENLDY TRAVELER
         case "friendly traveler":
             game_text.innerHTML += `<span class='choice'>Approach them?</span>\r\n\r\n`;
@@ -1317,6 +1401,8 @@ async function manage_sub_events(sub_event) {
     }
 
 }
+
+// #region Events
 
 // Small Dungeon
 async function small_dungeon() {
@@ -2151,6 +2237,8 @@ async function merchant_routine() {
     manage_allow_continue(true);
 }
 
+// #endregion 
+
 // #region COMBAT RELATED
 
 // Enemy Encounter
@@ -2434,7 +2522,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee, enemy_combined) {
             game_text.innerHTML += `<span class="turn">${capitalizeFirstLetter(enemy)}'s turn:</span>\r\n\r\n`;
 
             let dmg = randomIntFromInterval(enemy_determiner(enemy, "dmg")[0],enemy_determiner(enemy, "dmg")[1]);
-            dmg += Math.floor(steps/2);
+            dmg += Math.floor(steps/3);
 
             await sleep(1000);
 
