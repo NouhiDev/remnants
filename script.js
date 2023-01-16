@@ -767,7 +767,7 @@ function change_item_determinator_class(det_class) {
         case "dmg":
             w_weak = [5, 10];
             w_common = [10, 15];
-            w_uncommon = [15, 10];
+            w_uncommon = [15, 25];
             w_above_avg = [20, 35];
             w_strong = [25, 45];
             w_mythical = [30, 55];
@@ -1789,7 +1789,7 @@ async function merchant_routine() {
         game_text.innerHTML += "- ";
         game_text.innerHTML += `${capitalizeFirstLetter(assortment[i])} `;
         if (assortment[i] != "healing potion" &&  assortment[i] != "lesser healing potion") {
-            game_text.innerHTML += `(${item_determiner(assortment[0], "dmg")[0]}-${item_determiner(assortment[0], "dmg")[1]} dmg)`;
+            game_text.innerHTML += `(${item_determiner(assortment[i], "dmg")[0]}-${item_determiner(assortment[i], "dmg")[1]} dmg)`;
         }
         game_text.innerHTML += "\r\n";
     }
