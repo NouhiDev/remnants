@@ -53,7 +53,7 @@ var alive = true;
 var max_hp = 100
 var hp = 100;
 // Distance Related
-var steps = 50;
+var steps = 60;
 // Money Related
 var gold = 0;
 // XP Related
@@ -521,7 +521,7 @@ async function check_region_switch(distance) {
         awaiting_response = true;
         game_text.innerHTML = `<span class="light-blue">ACT 6: REBELLION</span>\r\n\r\n` +
         `Finally, you reach the rebellion's stronghold. The leader of the rebellion, an experienced knight, tells you that the sorcerer's power comes from an ancient artifact that he has acquired and using it to control people. The rebellion needs your help to find this artifact and destroy it.\r\n`
-        + "\r\nYou join the rebellion and set out on a journey.\r\n" + "\r\n<span class='choice'>Continue?</span>\r\n\r\n";
+        + "\r\nYou enter the rebellion's stronghold.\r\n" + "\r\n<span class='choice'>Continue?</span>\r\n\r\n";
         // Wait for user input
         manage_input(true);
 
@@ -550,7 +550,7 @@ async function check_region_switch(distance) {
     // Wasteland
     if (distance == 60) {
         current_region = regions[5];
-        region_text.innerHTML = `<span class="red">[Act 7]</span> After reaching the <span class="purplebrown">port</span>, you finally find a <span class="brown">ship</span> that seems seaworthy. However, as you set out to sea, you quickly realize that the <span class="blue">ocean</span> is just as dangerous as the land.\r\n`
+        region_text.innerHTML = `<span class="red">[Act 7]</span> After leaving the rebellion's stronghold, you find a wasteland filled with danger and adventure while searching for the sorcerer's stronghold. You push on to reach the sorcerer's stronghold.\r\n`
         region = regions[5];
         places_table = wasteland_places_table;
         events_table = wasteland_events_table;
@@ -558,8 +558,8 @@ async function check_region_switch(distance) {
         // STORY SCREEN
         awaiting_response = true;
         game_text.innerHTML = `<span class="light-blue">ACT 7: WASTELAND</span>\r\n\r\n` +
-        `After arriving at the port, you successfully find a ship that appears to be in good condition. However, as soon as you set sail, it becomes clear that the ocean is equally perilous as the land. The waters are filled with mutated creatures, and the storms are more violent than ever before.\r\n`
-        + "\r\nYou set out to sea.\r\n" + "\r\n<span class='choice'>Continue?</span>\r\n";
+        `After leaving the rebellion's stronghold, you set out to find the sorcerer's stronghold and come across a wasteland filled with danger and adventure. Despite the harsh conditions and unknowns, you push on determined to uncover the secrets of this unforgiving terrain and find the sorcerer's stronghold.\r\n`
+        + "\r\nYou leave the rebellion's stronghold on set out on a journey.\r\n" + "\r\n<span class='choice'>Continue?</span>\r\n";
         // Wait for user input
         manage_input(true);
 
