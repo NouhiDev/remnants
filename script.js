@@ -201,7 +201,7 @@ shore_places_table = ["rocky cliffside", "cliffside", "lighthouse", "abandoned l
 "shipwreck", "abandoned seaside tavern", "tidal pool", "rocky shoreline", "beachside ruin of an old temple dedicated to a sea god", 
 "reef", "hidden cove", "freshwater spring", "sandy dune", "oasis", "abandoned, hidden smuggler's den", "secluded bay", "ancient ruin"]
 
-rebellion_places = ["sparsely crowded room", "moderately crowded room", "crowded room", "overcrowded room"]
+rebellion_places_table = ["sparsely crowded room", "moderately crowded room", "crowded room", "overcrowded room"]
 
 wasteland_places_table = ["wind-blasted plain", "dried-up lakebed", "burnt forest", "rotting forest", "canyon", "large breached dam", 
 "vast salt flat area", "ruined monastery", "abandonend fortress", "ruined castle", "dried-up well","abandonend cathedral", "ruined cathedral"
