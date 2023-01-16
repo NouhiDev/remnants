@@ -202,7 +202,7 @@ shore_places_table = ["rocky cliffside", "cliffside", "lighthouse", "abandoned l
 "reef", "hidden cove", "freshwater spring", "sandy dune", "oasis", "abandoned, hidden smuggler's den", "secluded bay", "ancient ruin"]
 
 wasteland_places_table = ["wind-blasted plain", "dried-up lakebed", "burnt forest", "rotting forest", "canyon", "large breached dam", 
-"vast salt flat area", "burnt-out monastery", "abandonend fortress", "ruined castle", "dried-up well","abandonend cathedral", "ruined cathedral"
+"vast salt flat area", "ruined monastery", "abandonend fortress", "ruined castle", "dried-up well","abandonend cathedral", "ruined cathedral"
 ,"abandonend mine","abbey","ruin","desolate plain", "forest of dead trees","desert of ash","scorched field","rocky terrain",
 "dune", "tundra", "marshy area"]
 
