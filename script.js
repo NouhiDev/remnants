@@ -223,6 +223,8 @@ ocean_events_table = ["enemy", "storm", "nothing"] // NEW: STORM
 
 shore_events_table = ["enemy", "traveler", "shrine", "object burried in the ground"] // NEW: OBJECT BURRIED IN THE GROUND
 
+rebellion_events_table = ["traveler", "merchant", "monk"]
+
 wasteland_events_table = ["enemy", "blurry object", "traveler", "small dungeon", "bandit"] // NEW: BLURRY OBJECT, BANDIT, SMALL DUNGEON
 // #endregion
 
