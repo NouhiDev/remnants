@@ -1770,7 +1770,9 @@ async function traveler_routine() {
 // Merchant
 async function merchant_routine() {
     await sleep(1000);
-    game_text.innerHTML = `<span class="lvl">Merchant "${merchant_names.sample()}" of the ${origins.sample()}</span>\r\n`;
+    let merchant_name = merchant_names.sample();
+    let merchant_origin = origins.sample();
+    game_text.innerHTML = `<span class="lvl">Merchant "${merchant_name}" of the ${merchant_origin}</span>\r\n`;
     game_text.innerHTML += "\r\n";
     let anger = 0;
     await sleep(1000);
@@ -1826,13 +1828,17 @@ async function merchant_routine() {
     await sleep(3000);
 
     for (let i = 0; i < assortment.length; i++) {
-        game_text.innerHTML = "";
-        const item = assortment[i];
+        game_text.innerHTML = `<span class="lvl">Merchant "${merchant_name}" of the ${merchant_origin}</span>\r\n`;
+        game_text.innerHTML += "\r\n";
+
+        await sleep(1000);
+
+        let item = assortment[i];
         awaiting_response = true;
         price = randomIntFromInterval(item_determiner(assortment[i], "price")[0], item_determiner(assortment[i], "price")[1]);
         price += steps;
-        if (item != "lesser healing potion" && item != "healing potion") {
-            game_text.innerHTML += `<span class="choice">Buy ${item}? (${item_determiner(item, "dmg")[0]}-${item_determiner(item[0], "dmg")[1]} dmg) for <span class="gold">${price}G</span>?</span>\r\n\r\n`;
+        if (assortment[i] != "lesser healing potion" && item != "healing potion") {
+            game_text.innerHTML += `<span class="choice">Buy ${item}? (${item_determiner(assortment[i], "dmg")[0]}-${item_determiner(assortment[i], "dmg")[1]} dmg) for <span class="gold">${price}G</span>?</span>\r\n\r\n`;
         }
         else {
             game_text.innerHTML += `<span class="choice">Buy ${item} for <span class="gold">${price+anger}G</span>?</span>\r\n\r\n`;
@@ -1878,7 +1884,7 @@ async function merchant_routine() {
             }
             else {
                 await sleep(1000);
-                game_text.innerHTML += "<span class='info'>\r\nYou don't have enough gold.</span>\r\n";
+                game_text.innerHTML += "<span class='info'>\r\nYou don't have enough gold.</span>\r\n\r\n";
                 await sleep(1000);
                 game_text.innerHTML += `<span class="drastic">You've angered the merchant.</span>\r\n\r\n`;
                 await sleep(3000);
