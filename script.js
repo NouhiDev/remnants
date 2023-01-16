@@ -223,7 +223,7 @@ ocean_events_table = ["enemy", "storm", "nothing"] // NEW: STORM
 
 shore_events_table = ["enemy", "traveler", "shrine", "object burried in the ground"] // NEW: OBJECT BURRIED IN THE GROUND
 
-rebellion_events_table = ["traveler", "merchant", "monk"]
+rebellion_events_table = ["friendly_traveler", "merchant", "monk"]
 
 wasteland_events_table = ["enemy", "blurry object", "traveler", "small dungeon", "bandit"] // NEW: BLURRY OBJECT, BANDIT, SMALL DUNGEON
 // #endregion
@@ -843,6 +843,15 @@ async function manage_sub_events(sub_event) {
     awaiting_response = true;
 
     switch(sub_event) {
+        // MONK
+        case "friendly_traveler":
+            game_text.innerHTML += "Not implemented yet.\r\n";
+            manage_allow_continue(true);
+            break;
+        case "monk":
+            game_text.innerHTML += "Not implemented yet.\r\n";
+            manage_allow_continue(true);
+            break;
         // SMALL DUNGEON
         case "small dungeon":
             game_text.innerHTML += `<span class="choice">Enter the small dungeon?\r\n\r\n`;
