@@ -521,7 +521,7 @@ async function check_region_switch(distance) {
         awaiting_response = true;
         game_text.innerHTML = `<span class="light-blue">ACT 6: REBELLION</span>\r\n\r\n` +
         `Finally, you reach the rebellion's stronghold. The leader of the rebellion, an experienced knight, tells you that the sorcerer's power comes from an ancient artifact that he has acquired and using it to control people. The rebellion needs your help to find this artifact and destroy it.\r\n`
-        + "\r\nYou join the rebellion and set out on a journey.\r\n" + "\r\n<span class='choice'>Continue?</span>\r\n";
+        + "\r\nYou join the rebellion and set out on a journey.\r\n" + "\r\n<span class='choice'>Continue?</span>\r\n\r\n";
         // Wait for user input
         manage_input(true);
 
