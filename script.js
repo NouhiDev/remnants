@@ -245,7 +245,7 @@ lockwood_village_events_table = ["chest", "enemy", "merchant", "traveler"] //NEW
 
 eastport_events_table = ["cargo", "enemy", "nest", "nothing"] // NEW: CARGO, NEST
 
-ocean_events_table = ["enemy", "storm", "nothing", "shipwreck"] // NEW: STORM
+ocean_events_table = ["enemy", "storm", "shipwreck", "seafarer"] // NEW: STORM
 
 shore_events_table = ["enemy", "traveler", "shrine", "object burried in the ground"] // NEW: OBJECT BURRIED IN THE GROUND
 
@@ -275,6 +275,9 @@ small_dungeon_trapped_chest_loot_table = ["healing potion", "gold", "gold", "dag
 
 shipwreck_loot_table = ["halberd", "claymore", "healing potion", "gold", "gold", "healing potion",
 "dagger", "sword", "spear", "crossbow"]
+
+treasure_map_treasure_loot_table = ["gold", "gold", "gold", "gold", "dagger", "mace", "hammer", "flail", "spear", "scythe", "scimitar", 
+"bastard sword", "shortsword", "longsword", "flamberge", "falchion", "rapier", "estoc", "club", "wooden staff", "gold", "gold", "gold", "gold"]
 // #endregion
 
 // #region Enemies
@@ -868,6 +871,30 @@ async function manage_sub_events(sub_event) {
     awaiting_response = true;
 
     switch(sub_event) {
+        // SEAFARER
+        case "seafarer":
+            game_text.innerHTML += `<span class='choice'>Make contact with them?</span>\r\n\r\n`;
+
+            // Wait for user input
+            manage_input(true);
+
+            while(awaiting_response) {
+                await sleep(1);
+            }
+
+            manage_input(false);
+
+            // APPROACH SEAFARER
+            if (player_input == "y") {
+                game_text.innerHTML += "You iniate interaction with them.\r\n";
+                seafarer_routine();
+            }
+            // PASS BY SEAFARER
+            else if (player_input == "n") {
+                game_text.innerHTML += "You do not approach the seafarer and move on.\r\n";
+                manage_allow_continue(true);
+            }
+            break;
         // SHIPWRECK
         case "shipwreck":
             game_text.innerHTML += `<span class='choice'>Take a look at the shipwreck?</span>\r\n\r\n`;
@@ -953,7 +980,6 @@ async function manage_sub_events(sub_event) {
                 game_text.innerHTML += "You do not approach the traveler and move on.\r\n";
                 manage_allow_continue(true);
             }
-
             break;
         // PAIR OF MONKS
             case "pair of monks":
@@ -1905,8 +1931,6 @@ async function traveler_routine() {
             }
         }
     }
-    
-    
 }
 
 // Friendly Traveler 
@@ -2099,7 +2123,6 @@ async function monk_routine() {
     }
 }
 
-
 // Merchant
 async function merchant_routine() {
     await sleep(1000);
@@ -2235,6 +2258,143 @@ async function merchant_routine() {
     game_text.innerHTML += `The trade concludes.\r\n`
 
     manage_allow_continue(true);
+}
+
+// Seafarer 
+async function seafarer_routine() {
+    let name = traveler_names.sample();
+    let map_price = randomIntFromInterval(60,160);
+
+    game_text.innerHTML =  `<span class="traveler-name">Seafarer ${name}</span>` + `\r\n\r\n`;
+
+    await sleep(1000);
+
+    game_text.innerHTML += "Ahoy, me hearties! I've got me trusty treasure map here. Who wants in on this grand adventure to discover what lies beyond the X that marks the spot?\r\n\r\n";
+    
+    await sleep(4000);
+
+    game_text.innerHTML += `They offer to sell you a treasure map for <span class="gold">${map_price} gold</span>.\r\n\r\n`;
+
+    await sleep(2000);
+
+    game_text.innerHTML += `<span class="choice">Give them <span class="gold">${map_price} gold</span> for the treasure map?</span>\r\n\r\n`;
+
+    awaiting_response = true;
+
+    // Wait for user input
+    manage_input(true);
+
+    while(awaiting_response) {
+        await sleep(1);
+    }
+
+    manage_input(false);
+
+    // BUY MAP
+    if (player_input == "y") {
+        // If player has more or equal gold
+        if (gold >= map_price) {
+            game_text.innerHTML += `You buy the treasure map for <span class="gold">${map_price} gold</span>.\r\n\r\n`;
+            gold -= map_price;
+            display_stats();
+
+            await sleep(2000);
+
+            game_text.innerHTML = `<span class="traveler-name">TREASURE HUNT</span>\r\n\r\n`;
+
+            await sleep(1000);
+
+            game_text.innerHTML += `<span class="info">The X marks the spot, a destination unknown, but with the aid of this map, you shall uncover the riches that lay hidden.</span>\r\n\r\n`;
+
+            await sleep(4000);
+
+            game_text.innerHTML += `<span class="info">After some time, you've finally reach the destination marked on the map.</span>\r\n\r\n`;
+
+            await sleep(2000);
+
+            let d = Math.random();
+            // FIND TREASURE 70%
+            if (d < .7) {
+                game_text.innerHTML += `<span class="blessing">The X was true, and the treasure is real!</span>\r\n\r\n`;
+                
+                await sleep(2000);
+
+                let loot_table = treasure_map_treasure_loot_table;
+                let amount_of_items = randomIntFromInterval(4, 7);
+
+                for (let i = 0; i < amount_of_items; i++) {
+                    await sleep(1000);
+            
+                    // Choose random item from loot table
+                    item = loot_table.sample();
+            
+                    // Determine correct article
+                    if (vowels.includes(item[0])) {
+                        article = "an";
+                    }
+                    else {
+                        article = "a";
+                    }
+            
+                    // Gold
+                    if (item == "gold") {
+                        let amt = randomIntFromInterval(1, 200);
+
+                        gold += amt;
+
+                        game_text.innerHTML += `You find <span class="gold">${amt} gold</span>.\r\n`;
+                        display_stats();
+            
+                        await sleep(1000);
+                        continue;
+                    }
+            
+                    // Check if item is already in inventory
+                    if (inventory.includes(item)) {
+                        game_text.innerHTML += `You find ${article} ${item} but you already have one.\r\n`
+                        continue;
+                    }
+            
+                    // Add item to inventory
+                    inventory.push(item);
+                    game_text.innerHTML += `You find ${article} ${item}.\r\n`
+                    display_stats();
+                }
+
+                await sleep(2000);
+
+                game_text.innerHTML += "\r\nYou finish looting and sail away.\r\n";
+                manage_allow_continue(true);
+                return;
+            }
+            // DONT FIND TREASURE 30%
+            else {
+                game_text.innerHTML += `<span class="drastic">The X marks not the spot of treasure, but a pit of despair. Your journey was in vain, and you've been led astray.</span>\r\n\r\n`;
+                
+                await sleep(2000);
+
+                game_text.innerHTML += "You sail away.\r\n";
+                manage_allow_continue(true);
+                return;
+            } 
+        }
+        // Player has not enough gold
+        else {
+            await sleep(1000);
+            game_text.innerHTML += `You don't have enough <span class="gold">gold</span>.\r\n\r\n`;
+            await sleep(1000);
+            game_text.innerHTML += `You don't buy the map and sail away.\r\n`;
+            await sleep(1000);
+            manage_allow_continue(true);
+            return;
+        }
+    }
+    // DONT BUY
+    else if (player_input == "n") {
+        game_text.innerHTML += "You don't buy the map and sail away.\r\n";
+        manage_allow_continue(true);
+        return;
+    }   
 }
 
 // #endregion 
