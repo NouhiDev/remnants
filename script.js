@@ -21,6 +21,9 @@ function delay(time) {
 // I don't recommend taking a look at the source code.
 // ---------------------------------------
 
+// Enables the Debug Stats
+var debug_stats = false;
+
 // Stores the different text containers
 var game_text = document.getElementById("game-text");
 var stats_text = document.getElementById("stats-text");
@@ -35,6 +38,8 @@ var allow_input = false;
 var allow_continue = true;
 // Stores either "y" or "n"
 var player_input = "";
+
+var in_small_dungeon_combat = false;
 
 // While this bool is set to true, the game is stuck in an infinite loop waiting for a response (y/n)
 var awaiting_response = true;
@@ -278,6 +283,9 @@ shipwreck_loot_table = ["halberd", "claymore", "healing potion", "gold", "gold",
 
 treasure_map_treasure_loot_table = ["gold", "gold", "gold", "gold", "dagger", "mace", "warhammer", "flail", "spear", "scythe", "scimitar", 
 "bastard sword", "shortsword", "longsword", "flamberge", "falchion", "rapier", "estoc", "club", "wooden staff", "gold", "gold", "gold", "gold"]
+
+small_boss_loot_table = ["gold", "gold", "gold", "gold", "mace", "warhammer", "flail", "spear", "scythe", "scimitar", 
+"bastard sword", "shortsword", "longsword", "flamberge", "falchion", "rapier", "estoc", "club", "wooden staff"]
 // #endregion
 
 // #region Enemies
@@ -302,6 +310,8 @@ shore_enemies = ["vulture", "werewolf", "spirit", "octopus", "bat", "dweller", "
 
 wasteland_enemies = ["scorpion", "rat", "spider", "insect", "orc", "giant", "werewolf", "golem", "druid", "witch", "infernal",
 "worm", "sandworm", "beetle", "fly", "wasp", "snake", "bat", "centipede", "megacentipede"]
+
+small_dungeon_bosses = ["Blood Starved Beast", "Darkbeast", "Ashen Knight", "Tower Knight", "Darkbeast of the Abyss"]
 // #endregion
 
 // #region Forward Variations
@@ -594,7 +604,7 @@ async function check_region_switch(distance) {
         awaiting_response = true;
         game_text.innerHTML = `<span class="light-blue">ACT 7: WASTELAND</span>\r\n\r\n` +
         `After leaving the rebellion's stronghold, you set out to find the sorcerer's stronghold and come across a wasteland filled with danger and adventure. Despite the harsh conditions and unknowns, you push on determined to uncover the secrets of this unforgiving terrain and find the sorcerer's stronghold.\r\n`
-        + "\r\nYou leave the rebellion's stronghold on set out on a journey.\r\n" + "\r\n<span class='choice'>Continue?</span>\r\n";
+        + "\r\nYou leave the rebellion's stronghold on set out on a journey.\r\n" + "\r\n<span class='choice'>Continue?</span>\r\n\r\n";
         // Wait for user input
         manage_input(true);
 
@@ -1115,7 +1125,7 @@ async function manage_sub_events(sub_event) {
                 }
                 // is trap 40%
                 else {
-                    let dmg = randomIntFromInterval(5,25);
+                    let dmg = randomIntFromInterval(5,10);
                     damage(dmg);
 
                     await sleep(1000);
@@ -1351,7 +1361,7 @@ async function manage_sub_events(sub_event) {
                 }
                 // Cargo is trap
                 else {
-                    let dmg = randomIntFromInterval(5,25);
+                    let dmg = randomIntFromInterval(5,10);
                     damage(dmg);
 
                     await sleep(1000);
@@ -1399,7 +1409,7 @@ async function manage_sub_events(sub_event) {
                 }
                 // Chest is trap
                 else {
-                    let dmg = randomIntFromInterval(5,25);
+                    let dmg = randomIntFromInterval(5,10);
                     damage(dmg);
 
                     await sleep(1000);
@@ -1432,7 +1442,8 @@ async function manage_sub_events(sub_event) {
 
 // Small Dungeon
 async function small_dungeon() {
-    let rooms = ["trapped chest"]
+    // 1/3% Trapped Chest, 2/3% Enemy
+    let rooms = ["trapped chest", "enemy", "enemy"]
 
     game_text.innerHTML =  `<span class="small-dungeon">SMALL DUNGEON</span>` + `\r\n(Entrance)\r\n\r\n`;
     
@@ -1454,7 +1465,9 @@ async function small_dungeon() {
 
     await sleep(2000);
 
-    for (let i = 0; i < 3; i++) {
+    let amount_of_rooms = randomIntFromInterval(3,5);
+
+    for (let i = 0; i < amount_of_rooms-1; i++) {
         game_text.innerHTML += `\r\n<span class="choice">Proceed?\r\n\r\n`;
 
         awaiting_response = true;
@@ -1485,6 +1498,74 @@ async function small_dungeon() {
         await sleep(1000);
 
         switch(room_type) {
+            // Room is enemy
+            case "enemy":
+                awaiting_response = true;
+                // Setup Enemy
+                let enemy = enemies.sample();
+                let enemy_descriptor = enemy_desciptors.sample();
+                let enemy_combined_name = `${enemy_descriptor} ${capitalizeFirstLetter(enemy)}`;
+                let enemy_hp = randomIntFromInterval(enemy_determiner(enemy, "hp")[0],enemy_determiner(enemy, "hp")[1])+steps;
+                
+                // Determine correct article to use
+                let article = "";
+                if (vowels.includes(enemy_combined_name[0])) {
+                    article = "an";
+                }
+                else {
+                    article = "a";
+                }
+                
+                // Anounce enemy
+                game_text.innerHTML += `<span class="info">You encounter ${article} <span class="enemy">${capitalizeFirstLetter(enemy_descriptor)} ${capitalizeFirstLetter(enemy)}</span>.</span>\r\n\r\n`;
+
+
+                await sleep(1000);
+
+                // Anounce enemy hp
+                game_text.innerHTML += `<span class="enemy">${capitalizeFirstLetter(enemy_combined_name)}</span> has ${enemy_hp} hp.\r\n\r\n`;
+
+                // Prompt for combat
+                game_text.innerHTML += `<span class="choice">Engage in combat?</span>\r\n\r\n`;
+
+                // Wait for user input
+                manage_input(true);
+
+                while(awaiting_response) {
+                    await sleep(1);
+                }
+
+                manage_input(false);
+
+                // Engages
+                if (player_input == "y") {
+                    game_text.innerHTML += "You engange in combat.\r\n\r\n";
+
+                    await sleep(1000);
+
+                    combat_routine(enemy, enemy_hp, false, enemy_combined_name, true);
+
+                    in_small_dungeon_combat = true;
+
+                    while(in_small_dungeon_combat) {
+                        await sleep(1);
+                    }
+                }
+                else {
+                    game_text.innerHTML += "There is no way around it.\r\n\r\n";
+
+                    await sleep(1000);
+
+                    combat_routine(enemy, enemy_hp, false, enemy_combined_name, true);
+
+                    in_small_dungeon_combat = true;
+
+                    while(in_small_dungeon_combat) {
+                        await sleep(1);
+                    }
+                }
+                break;
+            // Room is trapped chest
             case "trapped chest":
                 game_text.innerHTML += "You see a trapped chest.\r\n\r\n";
 
@@ -1513,6 +1594,8 @@ async function small_dungeon() {
                     
                         let loot_table = small_dungeon_trapped_chest_loot_table;
                         let amount_of_items = randomIntFromInterval(2, 6);
+
+                        let article = "";
 
                         for (let i = 0; i < amount_of_items; i++) {
                             await sleep(1000);
@@ -1581,8 +1664,10 @@ async function small_dungeon() {
 
                         await sleep(1000);
 
-                        game_text.innerHTML += `<span class="dmg">You take 20 damage.</span>\r\n\r\n`;
-                        damage(20);
+                        let chest_dmg = randomIntFromInterval(9,18);
+
+                        game_text.innerHTML += `<span class="dmg">You take ${chest_dmg} damage.</span>\r\n\r\n`;
+                        damage(chest_dmg);
                         display_stats();
                     }
                 }
@@ -1594,11 +1679,380 @@ async function small_dungeon() {
         }
         await sleep(2000);
     }
-    game_text.innerHTML =  `<span class="small-dungeon">SMALL DUNGEON</span>` + `\r\n(Exit)\r\n\r\n`;
+    game_text.innerHTML =  `<span class="small-dungeon">SMALL DUNGEON</span>` + `\r\n(Before the Boss Door)\r\n\r\n`;
+
+    await sleep(1000);
+
+    game_text.innerHTML +=  `You stand before the imposing door, your heart pounding with anticipation.\r\n\r\n`;
 
     await sleep(2000);
 
-    game_text.innerHTML +=  `You discover the exit and leave.\r\n\r\n`;
+    game_text.innerHTML +=  `You can feel the aura of a powerful boss radiating from the other side.\r\n\r\n`;
+
+    await sleep(2000);
+
+    game_text.innerHTML += `\r\n<span class="choice">Are you ready?\r\n\r\n`;
+
+    awaiting_response = true;
+
+    manage_input(true);
+
+    while(awaiting_response) {
+        await sleep(1);
+    }
+
+    manage_input(false);
+
+    if (player_input == "y") {
+        game_text.innerHTML += "You take a deep breath, and with a fierce determination, you open the door and step forward to face your foe.\r\n";
+    }
+    // PASS BY TRAVELER
+    else if (player_input == "n") {
+        game_text.innerHTML += "You aren't ready, but the door to the boss chamber suddenly swings open.\r\n";
+    }
+
+    await sleep(5000);
+
+    small_dungeon_boss();
+}
+
+async function small_dungeon_boss() {
+    // Set up Small Dungeon Boss (SDB)
+    let boss = small_dungeon_bosses.sample();
+    let boss_max_hp = randomIntFromInterval(100, 200);
+    let boss_hp = boss_max_hp;
+    
+    game_text.innerHTML = "<span class='combat'>MINI BOSSFIGHT</span>\r\n" + `[ <span class='enemy'>You vs ${capitalizeFirstLetter(boss)} (${boss_hp}/${boss_max_hp} hp)</span> ]\r\n\r\n`;;
+
+    let in_combat = true;
+    let player_turn = false;
+
+    while(in_combat) {
+        // Seperate
+        await sleep(1000);
+
+        // Check for Boss Death
+        if (boss_hp <= 0) {
+            // Win fight
+            game_text.innerHTML += `<span class="blessing">You've slain the ${boss}.</span>\r\n\r\n`;
+
+            let boss_xp = boss_max_hp*2;
+
+            await sleep(1000);
+
+            game_text.innerHTML += `<span class="green">You've earned ${boss_xp} xp.</span>\r\n`;
+
+            manage_xp(boss_xp);
+
+            in_combat = false;
+
+            break;
+        }
+
+        // Update Stats
+        display_stats();
+
+        // Switch Turns
+        player_turn = !player_turn;
+        
+        // Players Turn
+        if (player_turn) {
+            game_text.innerHTML += `<span class="turn">Your turn:</span>\r\n\r\n`;
+
+            await sleep(1000);
+
+            // If no weapons --> use fists
+            if (inventory.length <= 0) {
+                let hit_chance = Math.random();
+                // You miss the attack
+                if (hit_chance < 0.15) {
+                    let miss_or_evade_chance = Math.random();
+                    // Miss the hit with 50%
+                    if (miss_or_evade_chance < 0.5) {
+                        game_text.innerHTML += `<span class="drastic">You miss and deal no damage.</span>\r\n\r\n`;
+                    }
+                    // Enemy evades with 50%
+                    else {
+                        game_text.innerHTML += `<span class="drastic">${capitalizeFirstLetter(boss)} evaded the attack.</span>\r\n\r\n`;
+                    }
+                } 
+                // You hit the attack
+                else {
+                    let fist_dmg = randomIntFromInterval(1,3);
+                    enemy_hp -= fist_dmg;
+                    if (enemy_hp <= 0) {
+                        enemy_hp = 0;
+                    }
+    
+                    game_text.innerHTML += `You use your fists.\r\n\r\n`;
+    
+                    await sleep(1000);
+    
+                    game_text.innerHTML += `<span class="deal-dmg"> You deal ${fist_dmg} damage. </span>\r\n`;
+                }
+                
+                await sleep(2000);
+
+                game_text.innerHTML = "";
+            }
+            // Player has weapons 
+            else {
+                let weapon_to_use = "";
+                for (let i = 0; i < inventory.length; i++) {
+                    awaiting_response = true;
+                    const item = inventory[i];
+                    game_text.innerHTML += `<span class="choice">Use ${item}? (${item_determiner(item, "dmg")[0]}-${item_determiner(item, "dmg")[1]} dmg)</span>\r\n\r\n`;
+
+                    // Wait for user input
+                    manage_input(true);
+                
+                    while(awaiting_response) {
+                        await sleep(1);
+                    }
+                
+                    manage_input(false);
+
+                    if (player_input == "y") {
+                        weapon_to_use = item;
+                        break;
+                    }
+                    else if (player_input == "n") {
+                        continue;
+                    }
+                }
+
+                // No weapon was chosen
+                if (weapon_to_use == "") {
+                    let hit_chance = Math.random();
+                    // You miss the attack
+                    if (hit_chance < 0.15) {
+                        let miss_or_evade_chance = Math.random();
+                        // Miss the hit with 50%
+                        if (miss_or_evade_chance < 0.5) {
+                            game_text.innerHTML += `<span class="drastic">You miss and deal no damage.</span>\r\n\r\n`;
+                        }
+                        // Enemy evades with 50%
+                        else {
+                            game_text.innerHTML += `<span class="drastic">${capitalizeFirstLetter(boss)} evaded the attack.</span>\r\n\r\n\r\n\r\n`;
+                        }
+                    } 
+                    // You hit the attack
+                    else {
+                        let fist_dmg = randomIntFromInterval(1,3);
+                        enemy_hp -= fist_dmg;
+                        if (enemy_hp <= 0) {
+                            enemy_hp = 0;
+                        }
+        
+                        game_text.innerHTML += `You use your fists.\r\n\r\n`;
+        
+                        await sleep(1000);
+        
+                        game_text.innerHTML += `<span class="deal-dmg"> You deal ${fist_dmg} damage. </span>\r\n`;
+                    }
+                }
+                
+                // Weapon has been chosen
+                else {
+                    await sleep(1000);
+
+                    game_text.innerHTML += `You chose to use ${weapon_to_use}.\r\n\r\n`;
+
+                    let weapon_dmg = randomIntFromInterval(item_determiner(weapon_to_use, "dmg")[0], item_determiner(weapon_to_use, "dmg")[1]);
+
+                    let hit_chance = Math.random();
+                    // You miss / evade
+                    if (hit_chance < 0.15) {
+                        let miss_or_evade_chance = Math.random();
+                        // Miss the hit with 50%
+                        if (miss_or_evade_chance < 0.5) {
+                            game_text.innerHTML += `<span class="drastic">You miss and deal no damage.</span>\r\n\r\n`;
+                        }
+                        // Enemy evades with 50%
+                        else {
+                            game_text.innerHTML += `<span class="drastic">${capitalizeFirstLetter(boss)} evaded the attack.</span>\r\n\r\n\r\n\r\n`;
+                        }
+                    }
+                    // You hit
+                    else {
+                        boss_hp -= weapon_dmg;
+                        if (boss_hp <= 0) {
+                            boss_hp = 0;
+                        }
+
+                        await sleep(1000);
+
+                        game_text.innerHTML += `<span class="deal-dmg"> You deal ${weapon_dmg} damage. </span>\r\n\r\n`;
+
+                        // Randomly break weapon
+                        let d = Math.random();
+                        if (d <= 0.15) {
+                            indx = inventory.indexOf(weapon_to_use);
+                            inventory.splice(indx, 1);
+
+                            await sleep(1000);
+
+                            game_text.innerHTML += `<span class="dark-red"> ${capitalizeFirstLetter(weapon_to_use)} broke. </span>\r\n`;
+                        }
+                    }
+
+                }
+
+                await sleep(2000);
+                
+                game_text.innerHTML = "<span class='combat'>MINI BOSSFIGHT</span>\r\n" + `[ <span class='enemy'>You vs ${capitalizeFirstLetter(boss)} (${boss_hp}/${boss_max_hp} hp)</span> ]\r\n\r\n`;;
+            }
+        }
+        // Enemys Turn
+        else {
+            game_text.innerHTML += `<span class="turn">${capitalizeFirstLetter(boss)}'s turn:</span>\r\n\r\n`;
+
+            let dmg = randomIntFromInterval(enemy_determiner("small_dungeon_boss", "dmg")[0],enemy_determiner("small_dungeon_boss", "dmg")[1]);
+
+            await sleep(1000);
+
+            game_text.innerHTML += `${capitalizeFirstLetter(boss)} attacks.\r\n\r\n`;
+
+            let miss_chance = Math.random();
+            // Enemy misses with 15% Chance
+            if (miss_chance < 0.15) {
+                let miss_or_evade_chance = Math.random();
+                // Miss with 50% Chance
+                if (miss_or_evade_chance < 0.5) {
+                    await sleep(1000);
+
+                    game_text.innerHTML += `<span class="blessing">${capitalizeFirstLetter(boss)} misses and deals no damage.</span>\r\n\r\n`; 
+                }
+                // Player evades with 50%
+                else {
+                    await sleep(1000);
+
+                    game_text.innerHTML += `<span class="blessing">You evade the attack.</span>\r\n\r\n`; 
+                }
+                
+            }
+            // Enemy hits
+            else
+            {
+                await sleep(1000);
+
+                game_text.innerHTML += `<span class="dmg">You take ${dmg} damage.</span>\r\n\r\n`;
+
+                damage(dmg);
+                display_stats();
+
+                // if player will die break loop
+                if (hp <= 0) {
+                    in_combat = false;
+                    break;
+                }
+            }
+
+            await sleep(2000);
+                
+            game_text.innerHTML = "<span class='combat'>MINI BOSSFIGHT</span>\r\n" + `[ <span class='enemy'>You vs ${capitalizeFirstLetter(boss)} (${boss_hp}/${boss_max_hp} hp)</span> ]\r\n\r\n`;;
+        }
+    }
+
+    await sleep(1000);
+
+    game_text.innerHTML += `\r\nYou hear a heavy door opening.\r\n\r\n`;
+
+    await sleep(1000);
+
+    game_text.innerHTML += `You see a glowing room with a chest inside.\r\n`;
+
+    await sleep(1000);
+
+    game_text.innerHTML += `\r\n<span class="choice">Loot the chest?\r\n\r\n`;
+
+    awaiting_response = true;
+
+    manage_input(true);
+
+    while(awaiting_response) {
+        await sleep(1);
+    }
+
+    manage_input(false);
+
+    if (player_input == "y") {
+        game_text.innerHTML += "You loot the chest.\r\n\r\n";
+
+        let loot_table = small_boss_loot_table;
+        let amount_of_items = randomIntFromInterval(3, 7);
+
+        for (let i = 0; i < amount_of_items; i++) {
+            await sleep(1000);
+    
+            // Choose random item from loot table
+            item = loot_table.sample();
+    
+            // Determine correct article
+            if (vowels.includes(item[0])) {
+                article = "an";
+            }
+            else {
+                article = "a";
+            }
+    
+            // Healing Potion
+            if (item == "healing potion") {
+                let amt = randomIntFromInterval(10, max_hp);
+    
+                hp += amt;
+                if (hp >= max_hp) {
+                    hp = max_hp;
+                }
+    
+                game_text.innerHTML += `You find a potion and you drink it.\r\n`;
+    
+                await sleep(1000);
+    
+                game_text.innerHTML += `<span class="heal">You healed ${amt} hp.</span>\r\n\r\n`;
+                display_stats();
+    
+                await sleep(1000);
+                continue;
+            }
+    
+            // Gold
+            if (item == "gold") {
+                let amt = randomIntFromInterval(50, 100);
+
+                gold += amt;
+
+                game_text.innerHTML += `You find <span class="gold">${amt} gold</span>.\r\n`;
+                display_stats();
+    
+                await sleep(1000);
+                continue;
+            }
+    
+            // Check if item is already in inventory
+            if (inventory.includes(item)) {
+                game_text.innerHTML += `You find ${article} ${item} but you already have one.\r\n`
+                continue;
+            }
+    
+            // Add item to inventory
+            inventory.push(item);
+            game_text.innerHTML += `You find ${article} ${item}.\r\n`
+            display_stats();
+        }
+
+        await sleep(2000);
+
+        game_text.innerHTML += `\r\nYou finish looting.\r\n\r\n`;
+    }
+    else if (player_input == "n") {
+        game_text.innerHTML += "You decide to not open the chest.\r\n\r\n";
+    }
+    
+    await sleep(2000);
+
+    game_text.innerHTML += `You turn your attention to the exit of the dungeon.\r\n`;
+
     manage_allow_continue(true);
 }
 
@@ -2511,7 +2965,7 @@ async function enemy_encounter() {
 
         await sleep(1000);
 
-        combat_routine(enemy, enemy_hp, false, enemy_combined_name);
+        combat_routine(enemy, enemy_hp, false, enemy_combined_name, false);
         return;
     }
     // Tries to flee
@@ -2542,7 +2996,7 @@ async function enemy_encounter() {
 
             await sleep(1000);
 
-            combat_routine(enemy, enemy_hp, true, enemy_combined_name)
+            combat_routine(enemy, enemy_hp, true, enemy_combined_name, false)
 
             return;
         }
@@ -2552,7 +3006,7 @@ async function enemy_encounter() {
 }
 
 // Combat Routine
-async function combat_routine(enemy, enemy_hp, failed_to_flee, enemy_combined) {
+async function combat_routine(enemy, enemy_hp, failed_to_flee, enemy_combined, is_from_small_dungeon) {
 
     let d = Math.random();
     let in_combat = true;
@@ -2581,7 +3035,12 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee, enemy_combined) {
 
             manage_xp(enemy_xp);
 
-            manage_allow_continue(true);
+            if (!is_from_small_dungeon) {
+                manage_allow_continue(true);
+            }
+            else {
+                in_small_dungeon_combat = false;
+            }
 
             in_combat = false;
 
@@ -2705,7 +3164,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee, enemy_combined) {
                         let miss_or_evade_chance = Math.random();
                         // Miss the hit with 50%
                         if (miss_or_evade_chance < 0.5) {
-                            game_text.innerHTML += `<span class="drastic">You miss and deal no damage</span>.\r\n\r\n`;
+                            game_text.innerHTML += `<span class="drastic">You miss and deal no damage.</span>\r\n\r\n`;
                         }
                         // Enemy evades with 50%
                         else {
@@ -2748,7 +3207,6 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee, enemy_combined) {
             game_text.innerHTML += `<span class="turn">${capitalizeFirstLetter(enemy)}'s turn:</span>\r\n\r\n`;
 
             let dmg = randomIntFromInterval(enemy_determiner(enemy, "dmg")[0],enemy_determiner(enemy, "dmg")[1]);
-            dmg += Math.floor(steps/3);
 
             await sleep(1000);
 
@@ -2804,6 +3262,8 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee, enemy_combined) {
 function enemy_determiner(enemy, determiner) {
     change_enemy_determinator_class(determiner);
     switch(enemy) {
+        case "small_dungeon_boss":
+            return strong;
         // REGION 0: FOREST
         case "spider":
             return weak;
@@ -3008,9 +3468,9 @@ function item_determiner(item, determiner) {
 function det_gold(entity) {
     switch(entity) {
         case "traveler":
-            return [5, 105];
+            return [5, 40];
         case "trappedchest":
-            return [30, 300];
+            return [30, 100];
     }
 }
 
@@ -3117,12 +3577,9 @@ function no_btn() {
 // XP Managing
 async function manage_xp(amount) {
     xp += amount;
-    if (xp >= max_xp) {
-        await sleep(1000);
+    while (xp >= max_xp) {
 
-        game_text.innerHTML += `\r\n<span class="lvl">You leveled up!</span>\r\n\r\n`;
-
-        await sleep(1000);
+        game_text.innerHTML += `\r\n<span class="lvl">You leveled up!</span>\r\n`;
 
         // Increase LVL
         lvl++;
@@ -3214,3 +3671,11 @@ function bgm() {
     }
 }
 
+if (debug_stats) {
+    max_hp = 999;
+    hp = 999;
+    mana = 999;
+    max_mana = 999;
+    inventory = ["scimitar", "scimitar","scimitar","scimitar","scimitar","scimitar","scimitar","scimitar","scimitar"];
+    gold = 9999;
+}
