@@ -3195,3 +3195,22 @@ function zoom() {
 }
 
 zoom();
+
+let audio_muted = true;
+function bgm() {
+    let audio_element = document.getElementById('bg_loop');
+    let audio_btn = document.getElementById('bgmbtn');
+    audio_muted = !audio_muted;
+
+    audio_element.muted = audio_muted;
+    audio_element.volume = 0.1;
+    
+    if (audio_muted) {
+        audio_btn.style.filter = "grayscale(1)";
+    }
+    else {
+        audio_element.play();
+        audio_btn.style.filter = "grayscale(0)";
+    }
+}
+

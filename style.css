@@ -243,6 +243,40 @@
         cursor: pointer;
     }
 
+    .btn {
+      max-width: 200px;
+      font-size: 16px;
+      background-color: rgb(142, 142, 142);
+      font-family: 'Oswald', sans-serif;
+      text-transform: uppercase;
+      color: #121317;
+      font-size: 20px;
+      font-weight: bold;
+      border-radius: 25px;
+      margin: 20px;
+    }
+
+    .bgmbtn {
+      height: 50px;
+      width: 50px;
+      font-size: 12px;
+      background-color: rgb(255, 218, 145);
+      font-family: 'Oswald', sans-serif;
+      text-transform: uppercase;
+      color: #121317;
+      font-size: 20px;
+      font-weight: bold;
+      border-radius: 25px;
+      background: url('bgm.png');
+      background-size: 50px 50px;
+      filter: grayscale(1);
+    }
+
+    .bgmbtn:hover {
+      background-color: rgb(184, 157, 103);
+      cursor: pointer;
+    }
+
     .btn-continue:hover {
       background-color: rgb(47, 138, 50);
       cursor: pointer;
