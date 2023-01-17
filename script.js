@@ -56,6 +56,11 @@ var inventory = ["damaged sword"];
 // Helper string used for displaying the inventory on the stats container
 var inventory_txt = "[Inventory: ";
 
+// Inventory Item Cap
+// Determines how many items the player can hold
+// Increases with increasing level
+var inventory_cap = 10;
+
 // Stats
 // MGL keeps running if this variable is set to true
 var alive = true;
@@ -1192,7 +1197,7 @@ async function manage_sub_events(sub_event) {
 
                     await sleep(1000);
 
-                    game_text.innerHTML += "<span class='drastic'>It is a pipe bomb.</span>\r\n\r\n";
+                    game_text.innerHTML += "<span class='drastic'>It is a mine.</span>\r\n\r\n";
 
                     await sleep(1000);
 
@@ -2740,8 +2745,16 @@ async function merchant_routine() {
                 game_text.innerHTML += "<span class='info'>\r\nYou bought the item.</span>\r\n\r\n";
                 // add to inventory
                 if (item != "lesser healing potion" && item != "healing potion") {
-                    inventory.push(item);
-                    display_stats();
+                    // Check if item is already in inventory
+                    if (inventory.includes(item)) {
+                        game_text.innerHTML += `${item} is already in your inventory. What a waste!\r\n`
+                        continue;
+                    }
+                    else 
+                    {
+                        inventory.push(item);
+                        display_stats();
+                    }
                 }
                 //heal
                 else {
@@ -3598,6 +3611,8 @@ async function manage_xp(amount) {
         xp = Math.abs(max_xp-xp);
         hp = max_hp;
 
+        // Increase Inventory Item Cap
+        inventory_cap += 1;
     }
     display_stats();
 }
