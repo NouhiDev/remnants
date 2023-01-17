@@ -2668,7 +2668,7 @@ async function combat_routine(enemy, enemy_hp, failed_to_flee, enemy_combined) {
                         let miss_or_evade_chance = Math.random();
                         // Miss the hit with 50%
                         if (miss_or_evade_chance < 0.5) {
-                            game_text.innerHTML += `<span class="drastic">You miss and deal no damage</span>.\r\n\r\n`;
+                            game_text.innerHTML += `<span class="drastic">You miss and deal no damage.</span>\r\n\r\n`;
                         }
                         // Enemy evades with 50%
                         else {
