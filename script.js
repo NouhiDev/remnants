@@ -30,7 +30,7 @@ var region_text = document.getElementById("region-text");
 // var event_text = document.getElementById("event-text");
 
 // Determines whether the "YES" / "NO" buttons can be pressed
-var allow_input = false;
+6var allow_input = false;
 // Determines whether the green "PROCEED" button can be pressed
 var allow_continue = true;
 // Stores either "y" or "n"
@@ -2952,7 +2952,7 @@ function item_determiner(item, determiner) {
         case "damaged sword":
             return w_weak;
         case "dagger":
-            return w_common;
+            return w_weak;
         case "axe":
             return w_common;
         case "sword":
