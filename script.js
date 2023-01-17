@@ -30,7 +30,7 @@ var region_text = document.getElementById("region-text");
 // var event_text = document.getElementById("event-text");
 
 // Determines whether the "YES" / "NO" buttons can be pressed
-6var allow_input = false;
+var allow_input = false;
 // Determines whether the green "PROCEED" button can be pressed
 var allow_continue = true;
 // Stores either "y" or "n"
