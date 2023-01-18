@@ -59,7 +59,7 @@ var inventory_txt = "[Inventory: ";
 // Inventory Item Cap
 // Determines how many items the player can hold
 // Increases with increasing level
-var inventory_cap = 10;
+var inventory_cap = 5;
 
 // Stats
 // MGL keeps running if this variable is set to true
@@ -100,6 +100,19 @@ var max_mana = 20;
 // Regenerates every step you take
 // Can be used with wands/staff
 var mana = 20;
+
+// Levelable Stats
+// When leveled up, Vitality increases the players maximal health --> max_hp += vitality*8;
+var vitality = 0;
+
+// When leveled up, Intelligence increases the players maximal mana --> max_mana += intelligence*10
+var intelligence = 0;
+
+// When leveled up, Luck increases the favourable chances of all events --> all chances += luck*0.02
+var luck = 0;
+
+// When leveled up, Strength increases the players inventory cap --> inventory_cap += Math.floor(strength*0.5)
+var strength = 0;
 
 var region = "Forest";
 
