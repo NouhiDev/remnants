@@ -2,7 +2,13 @@
 $(window).on("load", async function () {
   await sleep(1000);
   $(".loader").fadeOut(1000);
-  delay(1000).then(() => $(".content").fadeIn(1000));
+  if(/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+    delay(1000).then(() => $(".mobile-content").fadeIn(1000));
+  }else{
+    zoom();
+    delay(1000).then(() => $(".content").fadeIn(1000));
+  }
+  
 });
 
 // Adds delay
@@ -4440,8 +4446,6 @@ function zoom() {
   document.body.style.zoom = "80%";
   document.getElementById("stats-text").style.fontSize = "19px";
 }
-
-zoom();
 
 let audio_muted = true;
 function bgm() {

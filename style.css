@@ -137,7 +137,7 @@ ul.featured-list-nav li a {
   font-style: italic;
 }
 
-/* Loader */
+/* #region Loader */
 .content {
   margin: 0;
   position: absolute;
@@ -294,6 +294,8 @@ ul.featured-list-nav li a {
   }
 }
 
+/* #endregion */
+
 /* Forms */
 input {
   width: 100%;
@@ -322,11 +324,8 @@ input {
 
 .btn {
   max-width: 200px;
-  font-size: 16px;
-  background-color: rgb(142, 142, 142);
   font-family: "Oswald", sans-serif;
   text-transform: uppercase;
-  color: #121317;
   font-size: 20px;
   font-weight: bold;
   border-radius: 25px;
@@ -346,35 +345,9 @@ input {
   margin: 20px;
 }
 
-.btn-restart {
-  max-width: 200px;
-  font-size: 16px;
-  background-color: #ff7f7f;
-  font-family: "Oswald", sans-serif;
-  text-transform: uppercase;
-  color: #121317;
-  font-size: 20px;
-  font-weight: bold;
-  border-radius: 25px;
-  margin: 20px;
-}
-
 .btn:hover {
   background-color: rgb(142, 142, 142);
   cursor: pointer;
-}
-
-.btn {
-  max-width: 200px;
-  font-size: 16px;
-  background-color: rgb(142, 142, 142);
-  font-family: "Oswald", sans-serif;
-  text-transform: uppercase;
-  color: #121317;
-  font-size: 20px;
-  font-weight: bold;
-  border-radius: 25px;
-  margin: 20px;
 }
 
 .bgmbtn {
@@ -759,3 +732,32 @@ hr {
     background-color: var(--p-btn-color);
 }
 
+/* Mobile Screen */
+.mobile-content {
+  display: none;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.mobile-title {
+  font-family: "Oswald", sans-serif;
+  text-transform: uppercase;
+  padding: auto;
+  margin: 0px;
+  text-align: center;
+  color: rgb(255, 219, 146);
+  font-size: 40px;
+}
+
+.mobile-sub-title {
+  font-family: "Oswald", sans-serif;
+  text-transform: uppercase;
+  padding: auto;
+  margin: 0px;
+  text-align: center;
+  color: rgb(255, 255, 255);
+  font-size: 30px;
+}
