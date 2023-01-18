@@ -382,7 +382,7 @@ events_table = [];
 
 forest_events_table = ["chest", "enemy", "wishing well", "traveler", "shrine"];
 
-lockwood_village_events_table = ["chest", "enemy", "merchant", "traveler"]; 
+lockwood_village_events_table = ["chest", "enemy", "merchant", "traveler"];
 
 eastport_events_table = ["cargo", "enemy", "nest", "nothing"];
 
@@ -393,7 +393,7 @@ shore_events_table = [
   "traveler",
   "shrine",
   "object burried in the ground",
-]; 
+];
 
 rebellion_events_table = ["friendly traveler", "merchant", "pair of monks"];
 
@@ -403,7 +403,7 @@ wasteland_events_table = [
   "traveler",
   "small dungeon",
   "bandit",
-]; 
+];
 // #endregion
 
 // #region Loot Tables
@@ -1177,9 +1177,9 @@ async function check_region_switch(distance) {
     // STORY SCREEN
     awaiting_response = true;
     game_text.innerHTML =
-    `INSERT ACT STORY.\r\n` +
-    "\r\nINSERT ACT ACTION.\r\n" +
-    "\r\n<span class='choice'>Continue?</span>\r\n\r\n";
+      `INSERT ACT STORY.\r\n` +
+      "\r\nINSERT ACT ACTION.\r\n" +
+      "\r\n<span class='choice'>Continue?</span>\r\n\r\n";
     // Wait for user input
     manage_input(true);
 
@@ -1317,7 +1317,7 @@ async function check_region_switch(distance) {
       return;
     }
   }
-  
+
   await sleep(2000);
   forwards();
 }
@@ -3842,10 +3842,10 @@ async function combat_routine(
         await sleep(2000);
 
         game_text.innerHTML =
-        "<span class='combat'>COMBAT</span>\r\n" +
-        `[ <span class='enemy'>You vs ${capitalizeFirstLetter(
-          enemy_combined
-        )} (${enemy_hp}/${enemy_max_hp} hp)</span> ]\r\n\r\n`;
+          "<span class='combat'>COMBAT</span>\r\n" +
+          `[ <span class='enemy'>You vs ${capitalizeFirstLetter(
+            enemy_combined
+          )} (${enemy_hp}/${enemy_max_hp} hp)</span> ]\r\n\r\n`;
       }
       // Player has weapons
       else {
@@ -3980,7 +3980,7 @@ async function combat_routine(
       );
 
       // Scale Enemy DMG with Distance Traveled
-      dmg += Math.floor(steps/8);
+      dmg += Math.floor(steps / 8);
 
       await sleep(1000);
 
@@ -4261,15 +4261,15 @@ function manage_input(x) {
 }
 
 function changeBtnClrs(x) {
-  var r = document.querySelector(':root');
+  var r = document.querySelector(":root");
   if (x) {
     allow_input = true;
-    r.style.setProperty('--btn-color', 'rgb(255, 219, 146)');
-    r.style.setProperty('--btn-zoom', '1.1');
+    r.style.setProperty("--btn-color", "rgb(255, 219, 146)");
+    r.style.setProperty("--btn-zoom", "1.1");
   } else {
     allow_input = false;
-    r.style.setProperty('--btn-color', '#8E8E8E');
-    r.style.setProperty('--btn-zoom', '1');
+    r.style.setProperty("--btn-color", "#8E8E8E");
+    r.style.setProperty("--btn-zoom", "1");
   }
 }
 
@@ -4406,15 +4406,15 @@ function manage_allow_continue(x) {
 }
 
 function changeProceedBtnClrs(x) {
-  var r = document.querySelector(':root');
+  var r = document.querySelector(":root");
   if (x) {
     allow_input = true;
-    r.style.setProperty('--p-btn-color', '#6aff4d');
-    r.style.setProperty('--p-btn-zoom', '1.1');
+    r.style.setProperty("--p-btn-color", "#6aff4d");
+    r.style.setProperty("--p-btn-zoom", "1.1");
   } else {
     allow_input = false;
-    r.style.setProperty('--p-btn-color', '#8E8E8E');
-    r.style.setProperty('--p-btn-zoom', '1');
+    r.style.setProperty("--p-btn-color", "#8E8E8E");
+    r.style.setProperty("--p-btn-zoom", "1");
   }
 }
 
@@ -4481,7 +4481,7 @@ if (debug_stats) {
 
 // Timer Function
 function start_timer() {
-  if(timer_active) {
+  if (timer_active) {
     var timer = document.getElementById("timer").innerHTML;
     var arr = timer.split(":");
     var hour = arr[0];
@@ -4507,4 +4507,3 @@ function start_timer() {
   document.getElementById("timer").innerHTML = `${hour}:${min}:${sec}`;
   setTimeout(start_timer, 1000);
 }
-
