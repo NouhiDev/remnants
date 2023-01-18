@@ -3750,7 +3750,11 @@ async function combat_routine(
 
         await sleep(2000);
 
-        game_text.innerHTML = "";
+        game_text.innerHTML =
+        "<span class='combat'>COMBAT</span>\r\n" +
+        `[ <span class='enemy'>You vs ${capitalizeFirstLetter(
+          enemy_combined
+        )} (${enemy_hp}/${enemy_max_hp} hp)</span> ]\r\n\r\n`;
       }
       // Player has weapons
       else {
@@ -3883,6 +3887,9 @@ async function combat_routine(
         enemy_determiner(enemy, "dmg")[0],
         enemy_determiner(enemy, "dmg")[1]
       );
+
+      // Scale Enemy DMG with Distance Traveled
+      dmg += Math.floor(steps/8);
 
       await sleep(1000);
 
