@@ -33,6 +33,9 @@ var region_text = document.getElementById("region-text");
 // Deprecated
 // var event_text = document.getElementById("event-text");
 
+// Enables the timer on default
+var timer_active = true;
+
 // Determines whether the "YES" / "NO" buttons can be pressed
 var allow_input = false;
 // Determines whether the green "PROCEED" button can be pressed
@@ -4383,6 +4386,7 @@ async function manage_xp(amount) {
 
 // Main Game Loop (MGL)
 async function main_loop() {
+  if (steps == 0) start_timer();
   game_text.innerHTML = `<span class="region-title">${current_region.toUpperCase()}</span>\r\n\r\n`;
   // Check if player is alive
   if (!alive) {
@@ -4474,3 +4478,33 @@ if (debug_stats) {
   ];
   gold = 9999;
 }
+
+// Timer Function
+function start_timer() {
+  if(timer_active) {
+    var timer = document.getElementById("timer").innerHTML;
+    var arr = timer.split(":");
+    var hour = arr[0];
+    var min = arr[1];
+    var sec = arr[2];
+
+    if (sec == 59) {
+      if (min == 59) {
+        hour++;
+        min = 0;
+        if (hour < 10) hour = "0" + hour;
+      } else {
+        min++;
+      }
+      if (min < 10) min = "0" + min;
+      sec = 0;
+    } else {
+      sec++;
+      if (sec < 10) sec = "0" + sec;
+    }
+  }
+
+  document.getElementById("timer").innerHTML = `${hour}:${min}:${sec}`;
+  setTimeout(start_timer, 1000);
+}
+
