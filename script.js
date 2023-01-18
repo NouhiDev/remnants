@@ -4511,3 +4511,7 @@ function start_timer() {
   document.getElementById("timer").innerHTML = `${hour}:${min}:${sec}`;
   setTimeout(start_timer, 1000);
 }
+
+function back_btn() {
+  location.href = "https://nouhi.dev/";
+}

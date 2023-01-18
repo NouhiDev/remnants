@@ -761,3 +761,39 @@ hr {
   color: rgb(255, 255, 255);
   font-size: 30px;
 }
+
+.btn-container {
+  text-align: center;
+}
+
+.back-btn {
+  border-radius: 5px;
+  font-size: 15pt;
+  padding: 20px;
+  color: var(--primary-color);
+  background-color: var(--main-bg-color);
+  border-image: none;
+  border-top-style: solid;
+  border-right-style: solid;
+  border-top-color: var(--primary-color);
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-top-width: 0.020833333in;
+  border-right-width: 0.020833333in;
+  border-bottom-width: 0.020833333in;
+  border-left-width: 0.020833333in;
+  height: 0in;
+  line-height: 0;
+  max-width: 200px;
+  border-right-color: var(--primary-color);
+  transition: transform 0.2s;
+  text-align: center;
+  border-bottom-color: var(--primary-color);
+  border-left-color: var(--primary-color);
+}
+
+.back-btn:hover {
+    transform: scale(var(--btn-zoom));
+    color: var(--main-bg-color);
+    background-color: var(--primary-color);
+}
