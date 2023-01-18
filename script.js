@@ -1166,7 +1166,7 @@ async function check_region_switch(distance) {
   // Lost Temple
   if (distance == 70) {
     current_region = regions[6];
-    region_text.innerHTML = `<span class="red">[Act 8]</span> After reaching the <span class="purplebrown">port</span>, you finally find a <span class="brown">ship</span> that seems seaworthy. However, as you set out to sea, you quickly realize that the <span class="blue">ocean</span> is just as dangerous as the land.\r\n`;
+    region_text.innerHTML = `<span class="red">[Act 8]</span> INSERT ACT DESCRIPTION.\r\n`;
     region = regions[6];
     places_table = ocean_places_table;
     events_table = ocean_events_table;
@@ -1174,10 +1174,9 @@ async function check_region_switch(distance) {
     // STORY SCREEN
     awaiting_response = true;
     game_text.innerHTML =
-      `<span class="light-blue">ACT 8: LOST TEMPLE</span>\r\n\r\n` +
-      `After arriving at the port, you successfully find a ship that appears to be in good condition. However, as soon as you set sail, it becomes clear that the ocean is equally perilous as the land. The waters are filled with mutated creatures, and the storms are more violent than ever before.\r\n` +
-      "\r\nYou set out to sea.\r\n" +
-      "\r\n<span class='choice'>Continue?</span>\r\n";
+    `INSERT ACT STORY.\r\n` +
+    "\r\nINSERT ACT ACTION.\r\n" +
+    "\r\n<span class='choice'>Continue?</span>\r\n\r\n";
     // Wait for user input
     manage_input(true);
 
@@ -1204,7 +1203,7 @@ async function check_region_switch(distance) {
   // Swamp
   if (distance == 80) {
     current_region = regions[7];
-    region_text.innerHTML = `<span class="red">[Act 9]</span> After reaching the <span class="purplebrown">port</span>, you finally find a <span class="brown">ship</span> that seems seaworthy. However, as you set out to sea, you quickly realize that the <span class="blue">ocean</span> is just as dangerous as the land.\r\n`;
+    region_text.innerHTML = `<span class="red">[Act 9]</span> INSERT ACT DESCRIPTION.\r\n`;
     region = regions[7];
     places_table = ocean_places_table;
     events_table = ocean_events_table;
@@ -1213,9 +1212,9 @@ async function check_region_switch(distance) {
     awaiting_response = true;
     game_text.innerHTML =
       `<span class="light-blue">ACT 9: SWAMP</span>\r\n\r\n` +
-      `After arriving at the port, you successfully find a ship that appears to be in good condition. However, as soon as you set sail, it becomes clear that the ocean is equally perilous as the land. The waters are filled with mutated creatures, and the storms are more violent than ever before.\r\n` +
-      "\r\nYou set out to sea.\r\n" +
-      "\r\n<span class='choice'>Continue?</span>\r\n";
+      `INSERT ACT STORY.\r\n` +
+      "\r\nINSERT ACT ACTION.\r\n" +
+      "\r\n<span class='choice'>Continue?</span>\r\n\r\n";
     // Wait for user input
     manage_input(true);
 
@@ -1239,7 +1238,83 @@ async function check_region_switch(distance) {
       return;
     }
   }
+  // Mountains
+  if (distance == 90) {
+    current_region = regions[8];
+    region_text.innerHTML = `<span class="red">[Act 10]</span> INSERT ACT DESCRIPTION.\r\n`;
+    region = regions[8];
+    places_table = ocean_places_table;
+    events_table = ocean_events_table;
+    enemies = ocean_enemies;
+    // STORY SCREEN
+    awaiting_response = true;
+    game_text.innerHTML =
+      `<span class="light-blue">ACT 10: MOUNTAINS</span>\r\n\r\n` +
+      `INSERT ACT STORY.\r\n` +
+      "\r\nINSERT ACT ACTION.\r\n" +
+      "\r\n<span class='choice'>Continue?</span>\r\n\r\n";
+    // Wait for user input
+    manage_input(true);
 
+    while (awaiting_response) {
+      await sleep(1);
+    }
+
+    manage_input(false);
+
+    if (player_input == "y") {
+      game_text.innerHTML += "You continue.\r\n";
+      manage_allow_continue(true);
+      return;
+    } else if (player_input == "n") {
+      game_text.innerHTML += "You can't change fate.\r\n";
+      manage_allow_continue(true);
+      return;
+    } else {
+      game_text.innerHTML += "You can't change fate.\r\n";
+      manage_allow_continue(true);
+      return;
+    }
+  }
+  // Icy Peak
+  if (distance == 100) {
+    current_region = regions[9];
+    region_text.innerHTML = `<span class="red">[Act 11]</span> INSERT ACT DESCRIPTION.\r\n`;
+    region = regions[9];
+    places_table = ocean_places_table;
+    events_table = ocean_events_table;
+    enemies = ocean_enemies;
+    // STORY SCREEN
+    awaiting_response = true;
+    game_text.innerHTML =
+      `<span class="light-blue">ACT 11: ICY PEAK</span>\r\n\r\n` +
+      `INSERT ACT STORY.\r\n` +
+      "\r\nINSERT ACT ACTION.\r\n" +
+      "\r\n<span class='choice'>Continue?</span>\r\n\r\n";
+    // Wait for user input
+    manage_input(true);
+
+    while (awaiting_response) {
+      await sleep(1);
+    }
+
+    manage_input(false);
+
+    if (player_input == "y") {
+      game_text.innerHTML += "You continue.\r\n";
+      manage_allow_continue(true);
+      return;
+    } else if (player_input == "n") {
+      game_text.innerHTML += "You can't change fate.\r\n";
+      manage_allow_continue(true);
+      return;
+    } else {
+      game_text.innerHTML += "You can't change fate.\r\n";
+      manage_allow_continue(true);
+      return;
+    }
+  }
+  
   await sleep(2000);
   forwards();
 }
