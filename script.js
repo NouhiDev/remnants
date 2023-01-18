@@ -2,13 +2,16 @@
 $(window).on("load", async function () {
   await sleep(1000);
   $(".loader").fadeOut(1000);
-  if(/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+  if (
+    /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    )
+  ) {
     delay(1000).then(() => $(".mobile-content").fadeIn(1000));
-  }else{
+  } else {
     zoom();
     delay(1000).then(() => $(".content").fadeIn(1000));
   }
-  
 });
 
 // Adds delay
@@ -16,6 +19,17 @@ function delay(time) {
   return new Promise((resolve) => setTimeout(resolve, time));
 }
 // #endregion
+
+//██████╗░███████╗███╗░░░███╗███╗░░██╗░█████╗░███╗░░██╗████████╗░██████╗
+//██╔══██╗██╔════╝████╗░████║████╗░██║██╔══██╗████╗░██║╚══██╔══╝██╔════╝
+//██████╔╝█████╗░░██╔████╔██║██╔██╗██║███████║██╔██╗██║░░░██║░░░╚█████╗░
+//██╔══██╗██╔══╝░░██║╚██╔╝██║██║╚████║██╔══██║██║╚████║░░░██║░░░░╚═══██╗
+//██║░░██║███████╗██║░╚═╝░██║██║░╚███║██║░░██║██║░╚███║░░░██║░░░██████╔╝
+//╚═╝░░╚═╝╚══════╝╚═╝░░░░░╚═╝╚═╝░░╚══╝╚═╝░░╚═╝╚═╝░░╚══╝░░░╚═╝░░░╚═════╝░
+
+//▀▀█▀▀ ▒█▀▀▀ ▀▄▒▄▀ ▀▀█▀▀ 　 ▒█▀▀█ ░█▀▀█ ▒█▀▀▀█ ▒█▀▀▀ ▒█▀▀▄ 　 ▒█▀▀█ ▒█▀▀█ ▒█▀▀█ 
+//░▒█░░ ▒█▀▀▀ ░▒█░░ ░▒█░░ 　 ▒█▀▀▄ ▒█▄▄█ ░▀▀▀▄▄ ▒█▀▀▀ ▒█░▒█ 　 ▒█▄▄▀ ▒█▄▄█ ▒█░▄▄ 
+//░▒█░░ ▒█▄▄▄ ▄▀▒▀▄ ░▒█░░ 　 ▒█▄▄█ ▒█░▒█ ▒█▄▄▄█ ▒█▄▄▄ ▒█▄▄▀ 　 ▒█░▒█ ▒█░░░ ▒█▄▄█
 
 // REMNANTS - A text-based RPG by nouhidev
 // ---------------------------------------
@@ -67,7 +81,7 @@ var inventory_txt = "[Inventory: ";
 
 // Inventory Item Cap
 // Determines how many items the player can hold
-// Increases with increasing level
+// Increases with increasing strength level
 var inventory_cap = 5;
 
 // Stats
@@ -75,7 +89,7 @@ var inventory_cap = 5;
 var alive = true;
 
 // Maximal HP
-// Increases as game progresses through leveling up or wishing wells / prayers
+// Increases as game progresses through leveling up vitality or wishing wells / prayers
 var max_hp = 100;
 
 // Current HP
@@ -103,7 +117,7 @@ var xp = 0;
 var lvl = 0;
 
 // Maximal Mana
-// Increases as game progresses through leveling up or encounters with wizards
+// Increases as game progresses through leveling up intelligence or encounters with wizards
 var max_mana = 20;
 // Current Mana
 // Regenerates every step you take
@@ -144,6 +158,12 @@ var w_mythical = [0, 0];
 var w_legendary = [0, 0];
 
 // #region Regions
+//██████╗░███████╗░██████╗░██╗░█████╗░███╗░░██╗░██████╗
+//██╔══██╗██╔════╝██╔════╝░██║██╔══██╗████╗░██║██╔════╝
+//██████╔╝█████╗░░██║░░██╗░██║██║░░██║██╔██╗██║╚█████╗░
+//██╔══██╗██╔══╝░░██║░░╚██╗██║██║░░██║██║╚████║░╚═══██╗
+//██║░░██║███████╗╚██████╔╝██║╚█████╔╝██║░╚███║██████╔╝
+//╚═╝░░╚═╝╚══════╝░╚═════╝░╚═╝░╚════╝░╚═╝░░╚══╝╚═════╝░
 // CHAPTER 1: The Beginning
 // ACT 1: FOREST: -
 // ACT 2: LOCKWOOD VILLAGE: -
@@ -241,6 +261,16 @@ current_region = "";
 // #endregion
 
 // #region Places
+//██████╗░██╗░░░░░░█████╗░░█████╗░███████╗░██████╗
+//██╔══██╗██║░░░░░██╔══██╗██╔══██╗██╔════╝██╔════╝
+//██████╔╝██║░░░░░███████║██║░░╚═╝█████╗░░╚█████╗░
+//██╔═══╝░██║░░░░░██╔══██║██║░░██╗██╔══╝░░░╚═══██╗
+//██║░░░░░███████╗██║░░██║╚█████╔╝███████╗██████╔╝
+//╚═╝░░░░░╚══════╝╚═╝░░╚═╝░╚════╝░╚══════╝╚═════╝░
+// This section contains arrays filled with locations or landscape descriptions used for every region in the game.
+// All the following entries are to be formulated in singular form as the article determination only works with
+// singular form.
+
 places_table = [];
 
 forest_places_table = [
@@ -384,6 +414,17 @@ wasteland_places_table = [
 // #endregion
 
 // #region Events
+//███████╗██╗░░░██╗███████╗███╗░░██╗████████╗░██████╗
+//██╔════╝██║░░░██║██╔════╝████╗░██║╚══██╔══╝██╔════╝
+//█████╗░░╚██╗░██╔╝█████╗░░██╔██╗██║░░░██║░░░╚█████╗░
+//██╔══╝░░░╚████╔╝░██╔══╝░░██║╚████║░░░██║░░░░╚═══██╗
+//███████╗░░╚██╔╝░░███████╗██║░╚███║░░░██║░░░██████╔╝
+//╚══════╝░░░╚═╝░░░╚══════╝╚═╝░░╚══╝░░░╚═╝░░░╚═════╝░
+// This section contains arrays filled with events / encounters used for every region in the game.
+// These events randomly occur every step following Laplace's principle (each event has the same chance of occurring).
+// All the following entries are to be formulated in singular form as the article determination only works with
+// singular form.
+
 events_table = [];
 
 forest_events_table = ["chest", "enemy", "wishing well", "traveler", "shrine"];
@@ -413,6 +454,17 @@ wasteland_events_table = [
 // #endregion
 
 // #region Loot Tables
+//██╗░░░░░░█████╗░░█████╗░████████╗  ████████╗░█████╗░██████╗░██╗░░░░░███████╗░██████╗
+//██║░░░░░██╔══██╗██╔══██╗╚══██╔══╝  ╚══██╔══╝██╔══██╗██╔══██╗██║░░░░░██╔════╝██╔════╝
+//██║░░░░░██║░░██║██║░░██║░░░██║░░░  ░░░██║░░░███████║██████╦╝██║░░░░░█████╗░░╚█████╗░
+//██║░░░░░██║░░██║██║░░██║░░░██║░░░  ░░░██║░░░██╔══██║██╔══██╗██║░░░░░██╔══╝░░░╚═══██╗
+//███████╗╚█████╔╝╚█████╔╝░░░██║░░░  ░░░██║░░░██║░░██║██████╦╝███████╗███████╗██████╔╝
+//╚══════╝░╚════╝░░╚════╝░░░░╚═╝░░░  ░░░╚═╝░░░╚═╝░░╚═╝╚═════╝░╚══════╝╚══════╝╚═════╝░
+// This section contains arrays filled with loottables used for every container and npcs interaction.
+// These items all follow Laplace's principle (each item has the same chance of being selected).
+// All the following entries are to be formulated in singular form as the article determination only works with
+// singular form.
+
 chest_loot_table = [
   "dagger",
   "axe",
@@ -598,6 +650,17 @@ small_boss_loot_table = [
 // #endregion
 
 // #region Enemies
+//███████╗███╗░░██╗███████╗███╗░░░███╗██╗███████╗░██████╗
+//██╔════╝████╗░██║██╔════╝████╗░████║██║██╔════╝██╔════╝
+//█████╗░░██╔██╗██║█████╗░░██╔████╔██║██║█████╗░░╚█████╗░
+//██╔══╝░░██║╚████║██╔══╝░░██║╚██╔╝██║██║██╔══╝░░░╚═══██╗
+//███████╗██║░╚███║███████╗██║░╚═╝░██║██║███████╗██████╔╝
+//╚══════╝╚═╝░░╚══╝╚══════╝╚═╝░░░░░╚═╝╚═╝╚══════╝╚═════╝░
+// This section contains arrays filled with enemies and enemy descriptors used for every enemy encounter.
+// These enemies all follow Laplace's principle (each enemy has the same chance of occurring).
+// All the following entries are to be formulated in singular form as the article determination only works with
+// singular form.
+
 enemies = [];
 
 enemy_desciptors = [
@@ -725,6 +788,21 @@ small_dungeon_bosses = [
 // #endregion
 
 // #region Forward Variations
+// ███████╗░█████╗░██████╗░░██╗░░░░░░░██╗░█████╗░██████╗░██████╗░
+//██╔════╝██╔══██╗██╔══██╗░██║░░██╗░░██║██╔══██╗██╔══██╗██╔══██╗
+//█████╗░░██║░░██║██████╔╝░╚██╗████╗██╔╝███████║██████╔╝██║░░██║
+//██╔══╝░░██║░░██║██╔══██╗░░████╔═████║░██╔══██║██╔══██╗██║░░██║
+//██║░░░░░╚█████╔╝██║░░██║░░╚██╔╝░╚██╔╝░██║░░██║██║░░██║██████╔╝
+//╚═╝░░░░░░╚════╝░╚═╝░░╚═╝░░░╚═╝░░░╚═╝░░╚═╝░░╚═╝╚═╝░░╚═╝╚═════╝░
+//██╗░░░██╗░█████╗░██████╗░██╗░█████╗░████████╗██╗░█████╗░███╗░░██╗░██████╗
+//██║░░░██║██╔══██╗██╔══██╗██║██╔══██╗╚══██╔══╝██║██╔══██╗████╗░██║██╔════╝
+//╚██╗░██╔╝███████║██████╔╝██║███████║░░░██║░░░██║██║░░██║██╔██╗██║╚█████╗░
+//░╚████╔╝░██╔══██║██╔══██╗██║██╔══██║░░░██║░░░██║██║░░██║██║╚████║░╚═══██╗
+//░░╚██╔╝░░██║░░██║██║░░██║██║██║░░██║░░░██║░░░██║╚█████╔╝██║░╚███║██████╔╝
+//░░░╚═╝░░░╚═╝░░╚═╝╚═╝░░╚═╝╚═╝╚═╝░░╚═╝░░░╚═╝░░░╚═╝░╚════╝░╚═╝░░╚══╝╚═════╝░
+// This section contains arrays filled with variations of saying "You walk forward" and "You come across" and is
+// used with every step in location determination and event anouncement.
+// These phrases all follow Laplace's principle (each phrase has the same chance of being selected).
 
 forwards_var = [
   "You delve deeper.",
@@ -732,7 +810,7 @@ forwards_var = [
   "You proceed ahead.",
   "You advance.",
   "You tread ahead.",
-  " You venture further.",
+  "You venture further.",
 ];
 
 across_var = [
@@ -744,6 +822,14 @@ across_var = [
 // #endregion
 
 // #region NPCs
+//███╗░░██╗██████╗░░█████╗░
+//████╗░██║██╔══██╗██╔══██╗
+//██╔██╗██║██████╔╝██║░░╚═╝
+//██║╚████║██╔═══╝░██║░░██╗
+//██║░╚███║██║░░░░░╚█████╔╝
+//╚═╝░░╚══╝╚═╝░░░░░░╚════╝░
+// This section contains arrays filled with npc origins and names for nps such as merchants used for every npc encounter.
+// These names all follow Laplace's principle (each name has the same chance of being selected).
 
 // Origins
 origins = [
@@ -4438,15 +4524,13 @@ window.setInterval(function () {
   elem.scrollTop = elem.scrollHeight;
 }, 10);
 
-function restart() {
-  window.location.reload();
-}
-
+// Zooms out 20% on initialization
 function zoom() {
   document.body.style.zoom = "80%";
   document.getElementById("stats-text").style.fontSize = "19px";
 }
 
+// Manages Background Music
 let audio_muted = true;
 function bgm() {
   let audio_element = document.getElementById("bg_loop");
@@ -4464,6 +4548,7 @@ function bgm() {
   }
 }
 
+// Debug Mode
 if (debug_stats) {
   max_hp = 999;
   hp = 999;
@@ -4512,6 +4597,7 @@ function start_timer() {
   setTimeout(start_timer, 1000);
 }
 
+// Back Button
 function back_btn() {
   location.href = "https://nouhi.dev/";
 }
