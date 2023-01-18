@@ -4,6 +4,12 @@
   margin: auto;
   background-color: #121317;
   overflow: hidden;
+  /* Btn Variables */
+  --btn-color: #8E8E8E;
+  --btn-zoom: 1;
+  /* Proceed Btn Variables */
+  --p-btn-color: #6aff4d;
+  --p-btn-zoom: 1.1;
 }
 
 .title {
@@ -685,3 +691,71 @@ hr {
   color: rgb(177, 197, 225);
   font-size: 25px;
 }
+
+/* Button */
+
+.btn {
+  border-radius: 5px;
+  font-size: 15pt;
+  padding: 20px;
+  color: var(--btn-color);
+  background-color: var(--main-bg-color);
+  border-image: none;
+  border-top-style: solid;
+  border-right-style: solid;
+  border-top-color: var(--btn-color);
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-top-width: 0.020833333in;
+  border-right-width: 0.020833333in;
+  border-bottom-width: 0.020833333in;
+  border-left-width: 0.020833333in;
+  height: 0in;
+  line-height: 0;
+  max-width: 200px;
+  border-right-color: var(--btn-color);
+  transition: transform 0.2s;
+  text-align: center;
+  border-bottom-color: var(--btn-color);
+  border-left-color: var(--btn-color);
+}
+
+.btn:hover {
+    transform: scale(var(--btn-zoom));
+    color: var(--main-bg-color);
+    background-color: var(--btn-color);
+}
+
+
+.btn-continue {
+  border-radius: 5px;
+  font-size: 15pt;
+  padding: 20px;
+  color: var(--p-btn-color);
+  background-color: var(--main-bg-color);
+  border-image: none;
+  border-top-style: solid;
+  border-right-style: solid;
+  border-top-color: var(--p-btn-color);
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-top-width: 0.020833333in;
+  border-right-width: 0.020833333in;
+  border-bottom-width: 0.020833333in;
+  border-left-width: 0.020833333in;
+  height: 0in;
+  line-height: 0;
+  max-width: 200px;
+  border-right-color: var(--p-btn-color);
+  transition: transform 0.2s;
+  text-align: center;
+  border-bottom-color: var(--p-btn-color);
+  border-left-color: var(--p-btn-color);
+}
+
+.btn-continue:hover {
+    transform: scale(var(--p-btn-zoom));
+    color: var(--main-bg-color);
+    background-color: var(--p-btn-color);
+}
+

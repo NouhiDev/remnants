@@ -4158,14 +4158,20 @@ function det_gold(entity) {
 
 // Manage Input
 function manage_input(x) {
+  changeBtnClrs(x);
+  allow_input = x;
+}
+
+function changeBtnClrs(x) {
+  var r = document.querySelector(':root');
   if (x) {
     allow_input = true;
-    document.getElementById("yesbtn").style.backgroundColor = "#CFBFA0";
-    document.getElementById("nobtn").style.backgroundColor = "#CFBFA0";
+    r.style.setProperty('--btn-color', 'rgb(255, 219, 146)');
+    r.style.setProperty('--btn-zoom', '1.1');
   } else {
     allow_input = false;
-    document.getElementById("yesbtn").style.backgroundColor = "#8E8E8E";
-    document.getElementById("nobtn").style.backgroundColor = "#8E8E8E";
+    r.style.setProperty('--btn-color', '#8E8E8E');
+    r.style.setProperty('--btn-zoom', '1');
   }
 }
 
@@ -4296,12 +4302,20 @@ async function main_loop() {
 
 // Allow to continue to new day
 function manage_allow_continue(x) {
+  changeProceedBtnClrs(x);
+  allow_continue = true;
+}
+
+function changeProceedBtnClrs(x) {
+  var r = document.querySelector(':root');
   if (x) {
-    allow_continue = true;
-    document.getElementById("cbtn").style.backgroundColor = "#aaffa6";
+    allow_input = true;
+    r.style.setProperty('--p-btn-color', '#6aff4d');
+    r.style.setProperty('--p-btn-zoom', '1.1');
   } else {
-    allow_continue = false;
-    document.getElementById("cbtn").style.backgroundColor = "#8E8E8E";
+    allow_input = false;
+    r.style.setProperty('--p-btn-color', '#8E8E8E');
+    r.style.setProperty('--p-btn-zoom', '1');
   }
 }
 
