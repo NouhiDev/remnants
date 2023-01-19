@@ -18,7 +18,7 @@
   padding: auto;
   margin: 0px;
   text-align: center;
-  color: rgb(255, 219, 146);
+  color: #e3a675;
   font-size: 50px;
 }
 
@@ -685,6 +685,7 @@ hr {
   border-left-width: 0.020833333in;
   height: 0in;
   line-height: 0;
+  width: 100%;
   max-width: 200px;
   border-right-color: var(--btn-color);
   transition: transform 0.2s;
@@ -718,6 +719,7 @@ hr {
   border-left-width: 0.020833333in;
   height: 0in;
   line-height: 0;
+  width: 100%;
   max-width: 200px;
   border-right-color: var(--p-btn-color);
   transition: transform 0.2s;

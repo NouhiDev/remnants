@@ -45,7 +45,10 @@
     <div class="content">
 
       <!-- REMNANTS Logo -->
-      <img src="./android-chrome-512x512.png">
+      <!--img src="./android-chrome-512x512.png"-->
+      <!--img src="./remnants_logo_var1.png"-->
+      <img src="./remnants_logo_var2.png">
+      <!--img src="./remnants_logo_var3.png"-->
 
       <!-- REMNANTS Title -->
       <h1 class="title">REMNANTS</h1>
@@ -90,9 +93,9 @@
         <!-- REMNANTS Buttons "Yes" "No" "Proceed" "BGM" -->
         <div class="forms">
           <form onsubmit="return false">
-              <input class="btn" id="yesbtn" type="submit" onclick="yes_btn()" value="Yes">
-              <input class="btn" id="nobtn" type="submit" onclick="no_btn()" value="No">
-              <input class="btn-continue" id="cbtn" type="submit" onclick="new_day()" value="PROCEED">
+            <button class="btn" id="yesbtn" onclick="yes_btn()">YES</button>
+            <button class="btn" id="nobtn" onclick="no_btn()">NO</button>
+            <button class="btn-continue" id="cbtn" onclick="new_day()">PROCEED</button>
               <input class="bgmbtn" id="bgmbtn" type="submit" onclick="bgm()" value=" ">
           </form>
         </div>
