@@ -692,6 +692,7 @@ hr {
   text-align: center;
   border-bottom-color: var(--btn-color);
   border-left-color: var(--btn-color);
+  font-weight: bold;
 }
 
 .btn:hover {
