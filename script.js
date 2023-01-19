@@ -406,6 +406,20 @@ wasteland_places_table = [
   "marshy area",
 ];
 
+lost_temple_places_table = [
+  "grand hall filled with statues and carvings of ancient deities",
+  "room dedicated to ancient rituals",
+  "room with ancient altar",
+  "dimly-lit chamber, with carvings covering the walls depicting scenes of ancient battles and sacrifices",
+  "grand hall, with pillars reaching high into the ceiling",
+  "damp and musty room, with crumbling stone walls and a sense of decay",
+  "chamber with an eerie, otherworldly glow, possibly from some sort of magical source",
+  "room with a high ceiling, filled with a thick mist that obscures the floor",
+  "chamber filled with the sound of running water, possibly from a hidden fountain",
+  "chamber with a high vaulted ceiling",
+  "room with a sense of ancient grandeur, with tall marble columns and ornate statues",
+];
+
 // #endregion
 
 // #region Events
@@ -446,6 +460,16 @@ wasteland_events_table = [
   "small dungeon",
   "bandit",
 ];
+
+lost_temple_events_table = [
+  "enemy",
+  "stone chest",
+  "bandit",
+  "golden statue",
+  "lost scripture",
+  "ancient device"
+]
+
 // #endregion
 
 // #region Loot Tables
@@ -642,6 +666,7 @@ small_boss_loot_table = [
   "club",
   "wooden staff",
 ];
+
 // #endregion
 
 // #region Enemies
@@ -773,6 +798,24 @@ wasteland_enemies = [
   "megacentipede",
 ];
 
+lost_temple_enemies = [
+  "skeleton",
+  "skeletal warrior",
+  "mummy",
+  "golem",
+  "cultist",
+  "spider",
+  "megaspider",
+  "homunculus",
+  "necromancer",
+  "lizard",
+  "kobold",
+  "lich",
+  "wraith",
+]
+
+// Bosses
+
 small_dungeon_bosses = [
   "Blood Starved Beast",
   "Darkbeast",
@@ -780,6 +823,7 @@ small_dungeon_bosses = [
   "Tower Knight",
   "Darkbeast of the Abyss",
 ];
+
 // #endregion
 
 // #region Forward Variations
@@ -1256,16 +1300,17 @@ async function check_region_switch(distance) {
   // Lost Temple
   if (distance == 70) {
     current_region = regions[6];
-    region_text.innerHTML = `<span class="red">[Act 8]</span> INSERT ACT DESCRIPTION.\r\n`;
+    region_text.innerHTML = `<span class="red">[Act 8]</span> You stumble upon a lost temple in the wasteland, the entrance beckons with a stairway leading underground. Uncover its secrets.\r\n`;
     region = regions[6];
-    places_table = ocean_places_table;
-    events_table = ocean_events_table;
-    enemies = ocean_enemies;
+    places_table = lost_temple_places_table;
+    events_table = lost_temple_events_table;
+    enemies = lost_temple_enemies;
     // STORY SCREEN
     awaiting_response = true;
     game_text.innerHTML =
-      `INSERT ACT STORY.\r\n` +
-      "\r\nINSERT ACT ACTION.\r\n" +
+      `<span class="light-blue">ACT 8: LOST TEMPLE</span>\r\n\r\n` +
+      `After wandering through the scorched wasteland, you come across a crumbling structure in the distance. As you approach, you realize it's a lost temple, ancient and forgotten, a stairway leading down inside. Beckoning you to enter and uncover its secrets.\r\n` +
+      "\r\nEnter the temple?.\r\n" +
       "\r\n<span class='choice'>Continue?</span>\r\n\r\n";
     // Wait for user input
     manage_input(true);
@@ -1580,6 +1625,26 @@ async function manage_sub_events(sub_event) {
   awaiting_response = true;
 
   switch (sub_event) {
+    // GOLDEN STATUE
+    case "golden statue":
+      game_text.innerHTML += `Not implemented yet.\r\n\r\n`;
+      manage_allow_continue(true)
+      break;
+    // ANCIENT DEVICE
+    case "ancient device":
+      game_text.innerHTML += `Not implemented yet.\r\n\r\n`;
+      manage_allow_continue(true)
+      break;
+    // LOST SCRIPTURE
+    case "lost scripture":
+      game_text.innerHTML += `Not implemented yet.\r\n\r\n`;
+      manage_allow_continue(true)
+      break;
+    // STONE CHEST
+    case "stone chest":
+      game_text.innerHTML += `Not implemented yet.\r\n\r\n`;
+      manage_allow_continue(true)
+      break;
     // SEAFARER
     case "seafarer":
       game_text.innerHTML += `<span class='choice'>Make contact with them?</span>\r\n\r\n`;
@@ -4263,7 +4328,26 @@ function enemy_determiner(enemy, determiner) {
       return weak;
     case "snake":
       return weak;
+    // REGION 7: LOST TEMPLE
+    case "skeleton":
+      return common;
+    case "skeletal warrior":
+      return above_avg;
+    case "mummy":
+      return weak;
+    case "cultist":
+      return above_avg;
+    case "homunculus":
+      return strong;
+    case "necromancer":
+      return strong;
+    case "kobold":
+      return weak;
+    case "lich":
+      return strong;
   }
+  
+  
 }
 
 // Item Determiner
