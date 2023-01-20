@@ -23,11 +23,6 @@
 // Enables the Debug Stats
 var debug_stats = false;
 
-// Stores the different text containers
-var game_text = document.getElementById("game-text");
-var stats_text = document.getElementById("stats-text");
-var region_text = document.getElementById("region-text");
-
 // Deprecated
 // var event_text = document.getElementById("event-text");
 
@@ -45,9 +40,6 @@ var in_small_dungeon_combat = false;
 
 // While this bool is set to true, the game is stuck in an infinite loop waiting for a response (y/n)
 var awaiting_response = true;
-
-// Vowels - used for article determination
-var vowels = ["a", "e", "i", "o", "u"];
 
 // Inventory
 // Holds all the weapons of the player
@@ -135,1309 +127,92 @@ var w_strong = [0, 0];
 var w_mythical = [0, 0];
 var w_legendary = [0, 0];
 
-// #region Regions
-//██████╗░███████╗░██████╗░██╗░█████╗░███╗░░██╗░██████╗
-//██╔══██╗██╔════╝██╔════╝░██║██╔══██╗████╗░██║██╔════╝
-//██████╔╝█████╗░░██║░░██╗░██║██║░░██║██╔██╗██║╚█████╗░
-//██╔══██╗██╔══╝░░██║░░╚██╗██║██║░░██║██║╚████║░╚═══██╗
-//██║░░██║███████╗╚██████╔╝██║╚█████╔╝██║░╚███║██████╔╝
-//╚═╝░░╚═╝╚══════╝░╚═════╝░╚═╝░╚════╝░╚═╝░░╚══╝╚═════╝░
-// This section contains an array filled with the regions / acts changing every 10 steps (1000m)
-// All the following entries are to be set in correct capitalization
+// ---- VARIABLES END ----
 
-// CHAPTER 1: The Beginning
-// ACT 1: FOREST: -
-// ACT 2: LOCKWOOD VILLAGE: -
-var regions = [
-  "Lockwood Village",
-
-  // ACT 3: EASTPORT: -
-  "Eastport",
-
-  // ACT 4: OCEAN: -
-  "Ocean",
-
-  // ACT 5: ROCKY SHORES: -
-  "Rocky Shores",
-
-  // ACT 6: REBELLION: Finally, you reach the rebellion's stronghold. The leader of the rebellion, an experienced knight,
-  // tells you that the sorcerer's power comes from an ancient artifact that he has acquired and using it to control people.
-  // The rebellion needs your help to find this artifact and destroy it.
-  "Rebellion",
-
-  // CHAPTER 2: After reaching the Rebellion
-  // ACT 7: WASTELAND: -
-  "Wasteland",
-
-  // ACT 8: LOST TEMPLE: -
-  "Lost Temple",
-
-  // ACT 9: SWAMP: -
-  "Swamp",
-
-  // ACT 10: MOUNTAINS: -
-  "Mountains",
-
-  // ACT 11: ICY PEAK: -
-  "Icy Peak",
-
-  // ACT 12: ???: -
-  "???",
-
-  // CHAPTER 3: Inside the Sorcerers Stronghold
-
-  // CATACOMBS: Network of underground tunnels and tombs beneath the sorcerer's stronghold.
-  // The catacombs are filled with traps and puzzles, as well as undead creatures
-  // that the sorcerer has raised to guard his treasures.
-  // ACT 13: CATACOMBS: -
-  "Catacombs",
-
-  // LABYRINTH: A massive, twisting maze located deep in the sorcerer's stronghold.
-  // The labyrinth is filled with all sorts of monsters and challenges, as well as a powerful boss at the center who guards the
-  // the entrance to the stronghold.
-  // ACT 14: LABYRINTH
-  "Labyrinth",
-
-  // MAIN HALL: Once you've made it inside, you find yourself in a grand hall. The walls are adorned with tapestries
-  // and the floors are made of marble. But don't let the opulence fool you - this is the heart of the sorcerer's power,
-  // and you can sense the dark magic that permeates the air. You'll need to find a way to navigate through this hall and
-  // reach the higher levels of the stronghold.
-  // ACT 15: MAIN HALL
-  "Main Hall",
-
-  // ILLUSIONARY GARDEN: A beautiful garden filled with illusory flowers and plants,
-  // which can become deadly traps or illusions of the sorcerer's enemies and allies.
-  // ACT 16: ILLUSIONARY GARDEN
-  "Illusionary Garden",
-
-  // LIBRARY: You find a stairway that leads up to the stronghold's library. Here you find rows upon rows of books,
-  // some ancient, some enchanted and some cursed. The librarian is an undead creature that the sorcerer has reanimated,
-  // who will attack anyone who tries to take or damage the books.
-  // ACT 17: LIBRARY
-  "Library",
-
-  // CLOCKTOWER: A tall and winding tower filled with gears and clockwork mechanisms.
-  // The clocktower is home to clockwork golems that the sorcerer has imbued with magic, and it's said that the sorcerer
-  // uses the clocktower to manipulate time itself.
-  // ACT 18: CLOCKTOWER
-  "Clocktower",
-
-  // TOWER OF TRIALS: A tall and imposing tower located in the stronghold, where the sorcerer tests his apprentices and visitors
-  // with deadly magical trials. The tower is filled with illusions, mind-bending puzzles, and deadly traps that only the most
-  // skilled and clever adventurers can overcome.
-  // ACT 19: TOWER OF TRIALS
-  "Tower of Trials",
-
-  // INNER SANCTUM: You've reached the heart of the stronghold, the inner sanctum where the sorcerer awaits.
-  // The room is grand and imposing, with the sorcerer's throne at the far end. You'll need to be prepared
-  // for a final battle with the sorcerer, as he unleashes all of his power to defeat you and protect his stronghold.
-  // ACT 20: INNER SANCTUM
-  "Inner Sanctum",
-
-  // ???
-  "Last Supper",
-];
-current_region = "";
-
-// #endregion
-
-// #region Places
-//██████╗░██╗░░░░░░█████╗░░█████╗░███████╗░██████╗
-//██╔══██╗██║░░░░░██╔══██╗██╔══██╗██╔════╝██╔════╝
-//██████╔╝██║░░░░░███████║██║░░╚═╝█████╗░░╚█████╗░
-//██╔═══╝░██║░░░░░██╔══██║██║░░██╗██╔══╝░░░╚═══██╗
-//██║░░░░░███████╗██║░░██║╚█████╔╝███████╗██████╔╝
-//╚═╝░░░░░╚══════╝╚═╝░░╚═╝░╚════╝░╚══════╝╚═════╝░
-// This section contains arrays filled with locations or landscape descriptions used for every region in the game.
-// All the following entries are to be formulated in singular form as the article determination only works with
-// singular form.
-
-places_table = [];
-
-forest_places_table = [
-  "lush grass patch",
-  "small hut",
-  "secluded camp",
-  "damp cave",
-  "stone arch",
-  "field of red mushrooms",
-  "grand tree",
-  "clearing with a small pond",
-  "dense thicket of thorns and brambles",
-  "tall tree with a hollow trunk",
-  "wooden cabin",
-  "lodge",
-  "waterfall",
-  "leafy grove",
-  "overgrown ruin",
-  "small secluded meadow",
-  "river",
-  "verdant grass patch",
-  "rustic hut",
-  "rugged camp",
-  "crystal-clear river",
-];
-
-lockwood_village_places_table = [
-  "abandoned house",
-  "abandoned church",
-  "abandoned chapel",
-  "abandoned town hall",
-  "abandoned tunnel",
-  "abandoned barn",
-  "abandoned stable",
-  "abandoned manor",
-  "abandoned barrack",
-  "park",
-  "garden",
-  "abandoned watchtower",
-  "abandoned cottage",
-  "abandoned mansion",
-  "abandoned stable",
-  "abandoned tavern",
-  "abandoned inn",
-  "abandoned bazaar",
-];
-
-eastport_places_table = [
-  "abandoned ship",
-  "broken ship",
-  "abandoned warehouse",
-  "abandoned dock",
-  "open container",
-  "beacon tower",
-  "quay",
-  "abandoned beacon tower",
-  "abandoned facility",
-  "abandoned crane",
-  "dredging",
-  "breakwater",
-  "abandoned control tower",
-  "abandoned tugboat",
-  "broken tugboat",
-];
-
-ocean_places_table = [
-  "small island",
-  "island",
-  "coral reef",
-  "abandoned lighthouse",
-  "ship graveyard",
-  "buoy",
-  "kelp forest",
-  "seaweed bed",
-  "current",
-  "mangrove forest",
-  "sea stack",
-  "sea arch",
-  "maelstrom",
-  "rock formation",
-  "tide pool",
-];
-
-shore_places_table = [
-  "rocky cliffside",
-  "cliffside",
-  "lighthouse",
-  "abandoned lighthouse",
-  "wharf",
-  "cove",
-  "secluded cave",
-  "ancient pier overrun by seaweed and barnacles",
-  "abandoned seaside tavern",
-  "tidal pool",
-  "rocky shoreline",
-  "beachside ruin of an old temple dedicated to a sea god",
-  "reef",
-  "hidden cove",
-  "freshwater spring",
-  "sandy dune",
-  "oasis",
-  "abandoned, hidden smuggler's den",
-  "secluded bay",
-  "ancient ruin",
-];
-
-rebellion_places_table = [
-  "sparsely crowded room",
-  "moderately crowded room",
-  "crowded room",
-  "overcrowded room",
-];
-
-wasteland_places_table = [
-  "wind-blasted plain",
-  "dried-up lakebed",
-  "burnt forest",
-  "rotting forest",
-  "canyon",
-  "large breached dam",
-  "vast salt flat area",
-  "ruined monastery",
-  "abandonend fortress",
-  "ruined castle",
-  "dried-up well",
-  "abandonend cathedral",
-  "ruined cathedral",
-  "abandonend mine",
-  "abbey",
-  "ruin",
-  "desolate plain",
-  "forest of dead trees",
-  "desert of ash",
-  "scorched field",
-  "rocky terrain",
-  "dune",
-  "tundra",
-  "marshy area",
-];
-
-lost_temple_places_table = [
-  "grand hall filled with statues and carvings of ancient deities",
-  "room dedicated to ancient rituals",
-  "room with ancient altar",
-  "dimly-lit chamber, with carvings covering the walls depicting scenes of ancient battles and sacrifices",
-  "grand hall, with pillars reaching high into the ceiling",
-  "damp and musty room, with crumbling stone walls and a sense of decay",
-  "chamber with an eerie, otherworldly glow, possibly from some sort of magical source",
-  "room with a high ceiling, filled with a thick mist that obscures the floor",
-  "chamber filled with the sound of running water, possibly from a hidden fountain",
-  "chamber with a high vaulted ceiling",
-  "room with a sense of ancient grandeur, with tall marble columns and ornate statues",
-];
-
-// #endregion
-
-// #region Events
-//███████╗██╗░░░██╗███████╗███╗░░██╗████████╗░██████╗
-//██╔════╝██║░░░██║██╔════╝████╗░██║╚══██╔══╝██╔════╝
-//█████╗░░╚██╗░██╔╝█████╗░░██╔██╗██║░░░██║░░░╚█████╗░
-//██╔══╝░░░╚████╔╝░██╔══╝░░██║╚████║░░░██║░░░░╚═══██╗
-//███████╗░░╚██╔╝░░███████╗██║░╚███║░░░██║░░░██████╔╝
-//╚══════╝░░░╚═╝░░░╚══════╝╚═╝░░╚══╝░░░╚═╝░░░╚═════╝░
-// This section contains arrays filled with events / encounters used for every region in the game.
-// These events randomly occur every step following Laplace's principle (each event has the same chance of occurring).
-// All the following entries are to be formulated in singular form as the article determination only works with
-// singular form.
-
-events_table = [];
-
-forest_events_table = ["chest", "enemy", "wishing well", "traveler", "shrine"];
-
-lockwood_village_events_table = ["chest", "enemy", "merchant", "traveler"];
-
-eastport_events_table = ["cargo", "enemy", "nest", "nothing"];
-
-ocean_events_table = ["enemy", "storm", "shipwreck", "seafarer"];
-
-shore_events_table = [
-  "enemy",
-  "traveler",
-  "shrine",
-  "object burried in the ground",
-];
-
-rebellion_events_table = ["friendly traveler", "merchant", "pair of monks"];
-
-wasteland_events_table = [
-  "enemy",
-  "blurry object",
-  "traveler",
-  "small dungeon",
-  "bandit",
-];
-
-lost_temple_events_table = [
-  "enemy",
-  "stone chest",
-  "bandit",
-  "golden statue",
-  "lost scripture",
-  "ancient device",
-];
-
-// #endregion
-
-// #region Loot Tables
-//██╗░░░░░░█████╗░░█████╗░████████╗  ████████╗░█████╗░██████╗░██╗░░░░░███████╗░██████╗
-//██║░░░░░██╔══██╗██╔══██╗╚══██╔══╝  ╚══██╔══╝██╔══██╗██╔══██╗██║░░░░░██╔════╝██╔════╝
-//██║░░░░░██║░░██║██║░░██║░░░██║░░░  ░░░██║░░░███████║██████╦╝██║░░░░░█████╗░░╚█████╗░
-//██║░░░░░██║░░██║██║░░██║░░░██║░░░  ░░░██║░░░██╔══██║██╔══██╗██║░░░░░██╔══╝░░░╚═══██╗
-//███████╗╚█████╔╝╚█████╔╝░░░██║░░░  ░░░██║░░░██║░░██║██████╦╝███████╗███████╗██████╔╝
-//╚══════╝░╚════╝░░╚════╝░░░░╚═╝░░░  ░░░╚═╝░░░╚═╝░░╚═╝╚═════╝░╚══════╝╚══════╝╚═════╝░
-// This section contains arrays filled with loottables used for every container and npcs interaction.
-// These items all follow Laplace's principle (each item has the same chance of being selected).
-// All the following entries are to be formulated in singular form as the article determination only works with
-// singular form.
-
-chest_loot_table = [
-  "dagger",
-  "axe",
-  "sword",
-  "bow",
-  "healing potion",
-  "gold",
-  "nothing",
-];
-
-cargo_loot_table = [
-  "halberd",
-  "greataxe",
-  "axe",
-  "sword",
-  "claymore",
-  "healing potion",
-  "gold",
-  "gold",
-];
-
-traveler_loot_table = [
-  "healing potion",
-  "gold",
-  "sword",
-  "axe",
-  "dagger",
-  "halberd",
-  "mace",
-  "warhammer",
-];
-
-object_burried_in_ground_names = [
-  "rusty treasure chest",
-  "old chest",
-  "rusty container",
-  "metal chest",
-  "metal safe",
-  "ceramic jar",
-  "ceramic canister",
-];
-object_burried_in_ground_loot_table = [
-  "halberd",
-  "greataxe",
-  "axe",
-  "sword",
-  "claymore",
-  "healing potion",
-  "gold",
-  "gold",
-  "bow",
-  "dagger",
-  "mace",
-  "warhammer",
-  "flail",
-  "spear",
-  "crossbow",
-  "scythe",
-  "scimitar",
-];
-
-blurry_object = [
-  "rusted chest",
-  "bandit's cache",
-  "treasure trove",
-  "stockpile",
-  "rusty safe",
-  "stash",
-  "large jar",
-];
-
-blurry_object_loot_table = [
-  "healing potion",
-  "gold",
-  "gold",
-  "dagger",
-  "mace",
-  "warhammer",
-  "flail",
-  "spear",
-  "scythe",
-  "scimitar",
-  "nothing",
-  "nothing",
-  "bastard sword",
-  "shortsword",
-  "longsword",
-  "flamberge",
-  "falchion",
-  "rapier",
-  "estoc",
-  "club",
-  "wooden staff",
-];
-
-small_dungeon_trapped_chest_loot_table = [
-  "healing potion",
-  "gold",
-  "gold",
-  "dagger",
-  "mace",
-  "warhammer",
-  "flail",
-  "spear",
-  "scythe",
-  "scimitar",
-  "bastard sword",
-  "shortsword",
-  "longsword",
-  "flamberge",
-  "falchion",
-  "rapier",
-  "estoc",
-  "club",
-  "wooden staff",
-  "gold",
-  "gold",
-  "gold",
-  "gold",
-];
-
-shipwreck_loot_table = [
-  "halberd",
-  "claymore",
-  "healing potion",
-  "gold",
-  "gold",
-  "healing potion",
-  "dagger",
-  "sword",
-  "spear",
-  "crossbow",
-];
-
-treasure_map_treasure_loot_table = [
-  "gold",
-  "gold",
-  "gold",
-  "gold",
-  "dagger",
-  "mace",
-  "warhammer",
-  "flail",
-  "spear",
-  "scythe",
-  "scimitar",
-  "bastard sword",
-  "shortsword",
-  "longsword",
-  "flamberge",
-  "falchion",
-  "rapier",
-  "estoc",
-  "club",
-  "wooden staff",
-  "gold",
-  "gold",
-  "gold",
-  "gold",
-];
-
-small_boss_loot_table = [
-  "gold",
-  "gold",
-  "gold",
-  "gold",
-  "mace",
-  "warhammer",
-  "flail",
-  "spear",
-  "scythe",
-  "scimitar",
-  "bastard sword",
-  "shortsword",
-  "longsword",
-  "flamberge",
-  "falchion",
-  "rapier",
-  "estoc",
-  "club",
-  "wooden staff",
-];
-
-// #endregion
-
-// #region Enemies
-//███████╗███╗░░██╗███████╗███╗░░░███╗██╗███████╗░██████╗
-//██╔════╝████╗░██║██╔════╝████╗░████║██║██╔════╝██╔════╝
-//█████╗░░██╔██╗██║█████╗░░██╔████╔██║██║█████╗░░╚█████╗░
-//██╔══╝░░██║╚████║██╔══╝░░██║╚██╔╝██║██║██╔══╝░░░╚═══██╗
-//███████╗██║░╚███║███████╗██║░╚═╝░██║██║███████╗██████╔╝
-//╚══════╝╚═╝░░╚══╝╚══════╝╚═╝░░░░░╚═╝╚═╝╚══════╝╚═════╝░
-// This section contains arrays filled with enemies and enemy descriptors used for every enemy encounter.
-// These enemies all follow Laplace's principle (each enemy has the same chance of occurring).
-// All the following entries are to be formulated in singular form as the article determination only works with
-// singular form.
-
-enemies = [];
-
-enemy_desciptors = [
-  "great",
-  "grand",
-  "aggrevated",
-  "feral",
-  "hostile",
-  "vicious",
-  "malevolent",
-  "bloodthirsty",
-  "ferocious",
-  "brutal",
-  "ruthless",
-  "predatory",
-  "merciless",
-  "wicked",
-  "sinister",
-  "tainted",
-  "vile",
-];
-
-forest_enemies = [
-  "spider",
-  "werewolf",
-  "dryad",
-  "gnome",
-  "wendigo",
-  "ent",
-  "harpy",
-  "basilisk",
-  "lizard",
-  "rat",
-  "leech",
-  "mosquito",
-];
-
-lockwood_village_enemies = [
-  "goblin",
-  "orc",
-  "wraith",
-  "megaspider",
-  "bandit",
-  "troll",
-  "wight",
-];
-
-eastport_enemies = [
-  "centipede",
-  "megacentipede",
-  "ghoul",
-  "rakshasa",
-  "hag",
-  "hollow",
-  "banshee",
-  "maggot",
-  "possessed",
-];
-
-ocean_enemies = [
-  "sea monster",
-  "mermaid",
-  "siren",
-  "leviathan",
-  "sea serpent",
-  "water elemental",
-  "charybdis",
-  "kraken",
-  "megasquid",
-  "naga",
-  "deep one",
-  "manta ray",
-  "jellyfish",
-  "octopus",
-];
-
-shore_enemies = [
-  "vulture",
-  "werewolf",
-  "spirit",
-  "octopus",
-  "bat",
-  "dweller",
-  "lobster",
-  "scorpion",
-  "jellyfish",
-  "sandworm",
-  "worm",
-  "seagull",
-  "turtle",
-  "manta ray",
-  "megacrab",
-];
-
-wasteland_enemies = [
-  "scorpion",
-  "rat",
-  "spider",
-  "insect",
-  "orc",
-  "giant",
-  "werewolf",
-  "golem",
-  "druid",
-  "witch",
-  "infernal",
-  "worm",
-  "sandworm",
-  "beetle",
-  "fly",
-  "wasp",
-  "snake",
-  "bat",
-  "centipede",
-  "megacentipede",
-];
-
-lost_temple_enemies = [
-  "skeleton",
-  "skeletal warrior",
-  "mummy",
-  "golem",
-  "cultist",
-  "spider",
-  "megaspider",
-  "homunculus",
-  "necromancer",
-  "lizard",
-  "kobold",
-  "lich",
-  "wraith",
-];
-
-// Bosses
-
-small_dungeon_bosses = [
-  "Blood Starved Beast",
-  "Darkbeast",
-  "Ashen Knight",
-  "Tower Knight",
-  "Darkbeast of the Abyss",
-];
-
-// #endregion
-
-// #region Forward Variations
-// ███████╗░█████╗░██████╗░░██╗░░░░░░░██╗░█████╗░██████╗░██████╗░
-//██╔════╝██╔══██╗██╔══██╗░██║░░██╗░░██║██╔══██╗██╔══██╗██╔══██╗
-//█████╗░░██║░░██║██████╔╝░╚██╗████╗██╔╝███████║██████╔╝██║░░██║
-//██╔══╝░░██║░░██║██╔══██╗░░████╔═████║░██╔══██║██╔══██╗██║░░██║
-//██║░░░░░╚█████╔╝██║░░██║░░╚██╔╝░╚██╔╝░██║░░██║██║░░██║██████╔╝
-//╚═╝░░░░░░╚════╝░╚═╝░░╚═╝░░░╚═╝░░░╚═╝░░╚═╝░░╚═╝╚═╝░░╚═╝╚═════╝░
-//██╗░░░██╗░█████╗░██████╗░██╗░█████╗░████████╗██╗░█████╗░███╗░░██╗░██████╗
-//██║░░░██║██╔══██╗██╔══██╗██║██╔══██╗╚══██╔══╝██║██╔══██╗████╗░██║██╔════╝
-//╚██╗░██╔╝███████║██████╔╝██║███████║░░░██║░░░██║██║░░██║██╔██╗██║╚█████╗░
-//░╚████╔╝░██╔══██║██╔══██╗██║██╔══██║░░░██║░░░██║██║░░██║██║╚████║░╚═══██╗
-//░░╚██╔╝░░██║░░██║██║░░██║██║██║░░██║░░░██║░░░██║╚█████╔╝██║░╚███║██████╔╝
-//░░░╚═╝░░░╚═╝░░╚═╝╚═╝░░╚═╝╚═╝╚═╝░░╚═╝░░░╚═╝░░░╚═╝░╚════╝░╚═╝░░╚══╝╚═════╝░
-// This section contains arrays filled with variations of saying "You walk forward" and "You come across" and is
-// used with every step in location determination and event anouncement.
-// These phrases all follow Laplace's principle (each phrase has the same chance of being selected).
-
-forwards_var = [
-  "You delve deeper.",
-  "You continue onward.",
-  "You proceed ahead.",
-  "You advance.",
-  "You tread ahead.",
-  "You venture further.",
-];
-
-across_var = [
-  "You come across",
-  "You stumble upon",
-  "You happen upon",
-  "You run into",
-];
-// #endregion
-
-// #region NPCs
-//███╗░░██╗██████╗░░█████╗░
-//████╗░██║██╔══██╗██╔══██╗
-//██╔██╗██║██████╔╝██║░░╚═╝
-//██║╚████║██╔═══╝░██║░░██╗
-//██║░╚███║██║░░░░░╚█████╔╝
-//╚═╝░░╚══╝╚═╝░░░░░░╚════╝░
-// This section contains arrays filled with npc origins and names for nps such as merchants used for every npc encounter.
-// These names all follow Laplace's principle (each name has the same chance of being selected).
-
-// Origins
-origins = [
-  "Golden Wheel",
-  "Silver Tongue",
-  "Emerald City",
-  "Spice Road",
-  "Bazaar",
-  "Bronze Coin",
-  "Jade Caravan",
-  "Sapphire Harbour",
-  "Crimson Square",
-  "Velvet Road",
-  "Iron Market",
-  "Diamond Exchange",
-  "Silver Empire",
-];
-
-// Travelers
-traveler_names = [
-  "Jeffrey",
-  "Wilhelm",
-  "Reinhard",
-  "Gottfried",
-  "Gwyndolin",
-  "Nito",
-  "Seath",
-  "Quelaag",
-  "Priscilla",
-  "Sif",
-  "Gwyn",
-  "Manus",
-  "Ornstein",
-  "Smough",
-  "Kalameet",
-  "Artorias",
-  "Najka",
-  "Freja",
-  "Mytha",
-  "Velstadt",
-  "Vendrick",
-  "Magus",
-  "Nashandra",
-  "Aldia",
-  "Vordt",
-  "Wolnir",
-  "Sulyvahn",
-  "Aldrich",
-  "Oceiros",
-  "Gundyr",
-  "Lothric",
-  "Godrick",
-  "Sebastian",
-  "Paul",
-];
-
-// Traveler Phrases
-traveler_phrases = [
-  "I can't believe how different the world is now.",
-  "I hope I find somewhere safe soon.",
-  "I heard there's a community of survivors a few days from here.",
-  "I can't believe how much of the world has been destroyed.",
-  "I hope I can find some food and supplies.",
-  "I heard there's a group of raiders in the area, we need to be careful.",
-  "I never thought I would see the world like this.",
-  "I never thought I'd have to live like this, scavenging for survival.",
-  "I can't believe the state of the world, it's like something out of a nightmare.",
-  "I never thought I'd have to fight just to survive.",
-  "I can't believe how much humanity has regressed in the wake of this disaster.",
-  "I heard there's a community of traders a few days from here, we can exchange goods.",
-  "I lost all of my family to this disaster. I don't know what to do.",
-];
-
-// Merchants
-merchant_names = [
-  "Jeffrey",
-  "Wilhelm",
-  "Reinhard",
-  "Gottfried",
-  "Gwyndolin",
-  "Nito",
-  "Seath",
-  "Quelaag",
-  "Priscilla",
-  "Sif",
-  "Gwyn",
-  "Manus",
-  "Ornstein",
-  "Smough",
-  "Kalameet",
-  "Artorias",
-  "Vaati",
-  "Tilman",
-  "Paul",
-];
-
-// Merchant Assortment + DEFAULT HEALING POTION
-merchant_assortment = [
-  "greatsword",
-  "greataxe",
-  "great halberd",
-  "claymore",
-  "halberd",
-  "healing potion",
-  "mace",
-  "warhammer",
-  "flail",
-  "spear",
-  "crossbow",
-  "scythe",
-  "scimitar",
-];
-
-// Blacksmith
-blacksmith_names = [
-  "Najka",
-  "Freja",
-  "Mytha",
-  "Velstadt",
-  "Vendrick",
-  "Magus",
-  "Nashandra",
-  "Aldia",
-  "Vordt",
-  "Wolnir",
-  "Sulyvahn",
-  "Aldrich",
-  "Oceiros",
-  "Gundyr",
-  "Lothric",
-  "Godrick",
-  "Jacob",
-];
-
-// Monks
-monk_names = [
-  "Daniel",
-  "Philipp",
-  "Paul",
-  "Phalanx",
-  "Allant",
-  "Amygdala",
-  "Paarl",
-  "Ebrietas",
-  "Gasgoigne",
-  "Gehrman",
-  "Logarius",
-  "Logan",
-  "Mergo",
-  "Migolash",
-  "Yharnam",
-  "Amelia",
-  "Hemwick",
-];
-
-// #endregion
+// ---- GAME START ----
 
 // Checks for region switches
 async function check_region_switch(distance) {
-  // Forest
-  if (distance == 0) {
-    current_region = "Forest";
-    enemies = forest_enemies;
-    places_table = forest_places_table;
-    events_table = forest_events_table;
-    awaiting_response = true;
-    // REGION SCREEN UPDATE
-    region_text.innerHTML = `<span class="red">[Act 1]</span> You wake up in a dense <span class="green">forest</span>, disoriented and confused. You realize that you have no memory of how you got here or what has happened to the world around you. You see a <span class="light-green">clearing</span> ahead.\r\n`;
-    // STORY SCREEN UPDATE
-    game_text.innerHTML =
-      `<span class="light-blue">ACT 1: AWAKENING</span>\r\n\r\n` +
-      `You wake up in a dense forest, with no memory of how you got there or what has happened to the world. As you stand up and take in your surroundings, you notice that the trees are withered and the air is thick with a putrid smell. The silence is broken only by the occasional sound of something moving in the bushes.\r\n` +
-      "\r\nYou start to explore the forest, looking for any clues about the state of the world.\r\n" +
-      "\r\n<span class='choice'>Continue?</span>\r\n\r\n";
-    // Wait for user input
-    manage_input(true);
-
-    while (awaiting_response) {
-      await sleep(1);
-    }
-
-    manage_input(false);
-
-    if (player_input == "y") {
-      game_text.innerHTML += "You wake up.\r\n";
-      manage_allow_continue(true);
-      return;
-    } else if (player_input == "n") {
-      game_text.innerHTML += "You can't change fate.\r\n";
-      manage_allow_continue(true);
-      return;
-    } else {
-      game_text.innerHTML += "You can't change fate.\r\n";
-      manage_allow_continue(true);
-      return;
-    }
-  }
-  // Village
-  if (distance == 10) {
-    current_region = regions[0];
-    // Update Places / Events / Enemies
-    region = regions[0];
-    places_table = lockwood_village_places_table;
-    events_table = lockwood_village_events_table;
-    enemies = lockwood_village_enemies;
-    // REGION SCREEN UPDATE
-    region_text.innerHTML = `<span class="red">[Act 2]</span> As you make your way through the <span class="green">forest</span>, you come across a <span class="orange">destroyed village</span>: <span class="light-gold">Lockwood Village</span>. The buildings are in ruins, some survivors remain.\r\n`;
-    // STORY SCREEN
-    awaiting_response = true;
-    game_text.innerHTML =
-      `<span class="light-blue">ACT 2: DISCOVERY</span>\r\n\r\n` +
-      `After hours of wandering, you come across a small village in the clearing. The villagers tell you that a great disaster has occurred, causing widespread destruction and the collapse of civilization. They also tell you that a powerful sorcerer has risen to power, using dark magic to control and manipulate the remaining survivors.\r\n` +
-      "\r\nThey inform you of a rumored island where a group of survivors has formed a community, and hopefully, a new chance for humanity to rebuild. You start to look for a port.\r\n" +
-      "\r\n<span class='choice'>Continue?</span>\r\n\r\n";
-    // Wait for user input
-    manage_input(true);
-
-    while (awaiting_response) {
-      await sleep(1);
-    }
-
-    manage_input(false);
-
-    if (player_input == "y") {
-      game_text.innerHTML += "You proceed.\r\n";
-      manage_allow_continue(true);
-      return;
-    } else if (player_input == "n") {
-      game_text.innerHTML += "You can't change fate.\r\n";
-      manage_allow_continue(true);
-      return;
-    } else {
-      game_text.innerHTML += "You can't change fate.\r\n";
-      manage_allow_continue(true);
-      return;
-    }
-  }
-  // Port
-  if (distance == 20) {
-    current_region = regions[1];
-    // REGION SCREEN UPDATE
-    region_text.innerHTML = `<span class="red">[Act 3]</span> Heading out of the <span class="orange">damaged village</span>, you make your way towards a <span class="purplebrown">port</span>, looking for a <span class="brown">ship</span> that may help you. However, as you approach, you realize the port is <span class="purple">'infected'</span>.\r\n`;
-    region = regions[1];
-    places_table = eastport_places_table;
-    events_table = eastport_events_table;
-    enemies = eastport_enemies;
-    // STORY SCREEN
-    awaiting_response = true;
-    game_text.innerHTML =
-      `<span class="light-blue">ACT 3: SHIPWRECKED</span>\r\n\r\n` +
-      `As you leave the ruined village, you set out to find a ship that could be of aid, making your way towards the nearest port. However, as you approach, you realize the port is infected. The ships that were once docked there, now lay abandoned.\r\n` +
-      "\rYou start to look for a working ship.\r\n" +
-      "\r\n<span class='choice'>Continue?</span>\r\n\r\n";
-    // Wait for user input
-    manage_input(true);
-
-    while (awaiting_response) {
-      await sleep(1);
-    }
-
-    manage_input(false);
-
-    if (player_input == "y") {
-      game_text.innerHTML += "You venture further.\r\n";
-      manage_allow_continue(true);
-      return;
-    } else if (player_input == "n") {
-      game_text.innerHTML += "You can't change fate.\r\n";
-      manage_allow_continue(true);
-      return;
-    } else {
-      game_text.innerHTML += "You can't change fate.\r\n";
-      manage_allow_continue(true);
-      return;
-    }
-  }
-  // Ocean
-  if (distance == 30) {
-    current_region = regions[2];
-    region_text.innerHTML = `<span class="red">[Act 4]</span> After reaching the <span class="purplebrown">port</span>, you finally find a <span class="brown">ship</span> that seems seaworthy. However, as you set out to sea, you quickly realize that the <span class="blue">ocean</span> is just as dangerous as the land.\r\n`;
-    region = regions[2];
-    places_table = ocean_places_table;
-    events_table = ocean_events_table;
-    enemies = ocean_enemies;
-    // STORY SCREEN
-    awaiting_response = true;
-    game_text.innerHTML =
-      `<span class="light-blue">ACT 4: ADRIFT</span>\r\n\r\n` +
-      `After arriving at the port, you successfully find a ship that appears to be in good condition. However, as soon as you set sail, it becomes clear that the ocean is equally perilous as the land. The waters are filled with mutated creatures, and the storms are more violent than ever before.\r\n` +
-      "\r\nYou set out to sea.\r\n" +
-      "\r\n<span class='choice'>Continue?</span>\r\n";
-    // Wait for user input
-    manage_input(true);
-
-    while (awaiting_response) {
-      await sleep(1);
-    }
-
-    manage_input(false);
-
-    if (player_input == "y") {
-      game_text.innerHTML += "You continue.\r\n";
-      manage_allow_continue(true);
-      return;
-    } else if (player_input == "n") {
-      game_text.innerHTML += "You can't change fate.\r\n";
-      manage_allow_continue(true);
-      return;
-    } else {
-      game_text.innerHTML += "You can't change fate.\r\n";
-      manage_allow_continue(true);
-      return;
-    }
-  }
-  // Rocky Shores
-  if (distance == 40) {
-    current_region = regions[3];
-    region_text.innerHTML = `<span class="red">[Act 5]</span> Your boat reaches the shore of the island, you can see the signs of the rebellion in the distance. You know that this is where you will find the rebellion's stronghold and your safety.\r\n`;
-    region = regions[3];
-    places_table = shore_places_table;
-    events_table = shore_events_table;
-    enemies = shore_enemies;
-    // STORY SCREEN
-    awaiting_response = true;
-    game_text.innerHTML =
-      `<span class="light-blue">ACT 5: ASHORE</span>\r\n\r\n` +
-      `As your boat reaches the shore of the island, you can see the signs of the rebellion in the distance. The air is filled with the sounds of battle, and you know that this is where you will find the rebellion's stronghold and your safety.\r\n` +
-      "\r\nYou go and look for the rebellion.\r\n" +
-      "\r\n<span class='choice'>Continue?</span>\r\n\r\n";
-    // Wait for user input
-    manage_input(true);
-
-    while (awaiting_response) {
-      await sleep(1);
-    }
-
-    manage_input(false);
-
-    if (player_input == "y") {
-      game_text.innerHTML += "You continue.\r\n";
-      manage_allow_continue(true);
-      return;
-    } else if (player_input == "n") {
-      game_text.innerHTML += "You can't change fate.\r\n";
-      manage_allow_continue(true);
-      return;
-    } else {
-      game_text.innerHTML += "You can't change fate.\r\n";
-      manage_allow_continue(true);
-      return;
-    }
-  }
-  // Rebellion
-  if (distance == 50) {
-    current_region = regions[4];
-    region_text.innerHTML = `<span class="red">[Act 6]</span> Upon arriving at the rebellion, they explain to you that the sorcerer's immense power is derived from an ancient artifact in his possession. The rebellion seeks your aid in defeating the sorcerer.\r\n`;
-    region = regions[4];
-    places_table = rebellion_places_table;
-    events_table = rebellion_events_table;
-    enemies = [];
-    // STORY SCREEN
-    awaiting_response = true;
-    game_text.innerHTML =
-      `<span class="light-blue">ACT 6: REBELLION</span>\r\n\r\n` +
-      `Finally, you reach the rebellion's stronghold. The leader of the rebellion, an experienced knight, tells you that the sorcerer's power comes from an ancient artifact that he has acquired and using it to control people. The rebellion needs your help to find this artifact and destroy it.\r\n` +
-      "\r\nYou enter the rebellion's stronghold.\r\n" +
-      "\r\n<span class='choice'>Continue?</span>\r\n\r\n";
-    // Wait for user input
-    manage_input(true);
-
-    while (awaiting_response) {
-      await sleep(1);
-    }
-
-    manage_input(false);
-
-    if (player_input == "y") {
-      game_text.innerHTML += "You continue.\r\n";
-      manage_allow_continue(true);
-      return;
-    } else if (player_input == "n") {
-      game_text.innerHTML += "You can't change fate.\r\n";
-      manage_allow_continue(true);
-      return;
-    } else {
-      game_text.innerHTML += "You can't change fate.\r\n";
-      manage_allow_continue(true);
-      return;
-    }
-  }
-  // Wasteland
-  if (distance == 60) {
-    current_region = regions[5];
-    region_text.innerHTML = `<span class="red">[Act 7]</span> After leaving the rebellion's stronghold, you find a wasteland filled with danger and adventure while searching for the sorcerer's stronghold. You push on to reach the sorcerer's stronghold.\r\n`;
-    region = regions[5];
-    places_table = wasteland_places_table;
-    events_table = wasteland_events_table;
-    enemies = wasteland_enemies;
-    // STORY SCREEN
-    awaiting_response = true;
-    game_text.innerHTML =
-      `<span class="light-blue">ACT 7: WASTELAND</span>\r\n\r\n` +
-      `After leaving the rebellion's stronghold, you set out to find the sorcerer's stronghold and come across a wasteland filled with danger and adventure. Despite the harsh conditions and unknowns, you push on determined to uncover the secrets of this unforgiving terrain and find the sorcerer's stronghold.\r\n` +
-      "\r\nYou leave the rebellion's stronghold on set out on a journey.\r\n" +
-      "\r\n<span class='choice'>Continue?</span>\r\n\r\n";
-    // Wait for user input
-    manage_input(true);
-
-    while (awaiting_response) {
-      await sleep(1);
-    }
-
-    manage_input(false);
-
-    if (player_input == "y") {
-      game_text.innerHTML += "You continue.\r\n";
-      manage_allow_continue(true);
-      return;
-    } else if (player_input == "n") {
-      game_text.innerHTML += "You can't change fate.\r\n";
-      manage_allow_continue(true);
-      return;
-    } else {
-      game_text.innerHTML += "You can't change fate.\r\n";
-      manage_allow_continue(true);
-      return;
-    }
-  }
-  // Lost Temple
-  if (distance == 70) {
-    current_region = regions[6];
-    region_text.innerHTML = `<span class="red">[Act 8]</span> You stumble upon a lost temple in the wasteland, the entrance beckons with a stairway leading underground. Uncover its secrets.\r\n`;
-    region = regions[6];
-    places_table = lost_temple_places_table;
-    events_table = lost_temple_events_table;
-    enemies = lost_temple_enemies;
-    // STORY SCREEN
-    awaiting_response = true;
-    game_text.innerHTML =
-      `<span class="light-blue">ACT 8: LOST TEMPLE</span>\r\n\r\n` +
-      `After wandering through the scorched wasteland, you come across a crumbling structure in the distance. As you approach, you realize it's a lost temple, ancient and forgotten, a stairway leading down inside. Beckoning you to enter and uncover its secrets.\r\n` +
-      "\r\nEnter the temple?.\r\n" +
-      "\r\n<span class='choice'>Continue?</span>\r\n\r\n";
-    // Wait for user input
-    manage_input(true);
-
-    while (awaiting_response) {
-      await sleep(1);
-    }
-
-    manage_input(false);
-
-    if (player_input == "y") {
-      game_text.innerHTML += "You continue.\r\n";
-      manage_allow_continue(true);
-      return;
-    } else if (player_input == "n") {
-      game_text.innerHTML += "You can't change fate.\r\n";
-      manage_allow_continue(true);
-      return;
-    } else {
-      game_text.innerHTML += "You can't change fate.\r\n";
-      manage_allow_continue(true);
-      return;
-    }
-  }
-  // Swamp
-  if (distance == 80) {
-    current_region = regions[7];
-    region_text.innerHTML = `<span class="red">[Act 9]</span> INSERT ACT DESCRIPTION.\r\n`;
-    region = regions[7];
-    places_table = ocean_places_table;
-    events_table = ocean_events_table;
-    enemies = ocean_enemies;
-    // STORY SCREEN
-    awaiting_response = true;
-    game_text.innerHTML =
-      `<span class="light-blue">ACT 9: SWAMP</span>\r\n\r\n` +
-      `INSERT ACT STORY.\r\n` +
-      "\r\nINSERT ACT ACTION.\r\n" +
-      "\r\n<span class='choice'>Continue?</span>\r\n\r\n";
-    // Wait for user input
-    manage_input(true);
-
-    while (awaiting_response) {
-      await sleep(1);
-    }
-
-    manage_input(false);
-
-    if (player_input == "y") {
-      game_text.innerHTML += "You continue.\r\n";
-      manage_allow_continue(true);
-      return;
-    } else if (player_input == "n") {
-      game_text.innerHTML += "You can't change fate.\r\n";
-      manage_allow_continue(true);
-      return;
-    } else {
-      game_text.innerHTML += "You can't change fate.\r\n";
-      manage_allow_continue(true);
-      return;
-    }
-  }
-  // Mountains
-  if (distance == 90) {
-    current_region = regions[8];
-    region_text.innerHTML = `<span class="red">[Act 10]</span> INSERT ACT DESCRIPTION.\r\n`;
-    region = regions[8];
-    places_table = ocean_places_table;
-    events_table = ocean_events_table;
-    enemies = ocean_enemies;
-    // STORY SCREEN
-    awaiting_response = true;
-    game_text.innerHTML =
-      `<span class="light-blue">ACT 10: MOUNTAINS</span>\r\n\r\n` +
-      `INSERT ACT STORY.\r\n` +
-      "\r\nINSERT ACT ACTION.\r\n" +
-      "\r\n<span class='choice'>Continue?</span>\r\n\r\n";
-    // Wait for user input
-    manage_input(true);
-
-    while (awaiting_response) {
-      await sleep(1);
-    }
-
-    manage_input(false);
-
-    if (player_input == "y") {
-      game_text.innerHTML += "You continue.\r\n";
-      manage_allow_continue(true);
-      return;
-    } else if (player_input == "n") {
-      game_text.innerHTML += "You can't change fate.\r\n";
-      manage_allow_continue(true);
-      return;
-    } else {
-      game_text.innerHTML += "You can't change fate.\r\n";
-      manage_allow_continue(true);
-      return;
-    }
-  }
-  // Icy Peak
-  if (distance == 100) {
-    current_region = regions[9];
-    region_text.innerHTML = `<span class="red">[Act 11]</span> INSERT ACT DESCRIPTION.\r\n`;
-    region = regions[9];
-    places_table = ocean_places_table;
-    events_table = ocean_events_table;
-    enemies = ocean_enemies;
-    // STORY SCREEN
-    awaiting_response = true;
-    game_text.innerHTML =
-      `<span class="light-blue">ACT 11: ICY PEAK</span>\r\n\r\n` +
-      `INSERT ACT STORY.\r\n` +
-      "\r\nINSERT ACT ACTION.\r\n" +
-      "\r\n<span class='choice'>Continue?</span>\r\n\r\n";
-    // Wait for user input
-    manage_input(true);
-
-    while (awaiting_response) {
-      await sleep(1);
-    }
-
-    manage_input(false);
-
-    if (player_input == "y") {
-      game_text.innerHTML += "You continue.\r\n";
-      manage_allow_continue(true);
-      return;
-    } else if (player_input == "n") {
-      game_text.innerHTML += "You can't change fate.\r\n";
-      manage_allow_continue(true);
-      return;
-    } else {
-      game_text.innerHTML += "You can't change fate.\r\n";
-      manage_allow_continue(true);
-      return;
-    }
+  switch (distance) {
+    // Forest
+    case 0:
+      current_region = "Forest";
+      await act_update(0);
+      region_update(forest_places_table, forest_events_table, forest_enemies);
+      break;
+    // Lockwood Village
+    case 10:
+      current_region = regions[0];
+      await act_update(1);
+      region_update(
+        lockwood_village_places_table,
+        lockwood_village_events_table,
+        lockwood_village_enemies
+      );
+      break;
+    // Eastport
+    case 20:
+      current_region = regions[1];
+      await act_update(2);
+      region_update(
+        lockwood_village_places_table,
+        lockwood_village_events_table,
+        lockwood_village_enemies
+      );
+      break;
+    // Ocean
+    case 30:
+      current_region = regions[2];
+      await act_update(3);
+      region_update(ocean_places_table, ocean_events_table, ocean_enemies);
+      break;
+    // Rocky Shores
+    case 40:
+      current_region = regions[3];
+      await act_update(4);
+      region_update(
+        rocky_shore_places_table,
+        rocky_shore_events_table,
+        rocky_shore_enemies
+      );
+      break;
+    // Rebellion
+    case 50:
+      current_region = regions[4];
+      await act_update(5);
+      region_update(
+        rebellion_places_table,
+        rebellion_events_table,
+        rebellion_enemies
+      );
+      break;
+    // Wasteland
+    case 60:
+      current_region = regions[5];
+      await act_update(6);
+      region_update(
+        wasteland_places_table,
+        wasteland_events_table,
+        wasteland_enemies
+      );
+      break;
+    // Lost Temple
+    case 70:
+      current_region = regions[6];
+      await act_update(7);
+      region_update(
+        lost_temple_places_table,
+        lost_temple_events_table,
+        lost_temple_enemies
+      );
+      break;
   }
 
-  await sleep(2000);
-  forwards();
+  if (steps != 0 && steps % 10 != 0) {
+    // No new Region is reached
+    await sleep(2000);
+    forwards();
+  }
 }
 
 // #region Helper Functions
@@ -1491,13 +266,6 @@ function display_inventory() {
 // Helper inventory display function
 function add_to_inventory_txt(item, index, array) {
   inventory_txt += capitalizeFirstLetter(item) + ", ";
-}
-
-// Display Forwards
-async function forwards() {
-  game_text.innerHTML += `${forwards_var.sample()}` + "\r\n\r\n";
-  await sleep(1000);
-  manage_events(places_table, events_table);
 }
 
 // Clear game text
@@ -1580,14 +348,9 @@ async function manage_events(places, events) {
 
   // Event has been chosen
   if (event != "nothing") {
-    // Determine correct article
-    if (vowels.includes(event[0])) {
-      article = "an";
-    } else {
-      article = "a";
-    }
-
-    game_text.innerHTML += `You see ${article} ${event}.\r\n\r\n`;
+    game_text.innerHTML += `You see ${correct_article(
+      event
+    )} ${event}.\r\n\r\n`;
 
     await sleep(1000);
 
@@ -1595,8 +358,7 @@ async function manage_events(places, events) {
   }
   // No Event has been chosen
   else {
-    article = "";
-    game_text.innerHTML += `You find ${article} ${event}.\r\n\r\n`;
+    game_text.innerHTML += `You find ${event}.\r\n\r\n`;
     manage_allow_continue(true);
   }
 }
@@ -1854,20 +616,14 @@ async function manage_sub_events(sub_event) {
 
         let obj = blurry_object.sample();
 
-        let article = "";
-        // Determine correct article
-        if (vowels.includes(obj[0])) {
-          article = "an";
-        } else {
-          article = "a";
-        }
-
         await sleep(1000);
 
         let d = Math.random();
         // Successfully 60%
         if (d < 0.6) {
-          game_text.innerHTML += `It is ${article} ${obj}.\r\n\r\n`;
+          game_text.innerHTML += `It is ${correct_article(
+            obj
+          )} ${obj}.\r\n\r\n`;
 
           await sleep(1000);
 
@@ -4404,25 +3160,6 @@ function det_gold(entity) {
 
 // #endregion
 
-// Manage Input
-function manage_input(x) {
-  changeBtnClrs(x);
-  allow_input = x;
-}
-
-function changeBtnClrs(x) {
-  var r = document.querySelector(":root");
-  if (x) {
-    allow_input = true;
-    r.style.setProperty("--btn-color", "rgb(255, 219, 146)");
-    r.style.setProperty("--btn-zoom", "1.1");
-  } else {
-    allow_input = false;
-    r.style.setProperty("--btn-color", "#8E8E8E");
-    r.style.setProperty("--btn-zoom", "1");
-  }
-}
-
 // Open Loot Container
 async function open_loot_container(container, amount_of_items) {
   for (let i = 0; i < amount_of_items; i++) {
@@ -4494,18 +3231,6 @@ async function open_loot_container(container, amount_of_items) {
   manage_allow_continue(true);
 }
 
-// Yes Button Function
-function yes_btn() {
-  player_input = "y";
-  awaiting_response = false;
-}
-
-// No Button Function
-function no_btn() {
-  player_input = "n";
-  awaiting_response = false;
-}
-
 // XP Managing
 async function manage_xp(amount) {
   xp += amount;
@@ -4542,7 +3267,7 @@ async function main_loop() {
   if (!alive) {
     return;
   }
-  check_region_switch(steps);
+  await check_region_switch(steps);
 
   // Stat Displays
   display_stats();
@@ -4565,14 +3290,6 @@ function changeProceedBtnClrs(x) {
     allow_input = false;
     r.style.setProperty("--p-btn-color", "#8E8E8E");
     r.style.setProperty("--p-btn-zoom", "1");
-  }
-}
-
-// Continues to next day
-function new_day() {
-  if (allow_continue) {
-    main_loop();
-    manage_allow_continue(false);
   }
 }
 
