@@ -368,6 +368,8 @@ function add_to_inventory_txt(item, index, array) {
 async function manage_xp(amount) {
   xp += amount;
   while (xp >= max_xp) {
+    await sleep(1000);
+
     game_text.innerHTML += `\r\n<span class="lvl">You leveled up!</span>\r\n`;
 
     // Increase LVL
@@ -390,4 +392,77 @@ async function manage_xp(amount) {
     inventory_cap += 1;
   }
   update_stats();
+}
+
+// Open Loot Container
+async function open_loot_container(loot_table, amount_of_items_min, amount_of_items_max) {
+  let amount_of_items = randomIntFromInterval(amount_of_items_min, amount_of_items_max);
+
+  for (let i = 0; i < amount_of_items; i++) {
+    await sleep(1000);
+
+    // Choose random item from loot table
+    item = loot_table.sample();
+
+    // Determine correct article
+    if (vowels.includes(item[0])) {
+      article = "an";
+    } else {
+      article = "a";
+    }
+
+    // Healing Potion
+    if (item == "healing potion") {
+      let amt = randomIntFromInterval(10, Math.floor(max_hp / 2));
+
+      hp += amt;
+      if (hp >= max_hp) {
+        hp = max_hp;
+      }
+
+      game_text.innerHTML += `You found a healing potion and drank it.\r\n`;
+
+      await sleep(1000);
+
+      game_text.innerHTML += `<span class="heal">You healed ${amt} hp.</span>\r\n\r\n`;
+      update_stats();
+
+      await sleep(1000);
+      continue;
+    }
+
+    // Gold
+    if (item == "gold") {
+      let amt = randomIntFromInterval(1, 250);
+      gold += amt;
+      game_text.innerHTML += `You found <span class="gold">${amt} gold</span>.\r\n`;
+
+      await sleep(1000);
+      continue;
+    }
+
+    // Nothing
+    if (item == "nothing") {
+      if (amount_of_items == 1) {
+        game_text.innerHTML += "It is empty.\r\n";
+      }
+      // game_text.innerHTML += "...\r\n";
+      continue;
+    }
+
+    // Check if item is already in inventory
+    if (inventory.includes(item)) {
+      game_text.innerHTML += `You found ${article} ${item} but you already have one.\r\n`;
+      continue;
+    }
+
+    // Add item to inventory
+    inventory.push(item);
+    game_text.innerHTML += `You found ${article} ${item}.\r\n`;
+  }
+
+  await sleep(1000);
+
+  game_text.innerHTML += `\r\nYou finish looting.\r\n`;
+  manage_allow_continue(true);
 }

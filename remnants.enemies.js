@@ -126,6 +126,16 @@ wasteland_enemies = [
   "megacentipede",
 ];
 
+small_dungeon_enemies = [
+  "skeleton",
+  "skeletal warrior",
+  "mummy",
+  "spider",
+  "megaspider",
+  "lizard",
+  "kobold",
+];
+
 lost_temple_enemies = [
   "skeleton",
   "skeletal warrior",
