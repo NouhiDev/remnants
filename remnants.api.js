@@ -101,7 +101,7 @@ function region_update(new_places, new_events, new_enemies) {
 async function forwards() {
   game_text.innerHTML += `${forwards_var.sample()}` + "\r\n\r\n";
   await sleep(1000);
-  manage_events(places_table, events_table);
+  manage_places(places_table, events_table);
 }
 
 // #endregion
@@ -204,7 +204,7 @@ function manage_allow_continue(enable_continue) {
 
 // #endregion
 
-// █▀▄▀█ ▀█▀ ░█▀▀▀█ ░█▀▀█
+//  █▀▄▀█ ▀█▀ ░█▀▀▀█ ░█▀▀█
 // ░█░█░█ ░█─ ─▀▀▀▄▄ ░█───
 // ░█──░█ ▄█▄ ░█▄▄▄█ ░█▄▄█
 
@@ -289,16 +289,105 @@ function bgm() {
   }
 }
 
+// Loader Fading
 $(window).on("load", async function () {
   await sleep(1000);
   $(".loader").fadeOut(1000);
   zoom();
-  delay(1000).then(() => $(".content").fadeIn(1000));
+  sleep(1000).then(() => $(".content").fadeIn(1000));
 });
 
 // Adds delay
-function delay(time) {
-  return new Promise((resolve) => setTimeout(resolve, time));
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+// Random Between Two Constants
+function randomIntFromInterval(min, max) {
+  // min and max included
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+// Picks random array object
+Array.prototype.sample = function () {
+  return this[Math.floor(Math.random() * this.length)];
+};
+
+// Gold Determiner
+function det_gold(entity) {
+  switch (entity) {
+    case "traveler":
+      return [5, 40];
+    case "trappedchest":
+      return [30, 100];
+  }
 }
 
 // #endregion
+
+// Updates the players stats
+function update_stats() {
+  stats_text.innerHTML =
+    // Health
+    `[ <span class="health">Health: ${hp}/${max_hp}</span> | ` +
+    // Distance
+    `<span class="distance">Distance traveled: ${steps * 100}m</span> | ` +
+    // Gold
+    `<span class="gold">Gold: ${gold}</span> | ` +
+    // Region
+    `<span class="region">Region: ${region}</span> | ` +
+    // Level
+    `<span class="lvl">LVL: ${lvl}</span> | ` +
+    // XP
+    `<span class="xp">XP: ${xp}/${max_xp}</span> | ` +
+    // Mana
+    `<span class="mana">Mana: ${mana}/${max_mana}</span>]\r\n`;
+
+  // Auto Update Inventory
+  display_inventory();
+}
+
+// Displays the Players Inventory
+function display_inventory() {
+  // Inventory String Beginning
+  inventory_txt = "[ Inventory: ";
+  // Inventory Iteration
+  inventory.forEach(add_to_inventory_txt);
+  // Inventory Item Addition
+  inventory_txt = inventory_txt.substring(0, inventory_txt.length - 2);
+  // Inventory String Ending
+  stats_text.innerHTML += inventory_txt + " ]\r\n";
+}
+
+// Helper Function to Inventory Display
+function add_to_inventory_txt(item, index, array) {
+  inventory_txt += capitalize_first_letters(item) + ", ";
+}
+
+// XP Managing
+async function manage_xp(amount) {
+  xp += amount;
+  while (xp >= max_xp) {
+    game_text.innerHTML += `\r\n<span class="lvl">You leveled up!</span>\r\n`;
+
+    // Increase LVL
+    lvl++;
+
+    // Increase Max XP
+    max_xp += lvl * 20;
+
+    // Increase Max HP
+    max_hp += lvl * 5;
+
+    // Increase Max Mana
+    max_mana += lvl * 5;
+    mana = max_mana;
+
+    xp = Math.abs(max_xp - xp);
+    hp = max_hp;
+
+    // Increase Inventory Item Cap
+    inventory_cap += 1;
+  }
+  update_stats();
+}

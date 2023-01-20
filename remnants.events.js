@@ -9,6 +9,12 @@
 // All the following entries are to be formulated in singular form as the article determination only works with
 // singular form.
 
+// ░█▀▀▀ ░█──░█ ░█▀▀▀ ░█▄─░█ ▀▀█▀▀ 　 ▀▀█▀▀ ─█▀▀█ ░█▀▀█ ░█─── ░█▀▀▀ ░█▀▀▀█ 
+// ░█▀▀▀ ─░█░█─ ░█▀▀▀ ░█░█░█ ─░█── 　 ─░█── ░█▄▄█ ░█▀▀▄ ░█─── ░█▀▀▀ ─▀▀▀▄▄ 
+// ░█▄▄▄ ──▀▄▀─ ░█▄▄▄ ░█──▀█ ─░█── 　 ─░█── ░█─░█ ░█▄▄█ ░█▄▄█ ░█▄▄▄ ░█▄▄▄█
+
+// #region
+
 events_table = [];
 
 forest_events_table = ["chest", "enemy", "wishing well", "traveler", "shrine"];
@@ -44,3 +50,15 @@ lost_temple_events_table = [
   "lost scripture",
   "ancient device",
 ];
+
+// #endregion
+
+// ░█▀▀▀ ░█──░█ ░█▀▀▀ ░█▄─░█ ▀▀█▀▀ 　 ░█▀▀█ ░█▀▀▀█ ░█─░█ ▀▀█▀▀ ▀█▀ ░█▄─░█ ░█▀▀▀ ░█▀▀▀█ 
+// ░█▀▀▀ ─░█░█─ ░█▀▀▀ ░█░█░█ ─░█── 　 ░█▄▄▀ ░█──░█ ░█─░█ ─░█── ░█─ ░█░█░█ ░█▀▀▀ ─▀▀▀▄▄ 
+// ░█▄▄▄ ──▀▄▀─ ░█▄▄▄ ░█──▀█ ─░█── 　 ░█─░█ ░█▄▄▄█ ─▀▄▄▀ ─░█── ▄█▄ ░█──▀█ ░█▄▄▄ ░█▄▄▄█
+
+// #region
+
+
+
+// #endregion

@@ -215,124 +215,12 @@ async function check_region_switch(distance) {
   }
 }
 
-// #region Helper Functions
-
-// Random Between Two Constants
-function randomIntFromInterval(min, max) {
-  // min and max included
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
-// Capitalizes first letter
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-// Sleeps for a amount of time (in ms)
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-// Picks random array object
-Array.prototype.sample = function () {
-  return this[Math.floor(Math.random() * this.length)];
-};
-
-// Prints out a seperator
-function seperator() {
-  game_text.innerHTML +=
-    "-------------------------------------------------------------------------------------\r\n";
-}
-
-// Displays the players stats
-function display_stats() {
-  stats_text.innerHTML = "";
-  stats_text.innerHTML +=
-    `[ <span class="health">Health: ${hp}/${max_hp}</span> | ` +
-    `<span class="distance">Distance traveled: ${steps * 100}m</span> | ` +
-    `<span class="gold">Gold: ${gold}</span> | <span class="region">Region: ${region}</span> | <span class="lvl">LVL: ${lvl}</span> | ` +
-    `<span class="xp">XP: ${xp}/${max_xp}</span> | <span class="mana">Mana: ${mana}/${max_mana}</span>]\r\n`;
-  display_inventory();
-}
-
-// Displays the players inventory
-function display_inventory() {
-  inventory_txt = "[ Inventory: ";
-  inventory.forEach(add_to_inventory_txt);
-  inventory_txt = inventory_txt.substring(0, inventory_txt.length - 2);
-  stats_text.innerHTML += inventory_txt + " ]\r\n";
-}
-
-// Helper inventory display function
-function add_to_inventory_txt(item, index, array) {
-  inventory_txt += capitalizeFirstLetter(item) + ", ";
-}
-
-// Clear game text
-function clear_game_text() {
-  game_text.innerHTML = "";
-}
-
-function change_enemy_determinator_class(det_class) {
-  switch (det_class) {
-    case "xp":
-      weak = [5, 15];
-      below_avg = [15, 25];
-      common = [25, 35];
-      above_avg = [35, 45];
-      strong = [45, 55];
-      monster = [55, 65];
-      abomination = [65, 75];
-      break;
-    case "dmg":
-      weak = [2, 7];
-      below_avg = [4, 8];
-      common = [6, 11];
-      above_avg = [8, 14];
-      strong = [10, 17];
-      monster = [12, 19];
-      abomination = [14, 23];
-      break;
-    case "hp":
-      weak = [5, 10];
-      below_avg = [8, 14];
-      common = [11, 19];
-      above_avg = [14, 25];
-      strong = [17, 30];
-      monster = [20, 34];
-      abomination = [23, 39];
-      break;
-  }
-}
-
-function change_item_determinator_class(det_class) {
-  switch (det_class) {
-    case "dmg":
-      w_weak = [5, 10];
-      w_common = [10, 15];
-      w_uncommon = [15, 25];
-      w_above_avg = [20, 35];
-      w_strong = [25, 45];
-      w_mythical = [30, 55];
-      w_legendary = [35, 65];
-      break;
-    case "price":
-      w_weak = [10, 25];
-      w_common = [35, 55];
-      w_uncommon = [55, 70];
-      w_above_avg = [75, 90];
-      w_strong = [90, 120];
-      w_mythical = [155, 265];
-      w_legendary = [275, 400];
-      break;
-  }
-}
-// #endregion
-
 // Manages Events
-async function manage_events(places, events) {
-  // Place
+async function manage_places(places, events) {
+  // Choose random Place from current Region
   let place = places.sample();
+
+  // Capitalize Place
   place[0].toUpperCase();
 
   game_text.innerHTML += `${across_var.sample()} ${correct_article(
@@ -343,7 +231,7 @@ async function manage_events(places, events) {
 
   // Events
 
-  // Chooses event
+  // Chooses random Event from current Region
   let event = events.sample();
 
   // Event has been chosen
@@ -1027,7 +915,7 @@ async function small_dungeon() {
         // Setup Enemy
         let enemy = enemies.sample();
         let enemy_descriptor = enemy_desciptors.sample();
-        let enemy_combined_name = `${enemy_descriptor} ${capitalizeFirstLetter(
+        let enemy_combined_name = `${enemy_descriptor} ${capitalize_first_letters(
           enemy
         )}`;
         let enemy_hp =
@@ -1045,14 +933,14 @@ async function small_dungeon() {
         }
 
         // Anounce enemy
-        game_text.innerHTML += `<span class="info">You encounter ${article} <span class="enemy">${capitalizeFirstLetter(
+        game_text.innerHTML += `<span class="info">You encounter ${article} <span class="enemy">${capitalize_first_letters(
           enemy_descriptor
-        )} ${capitalizeFirstLetter(enemy)}</span>.</span>\r\n\r\n`;
+        )} ${capitalize_first_letters(enemy)}</span>.</span>\r\n\r\n`;
 
         await sleep(1000);
 
         // Anounce enemy hp
-        game_text.innerHTML += `<span class="enemy">${capitalizeFirstLetter(
+        game_text.innerHTML += `<span class="enemy">${capitalize_first_letters(
           enemy_combined_name
         )}</span> has ${enemy_hp} hp.\r\n\r\n`;
 
@@ -1155,7 +1043,7 @@ async function small_dungeon() {
                 await sleep(1000);
 
                 game_text.innerHTML += `<span class="heal">You healed ${amt} hp.</span>\r\n\r\n`;
-                display_stats();
+                update_stats();
 
                 await sleep(1000);
                 continue;
@@ -1171,7 +1059,7 @@ async function small_dungeon() {
                 gold += amt;
 
                 game_text.innerHTML += `You find <span class="gold">${amt} gold</span>.\r\n`;
-                display_stats();
+                update_stats();
 
                 await sleep(1000);
                 continue;
@@ -1186,7 +1074,7 @@ async function small_dungeon() {
               // Add item to inventory
               inventory.push(item);
               game_text.innerHTML += `You find ${article} ${item}.\r\n`;
-              display_stats();
+              update_stats();
             }
           }
           // FAIL DISARM
@@ -1202,7 +1090,7 @@ async function small_dungeon() {
 
             game_text.innerHTML += `<span class="dmg">You take ${chest_dmg} damage.</span>\r\n\r\n`;
             damage(chest_dmg);
-            display_stats();
+            update_stats();
           }
         }
         // PASS BY TRAVELER
@@ -1263,7 +1151,7 @@ async function small_dungeon_boss() {
 
   game_text.innerHTML =
     "<span class='combat'>MINI BOSSFIGHT</span>\r\n" +
-    `[ <span class='enemy'>You vs ${capitalizeFirstLetter(
+    `[ <span class='enemy'>You vs ${capitalize_first_letters(
       boss
     )} (${boss_hp}/${boss_max_hp} hp)</span> ]\r\n\r\n`;
 
@@ -1293,7 +1181,7 @@ async function small_dungeon_boss() {
     }
 
     // Update Stats
-    display_stats();
+    update_stats();
 
     // Switch Turns
     player_turn = !player_turn;
@@ -1316,7 +1204,7 @@ async function small_dungeon_boss() {
           }
           // Enemy evades with 50%
           else {
-            game_text.innerHTML += `<span class="drastic">${capitalizeFirstLetter(
+            game_text.innerHTML += `<span class="drastic">${capitalize_first_letters(
               boss
             )} evaded the attack.</span>\r\n\r\n`;
           }
@@ -1379,7 +1267,7 @@ async function small_dungeon_boss() {
             }
             // Enemy evades with 50%
             else {
-              game_text.innerHTML += `<span class="drastic">${capitalizeFirstLetter(
+              game_text.innerHTML += `<span class="drastic">${capitalize_first_letters(
                 boss
               )} evaded the attack.</span>\r\n\r\n\r\n\r\n`;
             }
@@ -1421,7 +1309,7 @@ async function small_dungeon_boss() {
             }
             // Enemy evades with 50%
             else {
-              game_text.innerHTML += `<span class="drastic">${capitalizeFirstLetter(
+              game_text.innerHTML += `<span class="drastic">${capitalize_first_letters(
                 boss
               )} evaded the attack.</span>\r\n\r\n\r\n\r\n`;
             }
@@ -1445,7 +1333,7 @@ async function small_dungeon_boss() {
 
               await sleep(1000);
 
-              game_text.innerHTML += `<span class="dark-red"> ${capitalizeFirstLetter(
+              game_text.innerHTML += `<span class="dark-red"> ${capitalize_first_letters(
                 weapon_to_use
               )} broke. </span>\r\n`;
             }
@@ -1456,14 +1344,14 @@ async function small_dungeon_boss() {
 
         game_text.innerHTML =
           "<span class='combat'>MINI BOSSFIGHT</span>\r\n" +
-          `[ <span class='enemy'>You vs ${capitalizeFirstLetter(
+          `[ <span class='enemy'>You vs ${capitalize_first_letters(
             boss
           )} (${boss_hp}/${boss_max_hp} hp)</span> ]\r\n\r\n`;
       }
     }
     // Enemys Turn
     else {
-      game_text.innerHTML += `<span class="turn">${capitalizeFirstLetter(
+      game_text.innerHTML += `<span class="turn">${capitalize_first_letters(
         boss
       )}'s turn:</span>\r\n\r\n`;
 
@@ -1474,7 +1362,7 @@ async function small_dungeon_boss() {
 
       await sleep(1000);
 
-      game_text.innerHTML += `${capitalizeFirstLetter(boss)} attacks.\r\n\r\n`;
+      game_text.innerHTML += `${capitalize_first_letters(boss)} attacks.\r\n\r\n`;
 
       let miss_chance = Math.random();
       // Enemy misses with 15% Chance
@@ -1484,7 +1372,7 @@ async function small_dungeon_boss() {
         if (miss_or_evade_chance < 0.5) {
           await sleep(1000);
 
-          game_text.innerHTML += `<span class="blessing">${capitalizeFirstLetter(
+          game_text.innerHTML += `<span class="blessing">${capitalize_first_letters(
             boss
           )} misses and deals no damage.</span>\r\n\r\n`;
         }
@@ -1502,7 +1390,7 @@ async function small_dungeon_boss() {
         game_text.innerHTML += `<span class="dmg">You take ${dmg} damage.</span>\r\n\r\n`;
 
         damage(dmg);
-        display_stats();
+        update_stats();
 
         // if player will die break loop
         if (hp <= 0) {
@@ -1515,7 +1403,7 @@ async function small_dungeon_boss() {
 
       game_text.innerHTML =
         "<span class='combat'>MINI BOSSFIGHT</span>\r\n" +
-        `[ <span class='enemy'>You vs ${capitalizeFirstLetter(
+        `[ <span class='enemy'>You vs ${capitalize_first_letters(
           boss
         )} (${boss_hp}/${boss_max_hp} hp)</span> ]\r\n\r\n`;
     }
@@ -1576,7 +1464,7 @@ async function small_dungeon_boss() {
         await sleep(1000);
 
         game_text.innerHTML += `<span class="heal">You healed ${amt} hp.</span>\r\n\r\n`;
-        display_stats();
+        update_stats();
 
         await sleep(1000);
         continue;
@@ -1589,7 +1477,7 @@ async function small_dungeon_boss() {
         gold += amt;
 
         game_text.innerHTML += `You find <span class="gold">${amt} gold</span>.\r\n`;
-        display_stats();
+        update_stats();
 
         await sleep(1000);
         continue;
@@ -1604,7 +1492,7 @@ async function small_dungeon_boss() {
       // Add item to inventory
       inventory.push(item);
       game_text.innerHTML += `You find ${article} ${item}.\r\n`;
-      display_stats();
+      update_stats();
     }
 
     await sleep(2000);
@@ -1641,7 +1529,7 @@ async function bandit() {
       if (inventory.length != 0) {
         let weapon_to_steal = inventory.sample();
         inventory.pop(weapon_to_steal);
-        display_stats();
+        update_stats();
         game_text.innerHTML += `The bandit steals ${weapon_to_steal}.\r\n\r\n`;
 
         await sleep(1000);
@@ -1664,7 +1552,7 @@ async function bandit() {
         let amt_gold_steal = randomIntFromInterval(1, gold);
         gold -= amt_gold_steal;
         game_text.innerHTML += `The bandit steals <span class="gold">${amt_gold_steal} gold</span>.\r\n\r\n`;
-        display_stats();
+        update_stats();
 
         await sleep(1000);
 
@@ -1690,7 +1578,7 @@ async function bandit() {
 
     game_text.innerHTML += `<span class="dmg">You take 20 damage.</span>\r\n\r\n`;
     damage(20);
-    display_stats();
+    update_stats();
 
     await sleep(1000);
 
@@ -1732,10 +1620,10 @@ async function pray() {
 
     game_text.innerHTML += `<span class="dmg">You take 20 damage.</span>\r\n`;
     damage(20);
-    display_stats();
+    update_stats();
   }
   manage_allow_continue(true);
-  display_stats();
+  update_stats();
 }
 
 // Make a wish function
@@ -1763,7 +1651,7 @@ async function make_wish() {
     if (gold > 0) {
       game_text.innerHTML += `You throw <span class="gold">one gold</span> into the well.\r\n\r\n`;
       gold -= 1;
-      display_stats();
+      update_stats();
       await sleep(2000);
     }
     // Player has no gold
@@ -1810,12 +1698,12 @@ async function make_wish() {
   }
 
   manage_allow_continue(true);
-  display_stats();
+  update_stats();
 }
 
 // Take Damage
 async function damage(amount) {
-  display_stats();
+  update_stats();
   hp -= amount;
   if (hp <= 0) {
     alive = false;
@@ -1881,7 +1769,7 @@ async function traveler_routine() {
         await sleep(1000);
 
         game_text.innerHTML += `<span class="heal">You healed ${amt} hp.</span>\r\n\r\n`;
-        display_stats();
+        update_stats();
 
         await sleep(1000);
         continue;
@@ -1897,7 +1785,7 @@ async function traveler_routine() {
         gold += amt;
 
         game_text.innerHTML += `${name} gives you <span class="gold">${amt} gold</span>.\r\n`;
-        display_stats();
+        update_stats();
 
         await sleep(1000);
         continue;
@@ -1912,7 +1800,7 @@ async function traveler_routine() {
       // Add item to inventory
       inventory.push(item);
       game_text.innerHTML += `${name} gives you ${article} ${item}.\r\n`;
-      display_stats();
+      update_stats();
     }
 
     await sleep(1000);
@@ -1943,7 +1831,7 @@ async function traveler_routine() {
         `<span class="dmg">${name} hits you and deals ${dmg} damage.</span>` +
         `\r\n\r\n`;
       damage(dmg);
-      display_stats();
+      update_stats();
 
       await sleep(1000);
 
@@ -1990,7 +1878,7 @@ async function traveler_routine() {
             await sleep(1000);
 
             game_text.innerHTML += `<span class="heal">You healed ${amt} hp.</span>\r\n\r\n`;
-            display_stats();
+            update_stats();
 
             await sleep(1000);
             continue;
@@ -2006,7 +1894,7 @@ async function traveler_routine() {
             gold += amt;
 
             game_text.innerHTML += `${name} had <span class="gold">${amt} gold</span>.\r\n`;
-            display_stats();
+            update_stats();
 
             await sleep(1000);
             continue;
@@ -2021,7 +1909,7 @@ async function traveler_routine() {
           // Add item to inventory
           inventory.push(item);
           game_text.innerHTML += `${name} had ${article} ${item}.\r\n`;
-          display_stats();
+          update_stats();
         }
 
         await sleep(1000);
@@ -2098,7 +1986,7 @@ async function friendly_traveler_routine() {
         await sleep(1000);
 
         game_text.innerHTML += `<span class="heal">You healed ${amt} hp.</span>\r\n\r\n`;
-        display_stats();
+        update_stats();
 
         await sleep(1000);
         continue;
@@ -2114,7 +2002,7 @@ async function friendly_traveler_routine() {
         gold += amt;
 
         game_text.innerHTML += `${name} gives you <span class="gold">${amt} gold</span>.\r\n`;
-        display_stats();
+        update_stats();
 
         await sleep(1000);
         continue;
@@ -2129,7 +2017,7 @@ async function friendly_traveler_routine() {
       // Add item to inventory
       inventory.push(item);
       game_text.innerHTML += `${name} gives you ${article} ${item}.\r\n`;
-      display_stats();
+      update_stats();
     }
 
     await sleep(1000);
@@ -2203,7 +2091,7 @@ async function monk_routine() {
         await sleep(1000);
 
         game_text.innerHTML += `<span class="heal">You healed ${amt} hp.</span>\r\n\r\n`;
-        display_stats();
+        update_stats();
 
         await sleep(1000);
         continue;
@@ -2269,7 +2157,7 @@ async function merchant_routine() {
   for (let i = 0; i < assortment.length; i++) {
     await sleep(1000);
     game_text.innerHTML += "- ";
-    game_text.innerHTML += `${capitalizeFirstLetter(assortment[i])} `;
+    game_text.innerHTML += `${capitalize_first_letters(assortment[i])} `;
     if (
       assortment[i] != "healing potion" &&
       assortment[i] != "lesser healing potion"
@@ -2355,7 +2243,7 @@ async function merchant_routine() {
             continue;
           } else {
             inventory.push(item);
-            display_stats();
+            update_stats();
           }
         }
         //heal
@@ -2370,7 +2258,7 @@ async function merchant_routine() {
           await sleep(1000);
 
           game_text.innerHTML += `<span class="heal">You healed ${amt} hp.</span>\r\n\r\n`;
-          display_stats();
+          update_stats();
         }
         await sleep(2000);
       } else {
@@ -2434,7 +2322,7 @@ async function seafarer_routine() {
     if (gold >= map_price) {
       game_text.innerHTML += `You buy the treasure map for <span class="gold">${map_price} gold</span>.\r\n\r\n`;
       gold -= map_price;
-      display_stats();
+      update_stats();
 
       await sleep(2000);
 
@@ -2480,7 +2368,7 @@ async function seafarer_routine() {
             gold += amt;
 
             game_text.innerHTML += `You find <span class="gold">${amt} gold</span>.\r\n`;
-            display_stats();
+            update_stats();
 
             await sleep(1000);
             continue;
@@ -2495,7 +2383,7 @@ async function seafarer_routine() {
           // Add item to inventory
           inventory.push(item);
           game_text.innerHTML += `You find ${article} ${item}.\r\n`;
-          display_stats();
+          update_stats();
         }
 
         await sleep(2000);
@@ -2543,7 +2431,7 @@ async function enemy_encounter() {
   // Setup Enemy
   let enemy = enemies.sample();
   let enemy_descriptor = enemy_desciptors.sample();
-  let enemy_combined_name = `${enemy_descriptor} ${capitalizeFirstLetter(
+  let enemy_combined_name = `${enemy_descriptor} ${capitalize_first_letters(
     enemy
   )}`;
   let enemy_hp =
@@ -2561,14 +2449,14 @@ async function enemy_encounter() {
   }
 
   // Anounce enemy
-  game_text.innerHTML += `<span class="info">You encounter ${article} <span class="enemy">${capitalizeFirstLetter(
+  game_text.innerHTML += `<span class="info">You encounter ${article} <span class="enemy">${capitalize_first_letters(
     enemy_descriptor
-  )} ${capitalizeFirstLetter(enemy)}</span>.</span>\r\n\r\n`;
+  )} ${capitalize_first_letters(enemy)}</span>.</span>\r\n\r\n`;
 
   await sleep(1000);
 
   // Anounce enemy hp
-  game_text.innerHTML += `<span class="enemy">${capitalizeFirstLetter(
+  game_text.innerHTML += `<span class="enemy">${capitalize_first_letters(
     enemy_combined_name
   )}</span> has ${enemy_hp} hp.\r\n\r\n`;
 
@@ -2619,7 +2507,7 @@ async function enemy_encounter() {
       await sleep(1000);
 
       game_text.innerHTML += `<span class="dmg">You take ${dmg} damage.</span>\r\n\r\n`;
-      display_stats();
+      update_stats();
 
       await sleep(1000);
 
@@ -2648,7 +2536,7 @@ async function combat_routine(
   await sleep(1000);
   game_text.innerHTML =
     "<span class='combat'>COMBAT</span>\r\n" +
-    `[ <span class='enemy'>You vs ${capitalizeFirstLetter(
+    `[ <span class='enemy'>You vs ${capitalize_first_letters(
       enemy_combined
     )} (${enemy_hp}/${enemy_max_hp} hp)</span> ]\r\n\r\n`;
 
@@ -2685,7 +2573,7 @@ async function combat_routine(
     }
 
     // Update Stats
-    display_stats();
+    update_stats();
 
     // Switch Turns
     player_turn = !player_turn;
@@ -2708,7 +2596,7 @@ async function combat_routine(
           }
           // Enemy evades with 50%
           else {
-            game_text.innerHTML += `<span class="drastic">${capitalizeFirstLetter(
+            game_text.innerHTML += `<span class="drastic">${capitalize_first_letters(
               enemy_combined
             )} evaded the attack.</span>\r\n\r\n`;
           }
@@ -2732,7 +2620,7 @@ async function combat_routine(
 
         game_text.innerHTML =
           "<span class='combat'>COMBAT</span>\r\n" +
-          `[ <span class='enemy'>You vs ${capitalizeFirstLetter(
+          `[ <span class='enemy'>You vs ${capitalize_first_letters(
             enemy_combined
           )} (${enemy_hp}/${enemy_max_hp} hp)</span> ]\r\n\r\n`;
       }
@@ -2775,7 +2663,7 @@ async function combat_routine(
             }
             // Enemy evades with 50%
             else {
-              game_text.innerHTML += `<span class="drastic">${capitalizeFirstLetter(
+              game_text.innerHTML += `<span class="drastic">${capitalize_first_letters(
                 enemy_combined
               )} evaded the attack.</span>\r\n\r\n\r\n\r\n`;
             }
@@ -2817,7 +2705,7 @@ async function combat_routine(
             }
             // Enemy evades with 50%
             else {
-              game_text.innerHTML += `<span class="drastic">${capitalizeFirstLetter(
+              game_text.innerHTML += `<span class="drastic">${capitalize_first_letters(
                 enemy_combined
               )} evaded the attack.</span>\r\n\r\n\r\n\r\n`;
             }
@@ -2841,7 +2729,7 @@ async function combat_routine(
 
               await sleep(1000);
 
-              game_text.innerHTML += `<span class="dark-red"> ${capitalizeFirstLetter(
+              game_text.innerHTML += `<span class="dark-red"> ${capitalize_first_letters(
                 weapon_to_use
               )} broke. </span>\r\n`;
             }
@@ -2852,14 +2740,14 @@ async function combat_routine(
 
         game_text.innerHTML =
           "<span class='combat'>COMBAT</span>\r\n" +
-          `[ <span class='enemy'>You vs ${capitalizeFirstLetter(
+          `[ <span class='enemy'>You vs ${capitalize_first_letters(
             enemy_combined
           )} (${enemy_hp}/${enemy_max_hp} hp)</span> ]\r\n\r\n`;
       }
     }
     // Enemys Turn
     else {
-      game_text.innerHTML += `<span class="turn">${capitalizeFirstLetter(
+      game_text.innerHTML += `<span class="turn">${capitalize_first_letters(
         enemy
       )}'s turn:</span>\r\n\r\n`;
 
@@ -2873,7 +2761,7 @@ async function combat_routine(
 
       await sleep(1000);
 
-      game_text.innerHTML += `${capitalizeFirstLetter(enemy)} attacks.\r\n\r\n`;
+      game_text.innerHTML += `${capitalize_first_letters(enemy)} attacks.\r\n\r\n`;
 
       let miss_chance = Math.random();
       // Enemy misses with 15% Chance
@@ -2883,7 +2771,7 @@ async function combat_routine(
         if (miss_or_evade_chance < 0.5) {
           await sleep(1000);
 
-          game_text.innerHTML += `<span class="blessing">${capitalizeFirstLetter(
+          game_text.innerHTML += `<span class="blessing">${capitalize_first_letters(
             enemy_combined
           )} misses and deals no damage.</span>\r\n\r\n`;
         }
@@ -2901,7 +2789,7 @@ async function combat_routine(
         game_text.innerHTML += `<span class="dmg">You take ${dmg} damage.</span>\r\n\r\n`;
 
         damage(dmg);
-        display_stats();
+        update_stats();
 
         // if player will die break loop
         if (hp <= 0) {
@@ -2914,247 +2802,10 @@ async function combat_routine(
 
       game_text.innerHTML =
         "<span class='combat'>COMBAT</span>\r\n" +
-        `[ <span class='enemy'>You vs ${capitalizeFirstLetter(
+        `[ <span class='enemy'>You vs ${capitalize_first_letters(
           enemy_combined
         )} (${enemy_hp}/${enemy_max_hp} hp)</span> ]\r\n\r\n`;
     }
-  }
-}
-
-// #endregion
-
-// #region Determiners
-
-// Enemy Determiner
-function enemy_determiner(enemy, determiner) {
-  change_enemy_determinator_class(determiner);
-  switch (enemy) {
-    case "small_dungeon_boss":
-      return strong;
-    // REGION 0: FOREST
-    case "spider":
-      return weak;
-    case "werewolf":
-      return below_avg;
-    case "dryad":
-      return below_avg;
-    case "gnome":
-      return weak;
-    case "wendigo":
-      return common;
-    case "ent":
-      return common;
-    case "harpy":
-      return below_avg;
-    case "basilisk":
-      return common;
-    case "lizard":
-      return common;
-    case "rat":
-      return weak;
-    case "leech":
-      return weak;
-    case "mosquito":
-      return weak;
-    // REGION 1: LOCKWOOD VILLAGE + 10-19
-    case "goblin":
-      return below_avg;
-    case "orc":
-      return above_avg;
-    case "wraith":
-      return above_avg;
-    case "megaspider":
-      return common;
-    case "bandit":
-      return below_avg;
-    case "troll":
-      return strong;
-    case "wight":
-      return common;
-    // REGION 2: EASTPORT + 20-29
-    case "centipede":
-      return weak;
-    case "megacentipede":
-      return above_avg;
-    case "ghoul":
-      return common;
-    case "rakshasa":
-      return common;
-    case "hag":
-      return weak;
-    case "hollow":
-      return weak;
-    case "banshee":
-      return common;
-    case "maggot":
-      return weak;
-    case "possessed":
-      return below_avg;
-    // REGION 3: OCEAN + 30-39
-    case "sea monster":
-      return above_avg;
-    case "mermaid":
-      return weak;
-    case "siren":
-      return below_avg;
-    case "leviathan":
-      return abomination;
-    case "sea serpent":
-      return strong;
-    case "water elemental":
-      return above_avg;
-    case "charybdis":
-      return monster;
-    case "kraken":
-      return abomination;
-    case "megasquid":
-      return strong;
-    case "megacrab":
-      return above_avg;
-    case "naga":
-      return above_avg;
-    case "deep one":
-      return common;
-    case "manta ray":
-      return weak;
-    case "jellyfish":
-      return weak;
-    case "octopus":
-      return below_avg;
-    // REGION 4: SHORE
-    case "vulture":
-      return weak;
-    case "werewolf":
-      return below_avg;
-    case "spirit":
-      return below_avg;
-    case "bat":
-      return weak;
-    case "dweller":
-      return below_avg;
-    case "lobster":
-      return weak;
-    case "scorpion":
-      return weak;
-    case "sandworm":
-      return strong;
-    case "worm":
-      return weak;
-    case "seagull":
-      return weak;
-    case "turtle":
-      return weak;
-    // REGION 6: WASTELAND
-    case "insect":
-      return weak;
-    case "giant":
-      return monster;
-    case "golem":
-      return above_avg;
-    case "witch":
-      return above_avg;
-    case "druid":
-      return common;
-    case "infernal":
-      return strong;
-    case "beetle":
-      return weak;
-    case "fly":
-      return weak;
-    case "wasp":
-      return weak;
-    case "snake":
-      return weak;
-    // REGION 7: LOST TEMPLE
-    case "skeleton":
-      return common;
-    case "skeletal warrior":
-      return above_avg;
-    case "mummy":
-      return weak;
-    case "cultist":
-      return above_avg;
-    case "homunculus":
-      return strong;
-    case "necromancer":
-      return strong;
-    case "kobold":
-      return weak;
-    case "lich":
-      return strong;
-  }
-}
-
-// Item Determiner
-function item_determiner(item, determiner) {
-  change_item_determinator_class(determiner);
-  switch (item) {
-    case "lesser healing potion":
-      return w_weak;
-    case "healing potion":
-      return w_common;
-    case "damaged sword":
-      return w_weak;
-    case "dagger":
-      return w_weak;
-    case "axe":
-      return w_common;
-    case "sword":
-      return w_common;
-    case "bow":
-      return w_common;
-    case "halberd":
-      return w_uncommon;
-    case "greataxe":
-      return w_above_avg;
-    case "claymore":
-      return w_above_avg;
-    case "great halberd":
-      return w_strong;
-    case "greatsword":
-      return w_strong;
-    case "mace":
-      return w_above_avg;
-    case "warhammer":
-      return w_uncommon;
-    case "flail":
-      return w_strong;
-    case "spear":
-      return w_above_avg;
-    case "crossbow":
-      return w_uncommon;
-    case "scythe":
-      return w_above_avg;
-    case "scimitar":
-      return w_strong;
-    case "bastard sword":
-      return w_uncommon;
-    case "shortsword":
-      return w_common;
-    case "longsword":
-      return w_above_avg;
-    case "flamberge":
-      return w_strong;
-    case "falchion":
-      return w_uncommon;
-    case "rapier":
-      return w_uncommon;
-    case "estoc":
-      return w_above_avg;
-    case "club":
-      return w_uncommon;
-    case "wooden staff":
-      return w_strong;
-  }
-}
-
-// Gold Determiner
-function det_gold(entity) {
-  switch (entity) {
-    case "traveler":
-      return [5, 40];
-    case "trappedchest":
-      return [30, 100];
   }
 }
 
@@ -3189,7 +2840,7 @@ async function open_loot_container(container, amount_of_items) {
       await sleep(1000);
 
       game_text.innerHTML += `<span class="heal">You healed ${amt} hp.</span>\r\n\r\n`;
-      display_stats();
+      update_stats();
 
       await sleep(1000);
       continue;
@@ -3231,33 +2882,6 @@ async function open_loot_container(container, amount_of_items) {
   manage_allow_continue(true);
 }
 
-// XP Managing
-async function manage_xp(amount) {
-  xp += amount;
-  while (xp >= max_xp) {
-    game_text.innerHTML += `\r\n<span class="lvl">You leveled up!</span>\r\n`;
-
-    // Increase LVL
-    lvl++;
-
-    // Increase Max XP
-    max_xp += lvl * 20;
-
-    // Increase Max HP
-    max_hp += lvl * 5;
-
-    // Increase Max Mana
-    max_mana += lvl * 5;
-    mana = max_mana;
-
-    xp = Math.abs(max_xp - xp);
-    hp = max_hp;
-
-    // Increase Inventory Item Cap
-    inventory_cap += 1;
-  }
-  display_stats();
-}
 
 // ███╗░░░███╗░█████╗░██╗███╗░░██╗
 // ████╗░████║██╔══██╗██║████╗░██║
@@ -3295,7 +2919,7 @@ async function main_loop() {
   await check_region_switch(steps);
 
   // Stat Displays
-  display_stats();
+  update_stats();
 
   // Increase Steps
   steps++;
