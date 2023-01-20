@@ -328,7 +328,7 @@ async function manage_events(sub_event) {
           // Shark
           if (e < 0.5) {
             let dmg = randomIntFromInterval(5, 10);
-            damage(dmg);
+            await damage(dmg);
 
             await sleep(1000);
 
@@ -343,7 +343,7 @@ async function manage_events(sub_event) {
           // Collapse
           else {
             let dmg = randomIntFromInterval(5, 10);
-            damage(dmg);
+            await damage(dmg);
 
             await sleep(1000);
 
@@ -520,7 +520,7 @@ async function manage_events(sub_event) {
         // is trap 40%
         else {
           let dmg = randomIntFromInterval(5, 10);
-          damage(dmg);
+          await damage(dmg);
 
           await sleep(1000);
 
@@ -584,7 +584,7 @@ async function manage_events(sub_event) {
         // is trap
         else {
           let dmg = randomIntFromInterval(5, 25);
-          damage(dmg);
+          await damage(dmg);
 
           await sleep(1000);
 
@@ -689,7 +689,7 @@ async function manage_events(sub_event) {
     // STORM
     case "storm":
       let storm_dmg = randomIntFromInterval(5, 15);
-      damage(storm_dmg);
+      await damage(storm_dmg);
 
       game_text.innerHTML += `A violent storm hits you.\r\n\r\n`;
 
@@ -762,7 +762,7 @@ async function manage_events(sub_event) {
         // Cargo is trap
         else {
           let dmg = randomIntFromInterval(5, 10);
-          damage(dmg);
+          await damage(dmg);
 
           await sleep(1000);
 
@@ -909,7 +909,7 @@ async function bandit() {
     await sleep(1000);
 
     game_text.innerHTML += `<span class="dmg">You take 20 damage.</span>\r\n\r\n`;
-    damage(20);
+    await damage(20);
     update_stats();
 
     await sleep(1000);
@@ -951,7 +951,7 @@ async function pray() {
     await sleep(1000);
 
     game_text.innerHTML += `<span class="dmg">You take 20 damage.</span>\r\n`;
-    damage(20);
+    await damage(20);
     update_stats();
   }
   manage_allow_continue(true);
@@ -1033,16 +1033,7 @@ async function make_wish() {
   update_stats();
 }
 
-// Take Damage
-async function damage(amount) {
-  update_stats();
-  hp -= amount;
-  if (hp <= 0) {
-    alive = false;
-    game_text.innerHTML += "You died.";
-    throw new Error();
-  }
-}
+
 
 // Traveler
 async function traveler_routine() {
@@ -1162,7 +1153,7 @@ async function traveler_routine() {
       game_text.innerHTML +=
         `<span class="dmg">${name} hits you and deals ${dmg} damage.</span>` +
         `\r\n\r\n`;
-      damage(dmg);
+      await damage(dmg);
       update_stats();
 
       await sleep(1000);
@@ -1540,7 +1531,7 @@ async function enemy_encounter() {
     // Fail with 55% Chance --> Engange in Combat
     else {
       let dmg = randomIntFromInterval(1, 3);
-      damage(dmg);
+      await damage(dmg);
 
       await sleep(1000);
 
@@ -1831,7 +1822,7 @@ async function combat_routine(
 
         game_text.innerHTML += `<span class="dmg">You take ${dmg} damage.</span>\r\n\r\n`;
 
-        damage(dmg);
+        await damage(dmg);
         update_stats();
 
         // if player will die break loop

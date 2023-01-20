@@ -466,3 +466,14 @@ async function open_loot_container(loot_table, amount_of_items_min, amount_of_it
   game_text.innerHTML += `\r\nYou finish looting.\r\n`;
   manage_allow_continue(true);
 }
+
+// Take Damage
+async function damage(amount) {
+  update_stats();
+  hp -= amount;
+  if (hp <= 0) {
+    alive = false;
+    game_text.innerHTML += "You died.";
+    throw new Error();
+  }
+}
