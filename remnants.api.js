@@ -473,7 +473,7 @@ async function damage(amount) {
   hp -= amount;
   if (hp <= 0) {
     alive = false;
-    game_text.innerHTML += "You died.";
+    game_text.innerHTML += `<span class="dmg">You died.</span>`;
     throw new Error();
   }
 }
