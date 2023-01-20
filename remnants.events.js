@@ -609,4 +609,256 @@ async function small_dungeon_boss() {
   manage_allow_continue(true);
 }
 
+// █▀ █▀▀ ▄▀█ █▀▀ ▄▀█ █▀█ █▀▀ █▀█
+// ▄█ ██▄ █▀█ █▀░ █▀█ █▀▄ ██▄ █▀▄
+
+// Seafarer
+async function seafarer_routine() {
+  // Choose random Traveler name
+  let name = traveler_names.sample();
+
+  // Determine random Map Price
+  let map_price = randomIntFromInterval(60, 160);
+
+  game_text.innerHTML =
+    `<span class="traveler-name">Seafarer ${name}</span>` + `\r\n\r\n`;
+
+  await sleep(1000);
+
+  game_text.innerHTML +=
+    "Ahoy, me hearties! I've got me trusty treasure map here. Who wants in on this grand adventure to discover what lies beyond the X that marks the spot?\r\n\r\n";
+
+  await sleep(4000);
+
+  game_text.innerHTML += `They offer to sell you a treasure map for <span class="gold">${map_price} gold</span>.\r\n\r\n`;
+
+  await sleep(2000);
+
+  game_text.innerHTML += `<span class="choice">Give them <span class="gold">${map_price} gold</span> for the treasure map?</span>\r\n\r\n`;
+
+  await await_input();
+
+  // YES: Buy Map
+  if (player_input == "y") {
+
+    // If Player has more or equal Gold
+    if (gold >= map_price) {
+      game_text.innerHTML += `You buy the treasure map for <span class="gold">${map_price} gold</span>.\r\n\r\n`;
+      gold -= map_price;
+      update_stats();
+
+      await sleep(2000);
+
+      game_text.innerHTML = `<span class="traveler-name">TREASURE HUNT</span>\r\n\r\n`;
+
+      await sleep(1000);
+
+      game_text.innerHTML += `<span class="info">The X marks the spot, a destination unknown, but with the aid of this map, you shall uncover the riches that lay hidden.</span>\r\n\r\n`;
+
+      await sleep(4000);
+
+      game_text.innerHTML += `<span class="info">After some time, you've finally reach the destination marked on the map.</span>\r\n\r\n`;
+
+      await sleep(2000);
+
+      let d = Math.random();
+
+      // FIND TREASURE 70%
+      if (d < 0.7) {
+        game_text.innerHTML += `<span class="blessing">The X was true, and the treasure is real!</span>\r\n\r\n`;
+
+        await sleep(2000);
+
+        open_loot_container(treasure_map_treasure_loot_table, 4, 7);
+
+        await sleep(2000);
+
+        game_text.innerHTML += "\r\nYou finish looting and sail away.\r\n";
+        manage_allow_continue(true);
+        return;
+      }
+      // DONT FIND TREASURE 30%
+      else {
+        game_text.innerHTML += `<span class="drastic">The X marks not the spot of treasure, but a pit of despair. Your journey was in vain, and you've been led astray.</span>\r\n\r\n`;
+
+        await sleep(2000);
+
+        game_text.innerHTML += "You sail away.\r\n";
+        manage_allow_continue(true);
+        return;
+      }
+    }
+    // Player has not enough gold
+    else {
+      await sleep(1000);
+      game_text.innerHTML += `You don't have enough <span class="gold">gold</span>.\r\n\r\n`;
+      await sleep(1000);
+      game_text.innerHTML += `You don't buy the map and sail away.\r\n`;
+      await sleep(1000);
+      manage_allow_continue(true);
+      return;
+    }
+  }
+  // DONT BUY
+  else if (player_input == "n") {
+    game_text.innerHTML += "You don't buy the map and sail away.\r\n";
+    manage_allow_continue(true);
+    return;
+  }
+}
+
+// █▀▄▀█ █▀▀ █▀█ █▀▀ █░█ ▄▀█ █▄░█ ▀█▀
+// █░▀░█ ██▄ █▀▄ █▄▄ █▀█ █▀█ █░▀█ ░█░
+
+// Merchant
+async function merchant_routine() {
+  // Choose random Merchant Name
+  let merchant_name = merchant_names.sample();
+
+  // Choose random Merchant Origin
+  let merchant_origin = origins.sample();
+
+  game_text.innerHTML = `<span class="lvl">Merchant "${merchant_name}" of the ${merchant_origin}</span>\r\n`;
+  game_text.innerHTML += "\r\n";
+
+  // Anger Level increases the Price
+  let anger = 0;
+
+  await sleep(1000);
+
+  game_text.innerHTML += "They offer you: \r\n\r\n";
+
+  let assortment = [];
+  let amt_of_items = randomIntFromInterval(2, 6);
+
+  // Populate Assortment
+  // Populate Assortment with Lesser Healing Potion by default
+  assortment.push("lesser healing potion");
+  for (let i = 0; i < amt_of_items; i++) {
+    // Choose random Item
+    let random_item = merchant_assortment.sample();
+    // Only add Item if it is not already in the Assortment
+    if (!assortment.includes(random_item)) {
+      assortment.push(random_item);
+    }
+  }
+
+  // Display Assortment
+  for (let i = 0; i < assortment.length; i++) {
+    await sleep(1000);
+    game_text.innerHTML += "- ";
+    game_text.innerHTML += `${capitalize_first_letters(assortment[i])} `;
+    // Add Damage if Items aren't Healing or Mana Potions
+    if (
+      assortment[i] != "healing potion" &&
+      assortment[i] != "lesser healing potion"
+    ) {
+      game_text.innerHTML += `(${item_determiner(assortment[i], "dmg")[0]}-${
+        item_determiner(assortment[i], "dmg")[1]
+      } dmg)`;
+    }
+    game_text.innerHTML += "\r\n";
+  }
+
+  // Player Input
+  // Player has enough Gold
+  await sleep(3000);
+
+  game_text.innerHTML += `\r\n<span class="choice">Ready to buy?</span>\r\n\r\n`;
+
+  await await_input();
+
+  player_input == "y" ? game_text.innerHTML += `The merchant approaches you.` : game_text.innerHTML += `The merchant approaches you anyway.`;
+
+  await sleep(3000);
+
+  for (let i = 0; i < assortment.length; i++) {
+    game_text.innerHTML = `<span class="lvl">Merchant "${merchant_name}" of the ${merchant_origin}</span>\r\n`;
+    game_text.innerHTML += "\r\n";
+
+    await sleep(1000);
+
+    let item = assortment[i];
+
+    // Determine Item Price
+    price = randomIntFromInterval(
+      item_determiner(assortment[i], "price")[0],
+      item_determiner(assortment[i], "price")[1]
+    );
+    // Add Stepts to Price for Scaling
+    price += steps;
+    if (assortment[i] != "lesser healing potion" && item != "healing potion") {
+      game_text.innerHTML += `<span class="choice">Buy ${item}? (${
+        item_determiner(assortment[i], "dmg")[0]
+      }-${
+        item_determiner(assortment[i], "dmg")[1]
+      } dmg) for <span class="gold">${price}G</span>?</span>\r\n\r\n`;
+    } else {
+      game_text.innerHTML += `<span class="choice">Buy ${item} for <span class="gold">${
+        price + anger
+      }G</span>?</span>\r\n\r\n`;
+    }
+
+    await await_input();
+
+    // Wants to buy
+    if (player_input == "y") {
+
+      // If Player has enough Gold
+      if (price + anger <= gold) {
+        await sleep(1000);
+        gold -= price + anger;
+        game_text.innerHTML +=
+          "<span class='info'>\r\nYou bought the item.</span>\r\n\r\n";
+
+        // Add to Inventory if it is Weapon
+        if (item != "lesser healing potion" && item != "healing potion") {
+
+          // Check if Item is already in Inventory
+          if (inventory.includes(item)) {
+            game_text.innerHTML += `${item} is already in your inventory. What a waste!\r\n`;
+            continue;
+          } else {
+            inventory.push(item);
+            update_stats();
+          }
+        }
+        // Heal or Add Mana
+        else {
+          let amt = 30;
+          hp += amt;
+
+          if (hp >= max_hp) {
+            hp = max_hp;
+          }
+
+          await sleep(1000);
+
+          game_text.innerHTML += `<span class="heal">You healed ${amt} hp.</span>\r\n\r\n`;
+          update_stats();
+        }
+        await sleep(2000);
+      } else {
+        await sleep(1000);
+        game_text.innerHTML +=
+          "<span class='info'>\r\nYou don't have enough gold.</span>\r\n\r\n";
+        await sleep(1000);
+        game_text.innerHTML += `<span class="drastic">You've angered the merchant.</span>\r\n\r\n`;
+        await sleep(3000);
+        anger += 5;
+      }
+    }
+    // doesnt want to buy
+    else if (player_input == "n") {
+      continue;
+    }
+  }
+
+  await sleep(1000);
+
+  game_text.innerHTML += `The trade concludes.\r\n`;
+
+  manage_allow_continue(true);
+}
+
 // #endregion
