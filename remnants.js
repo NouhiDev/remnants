@@ -220,9 +220,6 @@ async function manage_places(places, events) {
   // Choose random Place from current Region
   let place = places.sample();
 
-  // Capitalize Place
-  place[0].toUpperCase();
-
   game_text.innerHTML += `${across_var.sample()} ${correct_article(
     place
   )} ${place}.\r\n\r\n`;
@@ -242,7 +239,7 @@ async function manage_places(places, events) {
 
     await sleep(1000);
 
-    manage_sub_events(event);
+    manage_events(event);
   }
   // No Event has been chosen
   else {
@@ -252,7 +249,7 @@ async function manage_places(places, events) {
 }
 
 // Manage Sub Events
-async function manage_sub_events(sub_event) {
+async function manage_events(sub_event) {
   awaiting_response = true;
 
   switch (sub_event) {
