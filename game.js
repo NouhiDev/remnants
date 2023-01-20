@@ -3259,68 +3259,46 @@ async function manage_xp(amount) {
   display_stats();
 }
 
+// ███╗░░░███╗░█████╗░██╗███╗░░██╗
+// ████╗░████║██╔══██╗██║████╗░██║
+// ██╔████╔██║███████║██║██╔██╗██║
+// ██║╚██╔╝██║██╔══██║██║██║╚████║
+// ██║░╚═╝░██║██║░░██║██║██║░╚███║
+// ╚═╝░░░░░╚═╝╚═╝░░╚═╝╚═╝╚═╝░░╚══╝
+// ░██████╗░░█████╗░███╗░░░███╗███████╗
+// ██╔════╝░██╔══██╗████╗░████║██╔════╝
+// ██║░░██╗░███████║██╔████╔██║█████╗░░
+// ██║░░╚██╗██╔══██║██║╚██╔╝██║██╔══╝░░
+// ╚██████╔╝██║░░██║██║░╚═╝░██║███████╗
+// ░╚═════╝░╚═╝░░╚═╝╚═╝░░░░░╚═╝╚══════╝
+// ██╗░░░░░░█████╗░░█████╗░██████╗░
+// ██║░░░░░██╔══██╗██╔══██╗██╔══██╗
+// ██║░░░░░██║░░██║██║░░██║██████╔╝
+// ██║░░░░░██║░░██║██║░░██║██╔═══╝░
+// ███████╗╚█████╔╝╚█████╔╝██║░░░░░
+// ╚══════╝░╚════╝░░╚════╝░╚═╝░░░░░
+
 // Main Game Loop (MGL)
 async function main_loop() {
+  // Start Timer on start
   if (steps == 0) start_timer();
+
+  // Add Region Title Text
   game_text.innerHTML = `<span class="region-title">${current_region.toUpperCase()}</span>\r\n\r\n`;
-  // Check if player is alive
+
+  // Check if Player is alive
   if (!alive) {
     return;
   }
+
+  // Check for new Region / Continue if no new Region
   await check_region_switch(steps);
 
   // Stat Displays
   display_stats();
+
+  // Increase Steps
   steps++;
-}
-
-// Allow to continue to new day
-function manage_allow_continue(x) {
-  changeProceedBtnClrs(x);
-  allow_continue = true;
-}
-
-function changeProceedBtnClrs(x) {
-  var r = document.querySelector(":root");
-  if (x) {
-    allow_input = true;
-    r.style.setProperty("--p-btn-color", "#6aff4d");
-    r.style.setProperty("--p-btn-zoom", "1.1");
-  } else {
-    allow_input = false;
-    r.style.setProperty("--p-btn-color", "#8E8E8E");
-    r.style.setProperty("--p-btn-zoom", "1");
-  }
-}
-
-// Regularly update to auto scroll to end of div
-window.setInterval(function () {
-  var elem = document.getElementById("game");
-  elem.scrollTop = elem.scrollHeight;
-}, 10);
-
-// Zooms out 20% on initialization
-function zoom() {
-  document.body.style.zoom = "80%";
-  document.getElementById("stats-text").style.fontSize = "19px";
-}
-
-// Manages Background Music
-let audio_muted = true;
-function bgm() {
-  let audio_element = document.getElementById("bg_loop");
-  let audio_btn = document.getElementById("bgmbtn");
-  audio_muted = !audio_muted;
-
-  audio_element.muted = audio_muted;
-  audio_element.volume = 0.1;
-
-  if (audio_muted) {
-    audio_btn.style.filter = "grayscale(1)";
-  } else {
-    audio_element.play();
-    audio_btn.style.filter = "grayscale(0)";
-  }
 }
 
 // Debug Mode
@@ -3341,38 +3319,4 @@ if (debug_stats) {
     "scimitar",
   ];
   gold = 9999;
-}
-
-// Timer Function
-function start_timer() {
-  if (timer_active) {
-    var timer = document.getElementById("timer").innerHTML;
-    var arr = timer.split(":");
-    var hour = arr[0];
-    var min = arr[1];
-    var sec = arr[2];
-
-    if (sec == 59) {
-      if (min == 59) {
-        hour++;
-        min = 0;
-        if (hour < 10) hour = "0" + hour;
-      } else {
-        min++;
-      }
-      if (min < 10) min = "0" + min;
-      sec = 0;
-    } else {
-      sec++;
-      if (sec < 10) sec = "0" + sec;
-    }
-  }
-
-  document.getElementById("timer").innerHTML = `${hour}:${min}:${sec}`;
-  setTimeout(start_timer, 1000);
-}
-
-// Back Button
-function back_btn() {
-  location.href = "https://nouhi.dev/";
 }

@@ -33,43 +33,13 @@ across_var = [
   "You run into",
 ];
 
-// Article Determination
-// This function determines whether to use "an" or "a" before a given word.
-// It takes in a single string parameter, and returns "an" if the first letter of the word is a vowel,
-// otherwise it returns "a".
 vowels = ["a", "e", "i", "o", "u"];
 
-function correct_article(input) {
-  return vowels.includes(input[0]) ? "an" : "a";
-}
+// ─█▀▀█ ░█▀▀█ ▀▀█▀▀ 　 ░█▀▄▀█ ─█▀▀█ ░█▄─░█ ─█▀▀█ ░█▀▀█ ░█▀▀▀ ░█▀▄▀█ ░█▀▀▀ ░█▄─░█ ▀▀█▀▀
+// ░█▄▄█ ░█─── ─░█── 　 ░█░█░█ ░█▄▄█ ░█░█░█ ░█▄▄█ ░█─▄▄ ░█▀▀▀ ░█░█░█ ░█▀▀▀ ░█░█░█ ─░█──
+// ░█─░█ ░█▄▄█ ─░█── 　 ░█──░█ ░█─░█ ░█──▀█ ░█─░█ ░█▄▄█ ░█▄▄▄ ░█──░█ ░█▄▄▄ ░█──▀█ ─░█──
 
-// Capitilization
-// This function capitalizes the first letter of each word in a given string.
-// It takes in a single string parameter, and returns the modified string with
-// the first letters of each word capitalized.
-function capitalize_first_letters(input) {
-  return input
-    .toLowerCase()
-    .split(" ")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
-}
-
-// #region Loader
-
-$(window).on("load", async function () {
-  await sleep(1000);
-  $(".loader").fadeOut(1000);
-  zoom();
-  delay(1000).then(() => $(".content").fadeIn(1000));
-});
-
-// Adds delay
-function delay(time) {
-  return new Promise((resolve) => setTimeout(resolve, time));
-}
-
-// #endregion
+// #region
 
 // Act Update
 function act_update(act_index) {
@@ -127,6 +97,78 @@ function region_update(new_places, new_events, new_enemies) {
   enemies = new_enemies;
 }
 
+// Display Forwards
+async function forwards() {
+  game_text.innerHTML += `${forwards_var.sample()}` + "\r\n\r\n";
+  await sleep(1000);
+  manage_events(places_table, events_table);
+}
+
+// #endregion
+
+// ░█▀▀█ ░█─░█ ▀▀█▀▀ ▀▀█▀▀ ░█▀▀▀█ ░█▄─░█ ░█▀▀▀█
+// ░█▀▀▄ ░█─░█ ─░█── ─░█── ░█──░█ ░█░█░█ ─▀▀▀▄▄
+// ░█▄▄█ ─▀▄▄▀ ─░█── ─░█── ░█▄▄▄█ ░█──▀█ ░█▄▄▄█
+
+// #region
+
+// Yes Button
+function yes_btn() {
+  player_input = "y";
+  awaiting_response = false;
+}
+
+// No Button
+function no_btn() {
+  player_input = "n";
+  awaiting_response = false;
+}
+
+// Colorizes or decolorizes the "yes" and "no" buttons
+function changeBtnClrs(colorize) {
+  var r = document.querySelector(":root");
+  if (colorize) {
+    r.style.setProperty("--btn-color", "rgb(255, 219, 146)");
+    r.style.setProperty("--btn-zoom", "1.1");
+  } else {
+    r.style.setProperty("--btn-color", "#8E8E8E");
+    r.style.setProperty("--btn-zoom", "1");
+  }
+}
+
+// Proceed Button
+function new_day() {
+  if (allow_continue) {
+    main_loop();
+    manage_allow_continue(false);
+  }
+}
+
+// Colorizes or decolorizes the "proceed" button
+function changeProceedBtnClrs(colorize) {
+  var r = document.querySelector(":root");
+  if (colorize) {
+    r.style.setProperty("--p-btn-color", "#6aff4d");
+    r.style.setProperty("--p-btn-zoom", "1.1");
+  } else {
+    r.style.setProperty("--p-btn-color", "#8E8E8E");
+    r.style.setProperty("--p-btn-zoom", "1");
+  }
+}
+
+// Back Button
+function back_btn() {
+  location.href = "https://nouhi.dev/";
+}
+
+// #endregion
+
+// ▀█▀ ░█▄─░█ ░█▀▀█ ░█─░█ ▀▀█▀▀
+// ░█─ ░█░█░█ ░█▄▄█ ░█─░█ ─░█──
+// ▄█▄ ░█──▀█ ░█─── ─▀▄▄▀ ─░█──
+
+// #region
+
 // Enables or disables the "yes" or "no" buttons
 function manage_input(enable_input) {
   changeBtnClrs(enable_input);
@@ -154,41 +196,109 @@ function player_response() {
   player_input == "y" ? true : false;
 }
 
-// Colorizes or decolorizes the "yes" and "no" buttons
-function changeBtnClrs(colorize) {
-  var r = document.querySelector(":root");
-  if (colorize) {
-    r.style.setProperty("--btn-color", "rgb(255, 219, 146)");
-    r.style.setProperty("--btn-zoom", "1.1");
+// Allow to continue to new day
+function manage_allow_continue(enable_continue) {
+  changeProceedBtnClrs(enable_continue);
+  allow_continue = enable_continue;
+}
+
+// #endregion
+
+// █▀▄▀█ ▀█▀ ░█▀▀▀█ ░█▀▀█
+// ░█░█░█ ░█─ ─▀▀▀▄▄ ░█───
+// ░█──░█ ▄█▄ ░█▄▄▄█ ░█▄▄█
+
+// #region
+
+// Article Determination
+// This function determines whether to use "an" or "a" before a given word.
+// It takes in a single string parameter, and returns "an" if the first letter of the word is a vowel,
+// otherwise it returns "a".
+function correct_article(input) {
+  return vowels.includes(input[0]) ? "an" : "a";
+}
+
+// Capitilization
+// This function capitalizes the first letter of each word in a given string.
+// It takes in a single string parameter, and returns the modified string with
+// the first letters of each word capitalized.
+function capitalize_first_letters(input) {
+  return input
+    .toLowerCase()
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
+// Timer Functionality
+function start_timer() {
+  if (timer_active) {
+    var timer = document.getElementById("timer").innerHTML;
+    var arr = timer.split(":");
+    var hour = arr[0];
+    var min = arr[1];
+    var sec = arr[2];
+
+    if (sec == 59) {
+      if (min == 59) {
+        hour++;
+        min = 0;
+        if (hour < 10) hour = "0" + hour;
+      } else {
+        min++;
+      }
+      if (min < 10) min = "0" + min;
+      sec = 0;
+    } else {
+      sec++;
+      if (sec < 10) sec = "0" + sec;
+    }
+  }
+
+  document.getElementById("timer").innerHTML = `${hour}:${min}:${sec}`;
+  setTimeout(start_timer, 1000);
+}
+
+// Regularly update to auto scroll to end of div
+window.setInterval(function () {
+  var elem = document.getElementById("game");
+  elem.scrollTop = elem.scrollHeight;
+}, 10);
+
+// Zooms out 20% on initialization
+function zoom() {
+  document.body.style.zoom = "80%";
+  document.getElementById("stats-text").style.fontSize = "19px";
+}
+
+// Manages Background Music
+let audio_muted = true;
+function bgm() {
+  let audio_element = document.getElementById("bg_loop");
+  let audio_btn = document.getElementById("bgmbtn");
+  audio_muted = !audio_muted;
+
+  audio_element.muted = audio_muted;
+  audio_element.volume = 0.1;
+
+  if (audio_muted) {
+    audio_btn.style.filter = "grayscale(1)";
   } else {
-    r.style.setProperty("--btn-color", "#8E8E8E");
-    r.style.setProperty("--btn-zoom", "1");
+    audio_element.play();
+    audio_btn.style.filter = "grayscale(0)";
   }
 }
 
-// Yes Button
-function yes_btn() {
-  player_input = "y";
-  awaiting_response = false;
-}
-
-// No Button
-function no_btn() {
-  player_input = "n";
-  awaiting_response = false;
-}
-
-// Proceed Button
-function new_day() {
-  if (allow_continue) {
-    main_loop();
-    manage_allow_continue(false);
-  }
-}
-
-// Display Forwards
-async function forwards() {
-  game_text.innerHTML += `${forwards_var.sample()}` + "\r\n\r\n";
+$(window).on("load", async function () {
   await sleep(1000);
-  manage_events(places_table, events_table);
+  $(".loader").fadeOut(1000);
+  zoom();
+  delay(1000).then(() => $(".content").fadeIn(1000));
+});
+
+// Adds delay
+function delay(time) {
+  return new Promise((resolve) => setTimeout(resolve, time));
 }
+
+// #endregion
