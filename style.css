@@ -809,7 +809,7 @@ hr {
   font-size: 20px;
   font-weight: bold;
   border-radius: 25px;
-  background: url("bgm.png");
+  background: url("/assets/images/bgm.png");
   background-size: 46px 46px;
   filter: grayscale(1);
 }
