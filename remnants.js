@@ -49,6 +49,8 @@ var inventory = ["damaged sword"];
 // Helper string used for displaying the inventory on the stats container
 var inventory_txt = "[Inventory: ";
 
+var spell_inventory = [];
+
 // Inventory Item Cap
 // Determines how many items the player can hold
 // Increases with increasing strength level
@@ -80,7 +82,7 @@ var max_xp = 100;
 
 // Current XP
 // Increases by defeating enemies or thanking friendly encounters
-var xp = 0;
+var xp = 99;
 
 // Current Level
 // Increases when XP reaches or surpasses Max XP - increases Max HP when leveled up
@@ -280,8 +282,7 @@ async function manage_events(events) {
       break;
     // LOST SCRIPTURE
     case "lost scripture":
-      game_text.innerHTML += `Not implemented yet.\r\n\r\n`;
-      manage_allow_continue(true);
+      lost_scripture();
       break;
     // STONE CHEST
     case "stone chest":
@@ -461,7 +462,9 @@ async function combat_routine(
     // Check for Enemy Death
     if (enemy_hp <= 0) {
       // Win fight
-      game_text.innerHTML += `<span class="blessing">You've slain the ${enemy_combined}.</span>\r\n\r\n`;
+      game_text.innerHTML += `<span class="blessing">You've slain the ${capitalize_first_letters(
+        enemy_combined
+      )}.</span>\r\n\r\n`;
 
       let enemy_xp = randomIntFromInterval(
         enemy_determiner(enemy, "xp")[0],
@@ -473,21 +476,23 @@ async function combat_routine(
 
       game_text.innerHTML += `<span class="green">You've earned ${enemy_xp} xp.</span>\r\n\r\n`;
 
-      await manage_xp(enemy_xp);
-
       // Loot
 
-      await open_loot_container(enemy_loot_table, 1, 1);
+      await open_loot_container(enemy_loot_table, 1, 1, true);
 
       let gold_amt = enemy_max_hp;
 
       gold += gold_amt;
 
-      update_stats();
-
       await sleep(1000);
 
-      game_text.innerHTML += `\r\n${capitalize_first_letters(enemy_combined)} dropped <span class="gold">${gold_amt}</span> gold.\r\n\r\n`;
+      game_text.innerHTML += `\r\n${capitalize_first_letters(
+        enemy_combined
+      )} dropped <span class="gold">${gold_amt}</span> gold.\r\n\r\n`;
+
+      await manage_xp(enemy_xp);
+
+      update_stats();
 
       if (!is_from_small_dungeon) {
         manage_allow_continue(true);
@@ -557,88 +562,57 @@ async function combat_routine(
         let weapon_to_use = "";
         while (weapon_to_use == "") {
           for (let i = 0; i < inventory.length; i++) {
-            awaiting_response = true;
-            const item = inventory[i];
-            game_text.innerHTML += `<span class="choice">Use ${item}? (${
-              item_determiner(item, "dmg")[0]
-            }-${item_determiner(item, "dmg")[1]} dmg)</span>\r\n\r\n`;
+            game_text.innerHTML += `<span class="choice">Use ${
+              inventory[i]
+            }? (${item_determiner(inventory[i], "dmg")[0]}-${
+              item_determiner(inventory[i], "dmg")[1]
+            } dmg)</span>\r\n\r\n`;
 
             await await_input();
 
-            player_input = "y" ? (weapon_to_use = item) : (weapon_to_use = "");
+            if (player_input == "y") {
+              weapon_to_use = inventory[i];
+              break;
+            } else {
+              continue;
+            }
           }
         }
-
-        // No weapon was chosen
-        if (weapon_to_use == "") {
-          let hit_chance = Math.random();
-          // You miss the attack
-          if (hit_chance < 0.15) {
-            let miss_or_evade_chance = Math.random();
-            // Miss the hit with 50%
-            if (miss_or_evade_chance < 0.5) {
-              game_text.innerHTML += `<span class="drastic">You miss and deal no damage.</span>\r\n\r\n`;
-            }
-            // Enemy evades with 50%
-            else {
-              game_text.innerHTML += `<span class="drastic">${capitalize_first_letters(
-                enemy_combined
-              )} evaded the attack.</span>\r\n\r\n\r\n\r\n`;
-            }
-          }
-          // You hit the attack
-          else {
-            let fist_dmg = randomIntFromInterval(1, 3);
-            enemy_hp -= fist_dmg;
-            if (enemy_hp <= 0) {
-              enemy_hp = 0;
-            }
-
-            game_text.innerHTML += `You use your fists.\r\n\r\n`;
-
-            await sleep(1000);
-
-            game_text.innerHTML += `<span class="deal-dmg"> You deal ${fist_dmg} damage. </span>\r\n`;
-          }
-        }
-
         // Weapon has been chosen
+        await sleep(1000);
+
+        game_text.innerHTML += `You chose to use ${weapon_to_use}.\r\n\r\n`;
+
+        let weapon_dmg = randomIntFromInterval(
+          item_determiner(weapon_to_use, "dmg")[0],
+          item_determiner(weapon_to_use, "dmg")[1]
+        );
+
+        let hit_chance = Math.random();
+        // You miss / evade
+        if (hit_chance < 0.15) {
+          let miss_or_evade_chance = Math.random();
+          // Miss the hit with 50%
+          if (miss_or_evade_chance < 0.5) {
+            game_text.innerHTML += `<span class="drastic">You miss and deal no damage.</span>\r\n\r\n`;
+          }
+          // Enemy evades with 50%
+          else {
+            game_text.innerHTML += `<span class="drastic">${capitalize_first_letters(
+              enemy_combined
+            )} evaded the attack.</span>\r\n\r\n\r\n\r\n`;
+          }
+        }
+        // You hit
         else {
+          enemy_hp -= weapon_dmg;
+          if (enemy_hp <= 0) {
+            enemy_hp = 0;
+          }
+
           await sleep(1000);
 
-          game_text.innerHTML += `You chose to use ${weapon_to_use}.\r\n\r\n`;
-
-          let weapon_dmg = randomIntFromInterval(
-            item_determiner(weapon_to_use, "dmg")[0],
-            item_determiner(weapon_to_use, "dmg")[1]
-          );
-
-          let hit_chance = Math.random();
-          // You miss / evade
-          if (hit_chance < 0.15) {
-            let miss_or_evade_chance = Math.random();
-            // Miss the hit with 50%
-            if (miss_or_evade_chance < 0.5) {
-              game_text.innerHTML += `<span class="drastic">You miss and deal no damage.</span>\r\n\r\n`;
-            }
-            // Enemy evades with 50%
-            else {
-              game_text.innerHTML += `<span class="drastic">${capitalize_first_letters(
-                enemy_combined
-              )} evaded the attack.</span>\r\n\r\n\r\n\r\n`;
-            }
-          }
-          // You hit
-          else {
-            enemy_hp -= weapon_dmg;
-            if (enemy_hp <= 0) {
-              enemy_hp = 0;
-            }
-
-            await sleep(1000);
-
-            game_text.innerHTML += `<span class="deal-dmg">You deal ${weapon_dmg} damage.</span>\r\n\r\n`;
-          }
+          game_text.innerHTML += `<span class="deal-dmg">You deal ${weapon_dmg} damage.</span>\r\n\r\n`;
         }
 
         await sleep(2000);

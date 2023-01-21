@@ -91,7 +91,12 @@ function act_story_update(act_story, act_title, act_action, act_index) {
 }
 
 // Region Update
-function region_update(new_places, new_events, new_enemies, new_enemy_loot_table) {
+function region_update(
+  new_places,
+  new_events,
+  new_enemies,
+  new_enemy_loot_table
+) {
   places_table = new_places;
   events_table = new_events;
   enemies = new_enemies;
@@ -201,6 +206,134 @@ function player_response() {
 function manage_allow_continue(enable_continue) {
   changeProceedBtnClrs(enable_continue);
   allow_continue = enable_continue;
+}
+
+// #endregion
+
+// ░█▀▀▀█ ▀▀█▀▀ ─█▀▀█ ▀▀█▀▀ ░█▀▀▀█
+// ─▀▀▀▄▄ ─░█── ░█▄▄█ ─░█── ─▀▀▀▄▄
+// ░█▄▄▄█ ─░█── ░█─░█ ─░█── ░█▄▄▄█
+
+// #region
+
+// Updates the players stats
+function update_stats() {
+  stats_text.innerHTML =
+    // Health
+    `[ <span class="health">Health: ${hp}/${max_hp}</span> | ` +
+    // Distance
+    `<span class="distance">Distance traveled: ${steps * 100}m</span> | ` +
+    // Gold
+    `<span class="gold">Gold: ${gold}</span> | ` +
+    // Region
+    `<span class="region">Region: ${region}</span> | ` +
+    // Level
+    `<span class="lvl">LVL: ${lvl}</span> | ` +
+    // XP
+    `<span class="xp">XP: ${xp}/${max_xp}</span> | ` +
+    // Mana
+    `<span class="mana">Mana: ${mana}/${max_mana}</span>]\r\n`;
+
+  // Auto Update Inventory
+  display_inventory();
+}
+
+// Displays the Players Inventory
+function display_inventory() {
+  // Inventory String Beginning
+  inventory_txt = "[ Inventory: ";
+  // Inventory Iteration
+  inventory.forEach(add_to_inventory_txt);
+  // Inventory Item Addition
+  inventory_txt = inventory_txt.substring(0, inventory_txt.length - 2);
+  // Inventory String Ending
+  stats_text.innerHTML += inventory_txt + " ]\r\n";
+}
+
+// Helper Function to Inventory Display
+function add_to_inventory_txt(item, index, array) {
+  inventory_txt += capitalize_first_letters(item) + ", ";
+}
+
+// XP Managing
+async function manage_xp(amount) {
+  xp += amount;
+  while (xp >= max_xp) {
+    // Level Up
+    await level_up();
+  }
+  update_stats();
+}
+
+async function level_up() {
+  await sleep(1000);
+
+  game_text.innerHTML += `<span class="lvl">You leveled up!</span>\r\n\r\n`;
+
+  // Increase LVL
+  lvl++;
+
+  // Increase Max XP
+  max_xp += lvl * 20;
+
+  let stats = ["vitality", "intelligence", "luck", "strength"];
+
+  let chosen_stat = "";
+
+  while (chosen_stat == "") {
+    for (let i = 0; i < stats.length; i++) {
+      game_text.innerHTML += `<span class="choice">Level up ${capitalize_first_letters(
+        stats[i]
+      )}?</span>\r\n\r\n`;
+
+      await await_input();
+
+      if (player_input == "y") {
+        chosen_stat = stats[i];
+        break;
+      } else {
+        continue;
+      }
+    }
+  }
+
+  switch (chosen_stat) {
+    case "vitality":
+      vitality++;
+      max_hp += vitality * 8;
+
+      await sleep(1000);
+
+      game_text.innerHTML += `You leveled up Vitality and increased your maximal hp.\r\n\r\n`;
+      break;
+    case "intelligence":
+      intelligence++;
+      max_mana += intelligence * 10;
+
+      await sleep(1000);
+
+      game_text.innerHTML += `You leveled up Intelligence and increased your maximal mana.\r\n\r\n`;
+      break;
+    case "luck":
+      luck++;
+
+      await sleep(1000);
+
+      game_text.innerHTML += `You leveled up Luck and increased your favorable chances.\r\n\r\n`;
+      break;
+    case "strength":
+      strength++;
+      inventory_cap += strength;
+
+      await sleep(1000);
+
+      game_text.innerHTML += `You leveled up Strength and can carry more items now.\r\n\r\n`;
+      break;
+  }
+
+  // Set Values
+  xp = Math.abs(max_xp - xp);
+  hp = max_hp;
 }
 
 // #endregion
@@ -326,91 +459,23 @@ function det_gold(entity) {
 
 // #endregion
 
-// Updates the players stats
-function update_stats() {
-  stats_text.innerHTML =
-    // Health
-    `[ <span class="health">Health: ${hp}/${max_hp}</span> | ` +
-    // Distance
-    `<span class="distance">Distance traveled: ${steps * 100}m</span> | ` +
-    // Gold
-    `<span class="gold">Gold: ${gold}</span> | ` +
-    // Region
-    `<span class="region">Region: ${region}</span> | ` +
-    // Level
-    `<span class="lvl">LVL: ${lvl}</span> | ` +
-    // XP
-    `<span class="xp">XP: ${xp}/${max_xp}</span> | ` +
-    // Mana
-    `<span class="mana">Mana: ${mana}/${max_mana}</span>]\r\n`;
-
-  // Auto Update Inventory
-  display_inventory();
-}
-
-// Displays the Players Inventory
-function display_inventory() {
-  // Inventory String Beginning
-  inventory_txt = "[ Inventory: ";
-  // Inventory Iteration
-  inventory.forEach(add_to_inventory_txt);
-  // Inventory Item Addition
-  inventory_txt = inventory_txt.substring(0, inventory_txt.length - 2);
-  // Inventory String Ending
-  stats_text.innerHTML += inventory_txt + " ]\r\n";
-}
-
-// Helper Function to Inventory Display
-function add_to_inventory_txt(item, index, array) {
-  inventory_txt += capitalize_first_letters(item) + ", ";
-}
-
-// XP Managing
-async function manage_xp(amount) {
-  xp += amount;
-  while (xp >= max_xp) {
-    await sleep(1000);
-
-    game_text.innerHTML += `\r\n<span class="lvl">You leveled up!</span>\r\n`;
-
-    // Increase LVL
-    lvl++;
-
-    // Increase Max XP
-    max_xp += lvl * 20;
-
-    // Increase Max HP
-    max_hp += lvl * 5;
-
-    // Increase Max Mana
-    max_mana += lvl * 5;
-    mana = max_mana;
-
-    xp = Math.abs(max_xp - xp);
-    hp = max_hp;
-
-    // Increase Inventory Item Cap
-    inventory_cap += 1;
-  }
-  update_stats();
-}
-
 // Open Loot Container
-async function open_loot_container(loot_table, amount_of_items_min, amount_of_items_max) {
-  let amount_of_items = randomIntFromInterval(amount_of_items_min, amount_of_items_max);
+async function open_loot_container(
+  loot_table,
+  amount_of_items_min,
+  amount_of_items_max,
+  is_enemy_drop
+) {
+  let amount_of_items = randomIntFromInterval(
+    amount_of_items_min,
+    amount_of_items_max
+  );
 
   for (let i = 0; i < amount_of_items; i++) {
     await sleep(1000);
 
     // Choose random item from loot table
     item = loot_table.sample();
-
-    // Determine correct article
-    if (vowels.includes(item[0])) {
-      article = "an";
-    } else {
-      article = "a";
-    }
 
     // Healing Potion
     if (item == "healing potion") {
@@ -453,19 +518,25 @@ async function open_loot_container(loot_table, amount_of_items_min, amount_of_it
 
     // Check if item is already in inventory
     if (inventory.includes(item)) {
-      game_text.innerHTML += `You found ${article} ${item} but you already have one.\r\n`;
+      game_text.innerHTML += `You found ${correct_article(
+        item
+      )} ${item} but you already have one.\r\n`;
       continue;
     }
 
     // Add item to inventory
     inventory.push(item);
-    game_text.innerHTML += `You found ${article} ${item}.\r\n`;
+    game_text.innerHTML += `You found ${correct_article(item)} ${item}.\r\n`;
   }
 
   await sleep(1000);
 
-  game_text.innerHTML += `\r\nYou finish looting.\r\n`;
-  manage_allow_continue(true);
+  if (!is_enemy_drop) {
+    game_text.innerHTML += `\r\nYou finish looting.\r\n`;
+    manage_allow_continue(true);
+  } else {
+    game_text.innerHTML += "\r\n";
+  }
 }
 
 // Take Damage

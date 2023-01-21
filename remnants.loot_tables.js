@@ -215,3 +215,15 @@ wasteland_enemies_loot_table = [
 ];
 
 lost_temple_enemies_loot_table = ["dagger", "sword", "mace", "shortsword"];
+
+lost_scripture_loot_table = [
+  "magic arrow",
+  "great magic arrow",
+  "heavy magic arrow",
+  "magic spear",
+  "tidal wave",
+  "firebolt",
+  "frost nova",
+  "thunderstorm",
+  "earthquake",
+];

@@ -606,7 +606,12 @@ async function small_dungeon_boss() {
 
     await sleep(1000);
 
-    await open_loot_container(small_dungeon_trapped_chest_loot_table, 3, 7);
+    await open_loot_container(
+      small_dungeon_trapped_chest_loot_table,
+      3,
+      7,
+      false
+    );
 
     update_stats();
 
@@ -700,7 +705,12 @@ async function seafarer_routine() {
 
         await sleep(2000);
 
-        await open_loot_container(treasure_map_treasure_loot_table, 4, 7);
+        await open_loot_container(
+          treasure_map_treasure_loot_table,
+          4,
+          7,
+          false
+        );
 
         update_stats();
 
@@ -1041,7 +1051,7 @@ async function traveler_routine(is_friendly_traveler) {
 
     await sleep(1000);
 
-    await open_loot_container(traveler_loot_table, 1, 3);
+    await open_loot_container(traveler_loot_table, 1, 3, false);
 
     update_stats();
 
@@ -1092,7 +1102,7 @@ async function traveler_routine(is_friendly_traveler) {
 
         await sleep(1000);
 
-        await open_loot_container(traveler_loot_table, 1, 3);
+        await open_loot_container(traveler_loot_table, 1, 3, false);
 
         update_stats();
 
@@ -1159,7 +1169,7 @@ async function monk_routine() {
     // Heal if not Max HP
     if (hp != max_hp) {
       let loot_table = ["healing potion"];
-      open_loot_container(loot_table, 1, 3);
+      open_loot_container(loot_table, 1, 3, false);
 
       update_stats();
       await sleep(1000);
@@ -1270,6 +1280,8 @@ async function bandit() {
     let flee_chance = Math.random();
     // Flee with 20% Chance
     if (flee_chance < 0.2) {
+      await sleep(1000);
+
       game_text.innerHTML +=
         "<span class='blessing'>You successfully flee from the bandit.</span>\r\n";
       manage_allow_continue(true);
@@ -1408,7 +1420,7 @@ async function chest_event(chest_name, is_stone_chest) {
 
     // Open Chest Successfully
     if (d < 0.7) {
-      await open_loot_container(chest_loot_table, 1, 5);
+      await open_loot_container(chest_loot_table, 1, 5, false);
 
       update_stats();
     }
@@ -1454,7 +1466,6 @@ async function chest_event(chest_name, is_stone_chest) {
 
 // █▀▄ ▄▀█ █▀▄▀█ ▄▀█ █▀▀ █▀▀   █▀▀ █░█ █▀▀ █▄░█ ▀█▀
 // █▄▀ █▀█ █░▀░█ █▀█ █▄█ ██▄   ██▄ ▀▄▀ ██▄ █░▀█ ░█░
-
 
 // Damage Event
 async function damage_event(
@@ -1511,7 +1522,7 @@ async function disguised_event(disguised_event) {
 
       await sleep(1000);
 
-      await open_loot_container(blurry_object_loot_table, 1, 4);
+      await open_loot_container(blurry_object_loot_table, 1, 4, false);
 
       update_stats();
     }
@@ -1546,6 +1557,61 @@ async function disguised_event(disguised_event) {
 
     manage_allow_continue(true);
   }
+}
+
+// █░░ █▀█ █▀ ▀█▀   █▀ █▀▀ █▀█ █ █▀█ ▀█▀ █░█ █▀█ █▀▀
+// █▄▄ █▄█ ▄█ ░█░   ▄█ █▄▄ █▀▄ █ █▀▀ ░█░ █▄█ █▀▄ ██▄
+
+// Lost Scripture
+async function lost_scripture() {
+  game_text.innerHTML += `<span class="choice">Attempt to decipher the lost scripture?</span>\r\n\r\n`;
+
+  await await_input();
+
+  if (player_input == "y") {
+    game_text.innerHTML += "You take a look at the lost scripture.\r\n\r\n";
+  } else {
+    game_text.innerHTML += "You pass by the lost scripture.";
+    manage_allow_continue(true);
+    return;
+  }
+
+  await sleep(1000);
+
+  let decipher_chance = Math.random();
+
+  // Succeed decipher with 80%
+  if (decipher_chance < 0.8) {
+    let spell_to_learn = lost_scripture_loot_table.sample();
+
+    game_text.innerHTML += `<span class="blessing">You deciphered the lost scripture.</span>\r\n\r\n`;
+
+    await sleep(1000);
+
+    // Check if Spell is already learnt
+    if (spell_inventory.includes(spell_to_learn)) {
+      game_text.innerHTML += `The lost scripture contained instructions on using the spell <span class="info">${capitalize_first_letters(
+        spell_to_learn
+      )}.</span> However, you already know how to use this spell.\r\n\r\n`;
+    }
+    // Spell is new Spell
+    else {
+      game_text.innerHTML += `You learned how to use the spell: <span class="info">${capitalize_first_letters(
+        spell_to_learn
+      )}.</span>\r\n\r\n`;
+      // Add Spell to Spell Inventory
+      spell_inventory.push(spell_to_learn);
+    }
+  }
+  // Fail to decipher with 20%
+  else {
+    game_text.innerHTML += `<span class="drastic">You fail to decipher the lost scripture.</span>\r\n\r\n`;
+  }
+
+  await sleep(1000);
+
+  game_text.innerHTML += `You walk off.`;
+  manage_allow_continue(true);
 }
 
 // #endregion
