@@ -480,7 +480,7 @@ async function combat_routine(
 
       await open_loot_container(enemy_loot_table, 1, 1, true);
 
-      let gold_amt = Math.floor(enemy_max_hp/2);
+      let gold_amt = Math.floor(enemy_max_hp / 2);
 
       gold += gold_amt;
 
@@ -560,24 +560,29 @@ async function combat_routine(
       // Player has weapons
       else {
         let weapon_to_use = "";
-        while (weapon_to_use == "") {
-          for (let i = 0; i < inventory.length; i++) {
-            game_text.innerHTML += `<span class="choice">Use ${
-              inventory[i]
-            }? (${item_determiner(inventory[i], "dmg")[0]}-${
-              item_determiner(inventory[i], "dmg")[1]
-            } dmg)</span>\r\n\r\n`;
+        if (inventory.length != 1) {
+          while (weapon_to_use == "") {
+            for (let i = 0; i < inventory.length; i++) {
+              game_text.innerHTML += `<span class="choice">Use ${
+                inventory[i]
+              }? (${item_determiner(inventory[i], "dmg")[0]}-${
+                item_determiner(inventory[i], "dmg")[1]
+              } dmg)</span>\r\n\r\n`;
 
-            await await_input();
+              await await_input();
 
-            if (player_input == "y") {
-              weapon_to_use = inventory[i];
-              break;
-            } else {
-              continue;
+              if (player_input == "y") {
+                weapon_to_use = inventory[i];
+                break;
+              } else {
+                continue;
+              }
             }
           }
+        } else {
+          weapon_to_use = inventory[0];
         }
+
         // Weapon has been chosen
         await sleep(1000);
 
