@@ -29,12 +29,12 @@ var debug_stats = false;
 // Inventory
 // Holds all the weapons of the player
 // Weapons added here are to be seen as default equipment
-var inventory = ["damaged sword", "wooden staff"];
+var inventory = ["damaged sword"];
 
 // Helper string used for displaying the inventory on the stats container
 var inventory_txt = "[Inventory: ";
 
-var spell_inventory = ["firebolt"];
+var spell_inventory = [];
 
 // Inventory Item Cap
 // Determines how many items the player can hold
