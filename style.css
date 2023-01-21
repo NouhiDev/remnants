@@ -790,10 +790,6 @@ hr {
   border-right-style: solid;
   border-bottom-style: solid;
   border-left-style: solid;
-  border-top-width: 0.020833333in;
-  border-right-width: 0.020833333in;
-  border-bottom-width: 0.020833333in;
-  border-left-width: 0.020833333in;
   height: 0in;
   line-height: 0;
   max-width: 200px;
@@ -809,7 +805,7 @@ hr {
   font-size: 20px;
   font-weight: bold;
   border-radius: 25px;
-  background: url("/assets/images/bgm.png");
+  background: url("./assets/images/bgm.png");
   background-size: 46px 46px;
   filter: grayscale(1);
 }
