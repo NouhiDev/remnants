@@ -608,6 +608,8 @@ async function small_dungeon_boss() {
 
     await open_loot_container(small_dungeon_trapped_chest_loot_table, 3, 7);
 
+    update_stats();
+
     await sleep(2000);
 
     game_text.innerHTML += `\r\nYou finish looting.\r\n\r\n`;
@@ -699,6 +701,8 @@ async function seafarer_routine() {
         await sleep(2000);
 
         await open_loot_container(treasure_map_treasure_loot_table, 4, 7);
+
+        update_stats();
 
         await sleep(2000);
 
@@ -1039,6 +1043,8 @@ async function traveler_routine(is_friendly_traveler) {
 
     await open_loot_container(traveler_loot_table, 1, 3);
 
+    update_stats();
+
     await sleep(1000);
 
     game_text.innerHTML += `\r\n${name} walks off.` + `\r\n\r\n`;
@@ -1087,6 +1093,8 @@ async function traveler_routine(is_friendly_traveler) {
         await sleep(1000);
 
         await open_loot_container(traveler_loot_table, 1, 3);
+
+        update_stats();
 
         await sleep(1000);
 
@@ -1152,6 +1160,8 @@ async function monk_routine() {
     if (hp != max_hp) {
       let loot_table = ["healing potion"];
       open_loot_container(loot_table, 1, 3);
+
+      update_stats();
       await sleep(1000);
 
       game_text.innerHTML += `You thank the monks.\r\n\r\n`;
@@ -1395,6 +1405,12 @@ async function chest_event(chest_name, is_stone_chest) {
     // Open Chest Successfully
     if (d < 0.7) {
       await open_loot_container(chest_loot_table, randomIntFromInterval(1, 5));
+
+      update_stats();
+
+      await sleep(1000);
+
+      game_text.innerHTML += "You finish looting the chest.";
     }
     // Chest is trap
     else {
@@ -1487,6 +1503,8 @@ async function disguised_event(disguised_event) {
       await sleep(1000);
 
       await open_loot_container(blurry_object_loot_table, 1, 4);
+
+      update_stats();
     }
     // is trap 40%
     else {

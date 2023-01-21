@@ -291,9 +291,9 @@ function bgm() {
 
 // Loader Fading
 $(window).on("load", async function () {
+  zoom();
   await sleep(1000);
   $(".loader").fadeOut(1000);
-  zoom();
   sleep(1000).then(() => $(".content").fadeIn(1000));
 });
 

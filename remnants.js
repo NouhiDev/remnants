@@ -249,10 +249,10 @@ async function manage_places(places, events) {
 }
 
 // Manage Sub Events
-async function manage_events(sub_event) {
+async function manage_events(events) {
   awaiting_response = true;
 
-  switch (sub_event) {
+  switch (events) {
     // GOLDEN STATUE
     case "golden statue":
       game_text.innerHTML += `Not implemented yet.\r\n\r\n`;
@@ -278,7 +278,7 @@ async function manage_events(sub_event) {
       break;
     // SHIPWRECK
     case "shipwreck":
-      chest_event("shipwreck")
+      chest_event("shipwreck");
       break;
     // FRIENLDY TRAVELER
     case "friendly traveler":
@@ -343,8 +343,6 @@ async function manage_events(sub_event) {
   }
 }
 
-// #region COMBAT RELATED
-
 // Enemy Encounter
 async function enemy_encounter() {
   // Setup Enemy
@@ -359,37 +357,24 @@ async function enemy_encounter() {
       enemy_determiner(enemy, "hp")[1]
     ) + steps;
 
-  // Determine correct article to use
-  let article = "";
-  if (vowels.includes(enemy_combined_name[0])) {
-    article = "an";
-  } else {
-    article = "a";
-  }
-
   // Anounce enemy
-  game_text.innerHTML += `<span class="info">You encounter ${article} <span class="enemy">${capitalize_first_letters(
+  game_text.innerHTML += `<span class="info">You encounter ${correct_article(
     enemy_descriptor
-  )} ${capitalize_first_letters(enemy)}</span>.</span>\r\n\r\n`;
+  )} <span class="enemy">${capitalize_first_letters(
+    enemy_combined_name
+  )}</span>.</span>\r\n\r\n`;
 
   await sleep(1000);
 
-  // Anounce enemy hp
+  // Anounce Enemy HP
   game_text.innerHTML += `<span class="enemy">${capitalize_first_letters(
     enemy_combined_name
   )}</span> has ${enemy_hp} hp.\r\n\r\n`;
 
-  // Prompt for combat
+  // Prompt for Combat
   game_text.innerHTML += `<span class="choice">Engage in combat?</span>\r\n\r\n`;
 
-  // Wait for user input
-  manage_input(true);
-
-  while (awaiting_response) {
-    await sleep(1);
-  }
-
-  manage_input(false);
+  await await_input();
 
   // Engages
   if (player_input == "y") {
@@ -398,7 +383,6 @@ async function enemy_encounter() {
     await sleep(1000);
 
     combat_routine(enemy, enemy_hp, false, enemy_combined_name, false);
-    return;
   }
   // Tries to flee
   else if (player_input == "n") {
@@ -431,12 +415,8 @@ async function enemy_encounter() {
       await sleep(1000);
 
       combat_routine(enemy, enemy_hp, true, enemy_combined_name, false);
-
-      return;
     }
   }
-
-  manage_allow_continue(true);
 }
 
 // Combat Routine
@@ -478,7 +458,7 @@ async function combat_routine(
 
       game_text.innerHTML += `<span class="green">You've earned ${enemy_xp} xp.</span>\r\n`;
 
-      manage_xp(enemy_xp);
+      await manage_xp(enemy_xp);
 
       if (!is_from_small_dungeon) {
         manage_allow_continue(true);
