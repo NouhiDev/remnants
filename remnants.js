@@ -637,7 +637,7 @@ async function combat_routine(
 
             await sleep(1000);
 
-            game_text.innerHTML += `<span class="deal-dmg"> You deal ${weapon_dmg} damage.</span>\r\n\r\n`;
+            game_text.innerHTML += `<span class="deal-dmg">You deal ${weapon_dmg} damage.</span>\r\n\r\n`;
           }
         }
 

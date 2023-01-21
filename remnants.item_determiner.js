@@ -94,5 +94,7 @@ function item_determiner(item, determiner) {
       return w_uncommon;
     case "wooden staff":
       return w_strong;
+    case "small trident":
+      return w_uncommon;
   }
 }
