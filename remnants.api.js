@@ -558,8 +558,8 @@ async function open_loot_container(
     }
 
     // Add item to inventory
-    inventory.push(item);
     game_text.innerHTML += `You found ${correct_article(item)} ${item}.\r\n`;
+    await add_to_inventory(item);
   }
 
   await sleep(1000);
@@ -568,5 +568,42 @@ async function open_loot_container(
     game_text.innerHTML += `\r\nYou finish looting.\r\n`;
   } else {
     game_text.innerHTML += "\r\n";
+  }
+}
+
+async function add_to_inventory(item) {
+  // If Weapon Cap is not reached
+  if (inventory.length <= inventory_cap) {
+    // Add Item
+    inventory.push(item);
+  } else {
+    // Ask to replace Items in Inventory
+    for (let i = 0; i < inventory.length; i++) {
+      await sleep(1000);
+      game_text.innerHTML += `<span class="choice">Replace ${capitalize_first_letters(
+        inventory[i]
+      )} with ${capitalize_first_letters(item)}?</span>`;
+
+      await await_input();
+
+      // Replace Inventory Item with new Item
+      if (player_input == "y") {
+        await sleep(1000);
+        game_text.innerHTML += `You replace ${capitalize_first_letters(
+          inventory[i]
+        )} with ${capitalize_first_letters(item)}.`;
+        inventory.pop(inventory[i]);
+        inventory.push(item);
+        break;
+      }
+      // Don't replace Inventory Item with new Item 
+      else {
+        continue;
+      }
+    }
+    // No Item was chosen
+    await sleep(1000);
+
+    game_text.innerHTML += `You throw the ${item} away.`;
   }
 }
