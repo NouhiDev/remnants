@@ -868,7 +868,7 @@ async function merchant_routine() {
         await sleep(1000);
         gold -= price + anger;
         game_text.innerHTML +=
-          "<span class='info'>\r\nYou bought the item.</span>\r\n\r\n";
+          "<span class='info'>You bought the item.</span>\r\n\r\n";
 
         // Add to Inventory if it is Weapon
         if (item != "lesser healing potion" && item != "healing potion") {
@@ -1433,11 +1433,19 @@ async function chest_event(chest_name, is_stone_chest) {
 
       await sleep(1000);
 
-      is_stone_chest
-        ? (game_text.innerHTML +=
-            "<span class='drastic'>It is a mimic.</span>\r\n\r\n")
-        : (game_text.innerHTML +=
-            "<span class='drastic'>It is a trap.</span>\r\n\r\n");
+      if (is_stone_chest) {
+        game_text.innerHTML +=
+        "<span class='drastic'>It is a mimic.</span>\r\n\r\n";
+      }
+
+      if (chest_name == "shipwreck") {
+        game_text.innerHTML +=
+        "<span class='drastic'>It collapses.</span>\r\n\r\n";
+      }
+      else {
+        game_text.innerHTML +=
+        "<span class='drastic'>It is a trap.</span>\r\n\r\n";
+      }
 
       await sleep(1000);
 

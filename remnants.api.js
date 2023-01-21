@@ -218,41 +218,35 @@ function manage_allow_continue(enable_continue) {
 
 // Updates the players stats
 function update_stats() {
+  // Stats
   stats_text.innerHTML =
     // Health
-    `[ <span class="health">Health: ${hp}/${max_hp}</span> | ` +
+    `[ <span class="health">${hp}/${max_hp} HP</span> | ` +
     // Distance
-    `<span class="distance">Distance traveled: ${steps * 100}m</span> | ` +
+    `<span class="distance">Distance: ${steps * 100}m</span> | ` +
     // Gold
-    `<span class="gold">Gold: ${gold}</span> | ` +
+    `<span class="gold">${gold} G</span> | ` +
     // Region
     `<span class="region">Region: ${current_region}</span> | ` +
     // Level
     `<span class="lvl">LVL: ${lvl}</span> | ` +
     // XP
-    `<span class="xp">XP: ${xp}/${max_xp}</span> | ` +
+    `<span class="xp">${xp}/${max_xp} XP</span> | ` +
     // Mana
-    `<span class="mana">Mana: ${mana}/${max_mana}</span>]\r\n`;
+    `<span class="mana">${mana}/${max_mana} MANA</span>]\r\n`;
+
+  stats_text.innerHTML +=
+    // Health
+    `[ <span class="health">Vitality ${vitality}</span> | ` +
+    // Distance
+    `<span class="mana">Intelligence: ${intelligence}</span> | ` +
+    // Gold
+    `<span class="xp">Luck: ${luck}</span> | ` +
+    // Region
+    `<span class="gold">Strength: ${strength}</span> ]\r\n`;
 
   // Auto Update Inventory
   display_inventory();
-}
-
-// Displays the Players Inventory
-function display_inventory() {
-  // Inventory String Beginning
-  inventory_txt = "[ Inventory: ";
-  // Inventory Iteration
-  inventory.forEach(add_to_inventory_txt);
-  // Inventory Item Addition
-  inventory_txt = inventory_txt.substring(0, inventory_txt.length - 2);
-  // Inventory String Ending
-  stats_text.innerHTML += inventory_txt + " ]\r\n";
-}
-
-// Helper Function to Inventory Display
-function add_to_inventory_txt(item, index, array) {
-  inventory_txt += capitalize_first_letters(item) + ", ";
 }
 
 // XP Managing
@@ -351,126 +345,56 @@ async function damage(amount) {
 
 // #endregion
 
-//  █▀▄▀█ ▀█▀ ░█▀▀▀█ ░█▀▀█
-// ░█░█░█ ░█─ ─▀▀▀▄▄ ░█───
-// ░█──░█ ▄█▄ ░█▄▄▄█ ░█▄▄█
+// ▀█▀ ░█▄─░█ ░█──░█ ░█▀▀▀ ░█▄─░█ ▀▀█▀▀ ░█▀▀▀█ ░█▀▀█ ░█──░█
+// ░█─ ░█░█░█ ─░█░█─ ░█▀▀▀ ░█░█░█ ─░█── ░█──░█ ░█▄▄▀ ░█▄▄▄█
+// ▄█▄ ░█──▀█ ──▀▄▀─ ░█▄▄▄ ░█──▀█ ─░█── ░█▄▄▄█ ░█─░█ ──░█──
 
 // #region
 
-// Article Determination
-// This function determines whether to use "an" or "a" before a given word.
-// It takes in a single string parameter, and returns "an" if the first letter of the word is a vowel,
-// otherwise it returns "a".
-function correct_article(input) {
-  return vowels.includes(input[0]) ? "an" : "a";
+// Inventory
+
+// Displays the Players Inventory
+function display_inventory() {
+  // Inventory String Beginning
+  inventory_txt = "[ Inventory: ";
+  // Inventory Iteration
+  inventory.forEach(add_to_inventory_txt);
+  // Inventory Item Addition
+  inventory_txt = inventory_txt.substring(0, inventory_txt.length - 2);
+  // Inventory String Ending
+  stats_text.innerHTML += inventory_txt + " ]\r\n";
+
+  // Automatically center Stats
+  stats = document.getElementById("stats");
+  vertical_shift = stats.scrollHeight / 10;
+  stats.scrollTo(0, vertical_shift)
+
+  // Deprecated: display_spell_inventory();
 }
 
-// Capitilization
-// This function capitalizes the first letter of each word in a given string.
-// It takes in a single string parameter, and returns the modified string with
-// the first letters of each word capitalized.
-function capitalize_first_letters(input) {
-  return input
-    .toLowerCase()
-    .split(" ")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
+// Helper Function to Inventory Display
+function add_to_inventory_txt(item) {
+  inventory_txt += capitalize_first_letters(item) + ", ";
 }
 
-// Timer Functionality
-function start_timer() {
-  if (timer_active) {
-    var timer = document.getElementById("timer").innerHTML;
-    var arr = timer.split(":");
-    var hour = arr[0];
-    var min = arr[1];
-    var sec = arr[2];
-
-    if (sec == 59) {
-      if (min == 59) {
-        hour++;
-        min = 0;
-        if (hour < 10) hour = "0" + hour;
-      } else {
-        min++;
-      }
-      if (min < 10) min = "0" + min;
-      sec = 0;
-    } else {
-      sec++;
-      if (sec < 10) sec = "0" + sec;
-    }
-  }
-
-  document.getElementById("timer").innerHTML = `${hour}:${min}:${sec}`;
-  setTimeout(start_timer, 1000);
+function display_spell_inventory() {
+  // Inventory String Beginning
+  spell_inventory_txt = "[ Spells: ";
+  // Inventory Iteration
+  spell_inventory.forEach(add_to_spell_inventory_txt);
+  // Inventory Item Addition
+  spell_inventory_txt = spell_inventory_txt.substring(
+    0,
+    spell_inventory_txt.length - 2
+  );
+  // Inventory String Ending
+  stats_text.innerHTML += spell_inventory_txt + " ]\r\n";
 }
 
-// Regularly update to auto scroll to end of div
-window.setInterval(function () {
-  var elem = document.getElementById("game");
-  elem.scrollTop = elem.scrollHeight;
-}, 10);
-
-// Zooms out 20% on initialization
-function zoom() {
-  document.body.style.zoom = "80%";
-  document.getElementById("stats-text").style.fontSize = "19px";
+// Helper Function to Inventory Display
+function add_to_spell_inventory_txt(item) {
+  spell_inventory_txt += capitalize_first_letters(item) + ", ";
 }
-
-// Manages Background Music
-let audio_muted = true;
-function bgm() {
-  let audio_element = document.getElementById("bg_loop");
-  let audio_btn = document.getElementById("bgmbtn");
-  audio_muted = !audio_muted;
-
-  audio_element.muted = audio_muted;
-  audio_element.volume = 0.1;
-
-  if (audio_muted) {
-    audio_btn.style.filter = "grayscale(1)";
-  } else {
-    audio_element.play();
-    audio_btn.style.filter = "grayscale(0)";
-  }
-}
-
-// Loader Fading
-$(window).on("load", async function () {
-  zoom();
-  await sleep(1000);
-  $(".loader").fadeOut(1000);
-  sleep(1000).then(() => $(".content").fadeIn(1000));
-});
-
-// Adds delay
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-// Random Between Two Constants
-function randomIntFromInterval(min, max) {
-  // min and max included
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
-// Picks random array object
-Array.prototype.sample = function () {
-  return this[Math.floor(Math.random() * this.length)];
-};
-
-// Gold Determiner
-function det_gold(entity) {
-  switch (entity) {
-    case "traveler":
-      return [5, 40];
-    case "trappedchest":
-      return [30, 100];
-  }
-}
-
-// #endregion
 
 // Open Loot Container
 async function open_loot_container(
@@ -596,7 +520,7 @@ async function add_to_inventory(item) {
         inventory.push(item);
         return;
       }
-      // Don't replace Inventory Item with new Item 
+      // Don't replace Inventory Item with new Item
       else {
         continue;
       }
@@ -607,3 +531,126 @@ async function add_to_inventory(item) {
     game_text.innerHTML += `You throw the ${item} away.\r\n`;
   }
 }
+
+// #endregion
+
+//  █▀▄▀█ ▀█▀ ░█▀▀▀█ ░█▀▀█
+// ░█░█░█ ░█─ ─▀▀▀▄▄ ░█───
+// ░█──░█ ▄█▄ ░█▄▄▄█ ░█▄▄█
+
+// #region
+
+// Article Determination
+// This function determines whether to use "an" or "a" before a given word.
+// It takes in a single string parameter, and returns "an" if the first letter of the word is a vowel,
+// otherwise it returns "a".
+function correct_article(input) {
+  return vowels.includes(input[0]) ? "an" : "a";
+}
+
+// Capitilization
+// This function capitalizes the first letter of each word in a given string.
+// It takes in a single string parameter, and returns the modified string with
+// the first letters of each word capitalized.
+function capitalize_first_letters(input) {
+  return input
+    .toLowerCase()
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
+// Timer Functionality
+function start_timer() {
+  if (timer_active) {
+    var timer = document.getElementById("timer").innerHTML;
+    var arr = timer.split(":");
+    var hour = arr[0];
+    var min = arr[1];
+    var sec = arr[2];
+
+    if (sec == 59) {
+      if (min == 59) {
+        hour++;
+        min = 0;
+        if (hour < 10) hour = "0" + hour;
+      } else {
+        min++;
+      }
+      if (min < 10) min = "0" + min;
+      sec = 0;
+    } else {
+      sec++;
+      if (sec < 10) sec = "0" + sec;
+    }
+  }
+
+  document.getElementById("timer").innerHTML = `${hour}:${min}:${sec}`;
+  setTimeout(start_timer, 1000);
+}
+
+// Regularly update to auto scroll to end of div
+window.setInterval(function () {
+  var elem = document.getElementById("game");
+  elem.scrollTop = elem.scrollHeight;
+}, 10);
+
+// Zooms out 20% on initialization
+function zoom() {
+  document.body.style.zoom = "80%";
+  document.getElementById("stats-text").style.fontSize = "19px";
+}
+
+// Manages Background Music
+let audio_muted = true;
+function bgm() {
+  let audio_element = document.getElementById("bg_loop");
+  let audio_btn = document.getElementById("bgmbtn");
+  audio_muted = !audio_muted;
+
+  audio_element.muted = audio_muted;
+  audio_element.volume = 0.1;
+
+  if (audio_muted) {
+    audio_btn.style.filter = "grayscale(1)";
+  } else {
+    audio_element.play();
+    audio_btn.style.filter = "grayscale(0)";
+  }
+}
+
+// Loader Fading
+$(window).on("load", async function () {
+  zoom();
+  await sleep(1000);
+  $(".loader").fadeOut(1000);
+  sleep(1000).then(() => $(".content").fadeIn(1000));
+});
+
+// Adds delay
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+// Random Between Two Constants
+function randomIntFromInterval(min, max) {
+  // min and max included
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+// Picks random array object
+Array.prototype.sample = function () {
+  return this[Math.floor(Math.random() * this.length)];
+};
+
+// Gold Determiner
+function det_gold(entity) {
+  switch (entity) {
+    case "traveler":
+      return [5, 40];
+    case "trappedchest":
+      return [30, 100];
+  }
+}
+
+// #endregion

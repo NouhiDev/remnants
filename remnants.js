@@ -49,7 +49,7 @@ var inventory = ["damaged sword"];
 // Helper string used for displaying the inventory on the stats container
 var inventory_txt = "[Inventory: ";
 
-var spell_inventory = [];
+var spell_inventory = ["firebolt", "nova frost"];
 
 // Inventory Item Cap
 // Determines how many items the player can hold
@@ -334,7 +334,7 @@ async function manage_events(events) {
       break;
     // STORM
     case "storm":
-      damage_event("storm", 5, 15);
+      damage_event("storm", 5, 10);
       break;
     // WISHING WELL
     case "wishing well":
