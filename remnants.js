@@ -82,7 +82,7 @@ var max_xp = 100;
 
 // Current XP
 // Increases by defeating enemies or thanking friendly encounters
-var xp = 99;
+var xp = 0;
 
 // Current Level
 // Increases when XP reaches or surpasses Max XP - increases Max HP when leveled up
