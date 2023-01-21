@@ -21,7 +21,7 @@
 // ---------------------------------------
 
 // Enables the Debug Stats
-var debug_stats = true;
+var debug_stats = false;
 
 // Deprecated
 // var event_text = document.getElementById("event-text");
@@ -49,7 +49,7 @@ var inventory = ["damaged sword"];
 // Helper string used for displaying the inventory on the stats container
 var inventory_txt = "[Inventory: ";
 
-var spell_inventory = ["firebolt", "nova frost"];
+var spell_inventory = [];
 
 // Inventory Item Cap
 // Determines how many items the player can hold
