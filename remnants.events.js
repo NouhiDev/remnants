@@ -1423,6 +1423,8 @@ async function chest_event(chest_name, is_stone_chest) {
       await open_loot_container(chest_loot_table, 1, 5, false);
 
       update_stats();
+
+      manage_allow_continue(true);
     }
     // Chest is trap
     else {

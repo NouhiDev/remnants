@@ -480,7 +480,7 @@ async function combat_routine(
 
       await open_loot_container(enemy_loot_table, 1, 1, true);
 
-      let gold_amt = enemy_max_hp;
+      let gold_amt = Math.floor(enemy_max_hp/2);
 
       gold += gold_amt;
 

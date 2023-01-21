@@ -103,6 +103,8 @@ rocky_shore_enemies = [
   "megacrab",
 ];
 
+rebellion_enemies = [];
+
 wasteland_enemies = [
   "scorpion",
   "rat",

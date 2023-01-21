@@ -117,6 +117,7 @@ merchant_assortment = [
   "crossbow",
   "scythe",
   "scimitar",
+  "mana potion",
 ];
 
 // Blacksmith

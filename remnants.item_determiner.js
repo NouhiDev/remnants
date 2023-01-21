@@ -53,6 +53,8 @@ function item_determiner(item, determiner) {
       return w_weak;
     case "healing potion":
       return w_common;
+    case "mana potion":
+      return w_common;
 
     //  █▀ █▀█ █▀▀ █░░ █░░ █▀
     //  ▄█ █▀▀ ██▄ █▄▄ █▄▄ ▄█

@@ -102,6 +102,7 @@ blurry_object_loot_table = [
   "estoc",
   "club",
   "wooden staff",
+  "mana potion",
 ];
 
 small_dungeon_trapped_chest_loot_table = [
@@ -128,6 +129,7 @@ small_dungeon_trapped_chest_loot_table = [
   "gold",
   "gold",
   "gold",
+  "mana potion",
 ];
 
 shipwreck_loot_table = [

@@ -337,6 +337,18 @@ async function level_up() {
   hp = max_hp;
 }
 
+// Take Damage
+async function damage(amount) {
+  update_stats();
+  hp -= amount;
+  if (hp <= 0) {
+    alive = false;
+    game_text.innerHTML += `<span class="dmg">You died.</span>`;
+    update_stats();
+    throw new Error();
+  }
+}
+
 // #endregion
 
 //  █▀▄▀█ ▀█▀ ░█▀▀▀█ ░█▀▀█
@@ -498,6 +510,26 @@ async function open_loot_container(
       continue;
     }
 
+    // Mana Potion
+    if (item == "mana potion") {
+      let amt = randomIntFromInterval(10, Math.floor(max_mana / 1.5));
+
+      mana += amt;
+      if (mana >= max_mana) {
+        mana = max_mana;
+      }
+
+      game_text.innerHTML += `You found a mana potion and drank it.\r\n`;
+
+      await sleep(1000);
+
+      game_text.innerHTML += `<span class="heal">You channeled ${amt} mana.</span>\r\n\r\n`;
+      update_stats();
+
+      await sleep(1000);
+      continue;
+    }
+
     // Gold
     if (item == "gold") {
       let amt = randomIntFromInterval(1, 250);
@@ -534,20 +566,7 @@ async function open_loot_container(
 
   if (!is_enemy_drop) {
     game_text.innerHTML += `\r\nYou finish looting.\r\n`;
-    manage_allow_continue(true);
   } else {
     game_text.innerHTML += "\r\n";
-  }
-}
-
-// Take Damage
-async function damage(amount) {
-  update_stats();
-  hp -= amount;
-  if (hp <= 0) {
-    alive = false;
-    game_text.innerHTML += `<span class="dmg">You died.</span>`;
-    update_stats();
-    throw new Error();
   }
 }
