@@ -70,7 +70,7 @@ var hp = 100;
 
 // Counts the amount of "days" passed
 // (Amount of times the "PROCEED" button is pressed)
-var steps = 80;
+var steps = 0;
 
 // Keeps track of how much gold the player holds
 var gold = 0;
