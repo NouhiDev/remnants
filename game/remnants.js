@@ -390,6 +390,10 @@ async function main_loop() {
   // Check for new Region / Continue if no new Region
   await check_region_switch(steps);
 
+  // Regenrate Mana
+  mana += 2;
+  if (mana > max_mana) mana = max_mana;
+
   // Stat Displays
   update_stats();
 
