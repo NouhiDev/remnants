@@ -109,7 +109,7 @@ var luck = 0;
 // When leveled up, Strength increases the players inventory cap --> inventory_cap += Math.floor(strength*0.5)
 var strength = 0;
 
-var region = "Forest";
+var current_region = "";
 
 // Intervals (Classes) used for enemy XP, enemy DMG, enemy HP, etc.
 var weak = [0, 0];

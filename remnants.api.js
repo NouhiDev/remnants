@@ -226,7 +226,7 @@ function update_stats() {
     // Gold
     `<span class="gold">Gold: ${gold}</span> | ` +
     // Region
-    `<span class="region">Region: ${region}</span> | ` +
+    `<span class="region">Region: ${current_region}</span> | ` +
     // Level
     `<span class="lvl">LVL: ${lvl}</span> | ` +
     // XP
