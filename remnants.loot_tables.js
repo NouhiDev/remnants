@@ -191,3 +191,68 @@ small_boss_loot_table = [
   "club",
   "wooden staff",
 ];
+
+forest_enemies_loot_table = ["gold", "gold", "gold", "gold", "dagger"];
+
+lockhard_village_enemies_loot_table = [
+  "gold",
+  "gold",
+  "gold",
+  "gold",
+  "dagger",
+  "axe",
+];
+
+eastport_enemies_loot_table = [
+  "gold",
+  "gold",
+  "gold",
+  "gold",
+  "dagger",
+  "axe",
+  "sword",
+];
+
+ocean_enemies_loot_table = [
+  "gold",
+  "gold",
+  "gold",
+  "gold",
+  "dagger",
+  "axe",
+  "sword",
+  "small trident",
+];
+
+rocky_shore_enemies_loot_table = [
+  "gold",
+  "gold",
+  "gold",
+  "gold",
+  "dagger",
+  "sword",
+  "small trident",
+  "shortsword",
+];
+
+wasteland_enemies_loot_table = [
+  "gold",
+  "gold",
+  "gold",
+  "gold",
+  "dagger",
+  "sword",
+  "shortsword",
+  "bastard sword",
+];
+
+lost_temple_enemies_loot_table = [
+  "gold",
+  "gold",
+  "gold",
+  "gold",
+  "dagger",
+  "sword",
+  "mace",
+  "shortsword",
+];

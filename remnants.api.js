@@ -91,10 +91,11 @@ function act_story_update(act_story, act_title, act_action, act_index) {
 }
 
 // Region Update
-function region_update(new_places, new_events, new_enemies) {
+function region_update(new_places, new_events, new_enemies, new_enemy_loot_table) {
   places_table = new_places;
   events_table = new_events;
   enemies = new_enemies;
+  enemy_loot_table = new_enemy_loot_table;
 }
 
 // Display Forwards

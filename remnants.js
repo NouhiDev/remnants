@@ -138,7 +138,12 @@ async function check_region_switch(distance) {
     case 0:
       current_region = "Forest";
       await act_update(0);
-      region_update(forest_places_table, forest_events_table, forest_enemies);
+      region_update(
+        forest_places_table,
+        forest_events_table,
+        forest_enemies,
+        forest_enemies_loot_table
+      );
       break;
     // Lockwood Village
     case 10:
@@ -147,7 +152,8 @@ async function check_region_switch(distance) {
       region_update(
         lockwood_village_places_table,
         lockwood_village_events_table,
-        lockwood_village_enemies
+        lockwood_village_enemies,
+        lockwood_village_enemies_loot_table
       );
       break;
     // Eastport
@@ -155,16 +161,22 @@ async function check_region_switch(distance) {
       current_region = regions[1];
       await act_update(2);
       region_update(
-        lockwood_village_places_table,
-        lockwood_village_events_table,
-        lockwood_village_enemies
+        eastport_places_table,
+        eastport_events_table,
+        eastport_enemies,
+        eastport_enemies_loot_table
       );
       break;
     // Ocean
     case 30:
       current_region = regions[2];
       await act_update(3);
-      region_update(ocean_places_table, ocean_events_table, ocean_enemies);
+      region_update(
+        ocean_places_table,
+        ocean_events_table,
+        ocean_enemies,
+        ocean_enemies_loot_table
+      );
       break;
     // Rocky Shores
     case 40:
@@ -173,7 +185,8 @@ async function check_region_switch(distance) {
       region_update(
         rocky_shore_places_table,
         rocky_shore_events_table,
-        rocky_shore_enemies
+        rocky_shore_enemies,
+        rocky_shore_enemies_loot_table
       );
       break;
     // Rebellion
@@ -193,7 +206,8 @@ async function check_region_switch(distance) {
       region_update(
         wasteland_places_table,
         wasteland_events_table,
-        wasteland_enemies
+        wasteland_enemies,
+        wasteland_enemies_loot_table
       );
       break;
     // Lost Temple
@@ -203,7 +217,8 @@ async function check_region_switch(distance) {
       region_update(
         lost_temple_places_table,
         lost_temple_events_table,
-        lost_temple_enemies
+        lost_temple_enemies,
+        lost_temple_enemies_loot_table
       );
       break;
   }
@@ -472,7 +487,7 @@ async function combat_routine(
 
       await sleep(1000);
 
-      game_text.innerHTML += `${enemy_combined} dropped <span class="gold">${gold_amt}</span> gold.\r\n\r\n`;
+      game_text.innerHTML += `\r\n${capitalize_first_letters(enemy_combined)} dropped <span class="gold">${gold_amt}</span> gold.\r\n\r\n`;
 
       if (!is_from_small_dungeon) {
         manage_allow_continue(true);
@@ -623,8 +638,6 @@ async function combat_routine(
             await sleep(1000);
 
             game_text.innerHTML += `<span class="deal-dmg"> You deal ${weapon_dmg} damage.</span>\r\n\r\n`;
-
-            
           }
         }
 
