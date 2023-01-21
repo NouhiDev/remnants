@@ -1372,6 +1372,10 @@ async function bandit() {
   }
 }
 
+// █▀▀ █░█ █▀▀ █▀ ▀█▀   █▀▀ █░█ █▀▀ █▄░█ ▀█▀
+// █▄▄ █▀█ ██▄ ▄█ ░█░   ██▄ ▀▄▀ ██▄ █░▀█ ░█░
+
+// Chest Event
 async function chest_event(chest_name, is_stone_chest) {
   switch (chest_name) {
     case "shipwreck":
@@ -1404,13 +1408,9 @@ async function chest_event(chest_name, is_stone_chest) {
 
     // Open Chest Successfully
     if (d < 0.7) {
-      await open_loot_container(chest_loot_table, randomIntFromInterval(1, 5));
+      await open_loot_container(chest_loot_table, 1, 5);
 
       update_stats();
-
-      await sleep(1000);
-
-      game_text.innerHTML += "You finish looting the chest.";
     }
     // Chest is trap
     else {
@@ -1452,6 +1452,11 @@ async function chest_event(chest_name, is_stone_chest) {
   }
 }
 
+// █▀▄ ▄▀█ █▀▄▀█ ▄▀█ █▀▀ █▀▀   █▀▀ █░█ █▀▀ █▄░█ ▀█▀
+// █▄▀ █▀█ █░▀░█ █▀█ █▄█ ██▄   ██▄ ▀▄▀ ██▄ █░▀█ ░█░
+
+
+// Damage Event
 async function damage_event(
   damage_event_name,
   damage_event_min_damage,
@@ -1475,6 +1480,10 @@ async function damage_event(
   }
 }
 
+// █▀▄ █ █▀ █▀▀ █░█ █ █▀ █▀▀ █▀▄   █▀▀ █░█ █▀▀ █▄░█ ▀█▀
+// █▄▀ █ ▄█ █▄█ █▄█ █ ▄█ ██▄ █▄▀   ██▄ ▀▄▀ ██▄ █░▀█ ░█░
+
+// Disguised Event
 async function disguised_event(disguised_event) {
   switch (disguised_event) {
     case "blurry object":
