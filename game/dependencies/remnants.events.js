@@ -18,12 +18,12 @@
 events_table = [];
 
 forest_events_table = [
-  //"chest",
+  "chest",
   "enemy",
-  //"wishing well",
-  //"traveler",
-  //"shrine",
-  //"nothing",
+  "wishing well",
+  "traveler",
+  "shrine",
+  "nothing",
 ];
 
 lockwood_village_events_table = [
