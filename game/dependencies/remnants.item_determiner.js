@@ -20,6 +20,9 @@ var w_strong = [0, 0];
 var w_mythical = [0, 0];
 var w_legendary = [0, 0];
 
+// Wands / Staffs
+magic_weapons = ["wooden staff"];
+
 function change_item_determinator_class(det_class) {
   switch (det_class) {
     case "dmg":

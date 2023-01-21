@@ -29,12 +29,12 @@ var debug_stats = false;
 // Inventory
 // Holds all the weapons of the player
 // Weapons added here are to be seen as default equipment
-var inventory = ["damaged sword"];
+var inventory = ["damaged sword", "wooden staff"];
 
 // Helper string used for displaying the inventory on the stats container
 var inventory_txt = "[Inventory: ";
 
-var spell_inventory = [];
+var spell_inventory = ["firebolt"];
 
 // Inventory Item Cap
 // Determines how many items the player can hold
@@ -402,7 +402,7 @@ async function enemy_encounter() {
     game_text.innerHTML += "You attempt to flee.\r\n\r\n";
     let d = Math.random();
     // Flee Successfully with 45% Chance
-    if (luck*0.02 + d < 0.45) {
+    if (luck * 0.02 + d < 0.45) {
       await sleep(1000);
 
       game_text.innerHTML +=
@@ -443,7 +443,6 @@ async function combat_routine(
   enemy_combined,
   is_from_small_dungeon
 ) {
-
   let in_combat = true;
   let player_turn = failed_to_flee;
   let enemy_max_hp = enemy_hp;
@@ -486,7 +485,7 @@ async function combat_routine(
 
       await sleep(1000);
 
-      game_text.innerHTML += `${capitalize_first_letters(
+      game_text.innerHTML += `\r\n${capitalize_first_letters(
         enemy_combined
       )} dropped <span class="gold">${gold_amt}</span> gold.\r\n\r\n`;
 
@@ -521,7 +520,7 @@ async function combat_routine(
       if (inventory.length <= 0) {
         let hit_chance = Math.random();
         // You miss the attack
-        if (luck*0.02 + hit_chance < 0.15) {
+        if (luck * 0.02 + hit_chance < 0.15) {
           let miss_or_evade_chance = Math.random();
           // Miss the hit with 50%
           if (miss_or_evade_chance < 0.5) {
@@ -563,11 +562,15 @@ async function combat_routine(
         if (inventory.length != 1) {
           while (weapon_to_use == "") {
             for (let i = 0; i < inventory.length; i++) {
-              game_text.innerHTML += `<span class="choice">Use ${
-                inventory[i]
-              }? (${item_determiner(inventory[i], "dmg")[0]}-${
-                item_determiner(inventory[i], "dmg")[1]
-              } dmg)</span>\r\n\r\n`;
+              if (magic_weapons.includes(inventory[i])) {
+                game_text.innerHTML += `<span class="choice">Use ${inventory[i]}?</span>\r\n\r\n`;
+              } else {
+                game_text.innerHTML += `<span class="choice">Use ${
+                  inventory[i]
+                }? (${item_determiner(inventory[i], "dmg")[0]}-${
+                  item_determiner(inventory[i], "dmg")[1]
+                } dmg)</span>\r\n\r\n`;
+              }
 
               await await_input();
 
@@ -582,51 +585,202 @@ async function combat_routine(
         } else {
           weapon_to_use = inventory[0];
         }
+        // Magic Weapon has been chosen
+        if (magic_weapons.includes(weapon_to_use)) {
+          await sleep(1000);
 
-        // Weapon has been chosen
-        await sleep(1000);
-
-        game_text.innerHTML += `You chose to use ${weapon_to_use}.\r\n\r\n`;
-
-        let weapon_dmg = randomIntFromInterval(
-          item_determiner(weapon_to_use, "dmg")[0],
-          item_determiner(weapon_to_use, "dmg")[1]
-        );
-
-        let hit_chance = Math.random();
-        // You miss / evade
-        if (luck*0.02 + hit_chance < 0.15) {
-          let miss_or_evade_chance = Math.random();
-          // Miss the hit with 50%
-          if (miss_or_evade_chance < 0.5) {
-            game_text.innerHTML += `<span class="drastic">You miss and deal no damage.</span>\r\n\r\n`;
-          }
-          // Enemy evades with 50%
-          else {
-            game_text.innerHTML += `<span class="drastic">${capitalize_first_letters(
-              enemy_combined
-            )} evaded the attack.</span>\r\n\r\n\r\n\r\n`;
-          }
-        }
-        // You hit
-        else {
-          enemy_hp -= weapon_dmg;
-          if (enemy_hp <= 0) {
-            enemy_hp = 0;
-          }
+          game_text.innerHTML += `You chose to use ${weapon_to_use}.\r\n\r\n`;
 
           await sleep(1000);
 
-          game_text.innerHTML += `<span class="deal-dmg">You deal ${weapon_dmg} damage.</span>\r\n\r\n`;
+          // Check if Player has Spells
+          if (spell_inventory.length > 0) {
+            let selected_spell = "";
+            while (selected_spell == "") {
+              for (let i = 0; i < spell_inventory.length; i++) {
+                game_text.innerHTML += `<span class="info">Use ${
+                  spell_inventory[i]
+                }? (${item_determiner(spell_inventory[i], "dmg")[0]}-${
+                  item_determiner(spell_inventory[i], "dmg")[1]
+                } dmg) (${
+                  item_determiner(spell_inventory[i], "mana cost")[0]
+                }-${
+                  item_determiner(spell_inventory[i], "mana cost")[1]
+                } mana)</span>\r\n\r\n`;
+
+                await await_input();
+
+                if (player_input == "y") {
+                  selected_spell = spell_inventory[i];
+                  break;
+                } else {
+                  continue;
+                }
+              }
+            }
+            await sleep(1000);
+
+            game_text.innerHTML += `You chose to use ${selected_spell}.\r\n\r\n`;
+
+            let weapon_dmg = randomIntFromInterval(
+              item_determiner(selected_spell, "dmg")[0],
+              item_determiner(selected_spell, "dmg")[1]
+            );
+
+            let weapon_mana = randomIntFromInterval(
+              item_determiner(selected_spell, "mana cost")[0],
+              item_determiner(selected_spell, "mana cost")[1]
+            );
+
+            // Can Use Spell
+            if (mana >= weapon_mana) {
+              let hit_chance = Math.random();
+              await sleep();
+              // You miss / evade
+              if (luck * 0.02 + hit_chance < 0.15) {
+                let miss_or_evade_chance = Math.random();
+                // Miss the hit with 50%
+                if (miss_or_evade_chance < 0.5) {
+                  game_text.innerHTML += `<span class="drastic">You miss and deal no damage.</span>\r\n\r\n`;
+                }
+                // Enemy evades with 50%
+                else {
+                  game_text.innerHTML += `<span class="drastic">${capitalize_first_letters(
+                    enemy_combined
+                  )} evaded the attack.</span>\r\n\r\n`;
+                }
+              }
+              // You hit
+              else {
+                enemy_hp -= weapon_dmg;
+                if (enemy_hp <= 0) {
+                  enemy_hp = 0;
+                }
+
+                await sleep(1000);
+
+                game_text.innerHTML += `<span class="mana">You used ${weapon_mana} mana.</span>\r\n\r\n`;
+                mana -= weapon_mana;
+                update_stats();
+
+                await sleep(1000);
+
+                game_text.innerHTML += `<span class="deal-dmg">You deal ${weapon_dmg} damage.</span>\r\n\r\n`;
+
+                await sleep(2000);
+
+                game_text.innerHTML =
+                  "<span class='combat'>COMBAT</span>\r\n" +
+                  `[ <span class='enemy'>You vs ${capitalize_first_letters(
+                    enemy_combined
+                  )} (${enemy_hp}/${enemy_max_hp} hp)</span> ]\r\n\r\n`;
+              }
+            }
+            // Can't Use Spell
+            else {
+              await sleep(1000);
+
+              game_text.innerHTML += `You don't have enough mana.\r\n\r\n`;
+
+              await sleep(1000);
+
+              game_text.innerHTML += `You use your ${weapon_to_use} as a club.\r\n\r\n`;
+
+              let weapon_dmg = randomIntFromInterval(5, 10);
+              enemy_hp -= weapon_dmg;
+              if (enemy_hp <= 0) {
+                enemy_hp = 0;
+              }
+
+              await sleep(1000);
+
+              game_text.innerHTML += `<span class="deal-dmg">You deal ${weapon_dmg} damage.</span>\r\n\r\n`;
+
+              await sleep(2000);
+
+              game_text.innerHTML =
+                "<span class='combat'>COMBAT</span>\r\n" +
+                `[ <span class='enemy'>You vs ${capitalize_first_letters(
+                  enemy_combined
+                )} (${enemy_hp}/${enemy_max_hp} hp)</span> ]\r\n\r\n`;
+            }
+          }
+          // Player has no Spells
+          else {
+            await sleep(1000);
+
+            game_text.innerHTML += `You have no spells.\r\n\r\n`;
+
+            await sleep(1000);
+
+            game_text.innerHTML += `You use your ${weapon_to_use} as a club.\r\n\r\n`;
+
+            let weapon_dmg = randomIntFromInterval(5, 10);
+            enemy_hp -= weapon_dmg;
+            if (enemy_hp <= 0) {
+              enemy_hp = 0;
+            }
+
+            await sleep(1000);
+
+            game_text.innerHTML += `<span class="deal-dmg">You deal ${weapon_dmg} damage.</span>\r\n\r\n`;
+
+            await sleep(2000);
+
+            game_text.innerHTML =
+              "<span class='combat'>COMBAT</span>\r\n" +
+              `[ <span class='enemy'>You vs ${capitalize_first_letters(
+                enemy_combined
+              )} (${enemy_hp}/${enemy_max_hp} hp)</span> ]\r\n\r\n`;
+          }
         }
+        // Weapon has been chosen
+        else {
+          await sleep(1000);
 
-        await sleep(2000);
+          game_text.innerHTML += `You chose to use ${weapon_to_use}.\r\n\r\n`;
 
-        game_text.innerHTML =
-          "<span class='combat'>COMBAT</span>\r\n" +
-          `[ <span class='enemy'>You vs ${capitalize_first_letters(
-            enemy_combined
-          )} (${enemy_hp}/${enemy_max_hp} hp)</span> ]\r\n\r\n`;
+          let weapon_dmg = randomIntFromInterval(
+            item_determiner(weapon_to_use, "dmg")[0],
+            item_determiner(weapon_to_use, "dmg")[1]
+          );
+
+          let hit_chance = Math.random();
+          // You miss / evade
+          if (luck * 0.02 + hit_chance < 0.15) {
+            let miss_or_evade_chance = Math.random();
+            // Miss the hit with 50%
+            await sleep();
+            if (miss_or_evade_chance < 0.5) {
+              game_text.innerHTML += `<span class="drastic">You miss and deal no damage.</span>\r\n\r\n`;
+            }
+            // Enemy evades with 50%
+            else {
+              game_text.innerHTML += `<span class="drastic">${capitalize_first_letters(
+                enemy_combined
+              )} evaded the attack.</span>\r\n\r\n`;
+            }
+          }
+          // You hit
+          else {
+            enemy_hp -= weapon_dmg;
+            if (enemy_hp <= 0) {
+              enemy_hp = 0;
+            }
+
+            await sleep(1000);
+
+            game_text.innerHTML += `<span class="deal-dmg">You deal ${weapon_dmg} damage.</span>\r\n\r\n`;
+          }
+
+          await sleep(2000);
+
+          game_text.innerHTML =
+            "<span class='combat'>COMBAT</span>\r\n" +
+            `[ <span class='enemy'>You vs ${capitalize_first_letters(
+              enemy_combined
+            )} (${enemy_hp}/${enemy_max_hp} hp)</span> ]\r\n\r\n`;
+        }
       }
     }
     // Enemys Turn
@@ -651,7 +805,7 @@ async function combat_routine(
 
       let miss_chance = Math.random();
       // Enemy misses with 15% Chance
-      if (miss_chance < 0.15 + luck*0.02) {
+      if (miss_chance < 0.15 + luck * 0.02) {
         let miss_or_evade_chance = Math.random();
         // Miss with 50% Chance
         if (miss_or_evade_chance < 0.5) {
@@ -694,7 +848,6 @@ async function combat_routine(
     }
   }
 }
-
 // #endregion
 
 // ███╗░░░███╗░█████╗░██╗███╗░░██╗
