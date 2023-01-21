@@ -181,4 +181,21 @@ swamp_places_table = [
   "thorny bush",
 ];
 
-mountains_places_table = [];
+mountains_places_table = [
+  "cliff",
+  "crag",
+  "ledge",
+  "mountain lake",
+  "waterfall",
+  "mountain pass",
+  "mountain trail",
+  "hot spring",
+  "geyser",
+  "abandonend mine",
+  "abandonend quarry",
+  "sinkhole",
+  "rock formation",
+  "arch",
+  "spire",
+  "path",
+];

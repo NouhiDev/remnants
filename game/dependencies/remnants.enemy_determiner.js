@@ -232,5 +232,26 @@ function enemy_determiner(enemy, determiner) {
       return common;
     case "skunk ape":
       return strong;
+    // REGION 9: MOUNTAINS
+    case "lion":
+      return above_avg;
+    case "bear":
+      return above_avg;
+    case "rock elemental":
+      return above_avg;
+    case "rock drake":
+      return strong;
+    case "eagle":
+      return weak;
+    case "dwarf":
+      return weak;
+    case "roc":
+      return below_avg;
+    case "chimera":
+      return strong;
+    case "gnoll":
+      return below_avg;
+    case "centaur":
+      return above_avg;
   }
 }

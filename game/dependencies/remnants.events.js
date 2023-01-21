@@ -241,7 +241,7 @@ async function small_dungeon() {
         if (player_input == "y") {
           let disarm_chance = Math.random();
           // Succeed the Disarm
-          if (disarm_chance < 0.5) {
+          if (disarm_chance < 0.5 + luck*0.02) {
             await sleep(1000);
 
             game_text.innerHTML +=

@@ -2,26 +2,41 @@
 <html lang="en">
   <head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    
+
     <title>REMNANTS - A text-based RPG by nouhidev</title>
-    <meta name="title" content="REMNANTS">
-    <meta name="description" content="REMNANTS is a text-based RPG based on decisions to progress the story">
+    <meta name="title" content="REMNANTS" />
+    <meta
+      name="description"
+      content="REMNANTS is a text-based RPG based on decisions to progress the story"
+    />
     <link rel="stylesheet" href="style.css" />
-    <meta name="viewport" content="width=device-width, initial-scale=0.5">
-    <meta charset="utf-8">
-    <link rel="icon" type="image/x-icon" href="./assets/images/remnants_logo_var2.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=0.5" />
+    <meta charset="utf-8" />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="./assets/images/remnants_logo_var2.ico"
+    />
     <meta name="robots" content="index, follow" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300&family=Roboto&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@300&family=Roboto&display=swap"
+      rel="stylesheet"
+    />
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-144101469-4"></script>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-144101469-4"
+    ></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-      gtag('config', 'UA-144101469-4');
+      gtag("config", "UA-144101469-4");
     </script>
   </head>
 
@@ -43,11 +58,10 @@
     <!-- Post Loader -->
 
     <div class="content">
-
       <!-- REMNANTS Logo -->
       <!--img src="./android-chrome-512x512.png"-->
       <!--img src="./remnants_logo_var1.png"-->
-      <img src="./assets/images/remnants_logo_var2.png">
+      <img src="./assets/images/remnants_logo_var2.png" />
       <!--img src="./remnants_logo_var3.png"-->
 
       <!-- REMNANTS Title -->
@@ -64,25 +78,29 @@
 
       <!-- REMNANTS Game Display Container -->
       <div class="game-display">
-        
         <!-- REMNANTS Stats Container -->
         <div class="stats-container" id="stats">
-          <p id="stats-text"><span class="light-gold">REMNANTS</span> is a text-based RPG game where players are presented with prompts and must choose between "yes" or "no" to progress the story. Players must navigate through a variety of challenges to reach the end of the game.</p>
+          <p id="stats-text"><span class="light-gold">REMNANTS</span> is a text-based RPG game where players are presented with prompts and must choose between
+            "yes" or "no" to progress the story. Players must navigate through a
+            variety of challenges to reach the end of the game.
+          </p>
         </div>
 
         <!-- REMNANTS Region Container -->
         <div class="region-container" id="region">
-          <p id="region-text">It was initially developed in Python and as I am not proficient at all in JavaScript I don’t recommend taking a look at the source code.</p>
+          <p id="region-text">It was initially developed in Python and as I am not proficient at
+            all in JavaScript I don’t recommend taking a look at the source code.
+          </p>
         </div>
 
         <!-- REMNANTS Game / Main Events Container -->
         <div class="game-container" id="game">
-          <p id="game-text">To start the game press the green <span class="green">"PROCEED"</span> button.
-            <span class="orange"><br>CHANGELOG:<br></span>
-        - Introduced REMNANTS API
-        - Restructured Source Code
-        - Added Stat Leveling System
-        - Simplified Code for better Scaling</p>
+          <p id="game-text">To start the game press the green
+            <span class="green">"PROCEED"</span> button.
+            <span class="orange"><br />CHANGELOG:<br /></span>
+            - Introduced REMNANTS API - Restructured Source Code - Added Stat
+            Leveling System - Simplified Code for better Scaling
+          </p>
         </div>
 
         <!-- REMNANTS Buttons "Yes" "No" "Proceed" "BGM" -->
@@ -90,7 +108,9 @@
           <form onsubmit="return false">
             <button class="btn" id="yesbtn" onclick="yes_btn()">YES</button>
             <button class="btn" id="nobtn" onclick="no_btn()">NO</button>
-            <button class="btn-continue" id="cbtn" onclick="new_day()">PROCEED</button>
+            <button class="btn-continue" id="cbtn" onclick="new_day()">
+              PROCEED
+            </button>
             <button class="bgmbtn" id="bgmbtn" onclick="bgm()"></button>
           </form>
         </div>
@@ -98,9 +118,9 @@
     </div>
 
     <!-- REMNANTS Background Loop -->
-    <audio id="bg_loop" muted loop autoplay preload="auto"> 
-      <source src="assets/audio/bg_loop.ogg" type="audio/ogg">
-     Your browser does not support the audio tag.
+    <audio id="bg_loop" muted loop autoplay preload="auto">
+      <source src="assets/audio/bg_loop.ogg" type="audio/ogg" />
+      Your browser does not support the audio tag.
     </audio>
     <script src="game/remnants.js"></script>
     <script src="game/remnants.api.js"></script>
@@ -115,4 +135,4 @@
     <script src="game/dependencies/remnants.item_determiner.js"></script>
     <script src="game/dependencies/remnants.events.js"></script>
   </body>
-  </html>
+</html>

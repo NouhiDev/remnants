@@ -175,7 +175,24 @@ swamp_enemies = [
   "bat",
   "piranha",
   "skunk ape",
-  "witch"
+  "witch",
 ];
 
-mountains_enemies = [];
+mountains_enemies = [
+  "goblin",
+  "orc",
+  "troll",
+  "lion",
+  "bear",
+  "golem",
+  "rock elemental",
+  "rock drake",
+  "eagle",
+  "dwarf",
+  "roc",
+  "chimera",
+  "gnoll",
+  "harpy",
+  "basilisk",
+  "centaur",
+];

@@ -214,7 +214,7 @@ async function check_region_switch(distance) {
       );
       break;
   }
-  
+
   if (steps != 0 && steps % 10 != 0) {
     // No new Region is reached
     await sleep(2000);
@@ -402,7 +402,7 @@ async function enemy_encounter() {
     game_text.innerHTML += "You attempt to flee.\r\n\r\n";
     let d = Math.random();
     // Flee Successfully with 45% Chance
-    if (d < 0.45) {
+    if (luck*0.02 + d < 0.45) {
       await sleep(1000);
 
       game_text.innerHTML +=
@@ -443,7 +443,7 @@ async function combat_routine(
   enemy_combined,
   is_from_small_dungeon
 ) {
-  let d = Math.random();
+
   let in_combat = true;
   let player_turn = failed_to_flee;
   let enemy_max_hp = enemy_hp;
@@ -521,7 +521,7 @@ async function combat_routine(
       if (inventory.length <= 0) {
         let hit_chance = Math.random();
         // You miss the attack
-        if (hit_chance < 0.15) {
+        if (luck*0.02 + hit_chance < 0.15) {
           let miss_or_evade_chance = Math.random();
           // Miss the hit with 50%
           if (miss_or_evade_chance < 0.5) {
@@ -595,7 +595,7 @@ async function combat_routine(
 
         let hit_chance = Math.random();
         // You miss / evade
-        if (hit_chance < 0.15) {
+        if (luck*0.02 + hit_chance < 0.15) {
           let miss_or_evade_chance = Math.random();
           // Miss the hit with 50%
           if (miss_or_evade_chance < 0.5) {
@@ -651,7 +651,7 @@ async function combat_routine(
 
       let miss_chance = Math.random();
       // Enemy misses with 15% Chance
-      if (miss_chance < 0.15) {
+      if (miss_chance < 0.15 + luck*0.02) {
         let miss_or_evade_chance = Math.random();
         // Miss with 50% Chance
         if (miss_or_evade_chance < 0.5) {
