@@ -234,3 +234,5 @@ wasteland_enemies_loot_table = [
 lost_temple_enemies_loot_table = ["dagger", "sword", "mace", "shortsword"];
 
 swamp_enemies_loot_table = ["dagger", "sword", "mace", "shortsword", "machete", "axe"]
+
+mountains_enemies_loot_table = [];

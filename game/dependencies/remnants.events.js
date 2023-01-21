@@ -69,6 +69,8 @@ lost_temple_events_table = [
 
 swamp_events_table = ["enemy", "nothing"];
 
+mountains_events_table = ["enemy", "nothing"];
+
 // #endregion
 
 // ░█▀▀▀ ░█──░█ ░█▀▀▀ ░█▄─░█ ▀▀█▀▀ 　 ░█▀▀█ ░█▀▀▀█ ░█─░█ ▀▀█▀▀ ▀█▀ ░█▄─░█ ░█▀▀▀ ░█▀▀▀█

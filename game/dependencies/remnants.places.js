@@ -180,3 +180,5 @@ swamp_places_table = [
   "patch of fungi",
   "thorny bush",
 ];
+
+mountains_places_table = [];

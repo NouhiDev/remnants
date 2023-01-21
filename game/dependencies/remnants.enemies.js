@@ -177,3 +177,5 @@ swamp_enemies = [
   "skunk ape",
   "witch"
 ];
+
+mountains_enemies = [];

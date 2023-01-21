@@ -214,7 +214,7 @@ async function check_region_switch(distance) {
       );
       break;
   }
-  console.log(steps);
+  
   if (steps != 0 && steps % 10 != 0) {
     // No new Region is reached
     await sleep(2000);
@@ -353,6 +353,9 @@ async function manage_events(events) {
   }
 }
 
+// █▀▀ █▄░█ █▀▀ █▀▄▀█ █▄█   █▀▀ █▄░█ █▀▀ █▀█ █░█ █▄░█ ▀█▀ █▀▀ █▀█
+// ██▄ █░▀█ ██▄ █░▀░█ ░█░   ██▄ █░▀█ █▄▄ █▄█ █▄█ █░▀█ ░█░ ██▄ █▀▄
+
 // Enemy Encounter
 async function enemy_encounter() {
   // Setup Enemy
@@ -428,6 +431,9 @@ async function enemy_encounter() {
     }
   }
 }
+
+// █▀▀ █▀█ █▀▄▀█ █▄▄ ▄▀█ ▀█▀   █▀█ █▀█ █░█ ▀█▀ █ █▄░█ █▀▀
+// █▄▄ █▄█ █░▀░█ █▄█ █▀█ ░█░   █▀▄ █▄█ █▄█ ░█░ █ █░▀█ ██▄
 
 // Combat Routine
 async function combat_routine(
