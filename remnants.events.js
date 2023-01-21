@@ -284,7 +284,7 @@ async function small_dungeon() {
               }
 
               // Add Item to Inventory
-              inventory.push(item);
+              add_to_inventory(item);
               game_text.innerHTML += `You find ${article} ${item}.\r\n`;
               update_stats();
             }
@@ -877,7 +877,7 @@ async function merchant_routine() {
             game_text.innerHTML += `${item} is already in your inventory. What a waste!\r\n`;
             continue;
           } else {
-            inventory.push(item);
+            add_to_inventory(item);
             update_stats();
           }
         }

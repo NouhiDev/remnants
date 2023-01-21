@@ -39,6 +39,7 @@ traveler_loot_table = [
   "halberd",
   "mace",
   "warhammer",
+  "mana potion",
 ];
 
 object_burried_in_ground_names = [

@@ -573,7 +573,7 @@ async function open_loot_container(
 
 async function add_to_inventory(item) {
   // If Weapon Cap is not reached
-  if (inventory.length <= inventory_cap) {
+  if (inventory.length < inventory_cap) {
     // Add Item
     inventory.push(item);
   } else {
@@ -582,7 +582,7 @@ async function add_to_inventory(item) {
       await sleep(1000);
       game_text.innerHTML += `<span class="choice">Replace ${capitalize_first_letters(
         inventory[i]
-      )} with ${capitalize_first_letters(item)}?</span>`;
+      )} with ${capitalize_first_letters(item)}?</span>\r\n\r\n`;
 
       await await_input();
 
@@ -591,10 +591,10 @@ async function add_to_inventory(item) {
         await sleep(1000);
         game_text.innerHTML += `You replace ${capitalize_first_letters(
           inventory[i]
-        )} with ${capitalize_first_letters(item)}.`;
+        )} with ${capitalize_first_letters(item)}.\r\n`;
         inventory.pop(inventory[i]);
         inventory.push(item);
-        break;
+        return;
       }
       // Don't replace Inventory Item with new Item 
       else {
@@ -604,6 +604,6 @@ async function add_to_inventory(item) {
     // No Item was chosen
     await sleep(1000);
 
-    game_text.innerHTML += `You throw the ${item} away.`;
+    game_text.innerHTML += `You throw the ${item} away.\r\n`;
   }
 }
