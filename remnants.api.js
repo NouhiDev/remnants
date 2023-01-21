@@ -281,6 +281,7 @@ async function level_up() {
   let chosen_stat = "";
 
   while (chosen_stat == "") {
+    await sleep(1000);
     for (let i = 0; i < stats.length; i++) {
       game_text.innerHTML += `<span class="choice">Level up ${capitalize_first_letters(
         stats[i]

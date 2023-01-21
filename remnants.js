@@ -486,7 +486,7 @@ async function combat_routine(
 
       await sleep(1000);
 
-      game_text.innerHTML += `\r\n${capitalize_first_letters(
+      game_text.innerHTML += `${capitalize_first_letters(
         enemy_combined
       )} dropped <span class="gold">${gold_amt}</span> gold.\r\n\r\n`;
 
