@@ -64,6 +64,21 @@ lost_temple_events_table = [
 
 // Small Dungeon
 async function small_dungeon() {
+  game_text.innerHTML += `<span class="choice">Enter the small dungeon?\r\n\r\n`;
+
+  await await_input();
+
+  // APPROACH SMALL DUNGEON
+  if (player_input == "y") {
+    game_text.innerHTML += "You head towards the small dungeon.\r\n";
+  }
+  // PASS BY SMALL DUNGEON
+  else if (player_input == "n") {
+    game_text.innerHTML += "You move on.\r\n";
+    manage_allow_continue(true);
+    return;
+  }
+
   // 1/3% Trapped Chest, 2/3% Enemy
   let rooms = ["trapped chest", "enemy", "enemy"];
 
@@ -591,12 +606,12 @@ async function small_dungeon_boss() {
 
     await sleep(1000);
 
-    open_loot_container(small_dungeon_trapped_chest_loot_table, 3, 7)
+    await open_loot_container(small_dungeon_trapped_chest_loot_table, 3, 7);
 
     await sleep(2000);
 
     game_text.innerHTML += `\r\nYou finish looting.\r\n\r\n`;
-  } 
+  }
   // NO: Don't loot Chest
   else if (player_input == "n") {
     game_text.innerHTML += "You decide to not open the chest.\r\n\r\n";
@@ -614,6 +629,21 @@ async function small_dungeon_boss() {
 
 // Seafarer
 async function seafarer_routine() {
+  game_text.innerHTML += `<span class='choice'>Make contact with them?</span>\r\n\r\n`;
+
+  await await_input();
+
+  // APPROACH SEAFARER
+  if (player_input == "y") {
+    game_text.innerHTML += "You iniate interaction with them.\r\n";
+  }
+  // PASS BY SEAFARER
+  else if (player_input == "n") {
+    game_text.innerHTML += "You do not approach the seafarer and move on.\r\n";
+    manage_allow_continue(true);
+    return;
+  }
+
   // Choose random Traveler name
   let name = traveler_names.sample();
 
@@ -640,7 +670,6 @@ async function seafarer_routine() {
 
   // YES: Buy Map
   if (player_input == "y") {
-
     // If Player has more or equal Gold
     if (gold >= map_price) {
       game_text.innerHTML += `You buy the treasure map for <span class="gold">${map_price} gold</span>.\r\n\r\n`;
@@ -669,7 +698,7 @@ async function seafarer_routine() {
 
         await sleep(2000);
 
-        open_loot_container(treasure_map_treasure_loot_table, 4, 7);
+        await open_loot_container(treasure_map_treasure_loot_table, 4, 7);
 
         await sleep(2000);
 
@@ -712,6 +741,21 @@ async function seafarer_routine() {
 
 // Merchant
 async function merchant_routine() {
+  game_text.innerHTML += `<span class='choice'>Talk to merchant?</span>\r\n\r\n`;
+
+  await await_input();
+
+  // TALK TO MERCHANT
+  if (player_input == "y") {
+    game_text.innerHTML += "You head towards the merchant.\r\n";
+  }
+  // DOESNT TALK TO MERCHANT
+  else if (player_input == "n") {
+    game_text.innerHTML += "You do not talk to the merchant and move on.\r\n";
+    manage_allow_continue(true);
+    return;
+  }
+
   // Choose random Merchant Name
   let merchant_name = merchant_names.sample();
 
@@ -768,7 +812,9 @@ async function merchant_routine() {
 
   await await_input();
 
-  player_input == "y" ? game_text.innerHTML += `The merchant approaches you.` : game_text.innerHTML += `The merchant approaches you anyway.`;
+  player_input == "y"
+    ? (game_text.innerHTML += `The merchant approaches you.`)
+    : (game_text.innerHTML += `The merchant approaches you anyway.`);
 
   await sleep(3000);
 
@@ -803,7 +849,6 @@ async function merchant_routine() {
 
     // Wants to buy
     if (player_input == "y") {
-
       // If Player has enough Gold
       if (price + anger <= gold) {
         await sleep(1000);
@@ -813,7 +858,6 @@ async function merchant_routine() {
 
         // Add to Inventory if it is Weapon
         if (item != "lesser healing potion" && item != "healing potion") {
-
           // Check if Item is already in Inventory
           if (inventory.includes(item)) {
             game_text.innerHTML += `${item} is already in your inventory. What a waste!\r\n`;
@@ -859,6 +903,622 @@ async function merchant_routine() {
   game_text.innerHTML += `The trade concludes.\r\n`;
 
   manage_allow_continue(true);
+}
+
+// █▀▄▀█ ▄▀█ █▄▀ █▀▀   ▄▀█   █░█░█ █ █▀ █░█
+// █░▀░█ █▀█ █░█ ██▄   █▀█   ▀▄▀▄▀ █ ▄█ █▀█
+
+// Make a Wish
+async function make_wish() {
+  game_text.innerHTML += `<span class='choice'>Make a wish?</span>\r\n\r\n`;
+
+  await await_input();
+
+  // MAKES WISH
+  if (player_input == "y") {
+    game_text.innerHTML += "You make a wish.\r\n";
+  }
+  // DOESNT MAKE WISH
+  else if (player_input == "n") {
+    game_text.innerHTML += "You do not make a wish and move on.\r\n";
+    manage_allow_continue(true);
+    return;
+  }
+
+  game_text.innerHTML =
+    `<span class="wishing-well">WISHING WELL</span>` + `\r\n\r\n`;
+  await sleep(1000);
+
+  game_text.innerHTML += `<span class="choice">Throw <span class="gold">one gold</span> into the well?</span>\r\n\r\n`;
+
+  await await_input();
+
+  // Throw gold
+  if (player_input == "y") {
+    // If player has more than 1 gold
+    if (gold > 0) {
+      game_text.innerHTML += `You throw <span class="gold">one gold</span> into the well.\r\n\r\n`;
+      gold -= 1;
+      update_stats();
+      await sleep(2000);
+    }
+    // Player has no gold
+    else {
+      await sleep(1000);
+      game_text.innerHTML += `You don't have <span class="gold">gold</span> to throw into the well.\r\n\r\n`;
+      await sleep(1000);
+      game_text.innerHTML += `You move on.\r\n\r\n`;
+      await sleep(1000);
+      manage_allow_continue(true);
+      return;
+    }
+  }
+  // Dont throw gold
+  else if (player_input == "n") {
+    game_text.innerHTML +=
+      "You don't throw <span class='gold'>one gold</span> into the well and move on.\r\n";
+    manage_allow_continue(true);
+    return;
+  }
+
+  let d = Math.random();
+  // Success with 10% Chance
+  if (d <= 0.1) {
+    max_hp += 10;
+    hp = max_hp;
+    game_text.innerHTML +=
+      "<span class='blessing'>Your wish has been fulfilled.</span>\r\n\r\n";
+
+    await sleep(1000);
+
+    game_text.innerHTML +=
+      "<span class='heal'>Your max hp has increased by 10.</span>\r\n\r\n";
+
+    await sleep(1000);
+
+    game_text.innerHTML += `<span class="info">Your current max hp is ${max_hp}.</span>\r\n`;
+  }
+
+  // Fail with 90% Chance
+  else {
+    game_text.innerHTML +=
+      "<span class='info'>Nothing happened.</span>\r\n\r\n";
+  }
+
+  manage_allow_continue(true);
+  update_stats();
+}
+
+// ▀█▀ █▀█ ▄▀█ █░█ █▀▀ █░░ █▀▀ █▀█
+// ░█░ █▀▄ █▀█ ▀▄▀ ██▄ █▄▄ ██▄ █▀▄
+
+// Traveler
+async function traveler_routine(is_friendly_traveler) {
+  game_text.innerHTML += `<span class='choice'>Approach them?</span>\r\n\r\n`;
+
+  await await_input();
+
+  // APPROACH TRAVELER
+  if (player_input == "y") {
+    game_text.innerHTML += "You head towards the traveler.\r\n";
+  }
+  // PASS BY TRAVELER
+  else if (player_input == "n") {
+    game_text.innerHTML += "You do not approach the traveler and move on.\r\n";
+    manage_allow_continue(true);
+    return;
+  }
+
+  // Choose Traveler Phrase
+  let phrase = traveler_phrases.sample();
+
+  // Choose Traveler Name
+  let name = traveler_names.sample();
+
+  game_text.innerHTML =
+    `<span class="traveler-name">Traveler ${name}</span>` + `\r\n\r\n`;
+
+  await sleep(1000);
+
+  game_text.innerHTML += `You hear ${name} say: "${phrase}"` + `\r\n\r\n`;
+
+  await sleep(2000);
+
+  game_text.innerHTML += `${name} notices you.` + `\r\n\r\n`;
+
+  await sleep(2000);
+
+  let d = Math.random();
+  // Give Item with 75% Chance
+  if (d <= 0.75 || is_friendly_traveler) {
+    game_text.innerHTML +=
+      `<span class="blessing">${name} decides to give you some of their spoils.</span>` +
+      `\r\n\r\n`;
+
+    await sleep(1000);
+
+    await open_loot_container(traveler_loot_table, 1, 3);
+
+    await sleep(1000);
+
+    game_text.innerHTML += `\r\n${name} walks off.` + `\r\n\r\n`;
+
+    manage_allow_continue(true);
+    return;
+  }
+  // Attack Player with 25% Chance
+  if (d > 0.75) {
+    game_text.innerHTML +=
+      `<span class="drastic">${name} believes you are hostile and attacks you.</span>` +
+      `\r\n\r\n`;
+
+    await sleep(1000);
+
+    let miss_chance = Math.random();
+
+    // Miss with 15% Chance
+    if (miss_chance <= 0.15) {
+      game_text.innerHTML +=
+        `${name} misses their attack and runs off.` + `\r\n\r\n`;
+      manage_allow_continue(true);
+    }
+    // Attack with 85% Chance
+    else {
+      let dmg = randomIntFromInterval(5, 25);
+      game_text.innerHTML +=
+        `<span class="dmg">${name} hits you and deals ${dmg} damage.</span>` +
+        `\r\n\r\n`;
+      await damage(dmg);
+      update_stats();
+
+      await sleep(1000);
+
+      let attack_chance = Math.random();
+      // Attack them back and get loot with 25% Chance
+      if (attack_chance <= 0.25) {
+        game_text.innerHTML +=
+          `<span class="blessing">${name} runs off but you catch up and strike them.</span>` +
+          `\r\n\r\n`;
+
+        await sleep(1000);
+
+        game_text.innerHTML += `You loot ${name}'s body.` + `\r\n\r\n`;
+
+        await sleep(1000);
+
+        await open_loot_container(traveler_loot_table, 1, 3);
+
+        await sleep(1000);
+
+        game_text.innerHTML +=
+          `You finish looting their body and go away.` + `\r\n\r\n`;
+
+        manage_allow_continue(true);
+      }
+      // Let them get away with 75% Chance
+      else {
+        game_text.innerHTML +=
+          `You are too slow to respond and ${name} runs off.` + `\r\n\r\n`;
+        manage_allow_continue(true);
+      }
+    }
+  }
+}
+
+// █▀▄▀█ █▀█ █▄░█ █▄▀
+// █░▀░█ █▄█ █░▀█ █░█
+
+// Monk
+async function monk_routine() {
+  game_text.innerHTML += `<span class='choice'>Approach them?</span>\r\n\r\n`;
+
+  await await_input();
+
+  // APPROACH MONK
+  if (player_input == "y") {
+    game_text.innerHTML += "You approach the monk.\r\n";
+  }
+  // PASS BY MONKS
+  else if (player_input == "n") {
+    game_text.innerHTML += "You do not approach the monk and move on.\r\n";
+    manage_allow_continue(true);
+    return;
+  }
+
+  // Choose Monk 1 Name
+  let name_1 = monk_names.sample();
+
+  // Choose Monk 2 Name
+  let name_2 = monk_names.sample();
+
+  game_text.innerHTML =
+    `<span class="traveler-name">Monks ${name_1} and ${name_2}</span>` +
+    `\r\n\r\n`;
+
+  await sleep(2000);
+
+  game_text.innerHTML += `${name_1} and ${name_2} notice you.` + `\r\n\r\n`;
+
+  await sleep(2000);
+
+  let d = Math.random();
+
+  // Heal with 80%
+  if (d <= 0.8) {
+    game_text.innerHTML +=
+      `<span class="blessing">They decide to tend to your wounds.</span>` +
+      `\r\n\r\n`;
+    // Heal if not Max HP
+    if (hp != max_hp) {
+      let loot_table = ["healing potion"];
+      open_loot_container(loot_table, 1, 3);
+      await sleep(1000);
+
+      game_text.innerHTML += `You thank the monks.\r\n\r\n`;
+
+      await sleep(1000);
+
+      game_text.innerHTML += `<span class="green">You've earned 25 xp.</span>\r\n`;
+
+      manage_xp(25);
+    } else {
+      await sleep(1000);
+
+      game_text.innerHTML += `You are not injured.\r\n`;
+    }
+
+    await sleep(1000);
+
+    game_text.innerHTML += `\r\n${name_1} and ${name_2} walk off.` + `\r\n\r\n`;
+
+    manage_allow_continue(true);
+  } // Ignore player 20%
+  else {
+    game_text.innerHTML +=
+      `<span class="drastic">They look away.</span>` + `\r\n\r\n`;
+
+    await sleep(1000);
+
+    game_text.innerHTML += `${name_1} and ${name_2} walk away.` + `\r\n\r\n`;
+
+    await sleep(1000);
+
+    manage_allow_continue(true);
+  }
+}
+
+// █▀█ █▀█ ▄▀█ █▄█
+// █▀▀ █▀▄ █▀█ ░█░
+
+// Pray
+async function pray() {
+  game_text.innerHTML += `<span class="choice">Pray at the shrine?\r\n\r\n`;
+
+  await await_input();
+
+  // APPROACH SHRINE
+  if (player_input == "y") {
+    game_text.innerHTML += "You head towards the shrine.\r\n";
+  }
+  // PASS BY SHRINE
+  else if (player_input == "n") {
+    game_text.innerHTML += "You do not pray at the shrine and move on.\r\n";
+    manage_allow_continue(true);
+    return;
+  }
+
+  game_text.innerHTML = `<span class="shrine">SHRINE</span>` + `\r\n\r\n`;
+  await sleep(1000);
+  game_text.innerHTML += `You pray to the gods.\r\n\r\n`;
+  await sleep(2000);
+
+  let d = Math.random();
+
+  // Success with 20% Chance
+  if (d <= 0.2) {
+    max_hp += 10;
+    hp = max_hp;
+    game_text.innerHTML +=
+      "<span class='blessing'>Your prayers have been heard.</span>\r\n\r\n";
+
+    await sleep(1000);
+
+    game_text.innerHTML +=
+      "<span class='heal'>Your max hp has increased by 10 and fully healed.</span>\r\n\r\n";
+
+    await sleep(1000);
+
+    game_text.innerHTML += `<span class="info">Your current max hp is ${max_hp}.</span>\r\n`;
+  }
+
+  // Fail with 80% Chance
+  else {
+    game_text.innerHTML +=
+      "<span class='drastic'>Your prayers have been rejected.</span>\r\n\r\n";
+
+    await sleep(1000);
+
+    game_text.innerHTML += `<span class="dmg">You take 15 damage.</span>\r\n`;
+    await damage(15);
+    update_stats();
+  }
+  manage_allow_continue(true);
+  update_stats();
+}
+
+// █▄▄ ▄▀█ █▄░█ █▀▄ █ ▀█▀
+// █▄█ █▀█ █░▀█ █▄▀ █ ░█░
+
+// Bandit
+async function bandit() {
+  game_text.innerHTML += `<span class="choice">Try to flee?\r\n\r\n`;
+
+  await await_input();
+
+  // TRIES TO FLEE
+  if (player_input == "y") {
+    let flee_chance = Math.random();
+    // Flee with 20% Chance
+    if (flee_chance < 0.2) {
+      game_text.innerHTML +=
+        "<span class='blessing'>You successfully flee from the bandit.</span>\r\n";
+      manage_allow_continue(true);
+      return;
+    }
+    // Fail with 80% Chance
+    else {
+      await sleep(1000);
+
+      game_text.innerHTML +=
+        "<span class='drastic'>You fail to flee.</span>\r\n";
+
+      await sleep(2000);
+    }
+  }
+  // TRIES TO NOT FLEE
+  else if (player_input == "n") {
+    game_text.innerHTML += "You choose to approach the bandit.\r\n";
+
+    await sleep(2000);
+
+    bandit();
+  }
+
+  game_text.innerHTML = `<span class="bandit">BANDIT</span>` + `\r\n\r\n`;
+
+  await sleep(1000);
+
+  game_text.innerHTML += `The bandit ambushes you.\r\n\r\n`;
+
+  await sleep(2000);
+
+  let steal_chance = Math.random();
+
+  // STEAL 55%
+  if (steal_chance < 0.55) {
+    let steal_item_chance = Math.random();
+
+    // STEAL ITEM
+    if (steal_item_chance < 0.5) {
+      // HAS ITEMS
+      if (inventory.length != 0) {
+        let weapon_to_steal = inventory.sample();
+        inventory.pop(weapon_to_steal);
+        update_stats();
+        game_text.innerHTML += `The bandit steals ${weapon_to_steal}.\r\n\r\n`;
+
+        await sleep(1000);
+
+        game_text.innerHTML += `The bandit flees.\r\n\r\n`;
+        manage_allow_continue(true);
+      } else {
+        game_text.innerHTML += `The bandit tries to steal your weapons but notices you don't have any.\r\n\r\n`;
+
+        await sleep(1000);
+
+        game_text.innerHTML += `The bandit feels sorry for you and flees.\r\n\r\n`;
+        manage_allow_continue(true);
+      }
+    }
+    // STEAL GOLD 45%
+    else {
+      // HAS MONEY
+      if (gold != 0) {
+        let amt_gold_steal = randomIntFromInterval(1, gold);
+        gold -= amt_gold_steal;
+        game_text.innerHTML += `The bandit steals <span class="gold">${amt_gold_steal} gold</span>.\r\n\r\n`;
+        update_stats();
+
+        await sleep(1000);
+
+        game_text.innerHTML += `The bandit flees.\r\n\r\n`;
+        manage_allow_continue(true);
+      }
+      // NO MONEY --> BANDIT FEELS SORRY
+      else {
+        game_text.innerHTML += `The bandit tries to steal your gold but notices you don't have any.\r\n\r\n`;
+
+        await sleep(1000);
+
+        game_text.innerHTML += `The bandit feels sorry for you and flees.\r\n\r\n`;
+        manage_allow_continue(true);
+      }
+    }
+  }
+  // DAMAGE
+  else {
+    game_text.innerHTML += "The bandit attacks you.\r\n\r\n";
+
+    await sleep(1000);
+
+    game_text.innerHTML += `<span class="dmg">You take 20 damage.</span>\r\n\r\n`;
+    await damage(20);
+    update_stats();
+
+    await sleep(1000);
+
+    game_text.innerHTML += `The bandit flees.\r\n\r\n`;
+    manage_allow_continue(true);
+  }
+}
+
+async function chest_event(chest_name, is_stone_chest) {
+  switch (chest_name) {
+    case "shipwreck":
+      game_text.innerHTML += `<span class='choice'>Take a look at the shipwreck?</span>\r\n\r\n`;
+      break;
+    case "chest":
+      game_text.innerHTML += `<span class='choice'>Open ${chest_name}?</span>\r\n\r\n`;
+      break;
+    case "stone chest":
+      game_text.innerHTML += `<span class='choice'>Open ${chest_name}?</span>\r\n\r\n`;
+      break;
+  }
+
+  await await_input();
+
+  // OPENS CHEST
+  if (player_input == "y") {
+    switch (chest_name) {
+      case "shipwreck":
+        game_text.innerHTML += "You sail to the shipwreck.\r\n\r\n";
+        break;
+      case "chest":
+        game_text.innerHTML += `You open the ${chest_name}.\r\n\r\n`;
+        break;
+      case "stone chest":
+        game_text.innerHTML += `You open the ${chest_name}.\r\n\r\n`;
+        break;
+    }
+    let d = Math.random();
+
+    // Open Chest Successfully
+    if (d < 0.7) {
+      await open_loot_container(chest_loot_table, randomIntFromInterval(1, 5));
+    }
+    // Chest is trap
+    else {
+      let dmg = randomIntFromInterval(5, 10);
+      damage(dmg);
+
+      await sleep(1000);
+
+      is_stone_chest
+        ? (game_text.innerHTML +=
+            "<span class='drastic'>It is a mimic.</span>\r\n\r\n")
+        : (game_text.innerHTML +=
+            "<span class='drastic'>It is a trap.</span>\r\n\r\n");
+
+      await sleep(1000);
+
+      game_text.innerHTML += `<span class="dmg">You take ${dmg} damage.</span>\r\n`;
+      update_stats();
+      manage_allow_continue(true);
+    }
+  }
+  // DOESNT OPEN CHEST
+  else if (player_input == "n") {
+    switch (chest_name) {
+      case "shipwreck":
+        game_text.innerHTML += "You ignore the shipwreck and move on.\r\n";
+        break;
+      case "chest":
+        game_text.innerHTML +=
+          `You do not open the ${chest_name} and move on.` + `\r\n`;
+        break;
+      case "stone chest":
+        game_text.innerHTML +=
+          `You do not open the ${chest_name} and move on.` + `\r\n`;
+        break;
+    }
+
+    manage_allow_continue(true);
+  }
+}
+
+async function damage_event(
+  damage_event_name,
+  damage_event_min_damage,
+  damage_event_max_damage
+) {
+  let dmg = randomIntFromInterval(
+    damage_event_min_damage,
+    damage_event_max_damage
+  );
+
+  game_text.innerHTML += `A violent ${damage_event_name} hits you.\r\n\r\n`;
+
+  await sleep(1000);
+
+  game_text.innerHTML += `<span class="dmg">You take ${dmg} damage.</span>\r\n`;
+
+  await damage(dmg);
+
+  if (alive) {
+    manage_allow_continue(true);
+  }
+}
+
+async function disguised_event(disguised_event) {
+  switch (disguised_event) {
+    case "blurry object":
+      game_text.innerHTML += `<span class='choice'>Come closer?</span>\r\n\r\n`;
+      break;
+    case "object burried in the ground":
+      game_text.innerHTML += `<span class='choice'>Dig it up?</span>\r\n\r\n`;
+      break;
+  }
+
+  await await_input();
+
+  // APPROACH OBJ
+  if (player_input == "y") {
+    game_text.innerHTML += "You approach.\r\n\r\n";
+
+    let obj = blurry_object.sample();
+
+    await sleep(1000);
+
+    let d = Math.random();
+    // Successfully 60%
+    if (d < 0.6) {
+      game_text.innerHTML += `It is ${correct_article(obj)} ${obj}.\r\n\r\n`;
+
+      await sleep(1000);
+
+      await open_loot_container(blurry_object_loot_table, 1, 4);
+    }
+    // is trap 40%
+    else {
+      let dmg = randomIntFromInterval(5, 10);
+      await damage(dmg);
+
+      await sleep(1000);
+
+      game_text.innerHTML +=
+        "<span class='drastic'>It is a trap.</span>\r\n\r\n";
+
+      await sleep(1000);
+
+      game_text.innerHTML += `<span class="dmg">You take ${dmg} damage.</span>\r\n`;
+      manage_allow_continue(true);
+    }
+  }
+  // DOESNT APPROACH
+  else if (player_input == "n") {
+    switch (disguised_event) {
+      case "blurry object":
+        game_text.innerHTML +=
+          "You do not approach the blurry object and proceed.\r\n";
+        break;
+      case "object burried in the ground":
+        game_text.innerHTML +=
+          "You do not approach the object burried in the ground.\r\n";
+        break;
+    }
+
+    manage_allow_continue(true);
+  }
 }
 
 // #endregion
