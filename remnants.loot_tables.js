@@ -194,7 +194,7 @@ small_boss_loot_table = [
 
 forest_enemies_loot_table = ["dagger"];
 
-lockhard_village_enemies_loot_table = ["dagger", "axe"];
+lockwood_village_enemies_loot_table = ["dagger", "axe"];
 
 eastport_enemies_loot_table = ["dagger", "axe", "sword"];
 

@@ -224,7 +224,7 @@ async function check_region_switch(distance) {
       );
       break;
   }
-
+  console.log(steps);
   if (steps != 0 && steps % 10 != 0) {
     // No new Region is reached
     await sleep(2000);
