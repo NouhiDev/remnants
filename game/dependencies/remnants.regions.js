@@ -7,6 +7,8 @@
 // This section contains an array filled with the regions / acts changing every 10 steps (1000m)
 // All the following entries are to be set in correct capitalization
 
+var current_region = "";
+
 // CHAPTER 1: The Beginning
 // ACT 1: FOREST: -
 // ACT 2: LOCKWOOD VILLAGE: -

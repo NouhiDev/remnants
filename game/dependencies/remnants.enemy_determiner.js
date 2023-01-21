@@ -11,6 +11,15 @@
 // ██████╔╝███████╗░░░██║░░░███████╗██║░░██║██║░╚═╝░██║██║██║░╚███║███████╗██║░░██║
 // ╚═════╝░╚══════╝░░░╚═╝░░░╚══════╝╚═╝░░╚═╝╚═╝░░░░░╚═╝╚═╝╚═╝░░╚══╝╚══════╝╚═╝░░╚═╝
 
+// Intervals (Classes) used for enemy XP, enemy DMG, enemy HP, etc.
+var weak = [0, 0];
+var below_avg = [0, 0];
+var common = [0, 0];
+var above_avg = [0, 0];
+var strong = [0, 0];
+var monster = [0, 0];
+var abomination = [0, 0];
+
 function change_enemy_determinator_class(det_class) {
   switch (det_class) {
     case "xp":

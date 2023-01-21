@@ -26,21 +26,6 @@ var debug_stats = false;
 // Deprecated
 // var event_text = document.getElementById("event-text");
 
-// Enables the timer on default
-var timer_active = true;
-
-// Determines whether the "YES" / "NO" buttons can be pressed
-var allow_input = false;
-// Determines whether the green "PROCEED" button can be pressed
-var allow_continue = true;
-// Stores either "y" or "n"
-var player_input = "";
-
-var in_small_dungeon_combat = false;
-
-// While this bool is set to true, the game is stuck in an infinite loop waiting for a response (y/n)
-var awaiting_response = true;
-
 // Inventory
 // Holds all the weapons of the player
 // Weapons added here are to be seen as default equipment
@@ -108,26 +93,6 @@ var luck = 0;
 
 // When leveled up, Strength increases the players inventory cap --> inventory_cap += Math.floor(strength*0.5)
 var strength = 0;
-
-var current_region = "";
-
-// Intervals (Classes) used for enemy XP, enemy DMG, enemy HP, etc.
-var weak = [0, 0];
-var below_avg = [0, 0];
-var common = [0, 0];
-var above_avg = [0, 0];
-var strong = [0, 0];
-var monster = [0, 0];
-var abomination = [0, 0];
-
-// Intervals (Classes) used for weapon DMG, weapon Price, etc.
-var w_weak = [0, 0];
-var w_common = [0, 0];
-var w_uncommon = [0, 0];
-var w_above_avg = [0, 0];
-var w_strong = [0, 0];
-var w_mythical = [0, 0];
-var w_legendary = [0, 0];
 
 // ---- VARIABLES END ----
 

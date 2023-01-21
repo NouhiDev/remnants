@@ -17,6 +17,22 @@ var game_text = document.getElementById("game-text");
 var stats_text = document.getElementById("stats-text");
 var region_text = document.getElementById("region-text");
 
+// Determines whether the "YES" / "NO" buttons can be pressed
+var allow_input = false;
+// Determines whether the green "PROCEED" button can be pressed
+var allow_continue = true;
+// Stores either "y" or "n"
+var player_input = "";
+
+// Enables the timer on default
+var timer_active = true;
+
+// Handles Small Dungeon Combat
+var in_small_dungeon_combat = false;
+
+// While this bool is set to true, the game is stuck in an infinite loop waiting for a response (y/n)
+var awaiting_response = true;
+
 forwards_var = [
   "You delve deeper.",
   "You continue onward.",
@@ -367,7 +383,7 @@ function display_inventory() {
   // Automatically center Stats
   stats = document.getElementById("stats");
   vertical_shift = stats.scrollHeight / 10;
-  stats.scrollTo(0, vertical_shift)
+  stats.scrollTo(0, vertical_shift);
 
   // Deprecated: display_spell_inventory();
 }

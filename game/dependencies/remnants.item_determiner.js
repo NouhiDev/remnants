@@ -11,6 +11,15 @@
 // ██████╔╝███████╗░░░██║░░░███████╗██║░░██║██║░╚═╝░██║██║██║░╚███║███████╗██║░░██║
 // ╚═════╝░╚══════╝░░░╚═╝░░░╚══════╝╚═╝░░╚═╝╚═╝░░░░░╚═╝╚═╝╚═╝░░╚══╝╚══════╝╚═╝░░╚═╝
 
+// Intervals (Classes) used for weapon DMG, weapon Price, etc.
+var w_weak = [0, 0];
+var w_common = [0, 0];
+var w_uncommon = [0, 0];
+var w_above_avg = [0, 0];
+var w_strong = [0, 0];
+var w_mythical = [0, 0];
+var w_legendary = [0, 0];
+
 function change_item_determinator_class(det_class) {
   switch (det_class) {
     case "dmg":
