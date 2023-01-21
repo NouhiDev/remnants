@@ -272,8 +272,7 @@ async function manage_events(events) {
       break;
     // ANCIENT DEVICE
     case "ancient device":
-      game_text.innerHTML += `Not implemented yet.\r\n\r\n`;
-      manage_allow_continue(true);
+      ancient_device();
       break;
     // LOST SCRIPTURE
     case "lost scripture":

@@ -63,7 +63,7 @@ lost_temple_events_table = [
   "bandit",
   "golden statue",
   "lost scripture",
-  //"ancient device",
+  "ancient device",
   "nothing",
 ];
 
@@ -1640,6 +1640,9 @@ async function lost_scripture() {
   manage_allow_continue(true);
 }
 
+// █▀▀ █▀█ █░░ █▀▄ █▀▀ █▄░█   █▀ ▀█▀ ▄▀█ ▀█▀ █░█ █▀▀
+// █▄█ █▄█ █▄▄ █▄▀ ██▄ █░▀█   ▄█ ░█░ █▀█ ░█░ █▄█ ██▄
+
 // Golden Statue
 // DESCRIPTION: SACRIFICE ONE ITEM FOR REWARD
 async function golden_statue() {
@@ -1729,6 +1732,95 @@ async function golden_statue() {
   }
 }
 
-// Ancient Device
+// ▄▀█ █▄░█ █▀▀ █ █▀▀ █▄░█ ▀█▀   █▀▄ █▀▀ █░█ █ █▀▀ █▀▀
+// █▀█ █░▀█ █▄▄ █ ██▄ █░▀█ ░█░   █▄▀ ██▄ ▀▄▀ █ █▄▄ ██▄
 
+// Ancient Device
+async function ancient_device() {
+  await sleep(1000);
+
+  game_text.innerHTML += `<span class="choice">Use ancient device?</span>\r\n\r\n`;
+
+  await await_input();
+
+  if (player_input == "y") {
+    let outcomes = ["heal", "max hp", "mana", "max mana", "dmg", "mana depl"];
+    let outcome = outcomes.sample();
+
+    await sleep(1000);
+
+    game_text.innerHTML += `The machine comes alive, its gears and levers moving in a complex, enigmatic process that you can't quite comprehend.\r\n\r\n`;
+
+    await sleep(3000);
+
+    switch (outcome) {
+      case "heal":
+        let amt_to_heal = randomIntFromInterval(20, Math.floor(max_hp / 2));
+
+        hp += amt_to_heal;
+        if (hp > max_hp) hp = max_hp;
+        update_stats();
+
+        game_text.innerHTML += `<span class="heal">You healed ${amt_to_heal} hp.</span>\r\n\r\n`;
+        break;
+      case "max hp":
+        max_hp += 7;
+        update_stats();
+
+        game_text.innerHTML += `<span class="blessing">Your maximal hp has increased.</span>\r\n\r\n`;
+        break;
+      case "mana":
+        let mana_amt = randomIntFromInterval(5, max_mana);
+
+        mana += mana_amt;
+        if (mana > max_mana) mana = max_mana;
+        update_stats();
+
+        game_text.innerHTML += `<span class="mana">You channeled ${mana_amt} mana.</span>\r\n\r\n`;
+        break;
+      case "max mana":
+        max_mana += 5;
+        update_stats();
+
+        game_text.innerHTML += `<span class="mana">Your mana capacity has increased.</span>\r\n\r\n`;
+        break;
+      case "dmg":
+        let dmg = randomIntFromInterval(5, 15);
+
+        game_text.innerHTML += `<span class="drastic">The machine exploded.</span>\r\n\r\n`;
+
+        await sleep(1000);
+
+        game_text.innerHTML += `<span class="dmg">You took ${dmg} damage.</span>\r\n\r\n`;
+        damage(dmg);
+
+        break;
+      case "mana depl":
+        let amt = randomIntFromInterval(1, mana);
+
+        game_text.innerHTML += `<span class="drastic">The machine drains your mana.</span>\r\n\r\n`;
+
+        await sleep(1000);
+
+        game_text.innerHTML += `<span class="dmg">The machine drained ${amt} mana.</span>\r\n\r\n`;
+        mana -= amt;
+        update_stats();
+        break;
+    }
+
+    await sleep(1000);
+
+    game_text.innerHTML += `The device stops working.\r\n\r\n`;
+
+    await sleep(1000);
+
+    game_text.innerHTML += `You walk away.\r\n\r\n`;
+  } else {
+    await sleep(1000);
+
+    game_text.innerHTML += `You decide to ignore the ancient device.\r\n\r\n`;
+  }
+
+  manage_allow_continue(true);
+}
 // #endregion

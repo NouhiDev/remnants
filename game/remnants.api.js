@@ -253,7 +253,7 @@ function update_stats() {
 
   stats_text.innerHTML +=
     // Health
-    `[ <span class="health">Vitality ${vitality}</span> | ` +
+    `[ <span class="health">Vitality: ${vitality}</span> | ` +
     // Distance
     `<span class="mana">Intelligence: ${intelligence}</span> | ` +
     // Gold
