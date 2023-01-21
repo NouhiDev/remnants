@@ -17,9 +17,22 @@
 
 events_table = [];
 
-forest_events_table = ["chest", "enemy", "wishing well", "traveler", "shrine", "nothing"];
+forest_events_table = [
+  "chest",
+  "enemy",
+  "wishing well",
+  "traveler",
+  "shrine",
+  "nothing",
+];
 
-lockwood_village_events_table = ["chest", "enemy", "merchant", "traveler", "nothing"];
+lockwood_village_events_table = [
+  "chest",
+  "enemy",
+  "merchant",
+  "traveler",
+  "nothing",
+];
 
 eastport_events_table = ["cargo", "enemy", "nest", "nothing"];
 
@@ -30,7 +43,7 @@ rocky_shore_events_table = [
   "traveler",
   "shrine",
   "object burried in the ground",
-  "nothing"
+  "nothing",
 ];
 
 rebellion_events_table = ["friendly traveler", "merchant", "pair of monks"];
@@ -41,7 +54,7 @@ wasteland_events_table = [
   "traveler",
   "small dungeon",
   "bandit",
-  "nothing"
+  "nothing",
 ];
 
 lost_temple_events_table = [
@@ -50,14 +63,11 @@ lost_temple_events_table = [
   "bandit",
   "golden statue",
   "lost scripture",
-  "ancient device",
-  "nothing"
-];
-
-swamp_events_table = [
-  "enemy",
+  //"ancient device",
   "nothing",
 ];
+
+swamp_events_table = ["enemy", "nothing"];
 
 // #endregion
 
@@ -1310,8 +1320,6 @@ async function bandit() {
     game_text.innerHTML += "You choose to approach the bandit.\r\n";
 
     await sleep(2000);
-
-    bandit();
   }
 
   game_text.innerHTML = `<span class="bandit">BANDIT</span>` + `\r\n\r\n`;
@@ -1335,7 +1343,7 @@ async function bandit() {
         let weapon_to_steal = inventory.sample();
         inventory.pop(weapon_to_steal);
         update_stats();
-        game_text.innerHTML += `The bandit steals ${weapon_to_steal}.\r\n\r\n`;
+        game_text.innerHTML += `The bandit steals the ${weapon_to_steal}.\r\n\r\n`;
 
         await sleep(1000);
 
@@ -1381,8 +1389,8 @@ async function bandit() {
 
     await sleep(1000);
 
-    game_text.innerHTML += `<span class="dmg">You take 20 damage.</span>\r\n\r\n`;
-    await damage(20);
+    game_text.innerHTML += `<span class="dmg">You take 10 damage.</span>\r\n\r\n`;
+    await damage(10);
     update_stats();
 
     await sleep(1000);
@@ -1443,16 +1451,15 @@ async function chest_event(chest_name, is_stone_chest) {
 
       if (is_stone_chest) {
         game_text.innerHTML +=
-        "<span class='drastic'>It is a mimic.</span>\r\n\r\n";
+          "<span class='drastic'>It is a mimic.</span>\r\n\r\n";
       }
 
       if (chest_name == "shipwreck") {
         game_text.innerHTML +=
-        "<span class='drastic'>It collapses.</span>\r\n\r\n";
-      }
-      else {
+          "<span class='drastic'>It collapses.</span>\r\n\r\n";
+      } else if (!is_stone_chest) {
         game_text.innerHTML +=
-        "<span class='drastic'>It is a trap.</span>\r\n\r\n";
+          "<span class='drastic'>It is a trap.</span>\r\n\r\n";
       }
 
       await sleep(1000);
@@ -1581,6 +1588,7 @@ async function disguised_event(disguised_event) {
 // █▄▄ █▄█ ▄█ ░█░   ▄█ █▄▄ █▀▄ █ █▀▀ ░█░ █▄█ █▀▄ ██▄
 
 // Lost Scripture
+// DESCRIPTION: LEARN NEW SPELL
 async function lost_scripture() {
   game_text.innerHTML += `<span class="choice">Attempt to decipher the lost scripture?</span>\r\n\r\n`;
 
@@ -1631,5 +1639,96 @@ async function lost_scripture() {
   game_text.innerHTML += `You walk off.`;
   manage_allow_continue(true);
 }
+
+// Golden Statue
+// DESCRIPTION: SACRIFICE ONE ITEM FOR REWARD
+async function golden_statue() {
+  await sleep(1000);
+
+  game_text.innerHTML += `The statue is standing on a pressure plate.\r\n\r\n`;
+
+  await sleep(1000);
+
+  game_text.innerHTML += `<span class="choice">Sacrifice a weapon for the gold statue?</span>\r\n\r\n`;
+
+  await await_input();
+
+  // Player doesn't sacrifice Weapon
+  if (player_input == "n") {
+    await sleep(1000);
+    game_text.innerHTML += "You walk away.";
+    manage_allow_continue(true);
+    return;
+  }
+  // Player sacrifices Weapon
+  else {
+    await sleep(1000);
+    // Check if Player has Weapon
+    if (inventory.length > 0) {
+      let weapon_to_sacrifice = "";
+      while (weapon_to_sacrifice == "") {
+        for (let i = 0; i < inventory.length; i++) {
+          game_text.innerHTML += `<span class="choice">Sacrifice ${capitalize_first_letters(
+            inventory[i]
+          )}?</span>\r\n\r\n`;
+
+          await await_input();
+
+          if (player_input == "y") {
+            weapon_to_sacrifice = inventory[i];
+            await sleep(1000);
+
+            game_text.innerHTML += `You sacrifice the ${capitalize_first_letters(
+              inventory[i]
+            )} for the golden statue.\r\n\r\n`;
+            inventory.pop(inventory[i]);
+            update_stats();
+
+            await sleep(1000);
+
+            game_text.innerHTML += `The statue cracks open.\r\n\r\n`;
+
+            await sleep(1000);
+
+            let gold_chance = Math.random();
+
+            if (gold_chance < 0.85) {
+              game_text.innerHTML += `<span class="blessing">Gold coins fall out.</span>\r\n\r\n`;
+
+              let gold_amt = randomIntFromInterval(60, 300);
+              gold += gold_amt;
+
+              await sleep(1000);
+
+              game_text.innerHTML += `You find <span class="gold">${gold_amt}</span> gold.\r\n\r\n`;
+              update_stats();
+            } else {
+              game_text.innerHTML += `<span class="drastic">There was nothing inside.</span>\r\n\r\n`;
+            }
+
+            await sleep(1000);
+
+            break;
+          } else {
+            continue;
+          }
+        }
+      }
+      await sleep(1000);
+      game_text.innerHTML += "You walk away.";
+      manage_allow_continue(true);
+      return;
+    }
+    // Player has no Weapon
+    await sleep(1000);
+    game_text.innerHTML += "You have no weapon to sacrifice.";
+    await sleep(1000);
+    game_text.innerHTML += "You walk away.";
+    manage_allow_continue(true);
+    return;
+  }
+}
+
+// Ancient Device
 
 // #endregion

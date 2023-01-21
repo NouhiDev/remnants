@@ -268,8 +268,7 @@ async function manage_events(events) {
   switch (events) {
     // GOLDEN STATUE
     case "golden statue":
-      game_text.innerHTML += `Not implemented yet.\r\n\r\n`;
-      manage_allow_continue(true);
+      golden_statue();
       break;
     // ANCIENT DEVICE
     case "ancient device":
