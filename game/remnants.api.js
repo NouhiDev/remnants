@@ -507,7 +507,7 @@ async function open_loot_container(
   if (!is_enemy_drop) {
     game_text.innerHTML += `\r\nYou finish looting.\r\n`;
   } else {
-    game_text.innerHTML += "\r\n";
+    game_text.innerHTML += "";
   }
 }
 
