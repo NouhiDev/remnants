@@ -21,7 +21,7 @@
 // ---------------------------------------
 
 // Enables the Debug Stats
-var debug_stats = false;
+var debug_stats = true;
 
 // Deprecated
 // var event_text = document.getElementById("event-text");
@@ -70,7 +70,7 @@ var hp = 100;
 
 // Counts the amount of "days" passed
 // (Amount of times the "PROCEED" button is pressed)
-var steps = 0;
+var steps = 80;
 
 // Keeps track of how much gold the player holds
 var gold = 0;
@@ -132,6 +132,9 @@ var w_legendary = [0, 0];
 // ---- VARIABLES END ----
 
 // ---- GAME START ----
+
+// █▀█ █▀▀ █▀▀ █ █▀█ █▄░█   █▀ █░█░█ █ ▀█▀ █▀▀ █░█   █▀▀ █░█ █▀▀ █▀▀ █▄▀
+// █▀▄ ██▄ █▄█ █ █▄█ █░▀█   ▄█ ▀▄▀▄▀ █ ░█░ █▄▄ █▀█   █▄▄ █▀█ ██▄ █▄▄ █░█
 
 // Checks for region switches
 async function check_region_switch(distance) {
@@ -223,6 +226,28 @@ async function check_region_switch(distance) {
         lost_temple_enemies_loot_table
       );
       break;
+    // Swamp
+    case 80:
+      current_region = regions[7];
+      await act_update(8);
+      region_update(
+        swamp_places_table,
+        swamp_events_table,
+        swamp_enemies,
+        swamp_enemies_loot_table
+      );
+      break;
+    // Mountains
+    case 90:
+      current_region = regions[8];
+      await act_update(9);
+      region_update(
+        mountains_places_table,
+        mountains_events_table,
+        mountains_enemies,
+        mountains_enemies_loot_table
+      );
+      break;
   }
   console.log(steps);
   if (steps != 0 && steps % 10 != 0) {
@@ -232,7 +257,10 @@ async function check_region_switch(distance) {
   }
 }
 
-// Manages Events
+// █▀▄▀█ ▄▀█ █▄░█ ▄▀█ █▀▀ █▀▀   █▀█ █░░ ▄▀█ █▀▀ █▀▀ █▀
+// █░▀░█ █▀█ █░▀█ █▀█ █▄█ ██▄   █▀▀ █▄▄ █▀█ █▄▄ ██▄ ▄█
+
+// Manages Places
 async function manage_places(places, events) {
   // Choose random Place from current Region
   let place = places.sample();
@@ -265,7 +293,10 @@ async function manage_places(places, events) {
   }
 }
 
-// Manage Sub Events
+// █▀▄▀█ ▄▀█ █▄░█ ▄▀█ █▀▀ █▀▀   █▀▀ █░█ █▀▀ █▄░█ ▀█▀ █▀
+// █░▀░█ █▀█ █░▀█ █▀█ █▄█ ██▄   ██▄ ▀▄▀ ██▄ █░▀█ ░█░ ▄█
+
+// Manage Events
 async function manage_events(events) {
   awaiting_response = true;
 

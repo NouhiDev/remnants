@@ -161,3 +161,22 @@ lost_temple_places_table = [
   "chamber with a high vaulted ceiling",
   "room with a sense of ancient grandeur, with tall marble columns and ornate statues",
 ];
+
+swamp_places_table = [
+  "old bridge",
+  "twisted garden",
+  "overgrown garden",
+  "mysterious ruin",
+  "overgrown ruin",
+  "abandonend house",
+  "twisted cypress tree with gnarled roots",
+  "giant carnivorous pitcher plant with bright red and green leaves",
+  "black mangrove tree with aerial roots that extend above the water",
+  "carnivorous sundew",
+  "moss-covered fallen trees",
+  "giant mushroom",
+  "giant fungus",
+  "patch of mushrooms",
+  "patch of fungi",
+  "thorny bush",
+];

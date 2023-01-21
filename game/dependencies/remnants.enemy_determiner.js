@@ -200,5 +200,28 @@ function enemy_determiner(enemy, determiner) {
       return weak;
     case "lich":
       return strong;
+    // REGION 8: SWAMP
+    case "snail":
+      return weak;
+    case "blood snail":
+      return common;
+    case "crawler":
+      return below_avg;
+    case "shaman":
+      return above_avg;
+    case "sludge worm":
+      return common;
+    case "crocodile":
+      return above_avg;
+    case "alligator":
+      return above_avg;
+    case "frog":
+      return weak;
+    case "slime":
+      return below_avg;
+    case "piranha":
+      return common;
+    case "skunk ape":
+      return strong;
   }
 }

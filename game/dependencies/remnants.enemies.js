@@ -153,3 +153,27 @@ lost_temple_enemies = [
   "lich",
   "wraith",
 ];
+
+swamp_enemies = [
+  "snail",
+  "blood snail",
+  "crawler",
+  "shaman",
+  "sludge worm",
+  "leech",
+  "maggot",
+  "crocodile",
+  "alligator",
+  "mosquito",
+  "troll",
+  "spider",
+  "megaspider",
+  "lizard",
+  "hag",
+  "frog",
+  "slime",
+  "bat",
+  "piranha",
+  "skunk ape",
+  "witch"
+];

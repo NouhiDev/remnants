@@ -147,5 +147,7 @@ function item_determiner(item, determiner) {
       return w_strong;
     case "small trident":
       return w_uncommon;
+    case "machete":
+      return w_uncommon;
   }
 }

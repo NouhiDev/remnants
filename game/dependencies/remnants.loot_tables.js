@@ -195,6 +195,20 @@ small_boss_loot_table = [
   "wooden staff",
 ];
 
+lost_scripture_loot_table = [
+  "magic arrow",
+  "great magic arrow",
+  "heavy magic arrow",
+  "magic spear",
+  "tidal wave",
+  "firebolt",
+  "frost nova",
+  "thunderstorm",
+  "earthquake",
+];
+
+// ENEMY REGION LOOT TABLES
+
 forest_enemies_loot_table = ["dagger"];
 
 lockwood_village_enemies_loot_table = ["dagger", "axe"];
@@ -219,14 +233,4 @@ wasteland_enemies_loot_table = [
 
 lost_temple_enemies_loot_table = ["dagger", "sword", "mace", "shortsword"];
 
-lost_scripture_loot_table = [
-  "magic arrow",
-  "great magic arrow",
-  "heavy magic arrow",
-  "magic spear",
-  "tidal wave",
-  "firebolt",
-  "frost nova",
-  "thunderstorm",
-  "earthquake",
-];
+swamp_enemies_loot_table = ["dagger", "sword", "mace", "shortsword", "machete", "axe"]

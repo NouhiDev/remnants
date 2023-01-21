@@ -17,19 +17,20 @@
 
 events_table = [];
 
-forest_events_table = ["chest", "enemy", "wishing well", "traveler", "shrine"];
+forest_events_table = ["chest", "enemy", "wishing well", "traveler", "shrine", "nothing"];
 
-lockwood_village_events_table = ["chest", "enemy", "merchant", "traveler"];
+lockwood_village_events_table = ["chest", "enemy", "merchant", "traveler", "nothing"];
 
 eastport_events_table = ["cargo", "enemy", "nest", "nothing"];
 
-ocean_events_table = ["enemy", "storm", "shipwreck", "seafarer"];
+ocean_events_table = ["enemy", "storm", "shipwreck", "seafarer", "nothing"];
 
 rocky_shore_events_table = [
   "enemy",
   "traveler",
   "shrine",
   "object burried in the ground",
+  "nothing"
 ];
 
 rebellion_events_table = ["friendly traveler", "merchant", "pair of monks"];
@@ -40,6 +41,7 @@ wasteland_events_table = [
   "traveler",
   "small dungeon",
   "bandit",
+  "nothing"
 ];
 
 lost_temple_events_table = [
@@ -49,6 +51,12 @@ lost_temple_events_table = [
   "golden statue",
   "lost scripture",
   "ancient device",
+  "nothing"
+];
+
+swamp_events_table = [
+  "enemy",
+  "nothing",
 ];
 
 // #endregion

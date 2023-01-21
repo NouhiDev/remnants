@@ -43,8 +43,8 @@ var regions = [
   // ACT 11: ICY PEAK: -
   "Icy Peak",
 
-  // ACT 12: ???: -
-  "???",
+  // ACT 12: ABANDONEND MINE: -
+  "Abandonend Mine",
 
   // CHAPTER 3: Inside the Sorcerers Stronghold
 
@@ -99,4 +99,3 @@ var regions = [
   // ???
   "Last Supper",
 ];
-current_region = "";
