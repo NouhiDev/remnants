@@ -192,43 +192,15 @@ small_boss_loot_table = [
   "wooden staff",
 ];
 
-forest_enemies_loot_table = ["gold", "gold", "gold", "gold", "dagger"];
+forest_enemies_loot_table = ["dagger"];
 
-lockhard_village_enemies_loot_table = [
-  "gold",
-  "gold",
-  "gold",
-  "gold",
-  "dagger",
-  "axe",
-];
+lockhard_village_enemies_loot_table = ["dagger", "axe"];
 
-eastport_enemies_loot_table = [
-  "gold",
-  "gold",
-  "gold",
-  "gold",
-  "dagger",
-  "axe",
-  "sword",
-];
+eastport_enemies_loot_table = ["dagger", "axe", "sword"];
 
-ocean_enemies_loot_table = [
-  "gold",
-  "gold",
-  "gold",
-  "gold",
-  "dagger",
-  "axe",
-  "sword",
-  "small trident",
-];
+ocean_enemies_loot_table = ["dagger", "axe", "sword", "small trident"];
 
 rocky_shore_enemies_loot_table = [
-  "gold",
-  "gold",
-  "gold",
-  "gold",
   "dagger",
   "sword",
   "small trident",
@@ -236,23 +208,10 @@ rocky_shore_enemies_loot_table = [
 ];
 
 wasteland_enemies_loot_table = [
-  "gold",
-  "gold",
-  "gold",
-  "gold",
   "dagger",
   "sword",
   "shortsword",
   "bastard sword",
 ];
 
-lost_temple_enemies_loot_table = [
-  "gold",
-  "gold",
-  "gold",
-  "gold",
-  "dagger",
-  "sword",
-  "mace",
-  "shortsword",
-];
+lost_temple_enemies_loot_table = ["dagger", "sword", "mace", "shortsword"];

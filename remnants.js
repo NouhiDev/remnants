@@ -471,7 +471,7 @@ async function combat_routine(
 
       await sleep(1000);
 
-      game_text.innerHTML += `<span class="green">You've earned ${enemy_xp} xp.</span>\r\n`;
+      game_text.innerHTML += `<span class="green">You've earned ${enemy_xp} xp.</span>\r\n\r\n`;
 
       await manage_xp(enemy_xp);
 
