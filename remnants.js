@@ -460,6 +460,20 @@ async function combat_routine(
 
       await manage_xp(enemy_xp);
 
+      // Loot
+
+      await open_loot_container(enemy_loot_table, 1, 1);
+
+      let gold_amt = enemy_max_hp;
+
+      gold += gold_amt;
+
+      update_stats();
+
+      await sleep(1000);
+
+      game_text.innerHTML += `${enemy_combined} dropped <span class="gold">${gold_amt}</span> gold.\r\n\r\n`;
+
       if (!is_from_small_dungeon) {
         manage_allow_continue(true);
       } else {
@@ -526,27 +540,17 @@ async function combat_routine(
       // Player has weapons
       else {
         let weapon_to_use = "";
-        for (let i = 0; i < inventory.length; i++) {
-          awaiting_response = true;
-          const item = inventory[i];
-          game_text.innerHTML += `<span class="choice">Use ${item}? (${
-            item_determiner(item, "dmg")[0]
-          }-${item_determiner(item, "dmg")[1]} dmg)</span>\r\n\r\n`;
+        while (weapon_to_use == "") {
+          for (let i = 0; i < inventory.length; i++) {
+            awaiting_response = true;
+            const item = inventory[i];
+            game_text.innerHTML += `<span class="choice">Use ${item}? (${
+              item_determiner(item, "dmg")[0]
+            }-${item_determiner(item, "dmg")[1]} dmg)</span>\r\n\r\n`;
 
-          // Wait for user input
-          manage_input(true);
+            await await_input();
 
-          while (awaiting_response) {
-            await sleep(1);
-          }
-
-          manage_input(false);
-
-          if (player_input == "y") {
-            weapon_to_use = item;
-            break;
-          } else if (player_input == "n") {
-            continue;
+            player_input = "y" ? (weapon_to_use = item) : (weapon_to_use = "");
           }
         }
 
@@ -618,20 +622,9 @@ async function combat_routine(
 
             await sleep(1000);
 
-            game_text.innerHTML += `<span class="deal-dmg"> You deal ${weapon_dmg} damage. </span>\r\n\r\n`;
+            game_text.innerHTML += `<span class="deal-dmg"> You deal ${weapon_dmg} damage.</span>\r\n\r\n`;
 
-            // Randomly break weapon
-            let d = Math.random();
-            if (d <= 0.15) {
-              indx = inventory.indexOf(weapon_to_use);
-              inventory.splice(indx, 1);
-
-              await sleep(1000);
-
-              game_text.innerHTML += `<span class="dark-red"> ${capitalize_first_letters(
-                weapon_to_use
-              )} broke. </span>\r\n`;
-            }
+            
           }
         }
 
