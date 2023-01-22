@@ -1836,6 +1836,7 @@ async function bandit() {
       // HAS ITEMS
       if (inventory.length != 0) {
         let weapon_to_steal = inventory.sample();
+        await array_move(inventory, inventory.indexOf(weapon_to_steal), inventory.length-1);
         inventory.pop(weapon_to_steal);
         update_stats();
         game_text.innerHTML += `The bandit steals the ${weapon_to_steal}.\r\n\r\n`;
@@ -2179,7 +2180,8 @@ async function golden_statue() {
             game_text.innerHTML += `You sacrifice the ${capitalize_first_letters(
               inventory[i]
             )} for the golden statue.\r\n\r\n`;
-            inventory.pop(inventory[i]);
+            await array_move(inventory, inventory.indexOf(weapon_to_sacrifice), inventory.length-1);
+            inventory.pop(weapon_to_sacrifice);
             update_stats();
 
             await sleep(1000);
