@@ -29,7 +29,7 @@ var debug_stats = false;
 // Inventory
 // Holds all the weapons of the player
 // Weapons added here are to be seen as default equipment
-var inventory = ["damaged sword", "sword", "axe", "bow", "halberd"];
+var inventory = ["damaged sword"];
 
 // Helper string used for displaying the inventory on the stats container
 var inventory_txt = "[Inventory: ";
