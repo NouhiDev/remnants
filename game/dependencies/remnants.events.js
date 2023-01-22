@@ -350,6 +350,13 @@ async function combat_routine(
               item_determiner(selected_spell, "dmg")[1]
             );
 
+            weapon_dmg += Math.floor(
+              randomIntFromInterval(
+                item_determiner(weapon_to_use, "dmg")[0],
+                item_determiner(weapon_to_use, "dmg")[1]
+              ) / 2
+            );
+
             let weapon_mana = randomIntFromInterval(
               item_determiner(selected_spell, "mana cost")[0],
               item_determiner(selected_spell, "mana cost")[1]
@@ -1836,7 +1843,11 @@ async function bandit() {
       // HAS ITEMS
       if (inventory.length != 0) {
         let weapon_to_steal = inventory.sample();
-        await array_move(inventory, inventory.indexOf(weapon_to_steal), inventory.length-1);
+        await array_move(
+          inventory,
+          inventory.indexOf(weapon_to_steal),
+          inventory.length - 1
+        );
         inventory.pop(weapon_to_steal);
         update_stats();
         game_text.innerHTML += `The bandit steals the ${weapon_to_steal}.\r\n\r\n`;
@@ -2182,7 +2193,11 @@ async function golden_statue() {
             game_text.innerHTML += `You sacrifice the ${capitalize_first_letters(
               inventory[i]
             )} for the golden statue.\r\n\r\n`;
-            await array_move(inventory, inventory.indexOf(weapon_to_sacrifice), inventory.length-1);
+            await array_move(
+              inventory,
+              inventory.indexOf(weapon_to_sacrifice),
+              inventory.length - 1
+            );
             inventory.pop(weapon_to_sacrifice);
             update_stats();
 

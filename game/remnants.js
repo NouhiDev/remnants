@@ -213,6 +213,28 @@ async function check_region_switch(distance) {
         mountains_enemies_loot_table
       );
       break;
+    // Icy Peak
+    case 100:
+      current_region = regions[9];
+      await act_update(10);
+      region_update(
+        icy_peak_places_table,
+        icy_peak_events_table,
+        icy_peak_enemies,
+        icy_peak_enemies_loot_table
+      );
+      break;
+    // Abandonend Mines
+    case 110:
+      current_region = regions[10];
+      await act_update(11);
+      region_update(
+        abandonend_mines_places_table,
+        abandonend_mines_events_table,
+        abandonend_mines_enemies,
+        abandonend_mines_enemies_loot_table
+      );
+      break;
   }
 
   if (steps != 0 && steps % 10 != 0) {
