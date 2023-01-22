@@ -463,7 +463,7 @@ async function open_loot_container(
 
       await sleep(1000);
 
-      game_text.innerHTML += `<span class="heal">You channeled ${amt} mana.</span>\r\n\r\n`;
+      game_text.innerHTML += `<span class="mana">You channeled ${amt} mana.</span>\r\n\r\n`;
       update_stats();
 
       await sleep(1000);
