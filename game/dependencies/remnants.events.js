@@ -2046,6 +2046,8 @@ async function disguised_event(disguised_event) {
       await open_loot_container(blurry_object_loot_table, 1, 4, false);
 
       update_stats();
+
+      manage_allow_continue(true);
     }
     // is trap 40%
     else {

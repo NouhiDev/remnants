@@ -34,7 +34,7 @@ var inventory = ["damaged sword", "sword", "axe", "bow", "halberd"];
 // Helper string used for displaying the inventory on the stats container
 var inventory_txt = "[Inventory: ";
 
-var spell_inventory = [];
+var spell_inventory = ["firebolt"];
 
 // Inventory Item Cap
 // Determines how many items the player can hold
