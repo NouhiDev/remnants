@@ -170,14 +170,12 @@ async function combat_routine(
   let player_turn = failed_to_flee;
   let enemy_max_hp = enemy_hp;
 
-  let combat_str =
+  await sleep(1000);
+  game_text.innerHTML =
     "<span class='combat'>COMBAT</span>\r\n" +
     `[ <span class='enemy'>You vs ${capitalize_first_letters(
       enemy_combined
     )} (${enemy_hp}/${enemy_max_hp} hp)</span> ]\r\n\r\n`;
-
-  await sleep(1000);
-  game_text.innerHTML = combat_str;
 
   while (in_combat) {
     // Seperate
@@ -394,7 +392,11 @@ async function combat_routine(
 
                 await sleep(2000);
 
-                game_text.innerHTML = combat_str;
+                game_text.innerHTML =
+                  "<span class='combat'>COMBAT</span>\r\n" +
+                  `[ <span class='enemy'>You vs ${capitalize_first_letters(
+                    enemy_combined
+                  )} (${enemy_hp}/${enemy_max_hp} hp)</span> ]\r\n\r\n`;
               }
             }
             // Can't Use Spell
@@ -419,7 +421,11 @@ async function combat_routine(
 
               await sleep(2000);
 
-              game_text.innerHTML = combat_str;
+              game_text.innerHTML =
+                "<span class='combat'>COMBAT</span>\r\n" +
+                `[ <span class='enemy'>You vs ${capitalize_first_letters(
+                  enemy_combined
+                )} (${enemy_hp}/${enemy_max_hp} hp)</span> ]\r\n\r\n`;
             }
           }
           // Player has no Spells
@@ -444,7 +450,11 @@ async function combat_routine(
 
             await sleep(2000);
 
-            game_text.innerHTML = combat_str;
+            game_text.innerHTML =
+              "<span class='combat'>COMBAT</span>\r\n" +
+              `[ <span class='enemy'>You vs ${capitalize_first_letters(
+                enemy_combined
+              )} (${enemy_hp}/${enemy_max_hp} hp)</span> ]\r\n\r\n`;
           }
         }
         // Weapon has been chosen
@@ -488,7 +498,11 @@ async function combat_routine(
 
           await sleep(2000);
 
-          game_text.innerHTML = combat_str;
+          game_text.innerHTML =
+            "<span class='combat'>COMBAT</span>\r\n" +
+            `[ <span class='enemy'>You vs ${capitalize_first_letters(
+              enemy_combined
+            )} (${enemy_hp}/${enemy_max_hp} hp)</span> ]\r\n\r\n`;
         }
       }
     }
@@ -549,7 +563,11 @@ async function combat_routine(
 
       await sleep(2000);
 
-      game_text.innerHTML = combat_str;
+      game_text.innerHTML =
+        "<span class='combat'>COMBAT</span>\r\n" +
+        `[ <span class='enemy'>You vs ${capitalize_first_letters(
+          enemy_combined
+        )} (${enemy_hp}/${enemy_max_hp} hp)</span> ]\r\n\r\n`;
     }
   }
 }
