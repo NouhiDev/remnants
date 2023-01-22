@@ -532,6 +532,7 @@ async function add_to_inventory(item) {
         game_text.innerHTML += `You replace ${capitalize_first_letters(
           inventory[i]
         )} with ${capitalize_first_letters(item)}.\r\n`;
+        await array_move(inventory, inventory.indexOf(inventory[i]), inventory.length-1);
         inventory.pop(inventory[i]);
         inventory.push(item);
         return;
@@ -547,6 +548,17 @@ async function add_to_inventory(item) {
     game_text.innerHTML += `You throw the ${item} away.\r\n`;
   }
 }
+
+function array_move(arr, old_index, new_index) {
+  if (new_index >= arr.length) {
+      var k = new_index - arr.length + 1;
+      while (k--) {
+          arr.push(undefined);
+      }
+  }
+  arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+  return arr; // for testing
+};
 
 // #endregion
 
