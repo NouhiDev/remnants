@@ -519,7 +519,6 @@ async function add_to_inventory(item) {
   } else {
     // Ask to replace Items in Inventory
     for (let i = 0; i < inventory.length; i++) {
-      await sleep(1000);
       game_text.innerHTML += `<span class="choice">Replace ${capitalize_first_letters(
         inventory[i]
       )} with ${capitalize_first_letters(item)}?</span>\r\n\r\n`;
