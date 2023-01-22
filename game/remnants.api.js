@@ -512,6 +512,7 @@ async function open_loot_container(
 }
 
 async function add_to_inventory(item) {
+  await sleep(1000);
   // If Weapon Cap is not reached
   if (inventory.length < inventory_cap) {
     // Add Item
